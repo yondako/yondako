@@ -9,12 +9,18 @@
   },
   "private": true,
   "dependencies": {
+    "@hono/react-renderer": "^0.1.0",
     "hono": "^4.0.9",
-    "honox": "^0.1.4"
+    "honox": "^0.1.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.5.3",
     "@cloudflare/workers-types": "^4.20240208.0",
     "@hono/vite-cloudflare-pages": "^0.2.4",
+    "@types/react": "^18.2.64",
+    "@types/react-dom": "^18.2.21",
     "autoprefixer": "^10.4.18",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",

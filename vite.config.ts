@@ -8,8 +8,9 @@ export default defineConfig(({ mode }) => {
     return {
       build: {
         rollupOptions: {
-          input: ["/app/style.css"],
+          input: ["/app/client.ts", "/app/style.css"],
           output: {
+            entryFileNames: "static/client.js",
             assetFileNames: "static/assets/[name].[ext]",
           },
         },
@@ -18,8 +19,10 @@ export default defineConfig(({ mode }) => {
     };
   } else {
     return {
+      ssr: {
+        external: ["react", "react-dom"],
+      },
       plugins: [honox(), pages()],
     };
   }
 });
-
