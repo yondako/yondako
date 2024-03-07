@@ -1,6 +1,5 @@
 import pages from "@hono/vite-cloudflare-pages";
 import honox from "honox/vite";
-import client from "honox/vite/client";
 import { defineConfig } from "vite";
 
 export default defineConfig(({ mode }) => {
@@ -8,21 +7,22 @@ export default defineConfig(({ mode }) => {
 		return {
 			build: {
 				rollupOptions: {
-					input: ["/app/client.ts", "/app/style.css"],
+					input: ["./app/client.ts", "./app/style.css"],
 					output: {
 						entryFileNames: "static/client.js",
+						chunkFileNames: "static/assets/[name]-[hash].js",
 						assetFileNames: "static/assets/[name].[ext]",
 					},
 				},
+				emptyOutDir: false,
 			},
-			plugins: [client()],
-		};
-	} else {
-		return {
-			ssr: {
-				external: ["react", "react-dom"],
-			},
-			plugins: [honox(), pages()],
 		};
 	}
+
+	return {
+		ssr: {
+			external: ["react", "react-dom"],
+		},
+		plugins: [honox(), pages()],
+	};
 });
