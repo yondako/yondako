@@ -49,6 +49,8 @@ export default function Scanner({ onReadCode }: Props) {
     };
   }, [reader, onReadCode]);
 
-  // biome-ignore lint/a11y/useMediaCaption: <explanation>
-  return <video className="w-full h-64 overflow-hidden" ref={videoRef} />;
+  return (
+    // biome-ignore lint/a11y/useMediaCaption: <explanation>
+    <video className="w-full md:h-64 overflow-hidden" ref={videoRef} />
+  );
 }

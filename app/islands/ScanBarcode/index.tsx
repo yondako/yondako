@@ -10,9 +10,9 @@ export default function ScanBarcode() {
   };
 
   return (
-    <div>
+    <>
       <Scanner onReadCode={handleReadCode} />
       <p className="mt-4">{isbn}</p>
-    </div>
+    </>
   );
 }
