@@ -10,6 +10,8 @@
   "private": true,
   "dependencies": {
     "@hono/react-renderer": "^0.1.0",
+    "@zxing/browser": "^0.1.4",
+    "@zxing/library": "^0.20.0",
     "hono": "^4.0.9",
     "honox": "^0.1.4",
     "react": "^18.2.0",
