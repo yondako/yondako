@@ -1,13 +1,11 @@
 import { createRoute } from "honox/factory";
-import Counter from "../islands/counter";
+import Scanner from "../islands/scanner";
 
 export default createRoute((c) => {
-  const name = c.req.query("name") ?? "Hono";
   return c.render(
     <div className="text-base text-red-800">
-      <h1>Hello, {name}!</h1>
-      <Counter />
+      <Scanner onReadCode={() => {}} />
     </div>,
-    { title: name },
+    { title: "🐙" },
   );
 });
