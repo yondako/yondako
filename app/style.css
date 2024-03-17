@@ -1,3 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap&text=🐙');
+
+@font-face {
+  font-family: "LINE Seed JP Regular";
+  src: url('./assets/fonts/LINESeedJP_OTF_Rg.woff2');
+}
+
+@font-face {
+  font-family: "LINE Seed JP Bold";
+  src: url('./assets/fonts/LINESeedJP_OTF_Bd.woff2');
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html {
+  font-family: "LINE Seed JP Regular", "LINE Seed JP Bold";
+}
