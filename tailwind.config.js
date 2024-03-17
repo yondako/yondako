@@ -14,7 +14,7 @@ export default {
         "background-sub": "#FAF9F9",
       },
       backgroundImage: {
-        gradation: "url('/static/images/gradation.png')",
+        gradation: "url('/app/assets/images/gradation.png')",
       },
     },
   },

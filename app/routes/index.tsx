@@ -1,4 +1,5 @@
 import { createRoute } from "honox/factory";
+import logoUrl from "../assets/images/logo_portrait.svg";
 import Button from "../components/common/Button";
 import Footer from "../components/common/Footer";
 import { site } from "../libs/constants";
@@ -8,12 +9,7 @@ export default createRoute((c) => {
     <>
       <div className="flex justify-center items-center h-full p-8 bg-gradation bg-left-top bg-no-repeat bg-[length:80%] md:bg-[length:50%]">
         <div className="max-w-[26rem]">
-          <img
-            className="m-auto"
-            width={256}
-            src="/static/images/logo_portrait.svg"
-            alt={site.name}
-          />
+          <img className="m-auto" width={256} src={logoUrl} alt={site.name} />
           <h1 className="mt-10 text-3xl md:text-4xl tracking-wide text-center">
             {site.description.short}
           </h1>
