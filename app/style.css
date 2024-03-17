@@ -10,7 +10,6 @@
   src: url('/static/fonts/LINESeedJP_OTF_Bd.woff2');
 }
 
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
