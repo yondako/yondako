@@ -1,3 +1,18 @@
+@font-face {
+  font-family: "LINE Seed JP Regular";
+  src: url('/static/LINESeedJP_OTF_Rg.woff2');
+}
+
+@font-face {
+  font-family: "LINE Seed JP Bold";
+  src: url('/static/LINESeedJP_OTF_Bd.woff2');
+}
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html {
+  font-family: "LINE Seed JP Regular", "LINE Seed JP Bold";
+}
