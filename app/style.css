@@ -1,11 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap&text=🐙');
+
 @font-face {
   font-family: "LINE Seed JP Regular";
-  src: url('/static/LINESeedJP_OTF_Rg.woff2');
+  src: url('/static/fonts/LINESeedJP_OTF_Rg.woff2');
 }
 
 @font-face {
   font-family: "LINE Seed JP Bold";
-  src: url('/static/LINESeedJP_OTF_Bd.woff2');
+  src: url('/static/fonts/LINESeedJP_OTF_Bd.woff2');
 }
 
 
