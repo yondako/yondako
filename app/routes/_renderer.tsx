@@ -27,7 +27,7 @@ export default reactRenderer(({ children, title }) => {
         <meta property="twitter:description" content={site.description.long} />
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body>{children}</body>
+      <body className="bg-background text-text">{children}</body>
     </html>
   );
 });
