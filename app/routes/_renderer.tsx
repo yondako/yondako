@@ -1,4 +1,5 @@
 import { reactRenderer } from "@hono/react-renderer";
+import { site } from "../libs/constants";
 
 export default reactRenderer(({ children, title }) => {
   return (
@@ -17,6 +18,14 @@ export default reactRenderer(({ children, title }) => {
           <script type="module" src="/app/client.ts" />
         )}
         <title>{title}</title>
+        <meta name="description" content={site.description.long} />
+        <meta property="og:url" content={site.url} />
+        <meta property="og:title" content={site.name} />
+        <meta property="og:description" content={site.description.long} />
+        <meta property="twitter:url" content={site.url} />
+        <meta property="twitter:title" content={site.name} />
+        <meta property="twitter:description" content={site.description.long} />
+        <link rel="icon" href="/favicon.ico" />
       </head>
       <body>{children}</body>
     </html>
