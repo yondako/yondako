@@ -1,8 +1,8 @@
 import { createRoute } from "honox/factory";
+import logoUrl from "../assets/images/logo_portrait.svg";
 import Button from "../components/common/Button";
 import Footer from "../components/common/Footer";
 import { site } from "../libs/constants";
-import logoUrl from "../assets/images/logo_portrait.svg";
 
 export default createRoute((c) => {
   return c.render(
