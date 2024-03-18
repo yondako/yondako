@@ -2,12 +2,13 @@ import { createRoute } from "honox/factory";
 import logoUrl from "../assets/images/logo_portrait.svg";
 import Button from "../components/common/Button";
 import Footer from "../components/common/Footer";
+import LandingPageLayout from "../components/layout/LandingPage";
 import { site } from "../libs/constants";
 
 export default createRoute((c) => {
   return c.render(
     <>
-      <div className="flex justify-center items-center h-full p-8 bg-gradation bg-left-top bg-no-repeat bg-[length:80%] md:bg-[length:50%]">
+      <LandingPageLayout>
         <div className="max-w-[26rem]">
           <img className="m-auto" width={256} src={logoUrl} alt={site.name} />
           <h1 className="mt-10 text-3xl md:text-4xl tracking-wide text-center">
@@ -21,8 +22,8 @@ export default createRoute((c) => {
             </a>
           </Button>
         </div>
-      </div>
-      <Footer className="fixed inset-x-0 bottom-8" />
+        <Footer className="fixed inset-x-0 bottom-8" />
+      </LandingPageLayout>
     </>,
     {
       title: `${site.name} | ${site.description.short}`,
