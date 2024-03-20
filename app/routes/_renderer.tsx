@@ -3,7 +3,7 @@ import { site } from "../libs/constants";
 
 export default reactRenderer(({ children, title }) => {
   return (
-    <html lang="ja">
+    <html lang="ja" className="bg-background text-text">
       <head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -27,7 +27,7 @@ export default reactRenderer(({ children, title }) => {
         <meta property="twitter:description" content={site.description.long} />
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body className="bg-background text-text">{children}</body>
+      {children}
     </html>
   );
 });
