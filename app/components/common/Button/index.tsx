@@ -1,4 +1,5 @@
 import { Slot } from "@radix-ui/react-slot";
+import { classNames } from "../../../libs/classNames";
 
 type Props = {
   /** 子要素に置き換える */
@@ -12,7 +13,7 @@ export default function Button({ asChild, ...props }: Props) {
   return asChild ? (
     <Slot className={style}>{props.children}</Slot>
   ) : (
-    <button {...props} className={`${style} ${props.className}`}>
+    <button {...props} className={classNames(style, props.className)}>
       {props.children}
     </button>
   );
