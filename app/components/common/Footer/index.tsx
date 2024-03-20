@@ -1,15 +1,49 @@
+import { classNames } from "../../../libs/classNames";
 import Link from "../Link";
 
-export default function Footer(props: JSX.IntrinsicElements["footer"]) {
+type LinkItem = {
+  title: string;
+  href: string;
+};
+
+const links: LinkItem[] = [
+  {
+    title: "GitHub",
+    href: "https://github.com/yondako/yondako",
+  },
+  {
+    title: "利用規約",
+    href: "/",
+  },
+  {
+    title: "プライバシーポリシー",
+    href: "/",
+  },
+];
+
+type Props = {
+  portrait?: boolean;
+} & JSX.IntrinsicElements["footer"];
+
+export default function Footer({ portrait = false, ...props }: Props) {
   const year = new Date().getFullYear();
 
   return (
-    <footer {...props} className={`text-xs text-center ${props.className}`}>
-      <p>
-        <Link href="https://github.com/yondako/yondako">GitHub</Link>・
-        <Link href="/">利用規約</Link>・
-        <Link href="/">プライバシーポリシー</Link>
-      </p>
+    <footer
+      {...props}
+      className={classNames(
+        "text-xs",
+        portrait ? "text-left" : "text-center",
+        props.className,
+      )}
+    >
+      <div className={portrait ? "space-y-1" : "space-x-2"}>
+        {links.map(({ title, href }) => (
+          <Link className={portrait ? "block" : ""} href={href} key={href}>
+            {title}
+          </Link>
+        ))}
+      </div>
       <p className="mt-2">© {year} yondako</p>
     </footer>
   );

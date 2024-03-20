@@ -5,16 +5,18 @@ import { PiBooks } from "react-icons/pi";
 import logoUrl from "../../../../assets/images/logo_portrait.svg";
 import { site } from "../../../../libs/constants";
 import Item from "./Item";
+import { classNames } from "../../../../libs/classNames";
 
-export default function Menu() {
+export default function Menu(props: JSX.IntrinsicElements["div"]) {
+  const style = "w-full max-w-64 h-full border-r border-line";
+
   return (
-    <div className="w-full max-w-64 h-full border-r border-line">
-      <a
-        className="block px-8 py-6 bg-gradation bg-left-top bg-no-repeat bg-[length:45%]"
-        href="/"
-      >
-        <img width={110} src={logoUrl} alt={site.name} />
-      </a>
+    <div {...props} className={classNames(style, props.className)}>
+      <div className="px-8 py-6 bg-gradation bg-left-top bg-no-repeat bg-[length:45%]">
+        <a className="block w-fit" href="/">
+          <img width={110} src={logoUrl} alt={site.name} />
+        </a>
+      </div>
 
       {/* TODO: リンク先を設定する */}
       <div className="mt-2 pr-4 space-y-2">
