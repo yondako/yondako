@@ -1,7 +1,6 @@
 import { createRoute } from "honox/factory";
 import logoUrl from "../assets/images/logo_portrait.svg";
 import Button from "../components/common/Button";
-import Footer from "../components/common/Footer";
 import LandingPageLayout from "../components/layout/LandingPage";
 import { site } from "../libs/constants";
 
@@ -21,7 +20,6 @@ export default createRoute((c) => {
           </a>
         </Button>
       </div>
-      <Footer className="fixed inset-x-0 bottom-8" />
     </LandingPageLayout>,
     {
       title: `${site.name} | ${site.description.short}`,
