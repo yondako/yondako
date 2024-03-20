@@ -1,6 +1,5 @@
 import { ErrorHandler } from "hono";
 import Button from "../components/common/Button";
-import Footer from "../components/common/Footer";
 import LandingPageLayout from "../components/layout/LandingPage";
 import { site } from "../libs/constants";
 
@@ -30,7 +29,6 @@ const handler: ErrorHandler = (err, c) => {
           </a>
         </Button>
       </div>
-      <Footer className="fixed inset-x-0 bottom-8" />
     </LandingPageLayout>,
     {
       title: `Error! | ${site.name}`,
