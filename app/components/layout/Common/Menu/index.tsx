@@ -3,9 +3,9 @@ import { GoHome } from "react-icons/go";
 import { MdLogout } from "react-icons/md";
 import { PiBooks } from "react-icons/pi";
 import logoUrl from "../../../../assets/images/logo_portrait.svg";
+import { classNames } from "../../../../libs/classNames";
 import { site } from "../../../../libs/constants";
 import Item from "./Item";
-import { classNames } from "../../../../libs/classNames";
 
 export default function Menu(props: JSX.IntrinsicElements["div"]) {
   const style = "w-full max-w-64 h-full border-r border-line";
