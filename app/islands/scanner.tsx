@@ -1,5 +1,8 @@
-import { BrowserMultiFormatReader, IScannerControls } from "@zxing/browser";
-import { Result } from "@zxing/library";
+import {
+  BrowserMultiFormatReader,
+  type IScannerControls,
+} from "@zxing/browser";
+import type { Result } from "@zxing/library";
 import { useEffect, useMemo, useRef } from "react";
 
 type Props = {

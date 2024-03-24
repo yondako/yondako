@@ -1,7 +1,7 @@
-import { NotFoundHandler } from "hono";
-import Button from "../components/common/Button";
-import LandingPageLayout from "../components/layout/LandingPage";
-import { site } from "../libs/constants";
+import Button from "@/components/common/Button";
+import LandingPageLayout from "@/components/layout/LandingPage";
+import { site } from "@/libs/constants";
+import type { NotFoundHandler } from "hono";
 
 const handler: NotFoundHandler = (c) => {
   return c.render(

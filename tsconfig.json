@@ -4,15 +4,14 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "strict": true,
-    "lib": [
-      "ESNext",
-      "DOM"
-    ],
-    "types": [
-      "vite/client",
-      "@cloudflare/workers-types"
-    ],
+    "lib": ["ESNext", "DOM"],
+    "types": ["vite/client", "@cloudflare/workers-types"],
     "jsx": "react-jsx",
-    "jsxImportSource": "react"
+    "jsxImportSource": "react",
+    "baseUrl": "./app",
+    "paths": {
+      "@/*": ["*"]
+    },
+    "include": ["**/*.ts", "**/*.tsx"]
   }
 }

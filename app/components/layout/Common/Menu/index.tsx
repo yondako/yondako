@@ -1,10 +1,10 @@
+import logoUrl from "@/assets/images/logo_portrait.svg";
+import { classNames } from "@/libs/classNames";
+import { site } from "@/libs/constants";
 import { FiSearch } from "react-icons/fi";
 import { GoHome } from "react-icons/go";
 import { MdLogout } from "react-icons/md";
 import { PiBooks } from "react-icons/pi";
-import logoUrl from "../../../../assets/images/logo_portrait.svg";
-import { classNames } from "../../../../libs/classNames";
-import { site } from "../../../../libs/constants";
 import Item from "./Item";
 
 export default function Menu(props: JSX.IntrinsicElements["div"]) {

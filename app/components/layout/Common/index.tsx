@@ -1,5 +1,5 @@
+import Footer from "@/components/common/Footer";
 import type { ReactNode } from "react";
-import Footer from "../../common/Footer";
 import Header from "./Header";
 import Menu from "./Menu";
 
