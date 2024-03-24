@@ -4,11 +4,11 @@ import { createRoute } from "honox/factory";
 
 export default createRoute((c) => {
   return c.render(
-    <LibraryLayout current="読む本">
+    <LibraryLayout current="読んだ本">
       <h1>Hello!</h1>
     </LibraryLayout>,
     {
-      title: `読む本 | ${site.name}`,
+      title: `読んだ本 | ${site.name}`,
     },
   );
 });

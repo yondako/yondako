@@ -14,7 +14,7 @@ export default function CommonLayout({ children, ...props }: Props) {
       <Header className="block md:hidden" />
 
       <Menu className="hidden md:block" {...props} />
-      <div className="w-full h-full p-8 pt-4 md:p-10">{children}</div>
+      <div className="w-full h-full p-6 pt-4 md:p-8">{children}</div>
       <Footer
         className="hidden md:flex md:flex-col md:justify-end items-start w-full max-w-64 h-full px-6 py-4 border-l border-line bg-background-sub"
         portrait
