@@ -1,7 +1,7 @@
-import { ErrorHandler } from "hono";
-import Button from "../components/common/Button";
-import LandingPageLayout from "../components/layout/LandingPage";
-import { site } from "../libs/constants";
+import Button from "@/components/common/Button";
+import LandingPageLayout from "@/components/layout/LandingPage";
+import { site } from "@/libs/constants";
+import type { ErrorHandler } from "hono";
 
 const handler: ErrorHandler = (err, c) => {
   console.error(err);

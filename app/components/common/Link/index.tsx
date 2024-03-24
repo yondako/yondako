@@ -1,4 +1,4 @@
-import { classNames } from "../../../libs/classNames";
+import { classNames } from "@/libs/classNames";
 
 export default function Link(props: JSX.IntrinsicElements["a"]) {
   const style = "underline hover:text-tako transition-colors";
