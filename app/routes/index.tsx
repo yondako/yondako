@@ -1,12 +1,12 @@
 import logoUrl from "@/assets/images/logo_portrait.svg";
 import Button from "@/components/common/Button";
-import LandingPageLayout from "@/components/layout/LandingPage";
+import LandingLayout from "@/components/landing/Layout";
 import { site } from "@/libs/constants";
 import { createRoute } from "honox/factory";
 
 export default createRoute((c) => {
   return c.render(
-    <LandingPageLayout>
+    <LandingLayout>
       <div className="max-w-[26rem]">
         <img className="m-auto" width={256} src={logoUrl} alt={site.name} />
         <h1 className="mt-10 text-3xl md:text-4xl tracking-wide text-center">
@@ -20,7 +20,7 @@ export default createRoute((c) => {
           </a>
         </Button>
       </div>
-    </LandingPageLayout>,
+    </LandingLayout>,
     {
       title: `${site.name} | ${site.description.short}`,
     },

@@ -1,5 +1,5 @@
+import CommonLayout from "@/components/common/Layout";
 import { classNames } from "@/libs/classNames";
-import CommonLayout from "../Common";
 
 const tabItems = [
   {

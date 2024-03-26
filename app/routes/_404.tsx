@@ -1,11 +1,11 @@
 import Button from "@/components/common/Button";
-import LandingPageLayout from "@/components/layout/LandingPage";
+import LandingLayout from "@/components/landing/Layout";
 import { site } from "@/libs/constants";
 import type { NotFoundHandler } from "hono";
 
 const handler: NotFoundHandler = (c) => {
   return c.render(
-    <LandingPageLayout>
+    <LandingLayout>
       <div className="max-w-[26rem] text-center">
         <h1 className="font-bold text-4xl md:text-5xl tracking-wide">
           NotFound
@@ -19,7 +19,7 @@ const handler: NotFoundHandler = (c) => {
           </a>
         </Button>
       </div>
-    </LandingPageLayout>,
+    </LandingLayout>,
     {
       title: `NotFound | ${site.name}`,
     },
