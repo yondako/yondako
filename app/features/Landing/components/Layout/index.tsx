@@ -1,11 +1,11 @@
-import Footer from "@/components/common/Footer";
+import Footer from "@/components/Footer";
 import type { ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
 };
 
-export default function LandingPageLayout({ children }: Props) {
+export default function LandingLayout({ children }: Props) {
   return (
     <body className="flex justify-center items-center h-full p-8 bg-gradation bg-left-top bg-no-repeat bg-[length:80%] md:bg-[length:50%]">
       {children}

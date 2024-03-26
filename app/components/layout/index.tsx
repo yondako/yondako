@@ -1,7 +1,7 @@
-import Footer from "@/components/common/Footer";
 import type { ReactNode } from "react";
-import Header from "./Header";
-import Menu, { type MenuProps } from "./Menu";
+import Footer from "../Footer";
+import Header from "../Header";
+import Menu, { type MenuProps } from "../Menu";
 
 type Props = {
   children: ReactNode;
@@ -10,7 +10,7 @@ type Props = {
 export default function CommonLayout({ children, ...props }: Props) {
   return (
     <body className="md:flex">
-      {/** モバイル幅のみ表示 */}
+      {/** スマホ幅でのみ表示 */}
       <Header className="block md:hidden" />
 
       <Menu className="hidden md:block" {...props} />
@@ -20,7 +20,7 @@ export default function CommonLayout({ children, ...props }: Props) {
         portrait
       />
 
-      {/** モバイル幅のみ表示 */}
+      {/** スマホ幅でのみ表示 */}
       <Footer className="block md:hidden px-6 py-12 bg-background-sub" />
     </body>
   );

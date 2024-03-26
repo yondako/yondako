@@ -49,7 +49,7 @@ export default function Menu({
 
       <div className="mt-2 pr-4 space-y-2">
         {menuItems.map((item) => (
-          <Item {...item} current={item.title === current} />
+          <Item {...item} current={item.title === current} key={item.title} />
         ))}
       </div>
     </div>

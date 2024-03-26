@@ -1,4 +1,4 @@
-import LibraryLayout from "@/components/layout/Library";
+import LibraryLayout from "@/features/Library/components/Layout";
 import { site } from "@/libs/constants";
 import { createRoute } from "honox/factory";
 
