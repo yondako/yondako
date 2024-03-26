@@ -1,5 +1,5 @@
 import Button from "@/components/common/Button";
-import LandingPageLayout from "@/components/layout/LandingPage";
+import LandingLayout from "@/components/landing/Layout";
 import { site } from "@/libs/constants";
 import type { ErrorHandler } from "hono";
 
@@ -7,7 +7,7 @@ const handler: ErrorHandler = (err, c) => {
   console.error(err);
 
   return c.render(
-    <LandingPageLayout>
+    <LandingLayout>
       <div className="max-w-[26rem] text-center">
         <h1 className="font-bold text-4xl md:text-5xl tracking-wide">Error!</h1>
         <p className="mt-10">内部でエラーが発生しました</p>
@@ -29,7 +29,7 @@ const handler: ErrorHandler = (err, c) => {
           </a>
         </Button>
       </div>
-    </LandingPageLayout>,
+    </LandingLayout>,
     {
       title: `Error! | ${site.name}`,
     },

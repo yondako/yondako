@@ -1,7 +1,8 @@
 import Footer from "@/components/common/Footer";
 import type { ReactNode } from "react";
-import Header from "./Header";
-import Menu, { type MenuProps } from "./Menu";
+import Header from "../Header";
+import type { MenuProps } from "../Menu";
+import Menu from "../Menu";
 
 type Props = {
   children: ReactNode;
