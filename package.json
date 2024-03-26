@@ -14,7 +14,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@zxing/browser": "^0.1.4",
     "@zxing/library": "^0.20.0",
-    "hono": "^4.1.2",
+    "hono": "^4.1.4",
     "honox": "^0.1.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -22,17 +22,17 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.5.3",
-    "@cloudflare/workers-types": "^4.20240314.0",
+    "@cloudflare/workers-types": "^4.20240320.1",
     "@hono/vite-cloudflare-pages": "^0.2.4",
-    "@types/react": "^18.2.67",
+    "@types/react": "^18.2.71",
     "@types/react-dom": "^18.2.22",
-    "autoprefixer": "^10.4.18",
+    "autoprefixer": "^10.4.19",
     "lefthook": "^1.6.7",
-    "postcss": "^8.4.37",
+    "postcss": "^8.4.38",
     "svgo": "^3.2.0",
     "tailwindcss": "^3.4.1",
-    "vite": "^5.1.6",
+    "vite": "^5.2.6",
     "vite-tsconfig-paths": "^4.3.2",
-    "wrangler": "^3.35.0"
+    "wrangler": "^3.37.0"
   }
 }
