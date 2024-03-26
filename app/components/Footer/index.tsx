@@ -1,4 +1,4 @@
-import { classNames } from "@/libs/classNames";
+import { classNames } from "../../libs/classNames";
 import Link from "../Link";
 
 type LinkItem = {

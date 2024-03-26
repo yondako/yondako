@@ -1,9 +1,9 @@
-import logoUrl from "@/assets/images/logo_portrait.svg";
-import { classNames } from "@/libs/classNames";
-import { site } from "@/libs/constants";
 import { FiSearch } from "react-icons/fi";
 import { MdLogout } from "react-icons/md";
 import { PiBarcode, PiBooks } from "react-icons/pi";
+import { classNames } from "../..//libs/classNames";
+import logoUrl from "../../assets/images/logo_portrait.svg";
+import { site } from "../../libs/constants";
 import Item from "./Item";
 
 const menuItems = [

@@ -1,5 +1,5 @@
-import Footer from "@/components/Footer";
 import type { ReactNode } from "react";
+import Footer from "../../../../components/Footer";
 
 type Props = {
   children: ReactNode;

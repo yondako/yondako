@@ -1,5 +1,5 @@
-import { classNames } from "@/libs/classNames";
 import { Slot } from "@radix-ui/react-slot";
+import { classNames } from "../../libs/classNames";
 
 type ItemProps = {
   title: string;

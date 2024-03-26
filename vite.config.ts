@@ -17,7 +17,6 @@ export default defineConfig(({ mode }) => {
         },
         emptyOutDir: false,
       },
-      plugins: [tsconfigPaths()],
     };
   }
 

@@ -1,6 +1,6 @@
-import LibraryLayout from "@/features/Library/components/Layout";
-import { site } from "@/libs/constants";
 import { createRoute } from "honox/factory";
+import LibraryLayout from "../../features/Library/components/Layout";
+import { site } from "../../libs/constants";
 
 export default createRoute((c) => {
   return c.render(
