@@ -8,9 +8,9 @@
     "types": ["vite/client", "@cloudflare/workers-types"],
     "jsx": "react-jsx",
     "jsxImportSource": "react",
-    "baseUrl": ".",
+    "baseUrl": "./app",
     "paths": {
-      "@/*": ["app/*"]
+      "@/*": ["*"]
     },
     "include": ["**/*.ts", "**/*.tsx"]
   }
