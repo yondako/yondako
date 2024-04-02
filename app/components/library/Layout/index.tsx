@@ -25,7 +25,7 @@ export default function LibraryLayout({ current, ...props }: Props) {
     <CommonLayout current="ライブラリ" {...props}>
       <div className="flex md:block w-full border-b border-line text-base md:text-sm">
         {tabItems.map((item) => (
-          <TabItem {...item} current={item.title === current} />
+          <TabItem {...item} current={item.title === current} key={item.href} />
         ))}
       </div>
       {props.children}
