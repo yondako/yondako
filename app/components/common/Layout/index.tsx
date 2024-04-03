@@ -14,10 +14,10 @@ export default function CommonLayout({ children, ...props }: Props) {
       {/** モバイル幅のみ表示 */}
       <Header className="block md:hidden" />
 
-      <Menu className="hidden md:block" {...props} />
-      <div className="w-full h-full p-6 pt-4 md:p-8">{children}</div>
+      <Menu className="hidden md:shrink-0 md:block" {...props} />
+      <div className="shrink w-full h-full p-6 pt-4 md:p-8">{children}</div>
       <Footer
-        className="hidden md:flex md:flex-col md:justify-end items-start w-full max-w-64 h-full px-6 py-4 border-l border-line bg-background-sub"
+        className="hidden md:flex md:shrink-0 md:flex-col md:justify-end items-start w-full max-w-64 h-full px-6 py-4 border-l border-line bg-background-sub"
         portrait
       />
 

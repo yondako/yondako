@@ -15,7 +15,7 @@ export default {
         background: "#FFFFFF",
         line: "#DDDDDD",
         "background-sub": "#FAF9F9",
-        "genre-comic": "#F08C43",
+        star: "#F08C43",
       },
       backgroundImage: {
         gradation: "url('/app/assets/images/gradation.png')",
