@@ -8,7 +8,7 @@ type Props = {
 export default function Tag({ Icon, text }: Props) {
   return (
     <p className="flex items-center">
-      <Icon className="mr-1 text-sm" />
+      <Icon className="min-w-3.5 min-h-3.5 mr-1" />
       <span className="line-clamp-1">{text}</span>
     </p>
   );
