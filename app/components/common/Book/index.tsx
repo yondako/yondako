@@ -7,20 +7,19 @@ import StatusButton from "./StatusButton";
 import Tag from "./Tag";
 
 // TODO: APIのレスポンス型をそのまま使いたい
-type Props = {
+export type BookProps = {
   book: {
+    id: string;
     title: string;
-    description: string; // 今は使わないけど持っておきたい
     authors: string[];
     publisher: string;
-    genre: string;
     imageUrl: string;
   };
   liked: boolean;
   status: "none" | "read" | "want_read";
 };
 
-export default function Book({ book, liked, status }: Props) {
+export default function Book({ book, liked, status }: BookProps) {
   return (
     <div className="h-40 grid grid-cols-[5rem_1fr] lg:grid-cols-[8rem_1fr] grid-rows-3 lg:grid-rows-2 gap-3 lg:gap-4">
       <div className="row-span-2 w-full text-center bg-background border border-line rounded-md overflow-hidden">
