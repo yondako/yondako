@@ -1,6 +1,6 @@
 import { classNames } from "@/libs/classNames";
-import Button from "../Button";
 import { FaRegStar, FaStar } from "react-icons/fa6";
+import Button from "../Button";
 
 type Props = {
   liked?: boolean;
@@ -10,7 +10,7 @@ export default function LikeButton({ liked = false }: Props) {
   return (
     <Button
       className={classNames(
-        "absolute top-0 right-0 text-base",
+        "text-base",
         liked ? "text-background bg-star" : "text-text",
       )}
     >

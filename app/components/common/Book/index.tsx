@@ -2,15 +2,15 @@ import { BiBuilding } from "react-icons/bi";
 import { FaRegFaceMeh } from "react-icons/fa6";
 import { LuBookMarked, LuPenLine } from "react-icons/lu";
 import { MdCheck } from "react-icons/md";
-import Tag from "./Tag";
-import StatusButton from "./StatusButton";
 import LikeButton from "./LikeButton";
+import StatusButton from "./StatusButton";
+import Tag from "./Tag";
 
 // TODO: APIのレスポンス型をそのまま使いたい
 type Props = {
   book: {
     title: string;
-    description: string;
+    description: string; // 今は使わないけど持っておきたい
     authors: string[];
     publisher: string;
     genre: string;
@@ -22,25 +22,30 @@ type Props = {
 
 export default function Book({ book, liked, status }: Props) {
   return (
-    <div className="flex h-40 space-x-4">
-      <img
-        className="block h-full aspect-ratio rounded-md"
-        src={book.imageUrl}
-        alt={book.title}
-      />
-      <div className="relative flex flex-col w-full py-1">
-        <h2 className="font-bold text-lg leading-6">{book.title}</h2>
+    <div className="h-40 flex space-x-4">
+      <div className="min-w-32 text-center bg-background border border-line rounded-md overflow-hidden">
+        <img
+          className="inline h-full aspect-ratio"
+          src={book.imageUrl}
+          alt={book.title}
+        />
+      </div>
 
-        <LikeButton liked={liked} />
-
-        <div className="flex items-center mt-2 space-x-2 text-text text-xs">
-          <Tag Icon={LuPenLine} text={book.authors.join(", ")} />
-          <Tag Icon={BiBuilding} text={book.publisher} />
+      <div className="flex flex-col w-full py-1">
+        <div className="flex justify-between items-start space-x-3">
+          <div className="space-y-2">
+            <h2 className="font-bold text-base leading-6 line-clamp-2">
+              {book.title}
+            </h2>
+            <div className="flex items-center space-x-2 text-text text-xs">
+              <Tag Icon={LuPenLine} text={book.authors.join(", ")} />
+              <Tag Icon={BiBuilding} text={book.publisher} />
+            </div>
+          </div>
+          <LikeButton liked={liked} />
         </div>
 
-        <p className="mt-2 text-xs">{book.description}</p>
-
-        <div className="flex flex-grow items-end space-x-2 text-xs">
+        <div className="mt-2 flex flex-grow items-end space-x-2 text-xs whitespace-nowrap">
           <StatusButton
             Icon={FaRegFaceMeh}
             text="よんでない"
