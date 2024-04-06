@@ -22,8 +22,8 @@ type Props = {
 
 export default function Book({ book, liked, status }: Props) {
   return (
-    <div className="h-40 flex space-x-4">
-      <div className="min-w-32 text-center bg-background border border-line rounded-md overflow-hidden">
+    <div className="h-40 grid grid-cols-[5rem_1fr] lg:grid-cols-[8rem_1fr] grid-rows-3 lg:grid-rows-2 gap-3">
+      <div className="row-span-2 w-full text-center bg-background border border-line rounded-md overflow-hidden">
         <img
           className="inline h-full aspect-ratio"
           src={book.imageUrl}
@@ -31,37 +31,37 @@ export default function Book({ book, liked, status }: Props) {
         />
       </div>
 
-      <div className="flex flex-col w-full py-1">
+      <div className="pt-1 row-span-2 lg:row-span-1 flex flex-col w-full">
         <div className="flex justify-between items-start space-x-3">
-          <div className="space-y-2">
-            <h2 className="font-bold text-base leading-6 line-clamp-2">
+          <div className="space-y-1 lg:space-y-2">
+            <h2 className="font-bold text-lg leading-6 line-clamp-2">
               {book.title}
             </h2>
-            <div className="flex items-center space-x-2 text-text text-xs">
+            <div className="space-y-1 text-text text-xs">
               <Tag Icon={LuPenLine} text={book.authors.join(", ")} />
               <Tag Icon={BiBuilding} text={book.publisher} />
             </div>
           </div>
           <LikeButton liked={liked} />
         </div>
+      </div>
 
-        <div className="mt-2 flex flex-grow items-end space-x-2 text-xs whitespace-nowrap">
-          <StatusButton
-            Icon={FaRegFaceMeh}
-            text="よんでない"
-            selected={status === "none"}
-          />
-          <StatusButton
-            Icon={LuBookMarked}
-            text="よむ"
-            selected={status === "read"}
-          />
-          <StatusButton
-            Icon={MdCheck}
-            text="よんだ"
-            selected={status === "want_read"}
-          />
-        </div>
+      <div className="lg:pb-1 col-span-2 lg:col-span-1 flex items-end space-x-2 text-xs whitespace-nowrap">
+        <StatusButton
+          Icon={FaRegFaceMeh}
+          text="よんでない"
+          selected={status === "none"}
+        />
+        <StatusButton
+          Icon={LuBookMarked}
+          text="よむ"
+          selected={status === "read"}
+        />
+        <StatusButton
+          Icon={MdCheck}
+          text="よんだ"
+          selected={status === "want_read"}
+        />
       </div>
     </div>
   );
