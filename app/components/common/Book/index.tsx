@@ -22,9 +22,9 @@ export type BookProps = {
 export default function Book({ book, liked, status }: BookProps) {
   return (
     <div className="h-40 grid grid-cols-[5rem_1fr] lg:grid-cols-[8rem_1fr] grid-rows-3 lg:grid-rows-2 gap-3 lg:gap-4">
-      <div className="row-span-2 w-full text-center bg-background border border-line rounded-md overflow-hidden">
+      <div className="row-span-2 flex justify-center items-center bg-background border border-line rounded-md overflow-hidden">
         <img
-          className="inline h-full aspect-ratio"
+          className="h-full object-contain"
           src={book.imageUrl}
           alt={book.title}
         />
