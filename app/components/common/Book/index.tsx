@@ -33,7 +33,7 @@ export default function Book({ book, liked, status }: BookProps) {
       <div className="pt-1 row-span-2 lg:row-span-1 flex flex-col w-full">
         <div className="flex justify-between items-start space-x-3">
           <div className="space-y-1 lg:space-y-2">
-            <h2 className="font-bold text-lg leading-6 line-clamp-2">
+            <h2 className="font-bold text-base lg:text-lg leading-6 line-clamp-2">
               {book.title}
             </h2>
             <div className="space-y-1 text-text text-xs">
