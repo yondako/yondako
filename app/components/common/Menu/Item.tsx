@@ -26,7 +26,7 @@ export default function Item({
       )}
       href={href}
     >
-      <Slot className="w-5 h-5">{icon}</Slot>
+      <Slot className="text-xl">{icon}</Slot>
       <span>{title}</span>
     </a>
   );
