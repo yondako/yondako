@@ -7,7 +7,7 @@ const handler: NotFoundHandler = (c) => {
   return c.render(
     <LandingLayout>
       <div className="max-w-[26rem] text-center">
-        <h1 className="font-bold text-4xl md:text-5xl tracking-wide">
+        <h1 className="font-bold text-4xl lg:text-5xl tracking-wide">
           NotFound
         </h1>
         <p className="mt-10">ページが見つかりませんでした 🫥</p>

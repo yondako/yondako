@@ -9,7 +9,7 @@ const handler: ErrorHandler = (err, c) => {
   return c.render(
     <LandingLayout>
       <div className="max-w-[26rem] text-center">
-        <h1 className="font-bold text-4xl md:text-5xl tracking-wide">Error!</h1>
+        <h1 className="font-bold text-4xl lg:text-5xl tracking-wide">Error!</h1>
         <p className="mt-10">内部でエラーが発生しました</p>
         <p className="mt-1 break-keep">
           しばらく
