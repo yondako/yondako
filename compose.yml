@@ -1,0 +1,8 @@
+services:
+  node:
+    image: node:latest
+    volumes:
+      - .:/container
+    ports:
+      - 3000:3000
+    tty: true
