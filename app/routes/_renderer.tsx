@@ -1,4 +1,4 @@
-import { site } from "@/libs/constants";
+import { site } from "@/constants/site";
 import { reactRenderer } from "@hono/react-renderer";
 
 export default reactRenderer(({ children, title }) => {

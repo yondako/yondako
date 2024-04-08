@@ -1,6 +1,6 @@
 import Button from "@/components/common/Button";
 import LandingLayout from "@/components/landing/Layout";
-import { site } from "@/libs/constants";
+import { site } from "@/constants/site";
 import type { ErrorHandler } from "hono";
 
 const handler: ErrorHandler = (err, c) => {
