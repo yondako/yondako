@@ -1,6 +1,6 @@
 import logoUrl from "@/assets/images/logo_landscape.svg";
+import { site } from "@/constants/site";
 import { classNames } from "@/libs/classNames";
-import { site } from "@/libs/constants";
 
 export default function Header(props: JSX.IntrinsicElements["div"]) {
   const style =
