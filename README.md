@@ -4,14 +4,14 @@
 
 ```sh
 # 依存関係をインストール
-pnpm i
+bun install
 
 # 開発サーバーを起動
-pnpm dev
+bun run dev
 ```
 
 ## build & start
 
 ```sh
-pnpm build && pnpm preview
+bun run build && bun run preview
 ```
