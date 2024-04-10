@@ -1,38 +1,34 @@
-import type { IconType } from "react-icons";
-import { FiSearch } from "react-icons/fi";
-import { MdLogout } from "react-icons/md";
-import { PiBarcode, PiBarcodeFill, PiBooks, PiBooksFill } from "react-icons/pi";
+import { IconBooks } from "@/components/common/Icon/Books";
+import { IconLogout } from "@/components/common/Icon/Logout";
+import { IconScan } from "@/components/common/Icon/Scan";
+import { IconSearch } from "@/components/common/Icon/Search";
+import type { IconType } from "@/types/icon";
 
 export type NavItem = {
   title: string;
   href: `/${string}`;
-  LineIcon: IconType;
-  FillIcon: IconType;
+  Icon: IconType;
 };
 
 export const naviItems: NavItem[] = [
   {
     title: "ライブラリ",
     href: "/library",
-    LineIcon: PiBooks,
-    FillIcon: PiBooksFill,
+    Icon: IconBooks,
   },
   {
     title: "キーワードで探す",
     href: "/search",
-    LineIcon: FiSearch,
-    FillIcon: FiSearch,
+    Icon: IconSearch,
   },
   {
     title: "バーコードで探す",
     href: "/search/barcode",
-    LineIcon: PiBarcode,
-    FillIcon: PiBarcodeFill,
+    Icon: IconScan,
   },
   {
     title: "ログアウト",
     href: "/",
-    LineIcon: MdLogout,
-    FillIcon: MdLogout,
+    Icon: IconLogout,
   },
 ] as const;

@@ -1,4 +1,4 @@
-import type { IconType } from "react-icons";
+import type { IconType } from "@/types/icon";
 
 type Props = {
   Icon: IconType;
@@ -8,7 +8,7 @@ type Props = {
 export default function Tag({ Icon, text }: Props) {
   return (
     <p className="flex items-center">
-      <Icon className="min-w-3.5 min-h-3.5 mr-1" />
+      <Icon className="shrink-0 w-4 h-4 mr-1" />
       <span className="line-clamp-1">{text}</span>
     </p>
   );

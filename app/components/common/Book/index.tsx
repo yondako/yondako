@@ -1,10 +1,11 @@
-import { BiBuilding } from "react-icons/bi";
-import { FaRegFaceMeh } from "react-icons/fa6";
-import { LuBookMarked, LuPenLine } from "react-icons/lu";
-import { MdCheck } from "react-icons/md";
 import LikeButton from "./LikeButton";
 import StatusButton from "./StatusButton";
 import Tag from "./Tag";
+import { IconMoodEmpty } from "../Icon/MoodEmpty";
+import { IconBuilding } from "../Icon/Building";
+import { IconCheck } from "../Icon/Check";
+import { IconBookmark } from "../Icon/Bookmark";
+import { IconPencil } from "../Icon/Pencil";
 
 // TODO: APIのレスポンス型をそのまま使いたい
 export type BookProps = {
@@ -37,8 +38,8 @@ export default function Book({ book, liked, status }: BookProps) {
               {book.title}
             </h2>
             <div className="space-y-1 text-text text-xs">
-              <Tag Icon={LuPenLine} text={book.authors.join(", ")} />
-              <Tag Icon={BiBuilding} text={book.publisher} />
+              <Tag Icon={IconPencil} text={book.authors.join(", ")} />
+              <Tag Icon={IconBuilding} text={book.publisher} />
             </div>
           </div>
           <LikeButton liked={liked} />
@@ -47,17 +48,17 @@ export default function Book({ book, liked, status }: BookProps) {
 
       <div className="lg:pb-1 col-span-2 lg:col-span-1 flex items-end space-x-2 text-xs whitespace-nowrap">
         <StatusButton
-          Icon={FaRegFaceMeh}
+          Icon={IconMoodEmpty}
           text="よんでない"
           selected={status === "none"}
         />
         <StatusButton
-          Icon={LuBookMarked}
+          Icon={IconBookmark}
           text="よむ"
           selected={status === "read"}
         />
         <StatusButton
-          Icon={MdCheck}
+          Icon={IconCheck}
           text="よんだ"
           selected={status === "want_read"}
         />

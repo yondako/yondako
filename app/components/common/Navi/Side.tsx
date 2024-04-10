@@ -31,7 +31,7 @@ type ItemProps = {
   current?: boolean;
 } & NavItem;
 
-function Item({ title, LineIcon: Icon, href, current = false }: ItemProps) {
+function Item({ title, Icon, href, current = false }: ItemProps) {
   const style = current
     ? "text-background bg-tako"
     : "text-text bg-background transition hover:brightness-95";
@@ -44,7 +44,7 @@ function Item({ title, LineIcon: Icon, href, current = false }: ItemProps) {
       )}
       href={href}
     >
-      <Icon className="text-xl" />
+      <Icon className="w-5 h-5" />
       <span>{title}</span>
     </a>
   );
