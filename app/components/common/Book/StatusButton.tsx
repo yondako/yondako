@@ -1,5 +1,5 @@
 import { classNames } from "@/libs/classNames";
-import type { IconType } from "react-icons";
+import type { IconType } from "@/types/icon";
 
 type Props = {
   Icon: IconType;
@@ -17,7 +17,7 @@ export default function StatusButton({ Icon, text, selected = false }: Props) {
           : "text-text bg-background border-line transition hover:brightness-95",
       )}
     >
-      <Icon className="text-sm" />
+      <Icon className="w-4 h-4" />
       <span className="ml-1">{text}</span>
     </button>
   );

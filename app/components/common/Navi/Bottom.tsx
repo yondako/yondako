@@ -16,7 +16,6 @@ export default function BottomNavi({
     >
       {naviItems.map((item) => {
         const isCurrent = item.title === current;
-        const Icon = isCurrent ? item.FillIcon : item.LineIcon;
 
         return (
           <a
@@ -24,7 +23,7 @@ export default function BottomNavi({
             href={item.href}
             key={item.title}
           >
-            <Icon className="w-7 h-7" />
+            <item.Icon className="w-7 h-7" />
           </a>
         );
       })}

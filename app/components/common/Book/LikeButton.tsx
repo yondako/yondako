@@ -1,12 +1,14 @@
 import { classNames } from "@/libs/classNames";
-import { FaRegStar, FaStar } from "react-icons/fa6";
 import Button from "../Button";
+import { IconStarFill, IconStarLine } from "../Icon/Star";
 
 type Props = {
   liked?: boolean;
 };
 
 export default function LikeButton({ liked = false }: Props) {
+  const Icon = liked ? IconStarFill : IconStarLine;
+
   return (
     <Button
       className={classNames(
@@ -14,7 +16,7 @@ export default function LikeButton({ liked = false }: Props) {
         liked ? "text-background bg-star" : "text-text",
       )}
     >
-      {liked ? <FaStar /> : <FaRegStar />}
+      <Icon className="w-4 h-4" />
     </Button>
   );
 }
