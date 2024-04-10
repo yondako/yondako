@@ -12,7 +12,10 @@ export default function BookList({ items, ...props }: Props) {
         return (
           <>
             {i !== 0 && (
-              <div className="my-2 w-full h-0 border-t border-line" />
+              <div
+                className="my-2 w-full h-0 border-t border-line"
+                key={`hr-${i.toString()}`}
+              />
             )}
             <Book {...props} key={props.book.id} />
           </>

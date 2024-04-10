@@ -3,15 +3,15 @@ import { classNames } from "@/libs/classNames";
 
 const tabItems = [
   {
-    title: "読む本",
+    title: "よむ本",
     href: "/library",
   },
   {
-    title: "読んだ本",
+    title: "よんだ本",
     href: "/library/read",
   },
   {
-    title: "好きな本",
+    title: "すきな本",
     href: "/library/likes",
   },
 ] as const;

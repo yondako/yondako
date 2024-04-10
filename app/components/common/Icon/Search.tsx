@@ -1,4 +1,6 @@
-export function IconSearch(props: JSX.IntrinsicElements["svg"]) {
+import type { IconType } from "@/types/icon";
+
+export const IconSearch: IconType = (props) => {
   return (
     <svg
       {...props}
@@ -17,4 +19,4 @@ export function IconSearch(props: JSX.IntrinsicElements["svg"]) {
       <path d="M21 21l-6 -6" />
     </svg>
   );
-}
+};

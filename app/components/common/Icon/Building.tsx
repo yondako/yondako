@@ -1,4 +1,6 @@
-export function IconBuilding(props: JSX.IntrinsicElements["svg"]) {
+import type { IconType } from "@/types/icon";
+
+export const IconBuilding: IconType = (props) => {
   return (
     <svg
       {...props}
@@ -23,4 +25,4 @@ export function IconBuilding(props: JSX.IntrinsicElements["svg"]) {
       <path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16" />
     </svg>
   );
-}
+};

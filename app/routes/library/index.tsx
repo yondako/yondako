@@ -39,11 +39,11 @@ export default createRoute((c) => {
   ];
 
   return c.render(
-    <LibraryLayout current="読む本">
+    <LibraryLayout current="よむ本">
       <BookList className="mt-10" items={testData} />
     </LibraryLayout>,
     {
-      title: `読む本 | ${site.name}`,
+      title: `よむ本 | ${site.name}`,
     },
   );
 });

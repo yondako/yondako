@@ -1,4 +1,6 @@
-export function IconLogout(props: JSX.IntrinsicElements["svg"]) {
+import type { IconType } from "@/types/icon";
+
+export const IconLogout: IconType = (props) => {
   return (
     <svg
       {...props}
@@ -18,4 +20,4 @@ export function IconLogout(props: JSX.IntrinsicElements["svg"]) {
       <path d="M18 15l3 -3" />
     </svg>
   );
-}
+};
