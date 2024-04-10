@@ -1,11 +1,11 @@
+import { IconBookmark } from "../Icon/Bookmark";
+import { IconBuilding } from "../Icon/Building";
+import { IconCheck } from "../Icon/Check";
+import { IconMoodEmpty } from "../Icon/MoodEmpty";
+import { IconPencil } from "../Icon/Pencil";
 import LikeButton from "./LikeButton";
 import StatusButton from "./StatusButton";
 import Tag from "./Tag";
-import { IconMoodEmpty } from "../Icon/MoodEmpty";
-import { IconBuilding } from "../Icon/Building";
-import { IconCheck } from "../Icon/Check";
-import { IconBookmark } from "../Icon/Bookmark";
-import { IconPencil } from "../Icon/Pencil";
 
 // TODO: APIのレスポンス型をそのまま使いたい
 export type BookProps = {
