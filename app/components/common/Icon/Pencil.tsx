@@ -1,4 +1,6 @@
-export function IconPencil(props: JSX.IntrinsicElements["svg"]) {
+import type { IconType } from "@/types/icon";
+
+export const IconPencil: IconType = (props) => {
   return (
     <svg
       {...props}
@@ -17,4 +19,4 @@ export function IconPencil(props: JSX.IntrinsicElements["svg"]) {
       <path d="M13.5 6.5l4 4" />
     </svg>
   );
-}
+};

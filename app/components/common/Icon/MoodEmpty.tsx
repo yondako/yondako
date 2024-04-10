@@ -1,4 +1,6 @@
-export function IconMoodEmpty(props: JSX.IntrinsicElements["svg"]) {
+import type { IconType } from "@/types/icon";
+
+export const IconMoodEmpty: IconType = (props) => {
   return (
     <svg
       {...props}
@@ -19,4 +21,4 @@ export function IconMoodEmpty(props: JSX.IntrinsicElements["svg"]) {
       <path d="M9 15l6 0" />
     </svg>
   );
-}
+};

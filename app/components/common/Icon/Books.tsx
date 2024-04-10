@@ -1,4 +1,6 @@
-export function IconBooks(props: JSX.IntrinsicElements["svg"]) {
+import type { IconType } from "@/types/icon";
+
+export const IconBooks: IconType = (props) => {
   return (
     <svg
       {...props}
@@ -22,4 +24,4 @@ export function IconBooks(props: JSX.IntrinsicElements["svg"]) {
       <path d="M16 16l3.923 -.98" />
     </svg>
   );
-}
+};
