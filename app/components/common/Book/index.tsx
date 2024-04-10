@@ -22,8 +22,8 @@ export type BookProps = {
 
 export default function Book({ book, liked, status }: BookProps) {
   return (
-    <div className="h-40 grid grid-cols-[5rem_1fr] lg:grid-cols-[8rem_1fr] grid-rows-3 lg:grid-rows-2 gap-3 lg:gap-4">
-      <div className="row-span-2 flex justify-center items-center bg-background border border-line rounded-md overflow-hidden">
+    <div className="h-40 grid grid-cols-[5rem_1fr] lg:grid-cols-[8rem_1fr] grid-rows-2 lg:grid-rows-3 gap-3 lg:gap-4">
+      <div className="row-span-2 lg:row-span-3 flex justify-center items-center bg-background border border-line rounded-md overflow-hidden">
         <img
           className="h-full object-contain"
           src={book.imageUrl}
@@ -31,19 +31,16 @@ export default function Book({ book, liked, status }: BookProps) {
         />
       </div>
 
-      <div className="pt-1 row-span-2 lg:row-span-1 flex flex-col w-full">
-        <div className="flex justify-between items-start space-x-3">
-          <div className="space-y-2">
-            <h2 className="font-bold text-base lg:text-lg leading-5 lg:leading-6 line-clamp-2">
-              {book.title}
-            </h2>
-            <div className="space-y-1 text-text text-xs">
-              <Tag Icon={IconPencil} text={book.authors.join(", ")} />
-              <Tag Icon={IconBuilding} text={book.publisher} />
-            </div>
-          </div>
-          <LikeButton liked={liked} />
-        </div>
+      <div className="pt-1 row-span-1 lg:row-span-1 flex justify-between items-start space-x-3">
+        <h2 className="font-bold text-base lg:text-lg leading-5 lg:leading-6 line-clamp-2">
+          {book.title}
+        </h2>
+        <LikeButton liked={liked} />
+      </div>
+
+      <div className="row-span-1 lg:content-center space-y-1 text-text text-xs">
+        <Tag Icon={IconPencil} text={book.authors.join(", ")} />
+        <Tag Icon={IconBuilding} text={book.publisher} />
       </div>
 
       <div className="lg:pb-1 col-span-2 lg:col-span-1 flex items-end space-x-2 text-xs whitespace-nowrap">
