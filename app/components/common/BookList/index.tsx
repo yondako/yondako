@@ -17,7 +17,7 @@ export default function BookList({ items, ...props }: Props) {
                 key={`hr-${i.toString()}`}
               />
             )}
-            <Book {...props} key={props.book.id} />
+            <Book {...props} key={props.book.link} />
           </>
         );
       })}

@@ -3,46 +3,25 @@ import BookList from "@/components/common/BookList";
 import CommonLayout from "@/components/common/Layout";
 import SearchBox from "@/components/common/SearchBox";
 import { site } from "@/constants/site";
+import { searchFromKeyword } from "@/libs/ndl/api";
+import { BookType } from "@/types/book";
 import { createRoute } from "honox/factory";
 
 const title = "キーワードで探す";
 
-export default createRoute((c) => {
-  const query = c.req.query("q");
-  console.log(query);
+export default createRoute(async (c) => {
+  let results: BookType[] = [];
 
-  const items: BookProps[] = [
-    {
-      book: {
-        id: "test",
-        title:
-          "アイドルマスターシャイニーカラーズ = THE IDOLM@STER SHINY COLORS. 5",
-        authors: [
-          "バンダイナムコエンターテインメント 原作",
-          "しのざきあきら 漫画",
-        ],
-        publisher: "KADOKAWA",
-        imageUrl: "https://placehold.jp/199x285.png",
-      },
-      liked: false,
-      status: "none",
-    },
-    {
-      book: {
-        id: "test-2",
-        title:
-          "アイドルマスターシャイニーカラーズ = THE IDOLM@STER SHINY COLORS. 5",
-        authors: [
-          "バンダイナムコエンターテインメント 原作",
-          "しのざきあきら 漫画",
-        ],
-        publisher: "KADOKAWA",
-        imageUrl: "https://placehold.jp/199x285.png",
-      },
-      liked: false,
-      status: "none",
-    },
-  ];
+  const query = c.req.query("q");
+  if (query) {
+    results = await searchFromKeyword(query);
+  }
+
+  const items: BookProps[] = results.map((book) => ({
+    book,
+    liked: false,
+    status: "none",
+  }));
 
   return c.render(
     <CommonLayout current={title}>
