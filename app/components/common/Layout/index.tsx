@@ -16,7 +16,7 @@ export default function CommonLayout({ children, ...props }: Props) {
       <Header className="block lg:hidden" />
       {/** デスクトップ幅のみ */}
       <SideNavi className="hidden lg:shrink-0 lg:block" {...props} />
-      <div className="shrink w-full h-full p-6 pt-4 lg:p-8 overflow-y-scroll">
+      <div className="shrink w-full h-full p-6 pt-4 lg:p-8 lg:overflow-y-scroll">
         {children}
       </div>
       {/** デスクトップ幅のみ */}
