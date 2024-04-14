@@ -1,6 +1,6 @@
+import { classNames } from "@/libs/classNames";
 import { ComponentPropsWithRef } from "react";
 import { IconSearch } from "../Icon/Search";
-import { classNames } from "@/libs/classNames";
 
 export default function SearchBox(props: ComponentPropsWithRef<"input">) {
   return (
