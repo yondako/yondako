@@ -1,3 +1,4 @@
+import imageNoImage from "@/assets/images/noimage.webp";
 import { BookType } from "@/types/book";
 import { IconBookmark } from "../Icon/Bookmark";
 import { IconBuilding } from "../Icon/Building";
@@ -19,12 +20,13 @@ export default function Book({ book, liked, status }: BookProps) {
   return (
     <div className="h-40 grid grid-cols-[5rem_1fr] lg:grid-cols-[8rem_1fr] grid-rows-2 lg:grid-rows-3 gap-3 lg:gap-4">
       <div className="row-span-2 lg:row-span-3 flex justify-center items-center bg-background border border-line rounded-md overflow-hidden">
-        {/* TODO: サムネイルが無い場合の表示 */}
-        <img
-          className="h-full object-contain"
-          src={book.thumbnailUrl}
-          alt={book.title}
-        />
+        <object
+          className="w-full h-full object-contain"
+          type="image/jpeg"
+          data={book.thumbnailUrl}
+        >
+          <img src={imageNoImage} alt="" />
+        </object>
       </div>
 
       <div className="pt-1 row-span-1 lg:row-span-1 flex justify-between items-start space-x-3">

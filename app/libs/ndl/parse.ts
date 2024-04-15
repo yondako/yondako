@@ -1,3 +1,4 @@
+import { THUMBNAIL_API_BASE_URL } from "@/constants/api";
 import { BookType } from "@/types/book";
 import { AnyNode } from "domhandler";
 import { getElementsByTagName, textContent } from "domutils";
@@ -37,6 +38,15 @@ const getValueByAttr = (
 };
 
 /**
+ * 書影画像のURLを作成
+ * @param id JP-eコードもしくはISBN-13
+ * @return URL
+ */
+const createThumbnailUrl = (id: string) => {
+  return `${THUMBNAIL_API_BASE_URL}/${id.replace(/-/g, "")}.jpg`;
+};
+
+/**
  * NDL API (OpenSearch) のレスポンスをパース
  * @param xml レスポンス (RSS)
  * @returns Bookオブジェクトの配列
@@ -53,17 +63,21 @@ export const parseOpenSearchResponse = (xml: string) => {
       (item): BookType => {
         const { children } = item;
 
+        const isbn = getValueByAttr(
+          "dc:identifier",
+          "xsi:type",
+          "dcndl:ISBN",
+          children,
+        );
+
+        const thumbnailUrl = isbn ? createThumbnailUrl(isbn) : undefined;
+
         return {
           title: getValue("title", children),
           link: getValue("guid", children),
           authors: getValues("dc:creator", children),
           publisher: getValues("dc:publisher", children),
-          isbn: getValueByAttr(
-            "dc:identifier",
-            "xsi:type",
-            "dcndl:ISBN",
-            children,
-          ),
+          isbn,
           ndlBibId: getValueByAttr(
             "dc:identifier",
             "xsi:type",
@@ -76,6 +90,7 @@ export const parseOpenSearchResponse = (xml: string) => {
             "dcndl:JPNO",
             children,
           ),
+          thumbnailUrl,
         };
       },
     );
