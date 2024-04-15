@@ -12,6 +12,9 @@ export const searchFromKeyword = async (query: string) => {
   endpoint.searchParams.append("any", query);
   endpoint.searchParams.append("cnt", "100");
 
+  // データプロバイダ
+  endpoint.searchParams.append("dpid", "iss-ndl-opac");
+
   // 対象を図書・雑誌・電子雑誌に絞る
   endpoint.searchParams.append("mediatype", "books periodicals online");
 
