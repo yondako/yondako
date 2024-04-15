@@ -8,8 +8,12 @@ import { parseOpenSearchResponse } from "./parse";
  */
 export const searchFromKeyword = async (query: string) => {
   const endpoint = new URL(OPENSEARCH_API_BASE_URL);
+
   endpoint.searchParams.append("any", query);
   endpoint.searchParams.append("cnt", "100");
+
+  // 対象を図書・雑誌・電子雑誌に絞る
+  endpoint.searchParams.append("mediatype", "books periodicals online");
 
   const res = await fetch(endpoint);
   const xml = await res.text();
