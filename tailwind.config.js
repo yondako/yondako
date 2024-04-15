@@ -18,7 +18,7 @@ export default {
         star: "#F08C43",
       },
       backgroundImage: {
-        gradation: "url('/app/assets/images/gradation.png')",
+        gradation: "url('/app/assets/images/gradation.webp')",
       },
     },
   },
