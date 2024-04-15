@@ -1,5 +1,5 @@
-import { THUMBNAIL_API_BASE_URL } from "@/constants/api";
 import imageNoImage from "@/assets/images/noimage.webp";
+import { THUMBNAIL_API_BASE_URL } from "@/constants/api";
 import { BookType } from "@/types/book";
 import { AnyNode } from "domhandler";
 import { getElementsByTagName, textContent } from "domutils";
