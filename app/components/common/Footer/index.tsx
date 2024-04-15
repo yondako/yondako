@@ -8,6 +8,10 @@ type LinkItem = {
 
 const links: LinkItem[] = [
   {
+    title: "ライセンス",
+    href: "https://docs.yondako.com/license",
+  },
+  {
     title: "GitHub",
     href: "https://github.com/yondako/yondako",
   },
