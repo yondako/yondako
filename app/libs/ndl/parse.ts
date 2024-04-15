@@ -1,4 +1,5 @@
 import { THUMBNAIL_API_BASE_URL } from "@/constants/api";
+import imageNoImage from "@/assets/images/noimage.webp";
 import { BookType } from "@/types/book";
 import { AnyNode } from "domhandler";
 import { getElementsByTagName, textContent } from "domutils";
@@ -63,6 +64,14 @@ export const parseOpenSearchResponse = (xml: string) => {
       (item): BookType => {
         const { children } = item;
 
+        let title = getValue("title", children);
+
+        // 巻数があればタイトルに追加
+        const vol = getValue("dcndl:volume", children);
+        if (vol) {
+          title = `${title} (${vol})`;
+        }
+
         const isbn = getValueByAttr(
           "dc:identifier",
           "xsi:type",
@@ -70,10 +79,10 @@ export const parseOpenSearchResponse = (xml: string) => {
           children,
         );
 
-        const thumbnailUrl = isbn ? createThumbnailUrl(isbn) : undefined;
+        const thumbnailUrl = isbn ? createThumbnailUrl(isbn) : imageNoImage;
 
         return {
-          title: getValue("title", children),
+          title,
           link: getValue("guid", children),
           authors: getValues("dc:creator", children),
           publisher: getValues("dc:publisher", children),

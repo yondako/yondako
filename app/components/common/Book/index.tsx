@@ -29,7 +29,7 @@ export default function Book({ book, liked, status }: BookProps) {
         </object>
       </div>
 
-      <div className="pt-1 row-span-1 lg:row-span-1 flex justify-between items-start space-x-3">
+      <div className="pt-1 row-span-1 lg:row-span-1 flex justify-between items-center space-x-3">
         <h2 className="font-bold text-base lg:text-lg leading-5 lg:leading-6 line-clamp-2">
           {book.title}
         </h2>
