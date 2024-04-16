@@ -1,11 +1,17 @@
-import type { BookProps } from "@/components/common/Book";
+import { BookProps } from "@/components/common/Book";
 import BookList from "@/components/common/BookList";
-import LibraryLayout from "@/components/library/Layout";
+import CommonLayout from "@/components/common/Layout";
+import SearchBox from "@/components/common/SearchBox";
 import { site } from "@/constants/site";
 import { createRoute } from "honox/factory";
 
+const title = "キーワードで探す";
+
 export default createRoute((c) => {
-  const testData: BookProps[] = [
+  const query = c.req.query("q");
+  console.log(query);
+
+  const items: BookProps[] = [
     {
       book: {
         id: "test",
@@ -39,11 +45,14 @@ export default createRoute((c) => {
   ];
 
   return c.render(
-    <LibraryLayout current="よむ本">
-      <BookList className="mt-10" items={testData} />
-    </LibraryLayout>,
+    <CommonLayout current={title}>
+      <form>
+        <SearchBox name="q" defaultValue={query} />
+      </form>
+      <BookList className="mt-10" items={items} />
+    </CommonLayout>,
     {
-      title: `よむ本 | ${site.name}`,
+      title: `${title} | ${site.name}`,
     },
   );
 });

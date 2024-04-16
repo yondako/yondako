@@ -3,15 +3,15 @@ import { classNames } from "@/libs/classNames";
 
 const tabItems = [
   {
-    title: "読む本",
+    title: "よむ本",
     href: "/library",
   },
   {
-    title: "読んだ本",
+    title: "よんだ本",
     href: "/library/read",
   },
   {
-    title: "好きな本",
+    title: "すきな本",
     href: "/library/likes",
   },
 ] as const;
@@ -23,9 +23,9 @@ type Props = {
 export default function LibraryLayout({ current, ...props }: Props) {
   return (
     <CommonLayout current="ライブラリ" {...props}>
-      <div className="flex md:block w-full border-b border-line text-base md:text-sm">
+      <div className="flex lg:block w-full border-b border-line text-base lg:text-sm">
         {tabItems.map((item) => (
-          <TabItem {...item} current={item.title === current} />
+          <TabItem {...item} current={item.title === current} key={item.href} />
         ))}
       </div>
       {props.children}
@@ -47,7 +47,7 @@ function TabItem({ title, href, current }: TabItemProps) {
   return (
     <a
       className={classNames(
-        "relative inline-block w-full md:w-auto px-4 pb-2 text-center md:text-left",
+        "relative inline-block w-full lg:w-auto px-4 pb-2 text-center lg:text-left",
         style,
       )}
       href={href}

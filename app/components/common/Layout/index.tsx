@@ -1,28 +1,30 @@
 import Footer from "@/components/common/Footer";
+import type { NaviProps } from "@/types/navi";
 import type { ReactNode } from "react";
 import Header from "../Header";
-import type { MenuProps } from "../Menu";
-import Menu from "../Menu";
+import BottomNavi from "../Navi/Bottom";
+import SideNavi from "../Navi/Side";
 
 type Props = {
   children: ReactNode;
-} & MenuProps;
+} & NaviProps;
 
 export default function CommonLayout({ children, ...props }: Props) {
   return (
-    <body className="md:flex">
-      {/** モバイル幅のみ表示 */}
-      <Header className="block md:hidden" />
-
-      <Menu className="hidden md:block" {...props} />
-      <div className="w-full h-full p-6 pt-4 md:p-8">{children}</div>
+    <body className="lg:flex">
+      {/** モバイル幅のみ */}
+      <Header className="block lg:hidden" />
+      {/** デスクトップ幅のみ */}
+      <SideNavi className="hidden lg:shrink-0 lg:block" {...props} />
+      <div className="shrink w-full h-full p-6 pt-4 lg:p-8">{children}</div>
+      {/** デスクトップ幅のみ */}
       <Footer
-        className="hidden md:flex md:flex-col md:justify-end items-start w-full max-w-64 h-full px-6 py-4 border-l border-line bg-background-sub"
+        className="hidden lg:flex lg:shrink-0 lg:flex-col lg:justify-end items-start w-full max-w-64 h-full px-6 py-4 border-l border-line bg-background-sub"
         portrait
       />
-
       {/** モバイル幅のみ表示 */}
-      <Footer className="block md:hidden px-6 py-12 bg-background-sub" />
+      <Footer className="block lg:hidden px-6 py-12 pb-24 bg-background-sub" />
+      <BottomNavi className="block lg:hidden" {...props} />
     </body>
   );
 }

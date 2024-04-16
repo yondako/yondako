@@ -6,7 +6,7 @@
     "dev:h": "vite --host",
     "build": "vite build --mode client && vite build",
     "preview": "wrangler pages dev ./dist",
-    "deploy": "$npm_execpath run build && wrangler pages deploy ./dist",
+    "deploy": "bun run build && wrangler pages deploy ./dist",
     "svgo": "svgo ./app/assets/images/*.svg"
   },
   "private": true,
@@ -18,8 +18,7 @@
     "hono": "^4.1.2",
     "honox": "^0.1.9",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-icons": "^5.0.1"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@biomejs/biome": "1.5.3",

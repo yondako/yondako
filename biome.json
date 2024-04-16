@@ -14,7 +14,8 @@
     "rules": {
       "recommended": true,
       "a11y": {
-        "useButtonType": "off"
+        "useButtonType": "off",
+        "noSvgWithoutTitle": "off"
       }
     }
   }

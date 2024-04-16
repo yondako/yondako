@@ -54,6 +54,6 @@ export default function Scanner({ onReadCode }: Props) {
 
   return (
     // biome-ignore lint/a11y/useMediaCaption: <explanation>
-    <video className="w-full md:h-64 overflow-hidden" ref={videoRef} />
+    <video className="w-full lg:h-64 overflow-hidden" ref={videoRef} />
   );
 }
