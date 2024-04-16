@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import pages from "@hono/vite-cloudflare-pages";
 import honox from "honox/vite";
 import { defineConfig } from "vite";
@@ -21,6 +22,14 @@ export default defineConfig(({ mode }) => {
   }
 
   return {
+    server: {
+      host: "dev.yondako.com",
+      port: 3000,
+      https: {
+        key: fs.readFileSync("./certificates/local.yondako.com.key"),
+        cert: fs.readFileSync("./certificates/local.yondako.com.crt"),
+      },
+    },
     ssr: {
       external: ["react", "react-dom"],
     },
