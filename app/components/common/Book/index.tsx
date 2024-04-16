@@ -17,15 +17,18 @@ export type BookProps = {
 };
 
 export default function Book({ book, liked, status }: BookProps) {
+  const imageBgStyle = "w-full h-full object-contain bg-background-sub";
+
   return (
     <div className="h-40 grid grid-cols-[5rem_1fr] lg:grid-cols-[8rem_1fr] grid-rows-2 lg:grid-rows-3 gap-3 lg:gap-4">
       <div className="row-span-2 lg:row-span-3 flex justify-center items-center bg-background border border-line rounded-md overflow-hidden">
         <object
-          className="w-full h-full object-contain"
+          className={imageBgStyle}
           type="image/jpeg"
           data={book.thumbnailUrl}
         >
-          <img src={imageNoImage} alt="" />
+          {/* 書影が無かった場合のフォールバック */}
+          <img className={imageBgStyle} src={imageNoImage} alt="" />
         </object>
       </div>
 
