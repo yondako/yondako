@@ -18,6 +18,8 @@ const getValues = (tagName: string, node: AnyNode | AnyNode[]) => {
   }
 
   const values = elements.map((e) => textContent(e).trim());
+
+  console.log(values);
   return [...new Set(values)];
 };
 
@@ -72,6 +74,13 @@ export const parseOpenSearchResponse = (xml: string) => {
           title = `${title} (${vol})`;
         }
 
+        const authors = getValues("dc:creator", children)?.map((author) => {
+          return author
+            .replace(/, \d{4}-/, "") // たまに名前の後ろに付いてる "-1980" を消す
+            .replace(", ", " ") // 苗字と名前を区切っているカンマを消す
+            .trim();
+        });
+
         const isbn = getValueByAttr(
           "dc:identifier",
           "xsi:type",
@@ -84,7 +93,7 @@ export const parseOpenSearchResponse = (xml: string) => {
         return {
           title,
           link: getValue("guid", children),
-          authors: getValues("dc:creator", children),
+          authors,
           publisher: getValues("dc:publisher", children),
           isbn,
           ndlBibId: getValueByAttr(
