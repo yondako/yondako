@@ -18,8 +18,6 @@ const getValues = (tagName: string, node: AnyNode | AnyNode[]) => {
   }
 
   const values = elements.map((e) => textContent(e).trim());
-
-  console.log(values);
   return [...new Set(values)];
 };
 
@@ -76,7 +74,7 @@ export const parseOpenSearchResponse = (xml: string) => {
 
         const authors = getValues("dc:creator", children)?.map((author) => {
           return author
-            .replace(/, \d{4}-/, "") // たまに名前の後ろに付いてる "-1980" を消す
+            .replace(/, \d{4}-\d{0,4}/, "") // たまに名前の後ろに付いてる "yyyy-yyyy" を消す
             .replace(", ", " ") // 苗字と名前を区切っているカンマを消す
             .trim();
         });
