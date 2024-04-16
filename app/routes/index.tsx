@@ -1,6 +1,6 @@
 import logoUrl from "@/assets/images/logo_portrait.svg";
-import Button from "@/components/common/Button";
 import LandingLayout from "@/components/landing/Layout";
+import PasskeyOpenButton from "@/islands/passkey";
 import { site } from "@/libs/constants";
 import { createRoute } from "honox/factory";
 
@@ -13,12 +13,7 @@ export default createRoute((c) => {
           {site.description.short}
         </h1>
         <p className="mt-6">{site.description.long}</p>
-        <Button asChild>
-          <a className="block mx-auto mt-10 text-base" href="/">
-            <span className="font-noto-emoji">🐙</span>
-            <span className="ml-2">新規登録 or ログイン</span>
-          </a>
-        </Button>
+        <PasskeyOpenButton />
       </div>
     </LandingLayout>,
     {
