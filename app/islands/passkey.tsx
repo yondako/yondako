@@ -23,14 +23,14 @@ export default function PasskeyOpenButton() {
 // DEMO
 const options: PublicKeyCredentialCreationOptions = {
   rp: {
-    id: "dev.yondako.com",
+    id: "local.yondako.com",
     name: "yondako passkey demo",
   },
   challenge: new Uint8Array(16),
   user: {
     displayName: "yondako",
     id: new Uint8Array(16),
-    name: "dev@dev.yondako.com",
+    name: "dev@local.yondako.com",
   },
   pubKeyCredParams: [
     {

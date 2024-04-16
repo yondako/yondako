@@ -23,7 +23,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     server: {
-      host: "dev.yondako.com",
+      host: "local.yondako.com",
       port: 3000,
       https: {
         key: fs.readFileSync("./certificates/local.yondako.com.key"),
