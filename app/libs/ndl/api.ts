@@ -16,7 +16,7 @@ export const searchFromKeyword = async (query: string) => {
   endpoint.searchParams.append("dpid", "iss-ndl-opac");
 
   // 対象を図書・雑誌・電子雑誌に絞る
-  endpoint.searchParams.append("mediatype", "books periodicals online");
+  endpoint.searchParams.append("mediatype", "books periodicals");
 
   const res = await fetch(endpoint);
   const xml = await res.text();
