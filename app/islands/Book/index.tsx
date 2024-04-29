@@ -1,13 +1,15 @@
 import imageNoImage from "@/assets/images/noimage.webp";
+import LikeButton from "@/components/common/Book/LikeButton";
+import StatusButton from "@/components/common/Book/StatusButton";
+import Tag from "@/components/common/Book/Tag";
+import { IconBookmark } from "@/components/common/Icon/Bookmark";
+import { IconBuilding } from "@/components/common/Icon/Building";
+import { IconCheck } from "@/components/common/Icon/Check";
+import { IconMoodEmpty } from "@/components/common/Icon/MoodEmpty";
+import { IconPencil } from "@/components/common/Icon/Pencil";
 import { BookType } from "@/types/book";
-import { IconBookmark } from "../Icon/Bookmark";
-import { IconBuilding } from "../Icon/Building";
-import { IconCheck } from "../Icon/Check";
-import { IconMoodEmpty } from "../Icon/MoodEmpty";
-import { IconPencil } from "../Icon/Pencil";
-import LikeButton from "./LikeButton";
-import StatusButton from "./StatusButton";
-import Tag from "./Tag";
+import { IconType } from "@/types/icon";
+import { FormEvent } from "react";
 
 // TODO: APIのレスポンス型をそのまま使いたい
 export type BookProps = {
@@ -16,8 +18,37 @@ export type BookProps = {
   status: "none" | "read" | "want_read";
 };
 
+type StatusType = {
+  text: string;
+  Icon: IconType;
+  value: BookProps["status"];
+};
+
+const statusList: StatusType[] = [
+  {
+    text: "よんでない",
+    Icon: IconMoodEmpty,
+    value: "none",
+  },
+  {
+    text: "よむ",
+    Icon: IconBookmark,
+    value: "read",
+  },
+  {
+    text: "よんだ",
+    Icon: IconCheck,
+    value: "want_read",
+  },
+];
+
 export default function Book({ book, liked, status }: BookProps) {
   const imageBgStyle = "w-full h-full object-contain bg-background-sub";
+
+  const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(e);
+  };
 
   return (
     <div className="h-40 grid grid-cols-[5rem_1fr] lg:grid-cols-[8rem_1fr] grid-rows-2 lg:grid-rows-3 gap-3 lg:gap-4">
@@ -48,23 +79,22 @@ export default function Book({ book, liked, status }: BookProps) {
         )}
       </div>
 
-      <div className="lg:pb-1 col-span-2 lg:col-span-1 flex items-end space-x-2 text-xs whitespace-nowrap">
-        <StatusButton
-          Icon={IconMoodEmpty}
-          text="よんでない"
-          selected={status === "none"}
-        />
-        <StatusButton
-          Icon={IconBookmark}
-          text="よむ"
-          selected={status === "read"}
-        />
-        <StatusButton
-          Icon={IconCheck}
-          text="よんだ"
-          selected={status === "want_read"}
-        />
-      </div>
+      <form
+        className="m-0 lg:pb-1 col-span-2 lg:col-span-1 flex items-end space-x-2 text-xs whitespace-nowrap"
+        method="post"
+        action={`/api/book/${book.ndlBibId}/status`}
+        onSubmit={handleOnSubmit}
+      >
+        {statusList.map((item) => (
+          <StatusButton
+            {...item}
+            key={item.value}
+            type="submit"
+            name="kind"
+            selected={status === item.value}
+          />
+        ))}
+      </form>
     </div>
   );
 }

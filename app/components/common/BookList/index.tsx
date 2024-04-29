@@ -1,5 +1,4 @@
-import { classNames } from "@/libs/classNames";
-import Book, { type BookProps } from "../Book";
+import Book, { BookProps } from "@/islands/Book";
 
 type Props = {
   items: BookProps[];
@@ -7,17 +6,17 @@ type Props = {
 
 export default function BookList({ items, ...props }: Props) {
   return (
-    <div className={classNames("space-y-6", props.className)}>
+    <div className={props.className}>
       {items.map((props, i) => {
         return (
           <>
             {i !== 0 && (
               <div
-                className="my-2 w-full h-0 border-t border-line"
+                className="my-6 w-full border-t border-line"
                 key={`hr-${i.toString()}`}
               />
             )}
-            <Book {...props} key={props.book.link} />
+            <Book {...props} key={props.book.ndlBibId} />
           </>
         );
       })}
