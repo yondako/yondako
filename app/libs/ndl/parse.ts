@@ -1,6 +1,6 @@
 import imageNoImage from "@/assets/images/noimage.webp";
 import { THUMBNAIL_API_BASE_URL } from "@/constants/api";
-import { BookType } from "@/types/book";
+import { BookInfo } from "@/types/book";
 import { AnyNode } from "domhandler";
 import { getElementsByTagName, textContent } from "domutils";
 import * as htmlparser2 from "htmlparser2";
@@ -57,11 +57,11 @@ export const parseOpenSearchResponse = (xml: string) => {
   const replacedXml = xml.replace(/<\S+\/>/g, "");
 
   const dom = htmlparser2.parseDocument(replacedXml);
-  let results: BookType[] = [];
+  let results: BookInfo[] = [];
 
   for (const childNode of dom.childNodes) {
     const items = getElementsByTagName("item", childNode).map(
-      (item): BookType => {
+      (item): BookInfo => {
         const { children } = item;
 
         let title = getValue("title", children);

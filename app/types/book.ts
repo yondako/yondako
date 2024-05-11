@@ -1,4 +1,10 @@
 export type BookType = {
+  info: BookInfo;
+  liked: boolean;
+  status: BookStatus;
+};
+
+export type BookInfo = {
   /** タイトル */
   title: string;
   /** NDL Search のページURL */
@@ -16,3 +22,5 @@ export type BookType = {
   /** サムネイル画像URL */
   thumbnailUrl?: string;
 };
+
+export type BookStatus = "none" | "read" | "want_read";

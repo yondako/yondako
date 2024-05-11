@@ -2,23 +2,22 @@ import BookList from "@/components/common/BookList";
 import CommonLayout from "@/components/common/Layout";
 import SearchBox from "@/components/common/SearchBox";
 import { site } from "@/constants/site";
-import { BookProps } from "@/islands/Book";
-import { searchFromKeyword } from "@/libs/ndl/api";
-import { BookType } from "@/types/book";
+import { searchBookFromNDL } from "@/libs/ndl/api";
+import { BookInfo, BookType } from "@/types/book";
 import { createRoute } from "honox/factory";
 
 const title = "キーワードで探す";
 
 export default createRoute(async (c) => {
-  let results: BookType[] = [];
+  let results: BookInfo[] = [];
 
   const query = c.req.query("q");
   if (query) {
-    results = await searchFromKeyword(query);
+    results = await searchBookFromNDL({ any: query, cnt: 100 });
   }
 
-  const items: BookProps[] = results.map((book) => ({
-    book,
+  const items: BookType[] = results.map((info) => ({
+    info,
     liked: false,
     status: "none",
   }));

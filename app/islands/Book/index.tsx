@@ -11,17 +11,10 @@ import { BookType } from "@/types/book";
 import { IconType } from "@/types/icon";
 import { useOptimistic, useState } from "react";
 
-// TODO: APIのレスポンス型をそのまま使いたい
-export type BookProps = {
-  book: BookType;
-  liked: boolean;
-  status: "none" | "read" | "want_read";
-};
-
 type StatusType = {
   text: string;
   Icon: IconType;
-  value: BookProps["status"];
+  value: BookType["status"];
 };
 
 const statusList: StatusType[] = [
@@ -42,36 +35,37 @@ const statusList: StatusType[] = [
   },
 ];
 
-export default function Book(props: BookProps) {
+type Props = {
+  data: BookType;
+};
+
+export default function Book({ data }: Props) {
   const imageBgStyle = "w-full h-full object-contain bg-background-sub";
 
-  const [data, setData] = useState(props);
-  const [optimisticStatus, addOptimisticStatus] = useOptimistic(data.status);
-  const [optimisticLiked, addOptimisticLiked] = useOptimistic(data.liked);
+  const [book, setBook] = useState(data);
+  const [optimisticStatus, addOptimisticStatus] = useOptimistic(book.status);
+  const [optimisticLiked, addOptimisticLiked] = useOptimistic(book.liked);
 
   // 読書ステータスが変更された
   const changeStatusFormAction = async (formData: FormData) => {
-    const newStatus = formData.get("status") as BookProps["status"];
+    const newStatus = formData.get("status") as BookType["status"];
 
     addOptimisticStatus(newStatus);
 
-    console.log(formData);
-    console.log(`/api/book/${data.book.ndlBibId}/status`);
-
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    console.log(formData.get("status"));
 
     // APIリクエスト
-    // const response = await fetch(`/api/book/${data.book.ndlBibId}/status`, {
-    //  method: "POST",
-    //  body: formData,
-    //  headers: {
-    //  "Content-Type": "application/json",
-    //  },
-    //  });
-    //  const json = await response.json();
+    const response = await fetch(`/api/book/${book.info.ndlBibId}/status`, {
+      method: "POST",
+      body: formData,
+    });
 
-    // レスポンスを反映
-    //  setData(json);
+    const json = await response.json();
+
+    console.log(json);
+
+    // TODO: レスポンスに型を
+    setBook(json as BookType);
   };
 
   return (
@@ -80,7 +74,7 @@ export default function Book(props: BookProps) {
         <object
           className={imageBgStyle}
           type="image/jpeg"
-          data={data.book.thumbnailUrl}
+          data={book.info.thumbnailUrl}
         >
           {/* 書影が無かった場合のフォールバック */}
           <img className={imageBgStyle} src={imageNoImage} alt="" />
@@ -89,17 +83,17 @@ export default function Book(props: BookProps) {
 
       <div className="pt-1 row-span-1 lg:row-span-1 flex justify-between items-center space-x-3">
         <h2 className="font-bold text-base lg:text-lg leading-5 lg:leading-6 line-clamp-2">
-          {data.book.title}
+          {book.info.title}
         </h2>
         <LikeButton liked={optimisticLiked} />
       </div>
 
       <div className="row-span-1 lg:content-center space-y-1 text-text text-xs">
-        {data.book.authors && (
-          <Tag Icon={IconPencil} text={data.book.authors.join(", ")} />
+        {book.info.authors && (
+          <Tag Icon={IconPencil} text={book.info.authors.join(", ")} />
         )}
-        {data.book.publisher && (
-          <Tag Icon={IconBuilding} text={data.book.publisher.join(", ")} />
+        {book.info.publisher && (
+          <Tag Icon={IconBuilding} text={book.info.publisher.join(", ")} />
         )}
       </div>
 

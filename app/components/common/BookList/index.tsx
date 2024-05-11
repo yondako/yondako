@@ -1,13 +1,14 @@
-import Book, { BookProps } from "@/islands/Book";
+import Book from "@/islands/Book";
+import { BookType } from "@/types/book";
 
 type Props = {
-  items: BookProps[];
+  items: BookType[];
 } & JSX.IntrinsicElements["div"];
 
 export default function BookList({ items, ...props }: Props) {
   return (
     <div className={props.className}>
-      {items.map((props, i) => {
+      {items.map((book, i) => {
         return (
           <>
             {i !== 0 && (
@@ -16,7 +17,7 @@ export default function BookList({ items, ...props }: Props) {
                 key={`hr-${i.toString()}`}
               />
             )}
-            <Book {...props} key={props.book.ndlBibId} />
+            <Book data={book} key={book.info.ndlBibId} />
           </>
         );
       })}
