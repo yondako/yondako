@@ -1,5 +1,6 @@
 import Book from "@/islands/Book";
 import { BookType } from "@/types/book";
+import { Fragment } from "react/jsx-runtime";
 
 type Props = {
   items: BookType[];
@@ -10,15 +11,10 @@ export default function BookList({ items, ...props }: Props) {
     <div className={props.className}>
       {items.map((book, i) => {
         return (
-          <>
-            {i !== 0 && (
-              <div
-                className="my-6 w-full border-t border-line"
-                key={`hr-${i.toString()}`}
-              />
-            )}
-            <Book data={book} key={book.info.ndlBibId} />
-          </>
+          <Fragment key={book.info.ndlBibId}>
+            {i !== 0 && <div className="my-6 w-full border-t border-line" />}
+            <Book data={book} />
+          </Fragment>
         );
       })}
     </div>
