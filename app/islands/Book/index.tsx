@@ -9,7 +9,7 @@ import { IconMoodEmpty } from "@/components/common/Icon/MoodEmpty";
 import { IconPencil } from "@/components/common/Icon/Pencil";
 import { BookType } from "@/types/book";
 import { IconType } from "@/types/icon";
-import { FormEvent } from "react";
+import { useOptimistic, useState } from "react";
 
 // TODO: APIのレスポンス型をそのまま使いたい
 export type BookProps = {
@@ -42,12 +42,36 @@ const statusList: StatusType[] = [
   },
 ];
 
-export default function Book({ book, liked, status }: BookProps) {
+export default function Book(props: BookProps) {
   const imageBgStyle = "w-full h-full object-contain bg-background-sub";
 
-  const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(e);
+  const [data, setData] = useState(props);
+  const [optimisticStatus, addOptimisticStatus] = useOptimistic(data.status);
+  const [optimisticLiked, addOptimisticLiked] = useOptimistic(data.liked);
+
+  // 読書ステータスが変更された
+  const changeStatusFormAction = async (formData: FormData) => {
+    const newStatus = formData.get("status") as BookProps["status"];
+
+    addOptimisticStatus(newStatus);
+
+    console.log(formData);
+    console.log(`/api/book/${data.book.ndlBibId}/status`);
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // APIリクエスト
+    // const response = await fetch(`/api/book/${data.book.ndlBibId}/status`, {
+    //  method: "POST",
+    //  body: formData,
+    //  headers: {
+    //  "Content-Type": "application/json",
+    //  },
+    //  });
+    //  const json = await response.json();
+
+    // レスポンスを反映
+    //  setData(json);
   };
 
   return (
@@ -56,7 +80,7 @@ export default function Book({ book, liked, status }: BookProps) {
         <object
           className={imageBgStyle}
           type="image/jpeg"
-          data={book.thumbnailUrl}
+          data={data.book.thumbnailUrl}
         >
           {/* 書影が無かった場合のフォールバック */}
           <img className={imageBgStyle} src={imageNoImage} alt="" />
@@ -65,33 +89,31 @@ export default function Book({ book, liked, status }: BookProps) {
 
       <div className="pt-1 row-span-1 lg:row-span-1 flex justify-between items-center space-x-3">
         <h2 className="font-bold text-base lg:text-lg leading-5 lg:leading-6 line-clamp-2">
-          {book.title}
+          {data.book.title}
         </h2>
-        <LikeButton liked={liked} />
+        <LikeButton liked={optimisticLiked} />
       </div>
 
       <div className="row-span-1 lg:content-center space-y-1 text-text text-xs">
-        {book.authors && (
-          <Tag Icon={IconPencil} text={book.authors.join(", ")} />
+        {data.book.authors && (
+          <Tag Icon={IconPencil} text={data.book.authors.join(", ")} />
         )}
-        {book.publisher && (
-          <Tag Icon={IconBuilding} text={book.publisher.join(", ")} />
+        {data.book.publisher && (
+          <Tag Icon={IconBuilding} text={data.book.publisher.join(", ")} />
         )}
       </div>
 
       <form
         className="m-0 lg:pb-1 col-span-2 lg:col-span-1 flex items-end space-x-2 text-xs whitespace-nowrap"
-        method="post"
-        action={`/api/book/${book.ndlBibId}/status`}
-        onSubmit={handleOnSubmit}
+        action={changeStatusFormAction}
       >
         {statusList.map((item) => (
           <StatusButton
             {...item}
             key={item.value}
             type="submit"
-            name="kind"
-            selected={status === item.value}
+            name="status"
+            selected={optimisticStatus === item.value}
           />
         ))}
       </form>
