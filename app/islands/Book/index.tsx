@@ -7,8 +7,10 @@ import { IconBuilding } from "@/components/common/Icon/Building";
 import { IconCheck } from "@/components/common/Icon/Check";
 import { IconMoodEmpty } from "@/components/common/Icon/MoodEmpty";
 import { IconPencil } from "@/components/common/Icon/Pencil";
+import { BookStatusType } from "@/routes/api/book";
 import { BookType } from "@/types/book";
 import { IconType } from "@/types/icon";
+import { hc } from "hono/client";
 import { useOptimistic, useState } from "react";
 
 type StatusType = {
@@ -35,6 +37,8 @@ const statusList: StatusType[] = [
   },
 ];
 
+const client = hc<BookStatusType>("/api/book");
+
 type Props = {
   data: BookType;
 };
@@ -52,20 +56,26 @@ export default function Book({ data }: Props) {
 
     addOptimisticStatus(newStatus);
 
-    console.log(formData.get("status"));
-
-    // APIリクエスト
-    const response = await fetch(`/api/book/${book.info.ndlBibId}/status`, {
-      method: "POST",
-      body: formData,
+    const res = await client[":id"].status.$post({
+      param: {
+        id: book.info.ndlBibId,
+      },
+      json: {
+        status: newStatus,
+      },
     });
 
-    const json = await response.json();
+    if (res.ok) {
+      const json = await res.json();
+      setBook(json);
+    }
 
-    console.log(json);
+    if (res.status === 404) {
+      const json = await res.json();
 
-    // TODO: レスポンスに型を
-    setBook(json as BookType);
+      // TODO: トーストとかでエラーを表示する
+      console.error(json.message);
+    }
   };
 
   return (

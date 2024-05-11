@@ -5,6 +5,8 @@ export type BookType = {
 };
 
 export type BookInfo = {
+  /** 書誌ID */
+  ndlBibId: string;
   /** タイトル */
   title: string;
   /** NDL Search のページURL */
@@ -15,8 +17,6 @@ export type BookInfo = {
   publisher?: string[];
   /** ISBN */
   isbn?: string;
-  /** 書誌ID */
-  ndlBibId?: string;
   /** 全国書誌番号 */
   jpNo?: string;
   /** サムネイル画像URL */
