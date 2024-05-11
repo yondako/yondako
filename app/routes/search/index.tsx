@@ -1,8 +1,8 @@
-import { BookProps } from "@/components/common/Book";
 import BookList from "@/components/common/BookList";
 import CommonLayout from "@/components/common/Layout";
 import SearchBox from "@/components/common/SearchBox";
 import { site } from "@/constants/site";
+import { BookProps } from "@/islands/Book";
 import { searchFromKeyword } from "@/libs/ndl/api";
 import { BookType } from "@/types/book";
 import { createRoute } from "honox/factory";
