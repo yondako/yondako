@@ -19,7 +19,7 @@ type SearchOptions = {
 /**
  * 国立国会図書館サーチ (OpenSearch) で書籍を検索
  * @param opts 検索オプション
- * @returns 検索結果
+ * @returns 検索結果 / エラーの場合はundefined
  */
 export const searchBookFromNDL = async (opts: SearchOptions) => {
   const endpoint = new URL(OPENSEARCH_API_BASE_URL);
@@ -37,8 +37,12 @@ export const searchBookFromNDL = async (opts: SearchOptions) => {
   // 対象を図書・雑誌・電子雑誌に絞る
   endpoint.searchParams.append("mediatype", "books periodicals");
 
-  const res = await fetch(endpoint);
-  const xml = await res.text();
+  try {
+    const res = await fetch(endpoint);
+    const xml = await res.text();
 
-  return parseOpenSearchResponse(xml);
+    return parseOpenSearchResponse(xml);
+  } catch (e) {
+    console.error("[NDL]", e);
+  }
 };

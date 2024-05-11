@@ -23,10 +23,9 @@ const routes = app.post(
     // 無い場合は検索
 
     // NDLから書籍情報を取得
-    // TODO: APIのエラーハンドリング
     const results = await searchBookFromNDL({ any: ndlBibId, cnt: 1 });
 
-    if (results.length <= 0) {
+    if (!results || results.length <= 0) {
       return c.json(
         {
           message: "書籍がみつかりませんでした",
