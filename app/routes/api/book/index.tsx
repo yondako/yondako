@@ -18,8 +18,6 @@ const routes = app.post(
     const ndlBibId = c.req.param("id");
     const { status } = c.req.valid("json");
 
-    console.log(ndlBibId, status);
-
     // Dbに登録されているか確認
     const adapter = new PrismaD1(c.env.DB);
     const prismaClient = new PrismaClient({ adapter });
