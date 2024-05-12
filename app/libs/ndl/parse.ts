@@ -72,12 +72,16 @@ export const parseOpenSearchResponse = (xml: string) => {
           title = `${title} (${vol})`;
         }
 
-        const authors = getValues("dc:creator", children)?.map((author) => {
-          return author
-            .replace(/, \d{4}-\d{0,4}/, "") // たまに名前の後ろに付いてる "yyyy-yyyy" を消す
-            .replace(", ", " ") // 苗字と名前を区切っているカンマを消す
-            .trim();
-        });
+        const authors = getValues("dc:creator", children)
+          ?.map((author) => {
+            return author
+              .replace(/( , \d{4}-\d{0,4} |pub. \d{4})/, "") // たまに名前の後ろに付いてる "yyyy-yyyy", "pub. yyyy" を消す
+              .replace(", ", " ") // 苗字と名前を区切っているカンマを消す
+              .trim();
+          })
+          ?.join(", ");
+
+        const publisher = getValues("dc:publisher", children)?.join(", ");
 
         const isbn = getValueByAttr(
           "dc:identifier",
@@ -92,14 +96,15 @@ export const parseOpenSearchResponse = (xml: string) => {
           title,
           link: getValue("guid", children),
           authors,
-          publisher: getValues("dc:publisher", children),
+          publisher,
           isbn,
-          ndlBibId: getValueByAttr(
-            "dc:identifier",
-            "xsi:type",
-            "dcndl:NDLBibID",
-            children,
-          ),
+          ndlBibId:
+            getValueByAttr(
+              "dc:identifier",
+              "xsi:type",
+              "dcndl:NDLBibID",
+              children,
+            ) || "",
           jpNo: getValueByAttr(
             "dc:identifier",
             "xsi:type",

@@ -100,10 +100,10 @@ export default function Book({ data }: Props) {
 
       <div className="row-span-1 lg:content-center space-y-1 text-text text-xs">
         {book.info.authors && (
-          <Tag Icon={IconPencil} text={book.info.authors.join(", ")} />
+          <Tag Icon={IconPencil} text={book.info.authors} />
         )}
         {book.info.publisher && (
-          <Tag Icon={IconBuilding} text={book.info.publisher.join(", ")} />
+          <Tag Icon={IconBuilding} text={book.info.publisher} />
         )}
       </div>
 

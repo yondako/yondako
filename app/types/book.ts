@@ -11,10 +11,10 @@ export type BookInfo = {
   title: string;
   /** NDL Search のページURL */
   link: string;
-  /** 著者 */
-  authors?: string[];
-  /** 出版社 */
-  publisher?: string[];
+  /** 著者 (カンマ区切り) */
+  authors?: string;
+  /** 出版社 (カンマ区切り) */
+  publisher?: string;
   /** ISBN */
   isbn?: string;
   /** 全国書誌番号 */
