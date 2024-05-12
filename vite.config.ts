@@ -1,4 +1,5 @@
 import pages from "@hono/vite-cloudflare-pages";
+import adapter from "@hono/vite-dev-server/cloudflare";
 import honox from "honox/vite";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
@@ -23,8 +24,19 @@ export default defineConfig(({ mode }) => {
 
   return {
     ssr: {
-      external: ["react", "react-dom"],
+      external: [
+        "react",
+        "react-dom",
+        "@prisma/client",
+        "@prisma/driver-adapter-utils",
+      ],
     },
-    plugins: [honox(), pages(), tsconfigPaths()],
+    plugins: [
+      honox({
+        devServer: { adapter },
+      }),
+      pages(),
+      tsconfigPaths(),
+    ],
   };
 });
