@@ -14,6 +14,7 @@ export default defineConfig(({ mode }) => {
             chunkFileNames: "static/assets/[name]-[hash].js",
             assetFileNames: "static/assets/[name].[ext]",
           },
+          plugins: [tsconfigPaths()],
         },
         emptyOutDir: false,
       },
