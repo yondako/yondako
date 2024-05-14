@@ -7,14 +7,12 @@
     "preview": "wrangler pages dev ./dist",
     "deploy": "bun run build && wrangler pages deploy ./dist",
     "svgo": "svgo ./app/assets/images/*.svg",
-    "generate:prisma": "prisma generate"
+    "generate:schema": "drizzle-kit generate --dialect sqlite --out ./migrations --schema"
   },
   "private": true,
   "dependencies": {
     "@hono/react-renderer": "^0.1.1",
     "@hono/valibot-validator": "^0.2.4",
-    "@prisma/adapter-d1": "^5.13.0",
-    "@prisma/client": "^5.13.0",
     "@radix-ui/react-slot": "^1.0.2",
     "@zxing/browser": "^0.1.4",
     "@zxing/library": "^0.20.0",
@@ -35,9 +33,11 @@
     "@types/react": "npm:types-react@beta",
     "@types/react-dom": "npm:types-react-dom@beta",
     "autoprefixer": "^10.4.18",
+    "better-sqlite3": "^10.0.0",
+    "drizzle-kit": "^0.21.1",
+    "drizzle-orm": "^0.30.10",
     "lefthook": "^1.6.7",
     "postcss": "^8.4.37",
-    "prisma": "^5.13.0",
     "svgo": "^3.2.0",
     "tailwindcss": "^3.4.1",
     "vite": "^5.1.6",
