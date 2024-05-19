@@ -87,8 +87,6 @@ export async function createBook(
     for (const name of book.authors) {
       const id = await createAuthor(d1, name);
 
-      console.log("authorId", id);
-
       await db
         .insert(dbSchema.bookAuthors)
         .values({ bookId: ndlBibId, authorId: id });
@@ -99,8 +97,6 @@ export async function createBook(
   if (book.publishers) {
     for (const name of book.publishers) {
       const id = await createPublisher(d1, name);
-
-      console.log("publisherId", id);
 
       await db
         .insert(dbSchema.bookPublishers)
