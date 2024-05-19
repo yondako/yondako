@@ -1,6 +1,5 @@
 import Button from "@/components/common/Button";
 import LandingLayout from "@/components/landing/Layout";
-import { site } from "@/constants/site";
 import type { NotFoundHandler } from "hono";
 
 const handler: NotFoundHandler = (c) => {
@@ -21,7 +20,7 @@ const handler: NotFoundHandler = (c) => {
       </div>
     </LandingLayout>,
     {
-      title: `NotFound | ${site.name}`,
+      title: "NotFound",
     },
   );
 };
