@@ -3,6 +3,7 @@ import { THUMBNAIL_API_BASE_URL } from "@/constants/api";
 import { BookInfo } from "@/types/book";
 import { AnyNode } from "domhandler";
 import { getElementsByTagName, textContent } from "domutils";
+import { ne } from "drizzle-orm";
 import * as htmlparser2 from "htmlparser2";
 
 const getValue = (tagName: string, node: AnyNode | AnyNode[]) => {
@@ -64,6 +65,17 @@ export const parseOpenSearchResponse = (xml: string) => {
       (item): BookInfo => {
         const { children } = item;
 
+        const ndlBibId = getValueByAttr(
+          "dc:identifier",
+          "xsi:type",
+          "dcndl:NDLBibID",
+          children,
+        );
+
+        if (!ndlBibId) {
+          throw new Error("NDLBibIDが取得できませんでした");
+        }
+
         let title = getValue("title", children);
 
         // 巻数があればタイトルに追加
@@ -86,7 +98,7 @@ export const parseOpenSearchResponse = (xml: string) => {
           children,
         );
 
-        const thumbnailUrl = isbn ? createThumbnailUrl(isbn) : imageNoImage;
+        const thumbnailUrl = isbn ? createThumbnailUrl(isbn) : undefined;
 
         return {
           title,
@@ -94,13 +106,7 @@ export const parseOpenSearchResponse = (xml: string) => {
           authors,
           publishers: getValues("dc:publisher", children),
           isbn,
-          ndlBibId:
-            getValueByAttr(
-              "dc:identifier",
-              "xsi:type",
-              "dcndl:NDLBibID",
-              children,
-            ) || "",
+          ndlBibId,
           jpNo: getValueByAttr(
             "dc:identifier",
             "xsi:type",
