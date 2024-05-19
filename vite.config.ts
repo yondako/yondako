@@ -24,12 +24,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     ssr: {
-      external: [
-        "react",
-        "react-dom",
-        "@prisma/client",
-        "@prisma/driver-adapter-utils",
-      ],
+      external: ["react", "react-dom"],
     },
     plugins: [
       honox({

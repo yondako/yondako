@@ -1,7 +1,6 @@
+import { createBook, getBook } from "@/db/queries/book";
 import { searchBookFromNDL } from "@/libs/ndl/api";
 import { vValidator } from "@hono/valibot-validator";
-import { PrismaD1 } from "@prisma/adapter-d1";
-import { PrismaClient } from "@prisma/client";
 import { Hono } from "hono";
 import { object, picklist } from "valibot";
 
@@ -19,14 +18,8 @@ const routes = app.post(
     const { status } = c.req.valid("json");
 
     // Dbに登録されているか確認
-    const adapter = new PrismaD1(c.env.DB);
-    const prismaClient = new PrismaClient({ adapter });
-
-    let book = await prismaClient.book.findUnique({
-      where: {
-        ndlBibId,
-      },
-    });
+    let book = await getBook(c.env.DB, ndlBibId);
+    console.log("[DB]", book);
 
     // DBに登録
     if (!book) {
@@ -42,9 +35,11 @@ const routes = app.post(
         );
       }
 
-      book = await prismaClient.book.create({
-        data: results[0],
-      });
+      book = results[0];
+
+      await createBook(c.env.DB, book);
+
+      console.log("[INSERT]", book);
     }
 
     // TODO: ステータスの変更をDBに反映
