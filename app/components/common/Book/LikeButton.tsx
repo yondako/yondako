@@ -1,6 +1,6 @@
+import Button from "@/components/common/Button";
+import { IconStarFill, IconStarLine } from "@/components/common/Icon/Star";
 import { classNames } from "@/libs/classNames";
-import Button from "../Button";
-import { IconStarFill, IconStarLine } from "../Icon/Star";
 
 type Props = {
   liked?: boolean;

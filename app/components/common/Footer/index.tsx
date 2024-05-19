@@ -8,6 +8,10 @@ type LinkItem = {
 
 const links: LinkItem[] = [
   {
+    title: "データソース",
+    href: "https://docs.yondako.com/data-source",
+  },
+  {
     title: "GitHub",
     href: "https://github.com/yondako/yondako",
   },

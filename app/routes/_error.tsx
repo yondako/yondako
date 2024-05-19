@@ -1,6 +1,5 @@
 import Button from "@/components/common/Button";
 import LandingLayout from "@/components/landing/Layout";
-import { site } from "@/constants/site";
 import type { ErrorHandler } from "hono";
 
 const handler: ErrorHandler = (err, c) => {
@@ -16,11 +15,11 @@ const handler: ErrorHandler = (err, c) => {
           <wbr />
           時間
           <wbr />
-          おいてから、
+          おいて
           <wbr />
           再度アクセス
           <wbr />
-          してください 🙇
+          しなおしてください 🙇
         </p>
         <Button asChild>
           <a className="block mx-auto mt-10 text-base" href="/">
@@ -30,9 +29,6 @@ const handler: ErrorHandler = (err, c) => {
         </Button>
       </div>
     </LandingLayout>,
-    {
-      title: `Error! | ${site.name}`,
-    },
   );
 };
 

@@ -7,26 +7,36 @@
     "build": "vite build --mode client && vite build",
     "preview": "wrangler pages dev ./dist",
     "deploy": "bun run build && wrangler pages deploy ./dist",
-    "svgo": "svgo ./app/assets/images/*.svg"
+    "svgo": "svgo ./app/assets/images/*.svg",
+    "generate:schema": "drizzle-kit generate --dialect sqlite --out ./app/db/migrations --schema"
   },
   "private": true,
   "dependencies": {
     "@hono/react-renderer": "^0.1.1",
+    "@hono/valibot-validator": "^0.2.4",
     "@radix-ui/react-slot": "^1.0.2",
     "@zxing/browser": "^0.1.4",
     "@zxing/library": "^0.20.0",
+    "dom-parser": "^1.1.5",
+    "domhandler": "^5.0.3",
+    "domutils": "^3.1.0",
     "hono": "^4.1.2",
     "honox": "^0.1.9",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "htmlparser2": "^9.1.0",
+    "react": "^19.0.0-beta-73bcdfbae5-20240502",
+    "react-dom": "^19.0.0-beta-73bcdfbae5-20240502",
+    "valibot": "^0.30.0"
   },
   "devDependencies": {
     "@biomejs/biome": "1.5.3",
     "@cloudflare/workers-types": "^4.20240314.0",
     "@hono/vite-cloudflare-pages": "^0.2.4",
-    "@types/react": "^18.2.67",
-    "@types/react-dom": "^18.2.22",
+    "@types/react": "npm:types-react@beta",
+    "@types/react-dom": "npm:types-react-dom@beta",
     "autoprefixer": "^10.4.18",
+    "better-sqlite3": "^10.0.0",
+    "drizzle-kit": "^0.21.2",
+    "drizzle-orm": "^0.30.10",
     "lefthook": "^1.6.7",
     "postcss": "^8.4.37",
     "svgo": "^3.2.0",
@@ -34,5 +44,9 @@
     "vite": "^5.1.6",
     "vite-tsconfig-paths": "^4.3.2",
     "wrangler": "^3.35.0"
+  },
+  "overrides": {
+    "@types/react": "npm:types-react@beta",
+    "@types/react-dom": "npm:types-react-dom@beta"
   }
 }

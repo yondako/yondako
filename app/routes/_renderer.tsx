@@ -2,6 +2,10 @@ import { site } from "@/constants/site";
 import { reactRenderer } from "@hono/react-renderer";
 
 export default reactRenderer(({ children, title }) => {
+  const siteTitle = title
+    ? `${title} | ${site.name}`
+    : `${site.name} | ${site.description.short}`;
+
   return (
     <html lang="ja" className="bg-background text-text">
       <head>
@@ -17,13 +21,13 @@ export default reactRenderer(({ children, title }) => {
           type="module"
           src={import.meta.env.PROD ? "/static/client.js" : "/app/client.ts"}
         />
-        <title>{title}</title>
+        <title>{siteTitle}</title>
         <meta name="description" content={site.description.long} />
         <meta property="og:url" content={site.url} />
-        <meta property="og:title" content={site.name} />
+        <meta property="og:title" content={siteTitle} />
         <meta property="og:description" content={site.description.long} />
         <meta property="twitter:url" content={site.url} />
-        <meta property="twitter:title" content={site.name} />
+        <meta property="twitter:title" content={siteTitle} />
         <meta property="twitter:description" content={site.description.long} />
         <link rel="icon" href="/favicon.ico" />
       </head>

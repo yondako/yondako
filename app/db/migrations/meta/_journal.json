@@ -1,0 +1,13 @@
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1716084235944,
+      "tag": "0000_giant_korath",
+      "breakpoints": true
+    }
+  ]
+}
