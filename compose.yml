@@ -1,6 +1,7 @@
 services:
-  node:
-    image: node:latest
+  bun:
+    build: .
+    working_dir: /container
     volumes:
       - .:/container
     ports:
