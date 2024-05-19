@@ -1,6 +1,6 @@
+import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { publishers } from "../schema/book";
-import { eq } from "drizzle-orm";
 
 /**
  * 出版社を登録
