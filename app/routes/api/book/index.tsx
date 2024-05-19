@@ -1,3 +1,4 @@
+import { createBook, getBook } from "@/db/queries/book";
 import { searchBookFromNDL } from "@/libs/ndl/api";
 import { vValidator } from "@hono/valibot-validator";
 import { Hono } from "hono";
@@ -16,28 +17,37 @@ const routes = app.post(
     const ndlBibId = c.req.param("id");
     const { status } = c.req.valid("json");
 
-    console.log(ndlBibId, status);
+    // Dbに登録されているか確認
+    let book = await getBook(c.env.DB, ndlBibId);
+    console.log("[DB]", book);
 
-    // TODO:
-    // まずはDBに存在するか確認
-    // 無い場合は検索
+    // DBに登録
+    if (!book) {
+      // NDLから書籍情報を取得
+      const results = await searchBookFromNDL({ any: ndlBibId, cnt: 1 });
 
-    // NDLから書籍情報を取得
-    const results = await searchBookFromNDL({ any: ndlBibId, cnt: 1 });
+      if (!results || results.length <= 0) {
+        return c.json(
+          {
+            message: "書籍がみつかりませんでした",
+          },
+          404,
+        );
+      }
 
-    if (!results || results.length <= 0) {
-      return c.json(
-        {
-          message: "書籍がみつかりませんでした",
-        },
-        404,
-      );
+      book = results[0];
+
+      await createBook(c.env.DB, book);
+
+      console.log("[INSERT]", book);
     }
 
-    // TODO: DBに反映後のデータを返す
+    // TODO: ステータスの変更をDBに反映
+
+    // TODO: 反映後のデータを返す
     return c.json(
       {
-        info: results[0],
+        info: book,
         status,
         liked: false,
       },

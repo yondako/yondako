@@ -6,7 +6,8 @@
     "build": "vite build --mode client && vite build",
     "preview": "wrangler pages dev ./dist",
     "deploy": "bun run build && wrangler pages deploy ./dist",
-    "svgo": "svgo ./app/assets/images/*.svg"
+    "svgo": "svgo ./app/assets/images/*.svg",
+    "generate:schema": "drizzle-kit generate --dialect sqlite --out ./app/db/migrations --schema"
   },
   "private": true,
   "dependencies": {
@@ -32,6 +33,9 @@
     "@types/react": "npm:types-react@beta",
     "@types/react-dom": "npm:types-react-dom@beta",
     "autoprefixer": "^10.4.18",
+    "better-sqlite3": "^10.0.0",
+    "drizzle-kit": "^0.21.2",
+    "drizzle-orm": "^0.30.10",
     "lefthook": "^1.6.7",
     "postcss": "^8.4.37",
     "svgo": "^3.2.0",

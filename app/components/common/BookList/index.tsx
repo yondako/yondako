@@ -9,14 +9,12 @@ type Props = {
 export default function BookList({ items, ...props }: Props) {
   return (
     <div className={props.className}>
-      {items.map((book, i) => {
-        return (
-          <Fragment key={book.info.ndlBibId}>
-            {i !== 0 && <div className="my-6 w-full border-t border-line" />}
-            <Book data={book} />
-          </Fragment>
-        );
-      })}
+      {items.map((book, i) => (
+        <Fragment key={book.info.ndlBibId}>
+          {i !== 0 && <div className="my-6 w-full border-t border-line" />}
+          <Book data={book} />
+        </Fragment>
+      ))}
     </div>
   );
 }

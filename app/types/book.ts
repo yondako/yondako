@@ -14,13 +14,13 @@ export type BookInfo = {
   /** 著者 */
   authors?: string[];
   /** 出版社 */
-  publisher?: string[];
+  publishers?: string[];
   /** ISBN */
-  isbn?: string;
+  isbn?: string | null;
   /** 全国書誌番号 */
-  jpNo?: string;
+  jpNo?: string | null;
   /** サムネイル画像URL */
-  thumbnailUrl?: string;
+  thumbnailUrl?: string | null;
 };
 
 export type BookStatus = "none" | "read" | "want_read";

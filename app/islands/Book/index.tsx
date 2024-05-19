@@ -44,8 +44,6 @@ type Props = {
 };
 
 export default function Book({ data }: Props) {
-  const imageBgStyle = "w-full h-full object-contain bg-background-sub";
-
   const [book, setBook] = useState(data);
   const [optimisticStatus, addOptimisticStatus] = useOptimistic(book.status);
   const [optimisticLiked, addOptimisticLiked] = useOptimistic(book.liked);
@@ -80,16 +78,7 @@ export default function Book({ data }: Props) {
 
   return (
     <div className="h-40 grid grid-cols-[5rem_1fr] lg:grid-cols-[8rem_1fr] grid-rows-2 lg:grid-rows-3 gap-3 lg:gap-4">
-      <div className="row-span-2 lg:row-span-3 flex justify-center items-center bg-background border border-line rounded-md overflow-hidden">
-        <object
-          className={imageBgStyle}
-          type="image/jpeg"
-          data={book.info.thumbnailUrl}
-        >
-          {/* 書影が無かった場合のフォールバック */}
-          <img className={imageBgStyle} src={imageNoImage} alt="" />
-        </object>
-      </div>
+      <Thumbnail src={book.info.thumbnailUrl} />
 
       <div className="pt-1 row-span-1 lg:row-span-1 flex justify-between items-center space-x-3">
         <h2 className="font-bold text-base lg:text-lg leading-5 lg:leading-6 line-clamp-2">
@@ -102,8 +91,8 @@ export default function Book({ data }: Props) {
         {book.info.authors && (
           <Tag Icon={IconPencil} text={book.info.authors.join(", ")} />
         )}
-        {book.info.publisher && (
-          <Tag Icon={IconBuilding} text={book.info.publisher.join(", ")} />
+        {book.info.publishers && (
+          <Tag Icon={IconBuilding} text={book.info.publishers.join(", ")} />
         )}
       </div>
 
@@ -121,6 +110,22 @@ export default function Book({ data }: Props) {
           />
         ))}
       </form>
+    </div>
+  );
+}
+
+function Thumbnail({ src }: { src: string | null | undefined }) {
+  const imageBgStyle = "w-full h-full object-contain bg-background-sub";
+
+  return (
+    <div className="row-span-2 lg:row-span-3 flex justify-center items-center bg-background border border-line rounded-md overflow-hidden">
+      {typeof src === "string" ? (
+        <object className={imageBgStyle} type="image/jpeg" data={src}>
+          <img className={imageBgStyle} src={imageNoImage} alt="" />
+        </object>
+      ) : (
+        <img className={imageBgStyle} src={imageNoImage} alt="" />
+      )}
     </div>
   );
 }

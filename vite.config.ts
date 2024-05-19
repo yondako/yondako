@@ -1,4 +1,5 @@
 import pages from "@hono/vite-cloudflare-pages";
+import adapter from "@hono/vite-dev-server/cloudflare";
 import honox from "honox/vite";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
@@ -25,6 +26,12 @@ export default defineConfig(({ mode }) => {
     ssr: {
       external: ["react", "react-dom"],
     },
-    plugins: [honox(), pages(), tsconfigPaths()],
+    plugins: [
+      honox({
+        devServer: { adapter },
+      }),
+      pages(),
+      tsconfigPaths(),
+    ],
   };
 });
