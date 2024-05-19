@@ -119,7 +119,7 @@ function Thumbnail({ src }: { src: string | null | undefined }) {
 
   return (
     <div className="row-span-2 lg:row-span-3 flex justify-center items-center bg-background border border-line rounded-md overflow-hidden">
-      {src ? (
+      {typeof src === "string" ? (
         <object className={imageBgStyle} type="image/jpeg" data={src}>
           <img className={imageBgStyle} src={imageNoImage} alt="" />
         </object>
