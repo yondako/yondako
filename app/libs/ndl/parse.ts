@@ -1,13 +1,12 @@
-import imageNoImage from "@/assets/images/noimage.webp";
 import { THUMBNAIL_API_BASE_URL } from "@/constants/api";
 import { BookInfo } from "@/types/book";
 import { AnyNode } from "domhandler";
 import { getElementsByTagName, textContent } from "domutils";
-import { ne } from "drizzle-orm";
 import * as htmlparser2 from "htmlparser2";
 
 const getValue = (tagName: string, node: AnyNode | AnyNode[]) => {
   const elements = getElementsByTagName(tagName, node, false, 1);
+
   return textContent(elements).trim();
 };
 
@@ -19,6 +18,7 @@ const getValues = (tagName: string, node: AnyNode | AnyNode[]) => {
   }
 
   const values = elements.map((e) => textContent(e).trim());
+
   return [...new Set(values)];
 };
 
@@ -44,8 +44,34 @@ const getValueByAttr = (
  * @param id JP-eコードもしくはISBN-13
  * @return URL
  */
-const createThumbnailUrl = (id: string) => {
-  return `${THUMBNAIL_API_BASE_URL}/${id.replace(/-/g, "")}.jpg`;
+const createThumbnailUrl = (id: string | undefined) => {
+  return id
+    ? `${THUMBNAIL_API_BASE_URL}/${id.replace(/-/g, "")}.jpg`
+    : undefined;
+};
+
+/**
+ * 著者名の配列を作成
+ * @param authors 著者名の配列
+ * @return 著者名の配列
+ */
+const createAuthors = (authors: string[] | undefined) => {
+  if (!authors) {
+    return;
+  }
+
+  const results = authors
+    .map((author) =>
+      author
+        // yyyy-yyyy, pub. を消す
+        .replace(/(, \d{4}-(\d{0,4})?|pub. \d{4})/, "")
+        // 苗字と名前を区切っているカンマを消す
+        .replace(", ", " ")
+        .trim(),
+    )
+    .filter((author) => author !== "");
+
+  return results;
 };
 
 /**
@@ -62,7 +88,7 @@ export const parseOpenSearchResponse = (xml: string) => {
 
   for (const childNode of dom.childNodes) {
     const items = getElementsByTagName("item", childNode).map(
-      (item): BookInfo => {
+      (item): BookInfo | undefined => {
         const { children } = item;
 
         const ndlBibId = getValueByAttr(
@@ -72,8 +98,9 @@ export const parseOpenSearchResponse = (xml: string) => {
           children,
         );
 
+        // NDLBibIDがないものは除外
         if (!ndlBibId) {
-          throw new Error("NDLBibIDが取得できませんでした");
+          return;
         }
 
         let title = getValue("title", children);
@@ -84,13 +111,6 @@ export const parseOpenSearchResponse = (xml: string) => {
           title = `${title} (${vol})`;
         }
 
-        const authors = getValues("dc:creator", children)?.map((author) => {
-          return author
-            .replace(/( , \d{4}-\d{0,4} |pub. \d{4})/, "") // たまに名前の後ろに付いてる "yyyy-yyyy", "pub. yyyy" を消す
-            .replace(", ", " ") // 苗字と名前を区切っているカンマを消す
-            .trim();
-        });
-
         const isbn = getValueByAttr(
           "dc:identifier",
           "xsi:type",
@@ -98,12 +118,10 @@ export const parseOpenSearchResponse = (xml: string) => {
           children,
         );
 
-        const thumbnailUrl = isbn ? createThumbnailUrl(isbn) : undefined;
-
         return {
           title,
           link: getValue("guid", children),
-          authors,
+          authors: createAuthors(getValues("dc:creator", children)),
           publishers: getValues("dc:publisher", children),
           isbn,
           ndlBibId,
@@ -113,12 +131,14 @@ export const parseOpenSearchResponse = (xml: string) => {
             "dcndl:JPNO",
             children,
           ),
-          thumbnailUrl,
+          thumbnailUrl: createThumbnailUrl(isbn),
         };
       },
     );
 
-    results = results.concat(items);
+    results = results.concat(
+      items.filter((item): item is BookInfo => typeof item !== "undefined"),
+    );
   }
 
   return results;
