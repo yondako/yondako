@@ -1,13 +1,10 @@
-node_modules
-dist
-.wrangler
 .dev.vars
 .hono
 .env
-
-# Change them to your taste:
 wrangler.toml
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
-# bun.lockb
+
+.wrangler
+node_modules
+dist
+certificates/local.yondako.com.*
+certificates/*.csr
