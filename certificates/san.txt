@@ -1,0 +1,1 @@
+subjectAltName = DNS:local.yondako.com, IP:127.0.0.1
