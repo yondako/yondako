@@ -4,9 +4,9 @@ dist
 .dev.vars
 .hono
 
-certificates/*.crt
+certificates/local.yondako.com.*
 certificates/*.csr
-certificates/*.key
 
+.DS_Store
 .env
 wrangler.toml
