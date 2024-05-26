@@ -2,7 +2,7 @@
   "name": "yondako",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "DEV_HTTPS=1 vite",
     "build": "vite build --mode client && vite build",
     "preview": "wrangler pages dev ./dist",
     "deploy": "bun run build && wrangler pages deploy ./dist",

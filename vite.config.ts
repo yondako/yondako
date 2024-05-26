@@ -24,20 +24,14 @@ export default defineConfig(({ mode }) => {
     };
   }
 
-  const keyPath = "./certificates/local.yondako.com.key";
-  const crtPath = "./certificates/local.yondako.com.crt";
-
-  // ファイルが存在しているか
-  const existCertificates = fs.existsSync(keyPath) && fs.existsSync(crtPath);
-
   return {
-    server: existCertificates
+    server: process.env.DEV_HTTPS
       ? {
           host: "local.yondako.com",
           port: 3000,
           https: {
-            key: fs.readFileSync(keyPath),
-            cert: fs.readFileSync(crtPath),
+            key: fs.readFileSync("./certificates/local.yondako.com.key"),
+            cert: fs.readFileSync("./certificates/local.yondako.com.crt"),
           },
         }
       : undefined,
