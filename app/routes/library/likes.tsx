@@ -1,5 +1,4 @@
 import LibraryLayout from "@/components/library/Layout";
-import { site } from "@/constants/site";
 import { createRoute } from "honox/factory";
 
 export default createRoute((c) => {
@@ -8,7 +7,7 @@ export default createRoute((c) => {
       <h1>Hello!</h1>
     </LibraryLayout>,
     {
-      title: `すきな本 | ${site.name}`,
+      title: "すきな本",
     },
   );
 });
