@@ -1,10 +1,11 @@
 import { classNames } from "@/libs/classNames";
 import { Slot } from "@radix-ui/react-slot";
+import { ComponentPropsWithRef } from "react";
 
 type Props = {
   /** 子要素に置き換える */
   asChild?: boolean;
-} & JSX.IntrinsicElements["button"];
+} & ComponentPropsWithRef<"button">;
 
 export default function Button({ asChild, ...props }: Props) {
   const style =
