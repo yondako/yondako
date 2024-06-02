@@ -12,6 +12,7 @@
   "private": true,
   "dependencies": {
     "@auth/core": "^0.31.0",
+    "@auth/drizzle-adapter": "^1.2.0",
     "@hono/auth-js": "^1.0.7",
     "@hono/react-renderer": "^0.1.1",
     "@hono/valibot-validator": "^0.2.4",

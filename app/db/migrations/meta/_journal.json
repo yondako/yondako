@@ -8,6 +8,13 @@
       "when": 1716084235944,
       "tag": "0000_giant_korath",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1717320490701,
+      "tag": "0001_futuristic_shooting_star",
+      "breakpoints": true
     }
   ]
 }
