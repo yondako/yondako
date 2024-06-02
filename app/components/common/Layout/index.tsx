@@ -11,26 +11,26 @@ type Props = {
 
 export default function CommonLayout({ children, ...props }: Props) {
   return (
-    <body className="lg:flex h-full">
-      {/** モバイル幅のみ */}
-      <Header className="block lg:hidden" />
+    <body className="md:flex h-full">
+      {/** sm幅のみ */}
+      <Header className="block md:hidden" />
 
-      {/** デスクトップ幅のみ */}
-      <SideNavi className="hidden lg:grow lg:block" {...props} />
+      {/** md幅～のみ */}
+      <SideNavi className="hidden md:grow md:block" {...props} />
 
-      <div className="w-full min-h-full p-6 pt-4 lg:p-8 lg:overflow-y-scroll lg:shrink ">
+      <div className="w-full min-h-full px-6 pt-4 md:px-8 md:pt-4 md:overflow-y-scroll md:shrink ">
         {children}
       </div>
 
-      {/** デスクトップ幅のみ */}
+      {/** lg幅～のみ */}
       <Footer
-        className="hidden items-start w-full max-w-64 h-full px-6 py-4 border-l border-line bg-background-sub lg:flex lg:shrink-0 lg:flex-col lg:justify-end"
+        className="hidden items-start w-full max-w-64 h-full px-6 py-4 border-l border-line bg-background-sub lg:flex md:shrink-0 md:flex-col md:justify-end"
         portrait
       />
 
-      {/** モバイル幅のみ表示 */}
-      <Footer className="block lg:hidden px-6 py-12 pb-24 bg-background-sub" />
-      <BottomNavi className="block lg:hidden" {...props} />
+      {/** sm幅のみ */}
+      <Footer className="block md:hidden px-6 py-12 pb-24 bg-background-sub" />
+      <BottomNavi className="block md:hidden" {...props} />
     </body>
   );
 }

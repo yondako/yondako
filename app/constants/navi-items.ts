@@ -6,6 +6,7 @@ import type { IconType } from "@/types/icon";
 
 export type NavItem = {
   title: string;
+  short: string;
   href: `/${string}`;
   Icon: IconType;
 };
@@ -13,21 +14,25 @@ export type NavItem = {
 export const naviItems: NavItem[] = [
   {
     title: "ライブラリ",
+    short: "ライブラリ",
     href: "/library",
     Icon: IconBooks,
   },
   {
     title: "キーワードで探す",
+    short: "キーワードで",
     href: "/search",
     Icon: IconSearch,
   },
   {
     title: "バーコードで探す",
+    short: "バーコードで",
     href: "/search/barcode",
     Icon: IconScan,
   },
   {
     title: "ログアウト",
+    short: "ログアウト",
     href: "/",
     Icon: IconLogout,
   },

@@ -1,6 +1,6 @@
 import { classNames } from "@/libs/classNames";
-import Link from "../Link";
 import { ComponentProps } from "react";
+import Link from "../Link";
 
 type LinkItem = {
   title: string;
