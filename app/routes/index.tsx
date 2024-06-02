@@ -3,9 +3,9 @@ import LandingLayout from "@/components/landing/Layout";
 import { site } from "@/constants/site";
 import LoginButton from "@/islands/LoginButton";
 import GitHub from "@auth/core/providers/github";
-import { drizzle } from "drizzle-orm/d1";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { authHandler, initAuthConfig, verifyAuth } from "@hono/auth-js";
+import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
 
 const app = new Hono();
