@@ -43,12 +43,12 @@ type TabItemProps = {
 function TabItem({ title, href, current }: TabItemProps) {
   const style = current
     ? "relative font-bold after:absolute after:inset-x-0 after:-bottom-px after:w-full after:border-b-2 after:border-tako"
-    : "transition-colors hover:text-tako";
+    : "transition-colors hover:bg-background-sub";
 
   return (
     <a
       className={classNames(
-        "block w-full min-w-20 px-4 py-2 text-xs text-center",
+        "block w-full min-w-20 px-4 py-2 text-xs text-center rounded-full",
         style,
       )}
       href={href}
