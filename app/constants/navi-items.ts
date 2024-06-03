@@ -1,7 +1,7 @@
 import { IconBooks } from "@/components/common/Icon/Books";
-import { IconLogout } from "@/components/common/Icon/Logout";
 import { IconScan } from "@/components/common/Icon/Scan";
 import { IconSearch } from "@/components/common/Icon/Search";
+import { IconSetting } from "@/components/common/Icon/Setting";
 import type { IconType } from "@/types/icon";
 
 export type NavItem = {
@@ -31,9 +31,9 @@ export const naviItems: NavItem[] = [
     Icon: IconScan,
   },
   {
-    title: "ログアウト",
-    short: "ログアウト",
-    href: "/",
-    Icon: IconLogout,
+    title: "設定",
+    short: "設定",
+    href: "/settings",
+    Icon: IconSetting,
   },
 ] as const;
