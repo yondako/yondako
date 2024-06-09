@@ -1,4 +1,5 @@
 import { classNames } from "@/libs/classNames";
+import { ComponentProps } from "react";
 import Link from "../Link";
 
 type LinkItem = {
@@ -27,7 +28,7 @@ const links: LinkItem[] = [
 
 type Props = {
   portrait?: boolean;
-} & JSX.IntrinsicElements["footer"];
+} & ComponentProps<"footer">;
 
 export default function Footer({ portrait = false, ...props }: Props) {
   const year = new Date().getFullYear();

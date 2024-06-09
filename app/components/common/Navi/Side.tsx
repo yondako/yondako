@@ -3,11 +3,12 @@ import { type NavItem, naviItems } from "@/constants/navi-items";
 import { site } from "@/constants/site";
 import { classNames } from "@/libs/classNames";
 import type { NaviProps } from "@/types/navi";
+import { ComponentProps } from "react";
 
 export default function SideNavi({
   current,
   ...props
-}: NaviProps & JSX.IntrinsicElements["nav"]) {
+}: NaviProps & ComponentProps<"nav">) {
   const style = "w-full max-w-64 h-full border-r border-line";
 
   return (

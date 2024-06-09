@@ -1,29 +1,30 @@
 import CommonLayout from "@/components/common/Layout";
 import { classNames } from "@/libs/classNames";
+import { ComponentProps } from "react";
 
 const tabItems = [
   {
-    title: "よむ本",
+    title: "よむ",
     href: "/library",
   },
   {
-    title: "よんだ本",
+    title: "よんだ",
     href: "/library/read",
   },
   {
-    title: "すきな本",
+    title: "これすき",
     href: "/library/likes",
   },
 ] as const;
 
 type Props = {
   current: (typeof tabItems)[number]["title"];
-} & JSX.IntrinsicElements["div"];
+} & ComponentProps<"div">;
 
 export default function LibraryLayout({ current, ...props }: Props) {
   return (
     <CommonLayout current="ライブラリ" {...props}>
-      <div className="flex lg:block w-full border-b border-line text-base lg:text-sm">
+      <div className="flex w-fit mx-auto px-6 border border-line rounded-full">
         {tabItems.map((item) => (
           <TabItem {...item} current={item.title === current} key={item.href} />
         ))}
@@ -41,13 +42,13 @@ type TabItemProps = {
 
 function TabItem({ title, href, current }: TabItemProps) {
   const style = current
-    ? "font-bold after:absolute after:inset-x-0 after:-bottom-px after:w-full after:border-b-2 after:border-tako"
-    : "transition-colors hover:text-tako";
+    ? "relative font-bold after:absolute after:inset-x-0 after:-bottom-px after:w-full after:border-b-2 after:border-tako"
+    : "transition-colors hover:bg-background-sub";
 
   return (
     <a
       className={classNames(
-        "relative inline-block w-full lg:w-auto px-4 pb-2 text-center lg:text-left",
+        "block w-full min-w-20 px-4 py-2 text-xs text-center rounded-full",
         style,
       )}
       href={href}

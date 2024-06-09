@@ -36,7 +36,7 @@ export default defineConfig(({ mode }) => {
         }
       : undefined,
     ssr: {
-      external: ["react", "react-dom"],
+      external: ["react", "react-dom", "@hono/auth-js"],
     },
     plugins: [
       honox({

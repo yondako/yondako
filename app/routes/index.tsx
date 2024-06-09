@@ -1,10 +1,34 @@
 import logoUrl from "@/assets/images/logo_portrait.svg";
-import Button from "@/components/common/Button";
 import LandingLayout from "@/components/landing/Layout";
 import { site } from "@/constants/site";
-import { createRoute } from "honox/factory";
+import LoginButton from "@/islands/LoginButton";
+import GitHub from "@auth/core/providers/github";
+import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import { authHandler, initAuthConfig, verifyAuth } from "@hono/auth-js";
+import { drizzle } from "drizzle-orm/d1";
+import { Hono } from "hono";
 
-export default createRoute((c) => {
+const app = new Hono();
+
+app.use(
+  "*",
+  initAuthConfig((c) => {
+    return {
+      adapter: DrizzleAdapter(drizzle(c.env.DB)),
+      secret: c.env.AUTH_SECRET,
+      providers: [
+        GitHub({
+          clientId: c.env.GITHUB_ID,
+          clientSecret: c.env.GITHUB_SECRET,
+        }),
+      ],
+    };
+  }),
+);
+
+app.use("/api/auth/*", authHandler());
+
+app.get("/", async (c) => {
   return c.render(
     <LandingLayout>
       <div className="max-w-[26rem]">
@@ -13,12 +37,7 @@ export default createRoute((c) => {
           {site.description.short}
         </h1>
         <p className="mt-6">{site.description.long}</p>
-        <Button asChild>
-          <a className="block mx-auto mt-10 text-base" href="/">
-            <span className="font-noto-emoji">🐙</span>
-            <span className="ml-2">新規登録 or ログイン</span>
-          </a>
-        </Button>
+        <LoginButton />
       </div>
     </LandingLayout>,
     {
@@ -26,3 +45,7 @@ export default createRoute((c) => {
     },
   );
 });
+
+app.use("*", verifyAuth());
+
+export default app;
