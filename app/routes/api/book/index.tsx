@@ -1,11 +1,13 @@
 import { createBook, getBook } from "@/db/queries/book";
+import { upsertReadingStatus } from "@/db/queries/status";
 import { searchBookFromNDL } from "@/libs/ndl/api";
+import { bookStatusValues } from "@/types/book";
 import { vValidator } from "@hono/valibot-validator";
 import { Hono } from "hono";
 import { object, picklist } from "valibot";
 
 const schema = object({
-  status: picklist(["none", "read", "want_read"]),
+  status: picklist(bookStatusValues),
 });
 
 const app = new Hono();
@@ -14,6 +16,12 @@ const routes = app.post(
   "/:id/status",
   vValidator("json", schema),
   async (c) => {
+    const { user } = c.get("authUser");
+
+    if (!user) {
+      return c.status(401);
+    }
+
     const ndlBibId = c.req.param("id");
     const { status } = c.req.valid("json");
 
@@ -42,13 +50,19 @@ const routes = app.post(
       console.log("[INSERT]", book);
     }
 
-    // TODO: ステータスの変更をDBに反映
+    // ステータスの変更をDBに反映
+    const resultReadingStatus = await upsertReadingStatus(
+      c.env.DB,
+      user.id,
+      book.ndlBibId,
+      status,
+    );
 
-    // TODO: 反映後のデータを返す
+    // TODO: 好きな本に登録する機能を追加
     return c.json(
       {
         info: book,
-        status,
+        status: resultReadingStatus,
         liked: false,
       },
       200,

@@ -1,8 +1,8 @@
+import { bookStatusValues } from "@/types/book";
+import { sql } from "drizzle-orm";
 import { sqliteTable, text, unique } from "drizzle-orm/sqlite-core";
 import { books } from "./book";
 import { users } from "./user";
-import { bookStatusValues } from "@/types/book";
-import { sql } from "drizzle-orm";
 
 export const readingStatuses = sqliteTable(
   "reading_statuses",

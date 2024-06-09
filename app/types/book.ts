@@ -23,4 +23,12 @@ export type BookInfo = {
   thumbnailUrl?: string | null;
 };
 
-export type BookStatus = "none" | "read" | "want_read";
+/**
+ * 読書ステータスの値
+ */
+export const bookStatusValues = ["none", "read", "want_read"] as const;
+
+/**
+ * 読書ステータス
+ */
+export type BookStatus = (typeof bookStatusValues)[number];
