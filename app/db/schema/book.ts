@@ -1,6 +1,9 @@
 import { relations } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
+/**
+ * 書籍情報
+ */
 export const books = sqliteTable("books", {
   ndlBibId: text("id").primaryKey().notNull(),
   title: text("title").notNull(),
@@ -15,6 +18,9 @@ export const booksRelations = relations(books, ({ many }) => ({
   bookPublishers: many(bookPublishers),
 }));
 
+/**
+ * 著者情報
+ */
 export const authors = sqliteTable("authors", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   name: text("name").unique().notNull(),
@@ -24,6 +30,9 @@ export const authorsRelations = relations(authors, ({ many }) => ({
   bookAuthors: many(bookAuthors),
 }));
 
+/**
+ * 出版社情報
+ */
 export const publishers = sqliteTable("publishers", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   name: text("name").unique().notNull(),
@@ -33,6 +42,9 @@ export const publishersRelations = relations(publishers, ({ many }) => ({
   bookPublishers: many(bookPublishers),
 }));
 
+/**
+ * 書籍と著者
+ */
 export const bookAuthors = sqliteTable("book_authors", {
   bookId: text("book_id").references(() => books.ndlBibId, {
     onDelete: "cascade",
@@ -53,6 +65,9 @@ export const bookAuthorsRelations = relations(bookAuthors, ({ one }) => ({
   }),
 }));
 
+/**
+ * 書籍と出版社
+ */
 export const bookPublishers = sqliteTable("book_publishers", {
   bookId: text("book_id").references(() => books.ndlBibId, {
     onDelete: "cascade",

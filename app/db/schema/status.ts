@@ -4,6 +4,9 @@ import { sqliteTable, text, unique } from "drizzle-orm/sqlite-core";
 import { books } from "./book";
 import { users } from "./user";
 
+/**
+ * 読書ステータス
+ */
 export const readingStatuses = sqliteTable(
   "reading_statuses",
   {
