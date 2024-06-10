@@ -26,7 +26,12 @@ export type BookInfo = {
 /**
  * 読書ステータスの値
  */
-export const bookStatusValues = ["none", "read", "want_read"] as const;
+export const bookStatusValues = [
+  "none",
+  "reading",
+  "want_read",
+  "read",
+] as const;
 
 /**
  * 読書ステータス
