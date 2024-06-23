@@ -9,7 +9,7 @@ export default function SideNavi({
   current,
   ...props
 }: NaviProps & ComponentProps<"nav">) {
-  const style = "w-full max-w-64 h-full border-r border-line";
+  const style = "w-full max-w-64 h-full";
 
   return (
     <nav {...props} className={classNames(style, props.className)}>

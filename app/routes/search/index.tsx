@@ -68,5 +68,5 @@ function SearchResult({ results, isIdle }: SearchResultProps) {
     return <p className="mt-12 text-center">みつかりませんでした</p>;
   }
 
-  return <BookList className="mt-10" items={results} />;
+  return <BookList className="my-10" items={results} />;
 }

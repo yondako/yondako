@@ -24,7 +24,7 @@ export default function CommonLayout({ children, ...props }: Props) {
 
       {/** lg幅～のみ */}
       <Footer
-        className="hidden items-start w-full max-w-64 h-full px-6 py-4 border-l border-line bg-background-sub lg:flex md:shrink-0 md:flex-col md:justify-end"
+        className="hidden items-start w-full max-w-64 h-full px-6 py-4 lg:flex md:shrink-0 md:flex-col md:justify-end"
         portrait
       />
 
