@@ -9,17 +9,17 @@ export default function SideNavi({
   current,
   ...props
 }: NaviProps & ComponentProps<"nav">) {
-  const style = "w-full max-w-64 h-full";
+  const style = "w-full max-w-60 h-full";
 
   return (
     <nav {...props} className={classNames(style, props.className)}>
-      <div className="px-8 py-6 bg-gradation bg-left-top bg-no-repeat bg-[length:45%]">
-        <a className="block w-fit" href="/">
-          <img width={110} src={logoUrl} alt={site.name} />
+      <div className="px-8 py-6">
+        <a className="block w-32" href="/">
+          <img src={logoUrl} alt={site.name} />
         </a>
       </div>
 
-      <div className="mt-2 pr-4 space-y-2">
+      <div className="mt-2 space-y-2">
         {naviItems.map((item) => (
           <Item {...item} current={item.title === current} key={item.title} />
         ))}
