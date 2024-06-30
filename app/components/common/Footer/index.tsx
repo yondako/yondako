@@ -36,11 +36,7 @@ export default function Footer({ portrait = false, ...props }: Props) {
   return (
     <footer
       {...props}
-      className={classNames(
-        "text-xs",
-        portrait ? "text-left" : "text-center",
-        props.className,
-      )}
+      className={classNames("text-xs text-left", props.className)}
     >
       <div className={portrait ? "space-y-1" : "space-x-2"}>
         {links.map(({ title, href }) => (

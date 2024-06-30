@@ -12,7 +12,7 @@ export default {
       colors: {
         tako: "#A17171",
         text: "#494949",
-        background: "#FFFFFF",
+        background: "#FFFAF6",
         line: "#DDDDDD",
         "background-sub": "#FAF9F9",
         star: "#F08C43",
