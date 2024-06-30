@@ -6,11 +6,7 @@ type Props = {
   asChild?: boolean;
 } & ComponentPropsWithRef<"button">;
 
-export default function Button({
-  asChild,
-  className,
-  ...props
-}: Props) {
+export default function Button({ asChild, className, ...props }: Props) {
   const style = twMerge(
     "px-5 py-3 border border-text rounded-full text-center text-text bg-background transition hover:brightness-95",
     className,
