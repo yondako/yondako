@@ -16,17 +16,11 @@ export default function CommonLayout({ children, ...props }: Props) {
       <Header className="block md:hidden" />
 
       {/** md幅～のみ */}
-      <SideNavi className="hidden md:grow md:block" {...props} />
+      <SideNavi {...props} />
 
       <div className="w-full min-h-full px-6 md:px-12 py-8 md:overflow-y-scroll md:shrink ">
         {children}
       </div>
-
-      {/** lg幅～のみ
-      <Footer
-        className="hidden items-start w-full max-w-64 h-full px-6 py-4 lg:flex md:shrink-0 md:flex-col md:justify-end"
-        portrait
-      /> */}
 
       {/** sm幅のみ */}
       <Footer className="block md:hidden px-6 py-12 pb-32 bg-background text-center" />

@@ -28,13 +28,13 @@ const links: LinkItem[] = [
 
 type Props = {
   portrait?: boolean;
-} & ComponentProps<"footer">;
+} & ComponentProps<"div">;
 
 export default function Footer({ portrait = false, ...props }: Props) {
   const year = new Date().getFullYear();
 
   return (
-    <footer {...props} className={classNames("text-xs", props.className)}>
+    <div {...props} className={classNames("text-xs", props.className)}>
       <div className={portrait ? "space-y-1" : "space-x-2"}>
         {links.map(({ title, href }) => (
           <Link className={portrait ? "block" : ""} href={href} key={href}>
@@ -43,6 +43,6 @@ export default function Footer({ portrait = false, ...props }: Props) {
         ))}
       </div>
       <p className="mt-2">© {year} yondako</p>
-    </footer>
+    </div>
   );
 }
