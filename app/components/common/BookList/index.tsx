@@ -1,7 +1,7 @@
 import Book from "@/islands/Book";
-import { classNames } from "@/libs/classNames";
 import { BookType } from "@/types/book";
 import { ComponentProps } from "react";
+import { twMerge } from "tailwind-merge";
 
 type Props = {
   items: BookType[];
@@ -10,8 +10,8 @@ type Props = {
 export default function BookList({ items, ...props }: Props) {
   return (
     <div
-      className={classNames(
-        "grid grid-cols-3 sm:grid-cols-4 xl:grid-cols-5 justify-items-center gap-x-4 gap-y-6",
+      className={twMerge(
+        "grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 justify-items-center gap-6 [&>*]:w-full",
         props.className,
       )}
     >

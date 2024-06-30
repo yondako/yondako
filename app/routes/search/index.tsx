@@ -19,7 +19,7 @@ export default createRoute(async (c) => {
 
   return c.render(
     <CommonLayout current={title}>
-      <div className="flex items-center">
+      <div className="flex flex-col md:flex-row items-end md:items-center">
         <form className="m-0 w-full">
           <SearchBox
             name="q"
@@ -29,7 +29,7 @@ export default createRoute(async (c) => {
         </form>
 
         <a
-          className="ml-4 flex items-center shrink-0 text-xs text-text space-x-1 hover:underline"
+          className="mt-4 md:mt-0 md:ml-4 flex items-center shrink-0 text-xs text-text space-x-1 hover:underline"
           href="https://docs.yondako.com/data-source"
           target="_blank"
           rel="noreferrer"
