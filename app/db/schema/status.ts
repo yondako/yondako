@@ -1,6 +1,6 @@
 import { readingStatusValues } from "@/types/book";
 import { relations, sql } from "drizzle-orm";
-import { sqliteTable, text, primaryKey } from "drizzle-orm/sqlite-core";
+import { primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { books } from "./book";
 import { users } from "./user";
 
