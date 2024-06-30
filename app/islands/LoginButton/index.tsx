@@ -1,8 +1,8 @@
-import IconContinueWithGoogle from "@/assets/icons/continue-with-google.svg?react";
 import IconContinueWithGithub from "@/assets/icons/continue-with-github.svg?react";
+import IconContinueWithGoogle from "@/assets/icons/continue-with-google.svg?react";
+import { BuiltInProviderType } from "@auth/core/providers";
 import { signIn } from "@hono/auth-js/react";
 import { ReactNode } from "react";
-import { BuiltInProviderType } from "@auth/core/providers";
 
 export default function LoginButton() {
   return (
@@ -18,20 +18,20 @@ export default function LoginButton() {
 }
 
 type ButtonProps = {
-  provider: BuiltInProviderType
-  children: ReactNode
-}
+  provider: BuiltInProviderType;
+  children: ReactNode;
+};
 
 function Button({ provider, children }: ButtonProps) {
   return (
-      <button
-        onClick={() =>
-          signIn(provider, {
-            callbackUrl: "/library",
-          })
-        }
-      >
-        {children}
-      </button>
-  )
+    <button
+      onClick={() =>
+        signIn(provider, {
+          callbackUrl: "/library",
+        })
+      }
+    >
+      {children}
+    </button>
+  );
 }
