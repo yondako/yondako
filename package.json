@@ -27,6 +27,7 @@
     "htmlparser2": "^9.1.0",
     "react": "^19.0.0-beta-73bcdfbae5-20240502",
     "react-dom": "^19.0.0-beta-73bcdfbae5-20240502",
+    "tailwind-merge": "^2.3.0",
     "valibot": "^0.30.0"
   },
   "devDependencies": {
