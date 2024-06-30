@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "317793a1-80e6-4932-9a5b-02c23e0f0b22",
+  "id": "b6f0c515-d7c7-4437-9469-c5c1b8fc93a6",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "authors": {
@@ -35,18 +35,18 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "book_authors": {
-      "name": "book_authors",
+    "bookAuthors": {
+      "name": "bookAuthors",
       "columns": {
-        "book_id": {
-          "name": "book_id",
+        "bookId": {
+          "name": "bookId",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
-        "author_id": {
-          "name": "author_id",
+        "authorId": {
+          "name": "authorId",
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
@@ -55,12 +55,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "book_authors_book_id_books_id_fk": {
-          "name": "book_authors_book_id_books_id_fk",
-          "tableFrom": "book_authors",
+        "bookAuthors_bookId_books_id_fk": {
+          "name": "bookAuthors_bookId_books_id_fk",
+          "tableFrom": "bookAuthors",
           "tableTo": "books",
           "columnsFrom": [
-            "book_id"
+            "bookId"
           ],
           "columnsTo": [
             "id"
@@ -68,12 +68,12 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "book_authors_author_id_authors_id_fk": {
-          "name": "book_authors_author_id_authors_id_fk",
-          "tableFrom": "book_authors",
+        "bookAuthors_authorId_authors_id_fk": {
+          "name": "bookAuthors_authorId_authors_id_fk",
+          "tableFrom": "bookAuthors",
           "tableTo": "authors",
           "columnsFrom": [
-            "author_id"
+            "authorId"
           ],
           "columnsTo": [
             "id"
@@ -85,18 +85,18 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "book_publishers": {
-      "name": "book_publishers",
+    "bookPublishers": {
+      "name": "bookPublishers",
       "columns": {
-        "book_id": {
-          "name": "book_id",
+        "bookId": {
+          "name": "bookId",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
-        "publisher_id": {
-          "name": "publisher_id",
+        "publisherId": {
+          "name": "publisherId",
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
@@ -105,12 +105,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "book_publishers_book_id_books_id_fk": {
-          "name": "book_publishers_book_id_books_id_fk",
-          "tableFrom": "book_publishers",
+        "bookPublishers_bookId_books_id_fk": {
+          "name": "bookPublishers_bookId_books_id_fk",
+          "tableFrom": "bookPublishers",
           "tableTo": "books",
           "columnsFrom": [
-            "book_id"
+            "bookId"
           ],
           "columnsTo": [
             "id"
@@ -118,12 +118,12 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "book_publishers_publisher_id_publishers_id_fk": {
-          "name": "book_publishers_publisher_id_publishers_id_fk",
-          "tableFrom": "book_publishers",
+        "bookPublishers_publisherId_publishers_id_fk": {
+          "name": "bookPublishers_publisherId_publishers_id_fk",
+          "tableFrom": "bookPublishers",
           "tableTo": "publishers",
           "columnsFrom": [
-            "publisher_id"
+            "publisherId"
           ],
           "columnsTo": [
             "id"
@@ -227,8 +227,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "book_id": {
-          "name": "book_id",
+        "bookId": {
+          "name": "bookId",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -241,8 +241,16 @@
           "notNull": true,
           "autoincrement": false
         },
-        "updated_at": {
-          "name": "updated_at",
+        "createdAt": {
+          "name": "createdAt",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(CURRENT_TIMESTAMP)"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -250,16 +258,7 @@
           "default": "(CURRENT_TIMESTAMP)"
         }
       },
-      "indexes": {
-        "user_book": {
-          "name": "user_book",
-          "columns": [
-            "userId",
-            "book_id"
-          ],
-          "isUnique": true
-        }
-      },
+      "indexes": {},
       "foreignKeys": {
         "reading_statuses_userId_user_id_fk": {
           "name": "reading_statuses_userId_user_id_fk",
@@ -274,12 +273,12 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "reading_statuses_book_id_books_id_fk": {
-          "name": "reading_statuses_book_id_books_id_fk",
+        "reading_statuses_bookId_books_id_fk": {
+          "name": "reading_statuses_bookId_books_id_fk",
           "tableFrom": "reading_statuses",
           "tableTo": "books",
           "columnsFrom": [
-            "book_id"
+            "bookId"
           ],
           "columnsTo": [
             "id"
@@ -288,7 +287,15 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {},
+      "compositePrimaryKeys": {
+        "reading_statuses_userId_bookId_pk": {
+          "columns": [
+            "bookId",
+            "userId"
+          ],
+          "name": "reading_statuses_userId_bookId_pk"
+        }
+      },
       "uniqueConstraints": {}
     },
     "account": {

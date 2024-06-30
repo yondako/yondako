@@ -45,11 +45,11 @@ export const publishersRelations = relations(publishers, ({ many }) => ({
 /**
  * 書籍と著者
  */
-export const bookAuthors = sqliteTable("book_authors", {
-  bookId: text("book_id").references(() => books.ndlBibId, {
+export const bookAuthors = sqliteTable("bookAuthors", {
+  bookId: text("bookId").references(() => books.ndlBibId, {
     onDelete: "cascade",
   }),
-  authorId: integer("author_id").references(() => authors.id, {
+  authorId: integer("authorId").references(() => authors.id, {
     onDelete: "cascade",
   }),
 });
@@ -68,11 +68,11 @@ export const bookAuthorsRelations = relations(bookAuthors, ({ one }) => ({
 /**
  * 書籍と出版社
  */
-export const bookPublishers = sqliteTable("book_publishers", {
-  bookId: text("book_id").references(() => books.ndlBibId, {
+export const bookPublishers = sqliteTable("bookPublishers", {
+  bookId: text("bookId").references(() => books.ndlBibId, {
     onDelete: "cascade",
   }),
-  publisherId: integer("publisher_id").references(() => publishers.id, {
+  publisherId: integer("publisherId").references(() => publishers.id, {
     onDelete: "cascade",
   }),
 });

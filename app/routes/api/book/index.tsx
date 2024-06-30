@@ -1,13 +1,13 @@
 import { createBook, getBook } from "@/db/queries/book";
 import { upsertReadingStatus } from "@/db/queries/status";
 import { searchBookFromNDL } from "@/libs/ndl/api";
-import { bookStatusValues } from "@/types/book";
+import { readingStatusValues } from "@/types/book";
 import { vValidator } from "@hono/valibot-validator";
 import { Hono } from "hono";
 import { object, picklist } from "valibot";
 
 const schema = object({
-  status: picklist(bookStatusValues),
+  status: picklist(readingStatusValues),
 });
 
 const app = new Hono();

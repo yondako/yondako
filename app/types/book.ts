@@ -1,6 +1,9 @@
+/**
+ * 書籍
+ */
 export type BookType = {
   info: BookInfo;
-  status: BookStatus;
+  readingStatus: ReadingStatus;
 };
 
 /**
@@ -28,7 +31,7 @@ export type BookInfo = {
 /**
  * 読書ステータスの値
  */
-export const bookStatusValues = [
+export const readingStatusValues = [
   "none",
   "reading",
   "want_read",
@@ -38,4 +41,4 @@ export const bookStatusValues = [
 /**
  * 読書ステータス
  */
-export type BookStatus = (typeof bookStatusValues)[number];
+export type ReadingStatus = (typeof readingStatusValues)[number];

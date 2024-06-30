@@ -1,6 +1,6 @@
-import { bookStatusValues } from "@/types/book";
-import { sql } from "drizzle-orm";
-import { sqliteTable, text, unique } from "drizzle-orm/sqlite-core";
+import { readingStatusValues } from "@/types/book";
+import { relations, sql } from "drizzle-orm";
+import { sqliteTable, text, primaryKey } from "drizzle-orm/sqlite-core";
 import { books } from "./book";
 import { users } from "./user";
 
@@ -11,17 +11,36 @@ export const readingStatuses = sqliteTable(
   "reading_statuses",
   {
     userId: text("userId")
+      .notNull()
       .references(() => users.id, {
         onDelete: "cascade",
-      })
-      .notNull(),
-    bookId: text("book_id")
-      .references(() => books.ndlBibId)
-      .notNull(),
-    status: text("status", { enum: bookStatusValues }).notNull(),
-    updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`).notNull(),
+      }),
+    bookId: text("bookId")
+      .notNull()
+      .references(() => books.ndlBibId),
+    status: text("status", {
+      enum: readingStatusValues,
+    }).notNull(),
+    createdAt: text("createdAt").notNull().default(sql`(CURRENT_TIMESTAMP)`),
+    updatedAt: text("updatedAt").notNull().default(sql`(CURRENT_TIMESTAMP)`),
   },
   (t) => ({
-    userBook: unique("user_book").on(t.userId, t.bookId),
+    userBook: primaryKey({
+      columns: [t.userId, t.bookId],
+    }),
+  }),
+);
+
+export const readingStatusesRelations = relations(
+  readingStatuses,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [readingStatuses.userId],
+      references: [users.id],
+    }),
+    book: one(books, {
+      fields: [readingStatuses.bookId],
+      references: [books.ndlBibId],
+    }),
   }),
 );
