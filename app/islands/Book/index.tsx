@@ -8,10 +8,10 @@ type Props = {
 
 export default function Book({ data }: Props) {
   return (
-    <div className="relative text-background">
+    <div className="relative text-text">
       <Thumbnail src={data.info.thumbnailUrl} />
 
-      <div className="w-full h-36 mt-8 p-4 pl-36 bg-tako rounded-2xl">
+      <div className="w-full h-36 mt-8 p-4 pl-36 bg-card rounded-2xl">
         <p className="font-bold text-sm leading-5 line-clamp-3">
           {data.info.title}
         </p>
@@ -31,10 +31,10 @@ export default function Book({ data }: Props) {
 }
 
 function Thumbnail({ src }: { src: string | null | undefined }) {
-  const imageBgStyle = "w-full object-contain bg-background-sub";
+  const imageBgStyle = "w-full object-contain";
 
   return (
-    <div className="absolute bottom-4 left-4 w-28 flex justify-center items-center bg-background border border-line rounded-2xl shadow-lg overflow-hidden aspect-[64/91]">
+    <div className="absolute bottom-4 left-4 w-28 flex justify-center items-center bg-background-sub border border-line rounded-2xl shadow-lg overflow-hidden aspect-[64/91]">
       {typeof src === "string" ? (
         <object className={imageBgStyle} type="image/jpeg" data={src}>
           <img className={imageBgStyle} src={imageNoImage} alt="" />
