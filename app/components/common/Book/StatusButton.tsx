@@ -1,11 +1,12 @@
 import { classNames } from "@/libs/classNames";
 import { IconType } from "@/types/icon";
+import { ComponentProps } from "react";
 
 type Props = {
   Icon: IconType;
   text: string;
   selected?: boolean;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+} & Omit<ComponentProps<"button">, "className">;
 
 export default function StatusButton({
   Icon,
@@ -17,12 +18,13 @@ export default function StatusButton({
     <button
       {...props}
       className={classNames(
-        "h-full h-auto flex justify-center items-center w-full px-5 py-3 border rounded-xl",
+        "h-full h-auto flex justify-center items-center w-full px-5 py-3 border rounded-full",
         selected
           ? "text-background bg-tako border-tako"
           : "text-text bg-background border-line transition hover:brightness-95",
-        props.className,
       )}
+      role="checkbox"
+      aria-checked={selected}
       disabled={props.disabled || selected}
     >
       <Icon className="w-4 h-4" />
