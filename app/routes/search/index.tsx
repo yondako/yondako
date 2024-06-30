@@ -1,3 +1,4 @@
+import IconHelp from "@/assets/icons/help.svg?react";
 import BookList from "@/components/common/BookList";
 import CommonLayout from "@/components/common/Layout";
 import SearchBox from "@/components/common/SearchBox";
@@ -16,14 +17,28 @@ export default createRoute(async (c) => {
     results = await searchBookFromNDL({ any: query, cnt: 100 });
   }
 
-  // TODO:
-  // - 検索結果にユーザーの読書ステータスを反映
-
   return c.render(
     <CommonLayout current={title}>
-      <form>
-        <SearchBox name="q" defaultValue={query} />
-      </form>
+      <div className="flex items-center">
+        <form className="m-0 w-full">
+          <SearchBox
+            name="q"
+            defaultValue={query}
+            placeholder="書籍名、著者名で検索"
+          />
+        </form>
+
+        <a
+          className="ml-4 flex items-center shrink-0 text-xs text-text space-x-1 hover:underline"
+          href="https://docs.yondako.com/data-source"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <IconHelp className="w-4 h-4" />
+          <span>データはどこから取得してるの？</span>
+        </a>
+      </div>
+
       <SearchResult
         results={results?.map((info) => ({
           info,
@@ -68,5 +83,5 @@ function SearchResult({ results, isIdle }: SearchResultProps) {
     return <p className="mt-12 text-center">みつかりませんでした</p>;
   }
 
-  return <BookList className="my-10" items={results} />;
+  return <BookList className="mt-8" items={results} />;
 }

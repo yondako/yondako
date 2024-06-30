@@ -13,8 +13,9 @@ export default {
         tako: "#A17171",
         text: "#494949",
         background: "#FFFAF6",
-        line: "#DDDDDD",
         "background-sub": "#FAF9F9",
+        card: "#D8C0C0",
+        line: "#DDDDDD",
         star: "#F08C43",
       },
       backgroundImage: {

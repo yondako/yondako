@@ -1,6 +1,5 @@
+import IconChevronRight from "@/assets/icons/chevron-right.svg?react";
 import imageNoImage from "@/assets/images/noimage.webp";
-import Tag from "@/components/common/Book/Tag";
-import { IconPencil } from "@/components/common/Icon/Pencil";
 import { BookType } from "@/types/book";
 
 type Props = {
@@ -9,16 +8,24 @@ type Props = {
 
 export default function Book({ data }: Props) {
   return (
-    <div className="w-full h-full max-w-32">
+    <div className="relative text-background">
       <Thumbnail src={data.info.thumbnailUrl} />
 
-      <p className="mt-2 font-bold text-sm leading-4 line-clamp-2">
-        {data.info.title}
-      </p>
+      <div className="w-full h-40 mt-10 p-4 pl-40 bg-tako rounded-xl">
+        <p className="font-bold text-base leading-5 line-clamp-4">
+          {data.info.title}
+        </p>
 
-      {data.info.authors && (
-        <Tag Icon={IconPencil} text={data.info.authors.join(", ")} />
-      )}
+        {data.info.authors && (
+          <p className="mt-2 text-xs line-clamp-1">
+            {data.info.authors.join(", ")}
+          </p>
+        )}
+      </div>
+
+      <button className="absolute bottom-4 right-4 flex items-center space-x-1 text-sm">
+        <IconChevronRight className="w-6 h-6" />
+      </button>
     </div>
   );
 }
@@ -27,7 +34,7 @@ function Thumbnail({ src }: { src: string | null | undefined }) {
   const imageBgStyle = "w-full h-full object-contain bg-background-sub";
 
   return (
-    <div className="flex justify-center items-center bg-background border border-line rounded-md overflow-hidden aspect-[64/91]">
+    <div className="absolute bottom-4 left-4 w-32 flex justify-center items-center bg-background border border-line rounded-xl shadow-md overflow-hidden aspect-[64/91]">
       {typeof src === "string" ? (
         <object className={imageBgStyle} type="image/jpeg" data={src}>
           <img className={imageBgStyle} src={imageNoImage} alt="" />
