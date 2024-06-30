@@ -1,19 +1,19 @@
 import CommonLayout from "@/components/common/Layout";
-import { classNames } from "@/libs/classNames";
 import { ComponentProps } from "react";
+import { twMerge } from "tailwind-merge";
 
 const tabItems = [
   {
-    title: "よむ",
+    title: "よんでる",
     href: "/library",
+  },
+  {
+    title: "よみたい",
+    href: "/library/wantread",
   },
   {
     title: "よんだ",
     href: "/library/read",
-  },
-  {
-    title: "これすき",
-    href: "/library/likes",
   },
 ] as const;
 
@@ -41,15 +41,13 @@ type TabItemProps = {
 };
 
 function TabItem({ title, href, current }: TabItemProps) {
-  const style = current
-    ? "relative font-bold after:absolute after:inset-x-0 after:-bottom-px after:w-full after:border-b-2 after:border-tako"
-    : "transition-colors hover:bg-background-sub";
-
   return (
     <a
-      className={classNames(
+      className={twMerge(
         "block w-full min-w-20 px-4 py-2 text-xs text-center rounded-full",
-        style,
+        current
+          ? "relative font-bold after:absolute after:inset-x-0 after:-bottom-px after:w-full after:border-b-2 after:border-tako"
+          : "transition-colors hover:bg-background",
       )}
       href={href}
     >
