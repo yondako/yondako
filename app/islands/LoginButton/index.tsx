@@ -25,6 +25,7 @@ type ButtonProps = {
 function Button({ provider, children }: ButtonProps) {
   return (
     <button
+      className="block mx-auto md:mx-0"
       onClick={() =>
         signIn(provider, {
           callbackUrl: "/library",

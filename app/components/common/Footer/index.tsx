@@ -34,10 +34,7 @@ export default function Footer({ portrait = false, ...props }: Props) {
   const year = new Date().getFullYear();
 
   return (
-    <footer
-      {...props}
-      className={classNames("text-xs text-left", props.className)}
-    >
+    <footer {...props} className={classNames("text-xs", props.className)}>
       <div className={portrait ? "space-y-1" : "space-x-2"}>
         {links.map(({ title, href }) => (
           <Link className={portrait ? "block" : ""} href={href} key={href}>
