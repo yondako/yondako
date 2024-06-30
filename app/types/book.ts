@@ -1,9 +1,11 @@
 export type BookType = {
   info: BookInfo;
-  liked: boolean;
   status: BookStatus;
 };
 
+/**
+ * 書籍情報
+ */
 export type BookInfo = {
   /** 書誌ID */
   ndlBibId: string;

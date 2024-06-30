@@ -14,7 +14,6 @@ export default {
         text: "#494949",
         background: "#FFFAF6",
         "background-sub": "#FAF9F9",
-        card: "#D8C0C0",
         line: "#DDDDDD",
         star: "#F08C43",
       },

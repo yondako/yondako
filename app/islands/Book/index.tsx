@@ -11,8 +11,8 @@ export default function Book({ data }: Props) {
     <div className="relative text-background">
       <Thumbnail src={data.info.thumbnailUrl} />
 
-      <div className="w-full h-40 mt-10 p-4 pl-40 bg-tako rounded-xl">
-        <p className="font-bold text-base leading-5 line-clamp-4">
+      <div className="w-full h-36 mt-8 p-4 pl-36 bg-tako rounded-2xl">
+        <p className="font-bold text-sm leading-5 line-clamp-4">
           {data.info.title}
         </p>
 
@@ -31,10 +31,10 @@ export default function Book({ data }: Props) {
 }
 
 function Thumbnail({ src }: { src: string | null | undefined }) {
-  const imageBgStyle = "w-full h-full object-contain bg-background-sub";
+  const imageBgStyle = "w-full object-contain bg-background-sub";
 
   return (
-    <div className="absolute bottom-4 left-4 w-32 flex justify-center items-center bg-background border border-line rounded-xl shadow-md overflow-hidden aspect-[64/91]">
+    <div className="absolute bottom-4 left-4 w-28 flex justify-center items-center bg-background border border-line rounded-2xl shadow-lg overflow-hidden aspect-[64/91]">
       {typeof src === "string" ? (
         <object className={imageBgStyle} type="image/jpeg" data={src}>
           <img className={imageBgStyle} src={imageNoImage} alt="" />
