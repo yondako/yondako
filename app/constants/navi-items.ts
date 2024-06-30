@@ -1,7 +1,7 @@
-import { IconBooks } from "@/components/common/Icon/Books";
-import { IconScan } from "@/components/common/Icon/Scan";
-import { IconSearch } from "@/components/common/Icon/Search";
-import { IconSetting } from "@/components/common/Icon/Setting";
+import IconBooks from "@/assets/icons/books.svg?react";
+import IconScan from "@/assets/icons/scan.svg?react";
+import IconSearch from "@/assets/icons/search.svg?react";
+import IconSetting from "@/assets/icons/settings.svg?react";
 import type { IconType } from "@/types/icon";
 
 export type NavItem = {
