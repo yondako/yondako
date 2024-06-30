@@ -1,6 +1,6 @@
-import { classNames } from "@/libs/classNames";
 import { IconType } from "@/types/icon";
 import { ComponentProps } from "react";
+import { twMerge } from "tailwind-merge";
 
 type Props = {
   Icon: IconType;
@@ -17,7 +17,7 @@ export default function StatusButton({
   return (
     <button
       {...props}
-      className={classNames(
+      className={twMerge(
         "h-full h-auto flex justify-center items-center w-full px-5 py-3 border rounded-full",
         selected
           ? "text-background bg-tako border-tako"
