@@ -12,7 +12,7 @@ export default function Book({ data }: Props) {
       <Thumbnail src={data.info.thumbnailUrl} />
 
       <div className="w-full h-36 mt-8 p-4 pl-36 bg-tako rounded-2xl">
-        <p className="font-bold text-sm leading-5 line-clamp-4">
+        <p className="font-bold text-sm leading-5 line-clamp-3">
           {data.info.title}
         </p>
 
