@@ -1,6 +1,7 @@
 import IconHelp from "@/assets/icons/help.svg?react";
 import BookList from "@/components/common/BookList";
 import CommonLayout from "@/components/common/Layout";
+import Link from "@/components/common/Link";
 import SearchBox from "@/components/common/SearchBox";
 import { searchBookFromNDL } from "@/libs/ndl/api";
 import { BookInfo, BookType } from "@/types/book";
@@ -28,15 +29,13 @@ export default createRoute(async (c) => {
           />
         </form>
 
-        <a
-          className="mt-4 md:mt-0 md:ml-4 flex items-center shrink-0 text-xs text-text space-x-1 hover:underline"
+        <Link
+          className="mt-4 md:mt-0 md:ml-4 flex items-center shrink-0 text-xs space-x-1"
           href="https://docs.yondako.com/data-source"
-          target="_blank"
-          rel="noreferrer"
         >
           <IconHelp className="w-4 h-4" />
           <span>データはどこから取得してるの？</span>
-        </a>
+        </Link>
       </div>
 
       <SearchResult
