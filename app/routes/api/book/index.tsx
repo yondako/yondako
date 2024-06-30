@@ -19,7 +19,7 @@ const routes = app.post(
     const { user } = c.get("authUser");
 
     if (!user) {
-      return c.status(401);
+      return c.json({ error: "ログインが必要です" }, 401);
     }
 
     const ndlBibId = c.req.param("id");
@@ -35,12 +35,7 @@ const routes = app.post(
       const results = await searchBookFromNDL({ any: ndlBibId, cnt: 1 });
 
       if (!results || results.length <= 0) {
-        return c.json(
-          {
-            message: "書籍がみつかりませんでした",
-          },
-          404,
-        );
+        return c.json({ error: "書籍がみつかりませんでした" }, 404);
       }
 
       book = results[0];
@@ -58,7 +53,6 @@ const routes = app.post(
       status,
     );
 
-    // TODO: 好きな本に登録する機能を追加
     return c.json(
       {
         info: book,
