@@ -13,7 +13,7 @@ export default function SideNavi({
 
   return (
     <nav {...props} className={classNames(style, props.className)}>
-      <div className="px-8 py-6">
+      <div className="px-8 pt-8 pb-4">
         <a className="block w-32" href="/">
           <img src={logoUrl} alt={site.name} />
         </a>
