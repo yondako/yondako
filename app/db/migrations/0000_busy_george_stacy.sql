@@ -10,13 +10,6 @@ CREATE TABLE `bookAuthors` (
 	FOREIGN KEY (`authorId`) REFERENCES `authors`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
-CREATE TABLE `bookPublishers` (
-	`bookId` text,
-	`publisherId` integer,
-	FOREIGN KEY (`bookId`) REFERENCES `books`(`id`) ON UPDATE no action ON DELETE cascade,
-	FOREIGN KEY (`publisherId`) REFERENCES `publishers`(`id`) ON UPDATE no action ON DELETE cascade
-);
---> statement-breakpoint
 CREATE TABLE `books` (
 	`id` text PRIMARY KEY NOT NULL,
 	`title` text NOT NULL,
@@ -26,12 +19,19 @@ CREATE TABLE `books` (
 	`thumbnailUrl` text
 );
 --> statement-breakpoint
+CREATE TABLE `bookPublishers` (
+	`bookId` text,
+	`publisherId` integer,
+	FOREIGN KEY (`bookId`) REFERENCES `books`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`publisherId`) REFERENCES `publishers`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
 CREATE TABLE `publishers` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`name` text NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE `reading_statuses` (
+CREATE TABLE `readingStatuses` (
 	`userId` text NOT NULL,
 	`bookId` text NOT NULL,
 	`status` text NOT NULL,
