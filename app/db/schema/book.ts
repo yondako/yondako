@@ -1,3 +1,4 @@
+import { readingStatusValues } from "@/types/book";
 import { relations, sql } from "drizzle-orm";
 import {
   integer,
@@ -6,7 +7,6 @@ import {
   text,
 } from "drizzle-orm/sqlite-core";
 import { users } from "./user";
-import { readingStatusValues } from "@/types/book";
 
 /**
  * 書籍情報
