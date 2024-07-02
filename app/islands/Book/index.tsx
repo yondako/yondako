@@ -1,7 +1,8 @@
-import imageNoImage from "@/assets/images/noimage.webp";
+import { BookThumbnail } from "@/components/common/BookThumbnail";
 import { statusList } from "@/constants/status";
 import { BookType } from "@/types/book";
 import { twMerge } from "tailwind-merge";
+import BookModal from "../BookModal";
 
 type Props = {
   data: BookType;
@@ -9,42 +10,28 @@ type Props = {
 
 export default function Book({ data }: Props) {
   return (
-    <div className="relative text-text transition-transform ease-in-out duration-500 hover:scale-105">
-      <Thumbnail src={data.info.thumbnailUrl} />
+    <BookModal data={data}>
+      <div className="relative text-left text-text transition-transform ease-in-out duration-500 hover:scale-105">
+        <BookThumbnail
+          className="absolute bottom-4 left-4 w-28"
+          src={data.info.thumbnailUrl}
+        />
 
-      <div className="w-full h-36 mt-8 p-4 pl-36 bg-card rounded-2xl">
-        <p className="font-bold text-sm leading-5 line-clamp-3">
-          {data.info.title}
-        </p>
-
-        {data.info.authors && (
-          <p className="mt-2 text-xs line-clamp-1">
-            {data.info.authors.join(", ")}
+        <div className="w-full h-36 mt-8 p-4 pl-36 bg-card rounded-2xl">
+          <p className="font-bold text-sm leading-5 line-clamp-3">
+            {data.info.title}
           </p>
-        )}
 
-        <ReadingStatusBadge status={data.readingStatus ?? "none"} />
+          {data.info.authors && (
+            <p className="mt-2 text-xs line-clamp-1">
+              {data.info.authors.join(", ")}
+            </p>
+          )}
+
+          <ReadingStatusBadge status={data.readingStatus ?? "none"} />
+        </div>
       </div>
-    </div>
-  );
-}
-
-/**
- * 書影
- */
-function Thumbnail({ src }: { src: string | null | undefined }) {
-  const imageBgStyle = "w-full object-contain";
-
-  return (
-    <div className="absolute bottom-4 left-4 w-28 flex justify-center items-center bg-background-sub border border-line rounded-2xl shadow-lg overflow-hidden aspect-[64/91]">
-      {typeof src === "string" ? (
-        <object className={imageBgStyle} type="image/jpeg" data={src}>
-          <img className={imageBgStyle} src={imageNoImage} alt="" />
-        </object>
-      ) : (
-        <img className={imageBgStyle} src={imageNoImage} alt="" />
-      )}
-    </div>
+    </BookModal>
   );
 }
 

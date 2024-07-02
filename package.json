@@ -16,6 +16,7 @@
     "@hono/auth-js": "^1.0.7",
     "@hono/react-renderer": "^0.1.1",
     "@hono/valibot-validator": "^0.2.4",
+    "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-slot": "^1.0.2",
     "@zxing/browser": "^0.1.4",
     "@zxing/library": "^0.20.0",
