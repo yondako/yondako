@@ -1,6 +1,7 @@
-import IconChevronRight from "@/assets/icons/chevron-right.svg?react";
 import imageNoImage from "@/assets/images/noimage.webp";
+import { statusList } from "@/constants/status";
 import { BookType } from "@/types/book";
+import { twMerge } from "tailwind-merge";
 
 type Props = {
   data: BookType;
@@ -8,7 +9,7 @@ type Props = {
 
 export default function Book({ data }: Props) {
   return (
-    <div className="relative text-text">
+    <div className="relative text-text transition-transform ease-in-out duration-500 hover:scale-105">
       <Thumbnail src={data.info.thumbnailUrl} />
 
       <div className="w-full h-36 mt-8 p-4 pl-36 bg-card rounded-2xl">
@@ -21,15 +22,16 @@ export default function Book({ data }: Props) {
             {data.info.authors.join(", ")}
           </p>
         )}
-      </div>
 
-      <button className="absolute bottom-4 right-4 flex items-center space-x-1 text-sm">
-        <IconChevronRight className="w-6 h-6" />
-      </button>
+        <ReadingStatusBadge status={data.readingStatus ?? "none"} />
+      </div>
     </div>
   );
 }
 
+/**
+ * 書影
+ */
 function Thumbnail({ src }: { src: string | null | undefined }) {
   const imageBgStyle = "w-full object-contain";
 
@@ -42,6 +44,35 @@ function Thumbnail({ src }: { src: string | null | undefined }) {
       ) : (
         <img className={imageBgStyle} src={imageNoImage} alt="" />
       )}
+    </div>
+  );
+}
+
+/**
+ * 読書ステータスのバッジ
+ *
+ * status が none なら破線のボーダー、それ以外は背景色ありで表示
+ */
+function ReadingStatusBadge({ status }: { status: BookType["readingStatus"] }) {
+  const item = statusList.get(status);
+
+  if (!item) {
+    return null;
+  }
+
+  const Icon = status === "none" ? item.IconSolid : item.IconFilled;
+
+  return (
+    <div
+      className={twMerge(
+        "absolute bottom-4 right-4 px-3 py-1 flex items-center space-x-1 text-xs rounded-full",
+        status === "none"
+          ? "text-tako border border-dashed border-tako"
+          : "text-card bg-tako ",
+      )}
+    >
+      <Icon className="w-4 h-4" />
+      <span>{item.label}</span>
     </div>
   );
 }
