@@ -17,13 +17,13 @@ export default function Book({ data }: Props) {
           src={data.info.thumbnailUrl}
         />
 
-        <div className="w-full h-36 mt-8 p-4 pl-36 bg-card rounded-2xl">
+        <div className="w-full h-40 mt-8 p-4 pl-36 bg-card rounded-2xl">
           <p className="font-bold text-sm leading-5 line-clamp-3">
             {data.info.title}
           </p>
 
           {data.info.authors && (
-            <p className="mt-2 text-xs line-clamp-1">
+            <p className="mt-2 text-xxs line-clamp-1">
               {data.info.authors.join(", ")}
             </p>
           )}
