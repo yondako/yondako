@@ -5,11 +5,11 @@ import { twMerge } from "tailwind-merge";
 const tabItems = [
   {
     title: "よんでる",
-    href: "/library",
+    href: "/library/reading",
   },
   {
     title: "よみたい",
-    href: "/library/wantread",
+    href: "/library/want_read",
   },
   {
     title: "よんだ",

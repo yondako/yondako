@@ -1,4 +1,4 @@
-import { ReadingStatus } from "@/types/book";
+import { BookType, ReadingStatus } from "@/types/book";
 import { and, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import * as dbSchema from "../schema/book";
@@ -46,25 +46,62 @@ export async function getBooksByReadingStatus(
   d1: D1Database,
   userId: string,
   status: ReadingStatus,
-) {
+): Promise<BookType[]> {
   const db = drizzle(d1, { schema: dbSchema });
 
   try {
-    const raw = await db.query.books.findMany({
+    const raw = await db.query.readingStatuses.findMany({
+      where: and(
+        eq(dbSchema.readingStatuses.userId, userId),
+        eq(dbSchema.readingStatuses.status, status),
+      ),
       with: {
-        readingStatuses: {
-          where: and(
-            eq(dbSchema.readingStatuses.userId, userId),
-            eq(dbSchema.readingStatuses.status, status),
-          ),
-          columns: {
-            status: true,
+        book: {
+          with: {
+            bookAuthors: {
+              with: {
+                author: {
+                  columns: {
+                    name: true,
+                  },
+                },
+              },
+            },
+            bookPublishers: {
+              with: {
+                publisher: {
+                  columns: {
+                    name: true,
+                  },
+                },
+              },
+            },
           },
         },
       },
     });
-    console.log(raw);
+
+    return raw.map((r) => ({
+      info: {
+        ...r.book,
+        authors:
+          r.book.bookAuthors.length > 0
+            ? r.book.bookAuthors
+                .map(({ author }) => author?.name)
+                .filter((x): x is string => typeof x === "string")
+            : undefined,
+        publishers:
+          r.book.bookPublishers.length > 0
+            ? r.book.bookPublishers
+                .map(({ publisher }) => publisher?.name)
+                .filter((x): x is string => typeof x === "string")
+            : undefined,
+      },
+      readingStatus: r.status,
+    }));
   } catch (e) {
+    // TODO: エラーハンドリング
     console.log(e);
+    return [];
   }
 }

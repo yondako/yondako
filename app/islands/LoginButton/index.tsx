@@ -28,7 +28,7 @@ function Button({ provider, children }: ButtonProps) {
       className="block w-fit mx-auto md:mx-0"
       onClick={() =>
         signIn(provider, {
-          callbackUrl: "/library",
+          callbackUrl: "/library/reading",
         })
       }
     >
