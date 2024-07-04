@@ -26,7 +26,7 @@ export default createRoute(
         <BookList className="mt-10" items={books} />
       </LibraryLayout>,
       {
-        title
+        title,
       },
     );
   },
