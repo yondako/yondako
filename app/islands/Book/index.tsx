@@ -11,7 +11,7 @@ type Props = {
 export default function Book({ data }: Props) {
   return (
     <BookModal data={data}>
-      <div className="relative text-left text-text transition-transform ease-in-out duration-500 hover:scale-105">
+      <button className="relative w-full text-left text-text transition-transform ease-in-out duration-500 hover:scale-105">
         <BookThumbnail
           className="absolute bottom-4 left-4 w-28"
           src={data.info.thumbnailUrl}
@@ -30,7 +30,7 @@ export default function Book({ data }: Props) {
 
           <ReadingStatusBadge status={data.readingStatus ?? "none"} />
         </div>
-      </div>
+      </button>
     </BookModal>
   );
 }

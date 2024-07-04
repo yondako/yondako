@@ -56,8 +56,7 @@ const routes = app.post(
     return c.json(
       {
         info: book,
-        status: resultReadingStatus,
-        liked: false,
+        readingStatus: resultReadingStatus,
       },
       200,
     );

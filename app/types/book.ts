@@ -33,8 +33,8 @@ export type BookInfo = {
  */
 export const readingStatusValues = [
   "none",
-  "reading",
   "want_read",
+  "reading",
   "read",
 ] as const;
 
