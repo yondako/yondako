@@ -88,13 +88,13 @@ export async function getBooksByReadingStatus(
           r.book.bookAuthors.length > 0
             ? r.book.bookAuthors
                 .map(({ author }) => author?.name)
-                .filter((x): x is string => typeof x === "string")
+                .filter((x) => typeof x === "string")
             : undefined,
         publishers:
           r.book.bookPublishers.length > 0
             ? r.book.bookPublishers
                 .map(({ publisher }) => publisher?.name)
-                .filter((x): x is string => typeof x === "string")
+                .filter((x) => typeof x === "string")
             : undefined,
       },
       readingStatus: r.status,
