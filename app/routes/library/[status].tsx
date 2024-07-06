@@ -1,13 +1,13 @@
 import BookList from "@/components/common/BookList";
 import LibraryLayout from "@/components/library/Layout";
-import { statusList } from "@/constants/status";
+import { readingStatusMetadata } from "@/constants/status";
 import { getBooksByReadingStatus } from "@/db/queries/status";
-import { readingStatusSchema } from "@/schemas/readingStatus";
+import { readingStatusSchemaWithoutNone } from "@/schemas/readingStatus";
 import { vValidator } from "@hono/valibot-validator";
 import { createRoute } from "honox/factory";
 
 export default createRoute(
-  vValidator("param", readingStatusSchema),
+  vValidator("param", readingStatusSchemaWithoutNone),
   async (c) => {
     const { user } = c.get("authUser");
 
@@ -19,14 +19,12 @@ export default createRoute(
     const { status } = c.req.valid("param");
     const books = await getBooksByReadingStatus(c.env.DB, user?.id, status);
 
-    const title = statusList.get(status)?.label;
-
     return c.render(
-      <LibraryLayout current={title}>
-        <BookList className="mt-10" items={books} />
+      <LibraryLayout current={status}>
+        <BookList className="mt-10" items={books} hideReadingStatusBadge />
       </LibraryLayout>,
       {
-        title,
+        title: readingStatusMetadata.get(status)?.label,
       },
     );
   },

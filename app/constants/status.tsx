@@ -9,7 +9,7 @@ import IconSquareCheck from "@/assets/icons/square-check.svg?react";
 import { ReadingStatus } from "@/types/book";
 import { FunctionComponent, SVGProps } from "react";
 
-type StatusListItem = {
+export type ReadingStatusMetadataItem = {
   label: string;
   IconSolid: FunctionComponent<SVGProps<SVGSVGElement>>;
   IconFilled: FunctionComponent<SVGProps<SVGSVGElement>>;
@@ -18,7 +18,10 @@ type StatusListItem = {
 /**
  * 読書ステータスと対応するラベル・アイコンのリスト
  */
-export const statusList = new Map<ReadingStatus, StatusListItem>([
+export const readingStatusMetadata = new Map<
+  ReadingStatus,
+  ReadingStatusMetadataItem
+>([
   [
     "none",
     {

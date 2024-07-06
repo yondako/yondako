@@ -1,14 +1,18 @@
 import { BookThumbnail } from "@/components/common/BookThumbnail";
-import { statusList } from "@/constants/status";
+import { readingStatusMetadata } from "@/constants/status";
 import { BookType } from "@/types/book";
 import { twMerge } from "tailwind-merge";
 import BookModal from "../BookModal";
 
-type Props = {
+export type BookCardProps = {
   data: BookType;
+  hideReadingStatusBadge?: boolean;
 };
 
-export default function Book({ data }: Props) {
+export default function BookCard({
+  data,
+  hideReadingStatusBadge = false,
+}: BookCardProps) {
   return (
     <BookModal data={data}>
       <button className="relative w-full text-left text-text transition-transform ease-in-out duration-500 hover:scale-105">
@@ -28,7 +32,9 @@ export default function Book({ data }: Props) {
             </p>
           )}
 
-          <ReadingStatusBadge status={data.readingStatus ?? "none"} />
+          {!hideReadingStatusBadge && (
+            <ReadingStatusBadge status={data.readingStatus ?? "none"} />
+          )}
         </div>
       </button>
     </BookModal>
@@ -41,7 +47,7 @@ export default function Book({ data }: Props) {
  * status が none なら破線のボーダー、それ以外は背景色ありで表示
  */
 function ReadingStatusBadge({ status }: { status: BookType["readingStatus"] }) {
-  const item = statusList.get(status);
+  const item = readingStatusMetadata.get(status);
 
   if (!item) {
     return null;
