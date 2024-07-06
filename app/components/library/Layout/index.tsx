@@ -1,7 +1,7 @@
 import CommonLayout from "@/components/common/Layout";
+import { ReadingStatus } from "@/types/book";
 import { ComponentProps } from "react";
 import Tab from "../Tab";
-import { ReadingStatus } from "@/types/book";
 
 type Props = {
   current: Exclude<ReadingStatus, "none">;

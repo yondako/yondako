@@ -1,4 +1,7 @@
-import { ReadingStatusMetadataItem, readingStatusMetadata } from "@/constants/status";
+import {
+  ReadingStatusMetadataItem,
+  readingStatusMetadata,
+} from "@/constants/status";
 import { ReadingStatus } from "@/types/book";
 import { twMerge } from "tailwind-merge";
 
@@ -12,12 +15,19 @@ type Props = {
   current: string;
 };
 
-export default function Tab({ current,  }: Props) {
+export default function Tab({ current }: Props) {
   return (
     <div className="flex w-fit mx-auto bg-card rounded-full">
       {READING_STATUS_ORDER.map((status) => {
         const item = readingStatusMetadata.get(status);
-        return item ? <TabItem id={status} meta={item} current={status === current} key={status} /> : null
+        return item ? (
+          <TabItem
+            id={status}
+            meta={item}
+            current={status === current}
+            key={status}
+          />
+        ) : null;
       })}
     </div>
   );
@@ -25,9 +35,9 @@ export default function Tab({ current,  }: Props) {
 
 type TabItemProps = {
   id: string;
-  meta: ReadingStatusMetadataItem
+  meta: ReadingStatusMetadataItem;
   current?: boolean;
-}
+};
 
 function TabItem({ id, meta, current }: TabItemProps) {
   const Icon = current ? meta.IconFilled : meta.IconSolid;
