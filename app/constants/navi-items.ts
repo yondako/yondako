@@ -1,11 +1,19 @@
-import { Books, Scan, Search, Settings } from "@/components/common/Icons";
+import {
+  Bookmarks,
+  BookmarksFilled,
+  Scan,
+  Search,
+  Settings,
+  SettingsFilled,
+} from "@/components/common/Icons";
 import { FunctionComponent, SVGProps } from "react";
 
 export type NavItem = {
   title: string;
   short: string;
   href: `/${string}`;
-  Icon: FunctionComponent<SVGProps<SVGSVGElement>>;
+  IconSolid: FunctionComponent<SVGProps<SVGSVGElement>>;
+  IconFilled: FunctionComponent<SVGProps<SVGSVGElement>>;
 };
 
 export const naviItems: NavItem[] = [
@@ -13,24 +21,28 @@ export const naviItems: NavItem[] = [
     title: "ライブラリ",
     short: "ライブラリ",
     href: "/library/reading",
-    Icon: Books,
+    IconSolid: Bookmarks,
+    IconFilled: BookmarksFilled,
   },
   {
     title: "キーワードで探す",
     short: "キーワードで",
     href: "/search",
-    Icon: Search,
+    IconSolid: Search,
+    IconFilled: Search,
   },
   {
     title: "バーコードで探す",
     short: "バーコードで",
     href: "/search/barcode",
-    Icon: Scan,
+    IconSolid: Scan,
+    IconFilled: Scan,
   },
   {
     title: "設定",
     short: "設定",
     href: "/settings",
-    Icon: Settings,
+    IconSolid: Settings,
+    IconFilled: SettingsFilled,
   },
 ] as const;

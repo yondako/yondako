@@ -6,17 +6,15 @@ import { twMerge } from "tailwind-merge";
 export default function BottomNavi({
   current,
   ...props
-}: NaviProps & ComponentProps<"nav">) {
+}: NaviProps & Omit<ComponentProps<"nav">, "className">) {
   return (
     <nav
       {...props}
-      className={twMerge(
-        "fixed bottom-0 flex justify-between w-full px-8 border border-line bg-background",
-        props.className,
-      )}
+      className="fixed bottom-4 left-4 flex md:hidden justify-between w-[calc(100%-2rem)] px-8 rounded-full bg-card"
     >
-      {naviItems.map(({ title, short, href, Icon }) => {
+      {naviItems.map(({ title, href, IconSolid, IconFilled }) => {
         const isCurrent = title === current;
+        const Icon = isCurrent ? IconFilled : IconSolid;
 
         return (
           <a
@@ -28,7 +26,6 @@ export default function BottomNavi({
             key={title}
           >
             <Icon className="w-7 h-7" />
-            <span className="text-xxs mt-1">{short}</span>
           </a>
         );
       })}

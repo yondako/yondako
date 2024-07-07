@@ -38,7 +38,15 @@ type ItemProps = {
   current?: boolean;
 } & NavItem;
 
-function Item({ title, Icon, href, current = false }: ItemProps) {
+function Item({
+  title,
+  IconSolid,
+  IconFilled,
+  href,
+  current = false,
+}: ItemProps) {
+  const Icon = current ? IconFilled : IconSolid;
+
   return (
     <a
       className={twMerge(

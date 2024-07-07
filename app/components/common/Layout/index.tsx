@@ -12,19 +12,19 @@ type Props = {
 export default function CommonLayout({ children, ...props }: Props) {
   return (
     <body className="md:flex h-full">
-      {/** sm幅のみ */}
+      {/** スマホのみ */}
       <Header className="block md:hidden" />
 
-      {/** md幅～のみ */}
+      {/** タブレット以上のみ */}
       <SideNavi {...props} />
 
       <div className="w-full min-h-full px-6 md:px-12 py-8 md:overflow-y-scroll md:shrink ">
         {children}
       </div>
 
-      {/** sm幅のみ */}
+      {/** スマホのみ */}
       <Footer className="block md:hidden px-6 py-12 pb-32 bg-background text-center" />
-      <BottomNavi className="block md:hidden" {...props} />
+      <BottomNavi {...props} />
     </body>
   );
 }
