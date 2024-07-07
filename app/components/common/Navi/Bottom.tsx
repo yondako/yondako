@@ -1,7 +1,7 @@
 import { naviItems } from "@/constants/navi-items";
-import { classNames } from "@/libs/classNames";
 import type { NaviProps } from "@/types/navi";
 import { ComponentProps } from "react";
+import { twMerge } from "tailwind-merge";
 
 export default function BottomNavi({
   current,
@@ -10,7 +10,7 @@ export default function BottomNavi({
   return (
     <nav
       {...props}
-      className={classNames(
+      className={twMerge(
         "fixed bottom-0 flex justify-between w-full px-8 border border-line bg-background",
         props.className,
       )}
@@ -20,7 +20,7 @@ export default function BottomNavi({
 
         return (
           <a
-            className={classNames(
+            className={twMerge(
               "flex flex-col items-center p-4",
               isCurrent && "text-tako",
             )}

@@ -1,9 +1,14 @@
+/**
+ * 書籍
+ */
 export type BookType = {
   info: BookInfo;
-  liked: boolean;
-  status: BookStatus;
+  readingStatus: ReadingStatus;
 };
 
+/**
+ * 書籍情報
+ */
 export type BookInfo = {
   /** 書誌ID */
   ndlBibId: string;
@@ -23,4 +28,17 @@ export type BookInfo = {
   thumbnailUrl?: string | null;
 };
 
-export type BookStatus = "none" | "read" | "want_read";
+/**
+ * 読書ステータスの値
+ */
+export const readingStatusValues = [
+  "none",
+  "want_read",
+  "reading",
+  "read",
+] as const;
+
+/**
+ * 読書ステータス
+ */
+export type ReadingStatus = (typeof readingStatusValues)[number];

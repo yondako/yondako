@@ -1,12 +1,17 @@
-import { classNames } from "@/libs/classNames";
+import { ComponentProps } from "react";
+import { twMerge } from "tailwind-merge";
 
-export default function Link(props: JSX.IntrinsicElements["a"]) {
-  const style = "underline hover:text-tako transition-colors";
-
+export default function Link({
+  className,
+  ...props
+}: Omit<ComponentProps<"a">, "target" | "rel">) {
   return (
     <a
       {...props}
-      className={classNames(style, props.className)}
+      className={twMerge(
+        "hover:underline hover:text-tako transition-colors",
+        className,
+      )}
       target="_blank"
       rel="noopener noreferrer"
     >

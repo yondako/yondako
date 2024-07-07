@@ -1,5 +1,5 @@
-import { classNames } from "@/libs/classNames";
 import { ComponentProps } from "react";
+import { twMerge } from "tailwind-merge";
 import Link from "../Link";
 
 type LinkItem = {
@@ -28,28 +28,25 @@ const links: LinkItem[] = [
 
 type Props = {
   portrait?: boolean;
-} & ComponentProps<"footer">;
+} & ComponentProps<"div">;
 
 export default function Footer({ portrait = false, ...props }: Props) {
   const year = new Date().getFullYear();
 
   return (
-    <footer
-      {...props}
-      className={classNames(
-        "text-xs",
-        portrait ? "text-left" : "text-center",
-        props.className,
-      )}
-    >
+    <div {...props} className={twMerge("text-xs", props.className)}>
       <div className={portrait ? "space-y-1" : "space-x-2"}>
         {links.map(({ title, href }) => (
-          <Link className={portrait ? "block" : ""} href={href} key={href}>
+          <Link
+            className={portrait ? "block" : "inline"}
+            href={href}
+            key={href}
+          >
             {title}
           </Link>
         ))}
       </div>
-      <p className="mt-2">© {year} yondako</p>
-    </footer>
+      <p className={portrait ? "mt-4" : "mt-2"}>© {year} yondako</p>
+    </div>
   );
 }

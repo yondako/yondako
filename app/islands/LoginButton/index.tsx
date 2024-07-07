@@ -1,18 +1,40 @@
-import Button from "@/components/common/Button";
+import {
+  ContinueWithGithub,
+  ContinueWithGoogle,
+} from "@/components/common/Icons";
+import { BuiltInProviderType } from "@auth/core/providers";
 import { signIn } from "@hono/auth-js/react";
+import { ReactNode } from "react";
 
 export default function LoginButton() {
   return (
-    <Button
-      className="block w-full mx-auto mt-10 text-base"
+    <div className="flex flex-col space-y-4 mt-12">
+      <Button provider="google">
+        <ContinueWithGoogle />
+      </Button>
+      <Button provider="github">
+        <ContinueWithGithub />
+      </Button>
+    </div>
+  );
+}
+
+type ButtonProps = {
+  provider: BuiltInProviderType;
+  children: ReactNode;
+};
+
+function Button({ provider, children }: ButtonProps) {
+  return (
+    <button
+      className="block w-[189px] mx-auto md:mx-0 h-[41px]"
       onClick={() =>
-        signIn("github", {
-          callbackUrl: "/library",
+        signIn(provider, {
+          callbackUrl: "/library/reading",
         })
       }
     >
-      <span className="font-noto-emoji">🐙</span>
-      <span className="ml-2">新規登録 or ログイン</span>
-    </Button>
+      {children}
+    </button>
   );
 }

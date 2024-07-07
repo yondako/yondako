@@ -53,13 +53,13 @@ export async function getBook(
       bookAuthors.length > 0
         ? bookAuthors
             .map(({ author }) => author?.name)
-            .filter((x): x is string => typeof x === "string")
+            .filter((x) => typeof x === "string")
         : undefined,
     publishers:
       bookPublishers.length > 0
         ? bookPublishers
             .map(({ publisher }) => publisher?.name)
-            .filter((x): x is string => typeof x === "string")
+            .filter((x) => typeof x === "string")
         : undefined,
   };
 }

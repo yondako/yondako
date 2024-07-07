@@ -1,13 +1,13 @@
 import logoUrl from "@/assets/images/logo_landscape.svg";
 import { site } from "@/constants/site";
-import { classNames } from "@/libs/classNames";
+import { ComponentProps } from "react";
+import { twMerge } from "tailwind-merge";
 
-export default function Header(props: JSX.IntrinsicElements["div"]) {
-  const style =
-    "px-8 py-7 text-center bg-gradation bg-no-repeat bg-[left_bottom_-1rem] sm:bg-[left_bottom_-2rem] bg-[length:50%] sm:bg-[length:60%]";
+export default function Header(props: ComponentProps<"div">) {
+  const style = "p-8 pb-0 text-center";
 
   return (
-    <div className={classNames(style, props.className)}>
+    <div className={twMerge(style, props.className)}>
       <a className="block w-fit m-auto" href="/">
         <img width={200} src={logoUrl} alt={site.name} />
       </a>

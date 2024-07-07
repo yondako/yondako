@@ -1,5 +1,7 @@
 import BookList from "@/components/common/BookList";
+import { Help } from "@/components/common/Icons";
 import CommonLayout from "@/components/common/Layout";
+import Link from "@/components/common/Link";
 import SearchBox from "@/components/common/SearchBox";
 import { searchBookFromNDL } from "@/libs/ndl/api";
 import { BookInfo, BookType } from "@/types/book";
@@ -16,19 +18,30 @@ export default createRoute(async (c) => {
     results = await searchBookFromNDL({ any: query, cnt: 100 });
   }
 
-  // TODO:
-  // - 検索結果にユーザーの読書ステータスを反映
-
   return c.render(
     <CommonLayout current={title}>
-      <form>
-        <SearchBox name="q" defaultValue={query} />
-      </form>
+      <div className="flex flex-col md:flex-row items-end md:items-center">
+        <form className="m-0 w-full">
+          <SearchBox
+            name="q"
+            defaultValue={query}
+            placeholder="書籍名、著者名で検索"
+          />
+        </form>
+
+        <Link
+          className="mt-4 md:mt-0 md:ml-4 flex items-center shrink-0 text-xs space-x-1"
+          href="https://docs.yondako.com/data-source"
+        >
+          <Help className="w-4 h-4" />
+          <span>データはどこから取得してるの？</span>
+        </Link>
+      </div>
+
       <SearchResult
         results={results?.map((info) => ({
           info,
-          liked: false,
-          status: "none",
+          readingStatus: "none",
         }))}
         isIdle={typeof query === "undefined"}
       />
@@ -68,5 +81,5 @@ function SearchResult({ results, isIdle }: SearchResultProps) {
     return <p className="mt-12 text-center">みつかりませんでした</p>;
   }
 
-  return <BookList className="mt-10" items={results} />;
+  return <BookList className="mt-8" items={results} />;
 }

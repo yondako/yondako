@@ -31,14 +31,17 @@ app.use("/api/auth/*", authHandler());
 app.get("/", async (c) => {
   return c.render(
     <LandingLayout>
-      <div className="max-w-[26rem]">
-        <img className="m-auto" width={256} src={logoUrl} alt={site.name} />
-        <h1 className="mt-10 text-3xl lg:text-4xl tracking-wide text-center">
-          {site.description.short}
-        </h1>
-        <p className="mt-6">{site.description.long}</p>
-        <LoginButton />
-      </div>
+      <img
+        className="mx-auto md:mx-0"
+        width={256}
+        src={logoUrl}
+        alt={site.name}
+      />
+      <h1 className="mt-12 text-3xl md:text-4xl tracking-wide text-center md:text-left">
+        {site.description.short}
+      </h1>
+      <p className="mt-6 text-center md:text-left">{site.description.long}</p>
+      <LoginButton />
     </LandingLayout>,
     {
       title: `${site.name} | ${site.description.short}`,

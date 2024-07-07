@@ -1,19 +1,31 @@
-import Book from "@/islands/Book";
+import BookCard, { BookCardProps } from "@/islands/BookCard";
 import { BookType } from "@/types/book";
-import { Fragment } from "react/jsx-runtime";
+import { ComponentProps } from "react";
+import { twMerge } from "tailwind-merge";
 
 type Props = {
   items: BookType[];
-} & JSX.IntrinsicElements["div"];
+} & Pick<BookCardProps, "hideReadingStatusBadge"> &
+  ComponentProps<"div">;
 
-export default function BookList({ items, ...props }: Props) {
+export default function BookList({
+  items,
+  hideReadingStatusBadge,
+  ...props
+}: Props) {
   return (
-    <div className={props.className}>
-      {items.map((book, i) => (
-        <Fragment key={book.info.ndlBibId}>
-          {i !== 0 && <div className="my-6 w-full border-t border-line" />}
-          <Book data={book} />
-        </Fragment>
+    <div
+      className={twMerge(
+        "grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 justify-items-center gap-6 [&>*]:w-full",
+        props.className,
+      )}
+    >
+      {items.map((book) => (
+        <BookCard
+          data={book}
+          hideReadingStatusBadge={hideReadingStatusBadge}
+          key={book.info.ndlBibId}
+        />
       ))}
     </div>
   );

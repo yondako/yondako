@@ -1,39 +1,36 @@
-import { IconBooks } from "@/components/common/Icon/Books";
-import { IconScan } from "@/components/common/Icon/Scan";
-import { IconSearch } from "@/components/common/Icon/Search";
-import { IconSetting } from "@/components/common/Icon/Setting";
-import type { IconType } from "@/types/icon";
+import { Books, Scan, Search, Settings } from "@/components/common/Icons";
+import { FunctionComponent, SVGProps } from "react";
 
 export type NavItem = {
   title: string;
   short: string;
   href: `/${string}`;
-  Icon: IconType;
+  Icon: FunctionComponent<SVGProps<SVGSVGElement>>;
 };
 
 export const naviItems: NavItem[] = [
   {
     title: "ライブラリ",
     short: "ライブラリ",
-    href: "/library",
-    Icon: IconBooks,
+    href: "/library/reading",
+    Icon: Books,
   },
   {
     title: "キーワードで探す",
     short: "キーワードで",
     href: "/search",
-    Icon: IconSearch,
+    Icon: Search,
   },
   {
     title: "バーコードで探す",
     short: "バーコードで",
     href: "/search/barcode",
-    Icon: IconScan,
+    Icon: Scan,
   },
   {
     title: "設定",
     short: "設定",
     href: "/settings",
-    Icon: IconSetting,
+    Icon: Settings,
   },
 ] as const;
