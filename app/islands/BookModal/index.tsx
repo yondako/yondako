@@ -1,4 +1,5 @@
 import { BookThumbnail } from "@/components/common/BookThumbnail";
+import { Building, Feather } from "@/components/common/Icons";
 import { readingStatusMetadata } from "@/constants/status";
 import { toIsbn10 } from "@/libs/isbn";
 import { BookStatusType } from "@/routes/api/book";
@@ -16,7 +17,6 @@ import { ReactNode, useOptimistic, useState } from "react";
 import ReadingStatusButton from "./ReadingStatusButton";
 import { ShopLinks } from "./ShopLinks";
 import { Tags } from "./Tags";
-import { Building, Feather } from "@/components/common/Icons";
 
 const READING_STATUS_ORDER: ReadingStatus[] = [
   "want_read",
