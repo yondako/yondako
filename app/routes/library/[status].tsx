@@ -5,9 +5,16 @@ import { getBooksByReadingStatus } from "@/db/queries/status";
 import { readingStatusSchemaWithoutNone } from "@/schemas/readingStatus";
 import { vValidator } from "@hono/valibot-validator";
 import { createRoute } from "honox/factory";
+import { cache } from "hono/cache";
 
 export default createRoute(
   vValidator("param", readingStatusSchemaWithoutNone),
+  cache({
+    cacheName: (c) => {
+      return `library-${c.req.param("status")}`;
+    },
+    cacheControl: "private, must-revalidate, max-age=0",
+  }),
   async (c) => {
     const { user } = c.get("authUser");
 
