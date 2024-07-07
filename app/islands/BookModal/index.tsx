@@ -64,6 +64,8 @@ export default function BookModal({ data, children }: Props) {
     }
   };
 
+  const isbn10 = toIsbn10(book.info.isbn);
+
   return (
     <Root modal>
       <Trigger asChild>{children}</Trigger>
@@ -86,7 +88,7 @@ export default function BookModal({ data, children }: Props) {
               <Tags Icon={Building} items={book.info.publishers} />
             </div>
 
-            {book.info.isbn && <ShopLinks isbn10={toIsbn10(book.info.isbn)} />}
+            {isbn10 && <ShopLinks isbn10={isbn10} />}
           </div>
 
           <form
