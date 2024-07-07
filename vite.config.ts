@@ -40,7 +40,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       honox({
-        devServer: process.env.DEV_HTTPS ? { adapter } : undefined,
+        devServer: { adapter },
       }),
       pages(),
       tsconfigPaths(),
