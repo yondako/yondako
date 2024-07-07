@@ -4,8 +4,8 @@ import { readingStatusMetadata } from "@/constants/status";
 import { getBooksByReadingStatus } from "@/db/queries/status";
 import { readingStatusSchemaWithoutNone } from "@/schemas/readingStatus";
 import { vValidator } from "@hono/valibot-validator";
-import { createRoute } from "honox/factory";
 import { cache } from "hono/cache";
+import { createRoute } from "honox/factory";
 
 export default createRoute(
   vValidator("param", readingStatusSchemaWithoutNone),
