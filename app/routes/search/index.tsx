@@ -1,5 +1,5 @@
-import IconHelp from "@/assets/icons/help.svg?react";
 import BookList from "@/components/common/BookList";
+import { Help } from "@/components/common/Icons";
 import CommonLayout from "@/components/common/Layout";
 import Link from "@/components/common/Link";
 import SearchBox from "@/components/common/SearchBox";
@@ -33,7 +33,7 @@ export default createRoute(async (c) => {
           className="mt-4 md:mt-0 md:ml-4 flex items-center shrink-0 text-xs space-x-1"
           href="https://docs.yondako.com/data-source"
         >
-          <IconHelp className="w-4 h-4" />
+          <Help className="w-4 h-4" />
           <span>データはどこから取得してるの？</span>
         </Link>
       </div>
@@ -41,8 +41,7 @@ export default createRoute(async (c) => {
       <SearchResult
         results={results?.map((info) => ({
           info,
-          liked: false,
-          status: "none",
+          readingStatus: "none",
         }))}
         isIdle={typeof query === "undefined"}
       />

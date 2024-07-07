@@ -5,11 +5,7 @@
     "moduleResolution": "Bundler",
     "strict": true,
     "lib": ["ESNext", "DOM"],
-    "types": [
-      "vite/client",
-      "@cloudflare/workers-types",
-      "vite-plugin-svgr/client"
-    ],
+    "types": ["vite/client", "@cloudflare/workers-types"],
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "baseUrl": "./app",

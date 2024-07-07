@@ -1,5 +1,4 @@
-import IconBrandAmazon from "@/assets/icons/brand-amazon.svg?react";
-import IconShoppingCart from "@/assets/icons/shopping-cart.svg?react";
+import { BrandAmazon, ShoppingCart } from "@/components/common/Icons";
 import { FunctionComponent, SVGProps } from "react";
 
 type Props = {
@@ -11,7 +10,7 @@ export function ShopLinks({ isbn10 }: Props) {
     <div className="mt-4 flex items-center space-x-4">
       <ShopLink
         title="Amazon"
-        Icon={IconBrandAmazon}
+        Icon={BrandAmazon}
         url={() => {
           const url = new URL(
             `/gp/product/${isbn10}/`,
@@ -23,7 +22,7 @@ export function ShopLinks({ isbn10 }: Props) {
 
       <ShopLink
         title="honto"
-        Icon={IconShoppingCart}
+        Icon={ShoppingCart}
         url={() => {
           const url = new URL(
             `/ebook/search_10${isbn10}.html`,

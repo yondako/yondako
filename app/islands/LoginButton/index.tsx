@@ -1,5 +1,7 @@
-import IconContinueWithGithub from "@/assets/icons/continue-with-github.svg?react";
-import IconContinueWithGoogle from "@/assets/icons/continue-with-google.svg?react";
+import {
+  ContinueWithGithub,
+  ContinueWithGoogle,
+} from "@/components/common/Icons";
 import { BuiltInProviderType } from "@auth/core/providers";
 import { signIn } from "@hono/auth-js/react";
 import { ReactNode } from "react";
@@ -8,10 +10,10 @@ export default function LoginButton() {
   return (
     <div className="flex flex-col space-y-4 mt-12">
       <Button provider="google">
-        <IconContinueWithGoogle />
+        <ContinueWithGoogle />
       </Button>
       <Button provider="github">
-        <IconContinueWithGithub />
+        <ContinueWithGithub />
       </Button>
     </div>
   );
@@ -25,7 +27,7 @@ type ButtonProps = {
 function Button({ provider, children }: ButtonProps) {
   return (
     <button
-      className="block w-fit mx-auto md:mx-0"
+      className="block w-[189px] mx-auto md:mx-0 h-[41px]"
       onClick={() =>
         signIn(provider, {
           callbackUrl: "/library/reading",

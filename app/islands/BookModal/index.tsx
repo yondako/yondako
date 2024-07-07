@@ -1,5 +1,3 @@
-import IconBuilding from "@/assets/icons/building.svg?react";
-import IconFeather from "@/assets/icons/feather.svg?react";
 import { BookThumbnail } from "@/components/common/BookThumbnail";
 import { readingStatusMetadata } from "@/constants/status";
 import { toIsbn10 } from "@/libs/isbn";
@@ -18,6 +16,7 @@ import { ReactNode, useOptimistic, useState } from "react";
 import ReadingStatusButton from "./ReadingStatusButton";
 import { ShopLinks } from "./ShopLinks";
 import { Tags } from "./Tags";
+import { Building, Feather } from "@/components/common/Icons";
 
 const READING_STATUS_ORDER: ReadingStatus[] = [
   "want_read",
@@ -83,8 +82,8 @@ export default function BookModal({ data, children }: Props) {
             </Title>
 
             <div className="mt-4 space-y-2">
-              <Tags Icon={IconFeather} items={book.info.authors} />
-              <Tags Icon={IconBuilding} items={book.info.publishers} />
+              <Tags Icon={Feather} items={book.info.authors} />
+              <Tags Icon={Building} items={book.info.publishers} />
             </div>
 
             {book.info.isbn && <ShopLinks isbn10={toIsbn10(book.info.isbn)} />}
