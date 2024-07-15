@@ -25,7 +25,7 @@ const config: Config = {
         star: "#F08C43",
       },
       backgroundImage: {
-        gradation: "url('/src/assets/images/gradation.webp')",
+        gradation: "url('/images/gradation.webp')",
       },
     },
   },
