@@ -17,7 +17,7 @@ type Props = {
 
 export default function Tab({ current }: Props) {
   return (
-    <div className="flex w-fit mx-auto bg-card rounded-full">
+    <div className="flex w-full md:w-fit mx-auto bg-card rounded-full">
       {READING_STATUS_ORDER.map((status) => {
         const item = readingStatusMetadata.get(status);
         return item ? (
@@ -45,7 +45,7 @@ function TabItem({ id, meta, current }: TabItemProps) {
   return (
     <a
       className={twMerge(
-        "flex justify-center items-center w-full min-w-32 px-4 py-2 text-xs text-center rounded-full space-x-2",
+        "flex justify-center items-center w-full md:min-w-32 px-4 py-2 text-xs text-center rounded-full space-x-2",
         current
           ? "font-bold bg-tako text-background"
           : "transition hover:bg-card hover:brightness-95",

@@ -8,7 +8,7 @@ export default function SearchBox({
 }: ComponentPropsWithRef<"input">) {
   return (
     <div className="relative text-text">
-      <Search className="absolute w-5 md:w-4 w-5 md:w-4 top-1.5 left-4 text-text" />
+      <Search className="absolute w-5 md:w-4 w-5 md:w-4 top-1/2 -translate-y-1/2 left-4 text-text" />
       <input
         {...props}
         className={twMerge(
