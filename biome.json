@@ -13,6 +13,13 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "nursery": {
+        "useSortedClasses": {
+          "level": "warn",
+          "fix": "safe",
+          "options": {}
+        }
+      },
       "a11y": {
         "useButtonType": "off",
         "noSvgWithoutTitle": "off"
