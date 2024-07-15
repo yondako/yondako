@@ -8,13 +8,28 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        "noto-emoji": "Noto Color Emoji",
+      },
+      fontSize: {
+        xxs: "0.625rem",
+      },
+      colors: {
+        tako: "#A17171",
+        text: "#494949",
+        "text-sub": "#9d9595",
+        background: "#FFFAF6",
+        "background-sub": "#FAF9F9",
+        card: "#fdf3eb",
+        line: "#DDDDDD",
+        star: "#F08C43",
+      },
       backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        gradation: "url('/src/assets/images/gradation.webp')",
       },
     },
   },
   plugins: [],
 };
+
 export default config;

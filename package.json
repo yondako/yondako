@@ -1,32 +1,43 @@
 {
   "name": "yondako",
-  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --experimental-https -H local.yondako.com",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "pages:build": "bunx @cloudflare/next-on-pages",
     "preview": "bun pages:build && wrangler pages dev",
     "deploy": "bun pages:build && wrangler pages deploy",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts"
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts",
+    "generate:schema": "drizzle-kit generate --dialect sqlite --out ./src/db/migrations --schema"
   },
   "dependencies": {
+    "@auth/drizzle-adapter": "^1.4.1",
+    "@hono/valibot-validator": "^0.3.0",
+    "drizzle-orm": "^0.32.0",
+    "hono": "^4.4.13",
+    "next": "14.1.0",
+    "next-auth": "^5.0.0-beta.19",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.1.0"
+    "tailwind-merge": "^2.4.0",
+    "valibot": "^0.36.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
     "@cloudflare/next-on-pages": "1",
     "@cloudflare/workers-types": "^4.20240712.0",
+    "@types/bun": "^1.1.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
+    "drizzle-kit": "^0.23.0",
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
     "eslint-plugin-next-on-pages": "^1.12.1",
+    "lefthook": "^1.7.2",
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
     "typescript": "^5",
