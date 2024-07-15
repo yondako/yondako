@@ -1,6 +1,0 @@
-pre-commit:
-  parallel: true
-  commands:
-    biome:
-      glob: "*.{js,ts,jsx,tsx,css}"
-      run: bun biome check --apply {staged_files}
