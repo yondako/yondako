@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import IconContinueWithGithub from "@/assets/icons/continue-with-github.svg";
 import IconContinueWithGoogle from "@/assets/icons/continue-with-google.svg";
