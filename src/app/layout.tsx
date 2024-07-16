@@ -26,7 +26,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={twMerge("bg-background text-text", fonts.className)}>
+      <body
+        className={twMerge(
+          "bg-background font-noto-emoji text-text",
+          fonts.className,
+        )}
+      >
         {children}
       </body>
     </html>
