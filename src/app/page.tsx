@@ -1,8 +1,11 @@
 import imageLogo from "@/assets/images/logo_portrait.svg?url";
 import LandingLayout from "@/components/LandingLayout";
 import { site } from "@/constants/site";
+import { generateMetadataTitle } from "@/lib/metadata";
 import Image from "next/image";
 import LoginButton from "./_components/LoginButton";
+
+export const metadata = generateMetadataTitle();
 
 export default function Home() {
   return (

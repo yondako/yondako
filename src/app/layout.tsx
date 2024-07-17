@@ -1,6 +1,8 @@
 import { twMerge } from "tailwind-merge";
 import "./globals.css";
 import localFont from "next/font/local";
+import { Metadata } from "next";
+import { site } from "@/constants/site";
 
 const fonts = localFont({
   src: [
@@ -18,6 +20,21 @@ const fonts = localFont({
   display: "swap",
   variable: "--font-line-seed-jp",
 });
+
+export const metadata: Metadata = {
+  description: site.description.long,
+  metadataBase: new URL(site.url),
+  openGraph: {
+    description: site.description.long,
+    url: site.url,
+    siteName: site.name,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    description: site.description.long,
+  },
+};
 
 export default function RootLayout({
   children,
