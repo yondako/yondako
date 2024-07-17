@@ -1,8 +1,8 @@
 import { twMerge } from "tailwind-merge";
 import "./globals.css";
-import localFont from "next/font/local";
-import { Metadata } from "next";
 import { site } from "@/constants/site";
+import type { Metadata } from "next";
+import localFont from "next/font/local";
 
 const fonts = localFont({
   src: [
