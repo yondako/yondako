@@ -1,19 +1,17 @@
-import {
-  Bookmarks,
-  BookmarksFilled,
-  Scan,
-  Search,
-  Settings,
-  SettingsFilled,
-} from "@/components/common/Icons";
+import BookmarksFilled from "@/assets/icons/bookmarks-filled.svg";
+import Bookmarks from "@/assets/icons/bookmarks.svg";
+import Scan from "@/assets/icons/scan.svg";
+import Search from "@/assets/icons/search.svg";
+import SettingsFilled from "@/assets/icons/settings-filled.svg";
+import Settings from "@/assets/icons/settings.svg";
 import type { FunctionComponent, SVGProps } from "react";
 
 export type NavItem = {
   title: string;
   short: string;
   href: `/${string}`;
-  IconSolid: FunctionComponent<SVGProps<SVGSVGElement>>;
-  IconFilled: FunctionComponent<SVGProps<SVGSVGElement>>;
+  IconSolid: FunctionComponent<SVGProps<SVGElement>>;
+  IconFilled: FunctionComponent<SVGProps<SVGElement>>;
 };
 
 export const naviItems: NavItem[] = [
