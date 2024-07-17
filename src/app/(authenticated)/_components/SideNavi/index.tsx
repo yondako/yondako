@@ -2,10 +2,10 @@ import logoUrl from "@/assets/images/logo_portrait.svg?url";
 import { type NavItem, naviItems } from "@/constants/navi-items";
 import { site } from "@/constants/site";
 import type { NaviProps } from "@/types/navi";
+import Image from "next/image";
 import type { ComponentProps } from "react";
 import { twMerge } from "tailwind-merge";
 import Footer from "../Footer";
-import Image from "next/image";
 
 export default function SideNavi({
   current,
