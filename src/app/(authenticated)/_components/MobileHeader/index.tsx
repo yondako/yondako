@@ -10,7 +10,7 @@ export default function MobileHeader(props: ComponentProps<"div">) {
   return (
     <div className={twMerge(style, props.className)}>
       <a className="m-auto block w-fit" href="/">
-        <Image width={200} src={imageLogo} alt={site.name} />
+        <Image width={200} src={imageLogo} alt={site.name} priority />
       </a>
     </div>
   );
