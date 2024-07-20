@@ -5,6 +5,8 @@ import { generateMetadataTitle } from "@/lib/metadata";
 import Image from "next/image";
 import LoginButton from "./_components/LoginButton";
 
+export const runtime = "edge";
+
 export const metadata = generateMetadataTitle();
 
 export default function Home() {

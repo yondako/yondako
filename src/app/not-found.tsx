@@ -2,8 +2,6 @@ import Button from "@/components/Button";
 import LandingLayout from "@/components/LandingLayout";
 import type { Metadata } from "next";
 
-export const runtime = "edge";
-
 export const metadata: Metadata = {
   title: "NotFound | yondako",
 };

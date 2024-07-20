@@ -1,40 +1,21 @@
-"use client";
-
 import IconContinueWithGithub from "@/assets/icons/continue-with-github.svg";
-import IconContinueWithGoogle from "@/assets/icons/continue-with-google.svg";
-import type { BuiltInProviderType } from "next-auth/providers";
-import { signIn } from "next-auth/react";
-import type { ReactNode } from "react";
+import { signIn } from "@/lib/auth";
 
 export default function LoginButton() {
+  const handleSubmit = async () => {
+    "use server";
+
+    await signIn("github", { redirectTo: "/library/reading" });
+  };
+
   return (
-    <div className="mt-12 flex flex-col space-y-4">
-      <Button provider="google">
-        <IconContinueWithGoogle />
-      </Button>
-      <Button provider="github">
+    <form className="mt-12 flex flex-col space-y-4" action={handleSubmit}>
+      <button
+        className="mx-auto block h-[41px] w-[189px] md:mx-0"
+        type="submit"
+      >
         <IconContinueWithGithub />
-      </Button>
-    </div>
-  );
-}
-
-type ButtonProps = {
-  provider: BuiltInProviderType;
-  children: ReactNode;
-};
-
-function Button({ provider, children }: ButtonProps) {
-  return (
-    <button
-      className="mx-auto block h-[41px] w-[189px] md:mx-0"
-      onClick={() =>
-        signIn(provider, {
-          callbackUrl: "/library/reading",
-        })
-      }
-    >
-      {children}
-    </button>
+      </button>
+    </form>
   );
 }

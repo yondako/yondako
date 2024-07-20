@@ -1,9 +1,12 @@
 import { readingStatusSchemaWithoutNone } from "@/schemas/readingStatus";
 import type { ReadingStatus } from "@/types/book";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { is } from "valibot";
 import Layout from "../../_components/Layout";
 import Tab from "../_components/Tab";
+import { auth } from "@/lib/auth";
+
+export const runtime = "edge";
 
 type Props = {
   params: {
@@ -11,7 +14,14 @@ type Props = {
   };
 };
 
-export default function Library({ params }: Props) {
+export default async function Library({ params }: Props) {
+  const session = await auth();
+
+  if (!session?.user) {
+    const callbackUrl = `/library/${params.status}`;
+    redirect(`/api/auth/signin?callbackUrl=${encodeURIComponent(callbackUrl)}`);
+  }
+
   console.log(params.status);
   // ライブラリのステータスが不正な場合は404にリダイレクト
   if (!is(readingStatusSchemaWithoutNone, params.status)) {

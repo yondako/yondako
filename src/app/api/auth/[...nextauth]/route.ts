@@ -1,2 +1,4 @@
+import { handlers } from "@/lib/auth";
+
 export const runtime = "edge";
-export { GET, POST } from "./auth";
+export const { GET, POST } = handlers;

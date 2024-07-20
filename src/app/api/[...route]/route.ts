@@ -1,6 +1,6 @@
+import { auth } from "@/lib/auth";
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
-import { auth } from "../auth/[...nextauth]/auth";
 
 export const runtime = "edge";
 
