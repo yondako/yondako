@@ -1,23 +1,19 @@
 import type { BookType, ReadingStatus } from "@/types/book";
 import { and, eq } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/d1";
 import * as dbSchema from "../schema/book";
+import db from "..";
 
 /**
  * 読書ステータスを追加
- * @param d1 D1Database
  * @param userId ユーザーID
  * @param bookId 書籍ID
  * @returns ステータス
  */
 export async function upsertReadingStatus(
-  d1: D1Database,
   userId: string,
   bookId: string,
   status: ReadingStatus,
 ): Promise<ReadingStatus> {
-  const db = drizzle(d1, { schema: dbSchema });
-
   // ステータスを作成。存在する場合は更新
   const result = await db
     .insert(dbSchema.readingStatuses)
@@ -43,12 +39,9 @@ export async function upsertReadingStatus(
  * @returns 書籍
  */
 export async function getBooksByReadingStatus(
-  d1: D1Database,
   userId: string,
   status: ReadingStatus,
 ): Promise<BookType[]> {
-  const db = drizzle(d1, { schema: dbSchema });
-
   try {
     const raw = await db.query.readingStatuses.findMany({
       where: and(
