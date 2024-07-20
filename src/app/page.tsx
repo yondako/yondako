@@ -4,12 +4,21 @@ import { site } from "@/constants/site";
 import { generateMetadataTitle } from "@/lib/metadata";
 import Image from "next/image";
 import LoginButton from "./_components/LoginButton";
+import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 export const runtime = "edge";
 
 export const metadata = generateMetadataTitle();
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth();
+
+  // セッションがある場合はライブラリにリダイレクト
+  if (session?.user) {
+    redirect("/library/reading");
+  }
+
   return (
     <LandingLayout>
       <Image
