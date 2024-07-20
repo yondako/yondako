@@ -1,10 +1,10 @@
+import { auth } from "@/lib/auth";
 import { readingStatusSchemaWithoutNone } from "@/schemas/readingStatus";
 import type { ReadingStatus } from "@/types/book";
 import { notFound, redirect } from "next/navigation";
 import { is } from "valibot";
 import Layout from "../../_components/Layout";
 import Tab from "../_components/Tab";
-import { auth } from "@/lib/auth";
 
 export const runtime = "edge";
 
