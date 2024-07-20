@@ -7,7 +7,7 @@ export default function CommonLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <div className="h-full md:flex">
+    <div className="h-screen md:flex">
       <MobileHeader className="block md:hidden" />
       <SideNavi current="" />
 
