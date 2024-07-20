@@ -1,11 +1,11 @@
 import logoUrl from "@/assets/images/logo_portrait.svg?url";
+import Footer from "@/components/Footer";
 import { type NavItem, naviItems } from "@/constants/navi-items";
 import { site } from "@/constants/site";
-import type { NaviProps } from "@/types/navi";
 import Image from "next/image";
 import type { ComponentProps } from "react";
 import { twMerge } from "tailwind-merge";
-import Footer from "../Footer";
+import type { NaviProps } from "../../_types/navi";
 
 export default function SideNavi({
   current,

@@ -9,12 +9,12 @@ import type { FunctionComponent, SVGProps } from "react";
 export type NavItem = {
   title: string;
   short: string;
-  href: `/${string}`;
+  href: string;
   IconSolid: FunctionComponent<SVGProps<SVGElement>>;
   IconFilled: FunctionComponent<SVGProps<SVGElement>>;
 };
 
-export const naviItems: NavItem[] = [
+export const naviItems = [
   {
     title: "ライブラリ",
     short: "ライブラリ",

@@ -1,20 +1,18 @@
-import {
-  Book,
-  BookFilled,
-  Bookmark,
-  BookmarkFilled,
-  MoodEmpty,
-  MoodEmptyFilled,
-  SquareCheck,
-  SquareCheckFilled,
-} from "@/components/common/Icons";
+import MoodEmpty from "@/assets/icons/mood-empty.svg";
+import MoodEmptyFilled from "@/assets/icons/mood-empty-filled.svg";
+import Bookmark from "@/assets/icons/bookmark.svg";
+import BookmarkFilled from "@/assets/icons/bookmark-filled.svg";
+import Book from "@/assets/icons/book.svg";
+import BookFilled from "@/assets/icons/book-filled.svg";
+import SquareCheck from "@/assets/icons/square-check.svg";
+import SquareCheckFilled from "@/assets/icons/square-check-filled.svg";
 import type { ReadingStatus } from "@/types/book";
 import type { FunctionComponent, SVGProps } from "react";
 
 export type ReadingStatusMetadataItem = {
   label: string;
-  IconSolid: FunctionComponent<SVGProps<SVGSVGElement>>;
-  IconFilled: FunctionComponent<SVGProps<SVGSVGElement>>;
+  IconSolid: FunctionComponent<SVGProps<SVGElement>>;
+  IconFilled: FunctionComponent<SVGProps<SVGElement>>;
 };
 
 /**

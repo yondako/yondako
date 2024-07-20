@@ -1,7 +1,7 @@
 import { naviItems } from "@/constants/navi-items";
-import type { NaviProps } from "@/types/navi";
 import type { ComponentProps } from "react";
 import { twMerge } from "tailwind-merge";
+import type { NaviProps } from "../../_types/navi";
 
 export default function MobileBottomNavi({
   current,
