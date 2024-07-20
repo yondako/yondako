@@ -1,9 +1,9 @@
+import { readingStatusSchemaWithoutNone } from "@/schemas/readingStatus";
 import type { ReadingStatus } from "@/types/book";
+import { notFound } from "next/navigation";
+import { is } from "valibot";
 import Layout from "../../_components/Layout";
 import Tab from "../_components/Tab";
-import { readingStatusSchemaWithoutNone } from "@/schemas/readingStatus";
-import { is } from "valibot";
-import { notFound } from "next/navigation";
 
 type Props = {
   params: {
