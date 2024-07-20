@@ -1,11 +1,11 @@
 import imageLogo from "@/assets/images/logo_portrait.svg?url";
 import LandingLayout from "@/components/LandingLayout";
 import { site } from "@/constants/site";
+import { auth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import Image from "next/image";
-import LoginButton from "./_components/LoginButton";
-import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import LoginButton from "./_components/LoginButton";
 
 export const runtime = "edge";
 
