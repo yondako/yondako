@@ -5,6 +5,7 @@ import { notFound, redirect } from "next/navigation";
 import { is } from "valibot";
 import Layout from "../../_components/Layout";
 import Tab from "../_components/Tab";
+import BookList from "@/components/BookList";
 
 export const runtime = "edge";
 
@@ -22,7 +23,6 @@ export default async function Library({ params }: Props) {
     redirect(`/api/auth/signin?callbackUrl=${encodeURIComponent(callbackUrl)}`);
   }
 
-  console.log(params.status);
   // ライブラリのステータスが不正な場合は404にリダイレクト
   if (!is(readingStatusSchemaWithoutNone, params.status)) {
     notFound();
@@ -31,7 +31,7 @@ export default async function Library({ params }: Props) {
   return (
     <Layout current="ライブラリ">
       <Tab current={params.status} />
-      <h1>Library</h1>
+      <BookList className="mt-10" items={[]} hideReadingStatusBadge />
     </Layout>
   );
 }
