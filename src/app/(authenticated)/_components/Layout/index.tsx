@@ -1,9 +1,9 @@
 import Footer from "@/components/Footer";
-import MobileHeader from "../MobileHeader";
-import SideNavi from "../SideNavi";
-import MobileBottomNavi from "../MobileBottomNavi";
 import type { ReactNode } from "react";
 import type { NaviProps } from "../../_types/navi";
+import MobileBottomNavi from "../MobileBottomNavi";
+import MobileHeader from "../MobileHeader";
+import SideNavi from "../SideNavi";
 
 type Props = {
   children: ReactNode;
