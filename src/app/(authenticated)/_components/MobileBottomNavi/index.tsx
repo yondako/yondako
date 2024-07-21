@@ -2,6 +2,7 @@ import { naviItems } from "@/constants/navi-items";
 import type { ComponentProps } from "react";
 import { twMerge } from "tailwind-merge";
 import type { NaviProps } from "../../_types/navi";
+import Link from "next/link";
 
 export default function MobileBottomNavi({
   current,
@@ -17,7 +18,7 @@ export default function MobileBottomNavi({
         const Icon = isCurrent ? IconFilled : IconSolid;
 
         return (
-          <a
+          <Link
             className={twMerge(
               "flex flex-col items-center p-4",
               isCurrent && "text-tako",
@@ -26,7 +27,7 @@ export default function MobileBottomNavi({
             key={title}
           >
             <Icon className="h-7 w-7" />
-          </a>
+          </Link>
         );
       })}
     </nav>

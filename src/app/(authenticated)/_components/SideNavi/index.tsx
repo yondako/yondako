@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import { type NavItem, naviItems } from "@/constants/navi-items";
 import { site } from "@/constants/site";
 import Image from "next/image";
+import Link from "next/link";
 import type { ComponentProps } from "react";
 import { twMerge } from "tailwind-merge";
 import type { NaviProps } from "../../_types/navi";
@@ -19,9 +20,9 @@ export default function SideNavi({
       )}
     >
       <div className="mt-8">
-        <a className="ml-8 block w-32" href="/">
+        <Link className="ml-8 block w-32" href="/">
           <Image src={logoUrl} alt={site.name} priority />
-        </a>
+        </Link>
 
         <div className="mt-6 space-y-2">
           {naviItems.map((item) => (
@@ -49,7 +50,7 @@ function Item({
   const Icon = current ? IconFilled : IconSolid;
 
   return (
-    <a
+    <Link
       className={twMerge(
         "flex cursor-pointer items-center space-x-3 rounded-r-full px-8 py-2 text-base",
         current
@@ -60,6 +61,6 @@ function Item({
     >
       <Icon className="h-5 w-5" />
       <span>{title}</span>
-    </a>
+    </Link>
   );
 }

@@ -1,5 +1,5 @@
 import IconHelp from "@/assets/icons/help.svg";
-import Link from "@/components/Link";
+import ExternalLink from "@/components/ExternalLink";
 import { Loading } from "@/components/Loading";
 import { auth } from "@/lib/auth.server";
 import { generateMetadataTitle } from "@/lib/metadata";
@@ -35,13 +35,13 @@ export default async function Search({ searchParams }: Props) {
     <Layout current="キーワードで探す">
       <div className="flex flex-col items-end md:flex-row md:items-center">
         <SearchForm />
-        <Link
+        <ExternalLink
           className="mt-4 flex shrink-0 items-center space-x-1 text-xs md:mt-0 md:ml-4"
           href="https://docs.yondako.com/data-source"
         >
           <IconHelp className="h-4 w-4" />
           <span>データはどこから取得してるの？</span>
-        </Link>
+        </ExternalLink>
       </div>
 
       {query ? (

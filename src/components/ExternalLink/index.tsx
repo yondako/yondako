@@ -1,7 +1,7 @@
 import type { ComponentProps } from "react";
 import { twMerge } from "tailwind-merge";
 
-export default function Link({
+export default function ExternalLink({
   className,
   ...props
 }: Omit<ComponentProps<"a">, "target" | "rel">) {

@@ -1,6 +1,7 @@
 import Button from "@/components/Button";
 import LandingLayout from "@/components/LandingLayout";
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "NotFound | yondako",
@@ -13,10 +14,10 @@ export default function NotFound() {
       <p className="mt-10">ページが見つかりませんでした 🫥</p>
       <p className="mt-1">URLが間違っていないかご確認ください</p>
       <Button asChild>
-        <a className="mx-auto mt-10 block w-fit text-base md:mx-0" href="/">
+        <Link className="mx-auto mt-10 block w-fit text-base md:mx-0" href="/">
           <span className="font-noto-emoji">🐙</span>
           <span className="ml-2">トップページに戻る</span>
-        </a>
+        </Link>
       </Button>
     </LandingLayout>
   );
