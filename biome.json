@@ -1,5 +1,8 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.5.3/schema.json",
+  "files": {
+    "ignore": [".next/**", ".vercel/**", ".wrangler/**", "node_modules/**"]
+  },
   "organizeImports": {
     "enabled": true
   },

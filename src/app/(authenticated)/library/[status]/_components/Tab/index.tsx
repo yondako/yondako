@@ -1,5 +1,5 @@
 import { readingStatusMetadata } from "@/constants/status";
-import type { ReadingStatus } from "@/types/book";
+import type { ReadingStatus } from "@/types/readingStatus";
 import { TabItem } from "./TabItem";
 
 const readingStatusOrder: ReadingStatus[] = [

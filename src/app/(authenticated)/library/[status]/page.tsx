@@ -1,16 +1,18 @@
-import BookList from "@/components/BookList";
 import { Loading } from "@/components/Loading";
-import { getBooksByReadingStatus } from "@/db/queries/status.server";
 import { auth } from "@/lib/auth.server";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/url";
-import { readingStatusSchemaWithoutNone } from "@/schemas/readingStatus";
-import type { ReadingStatus } from "@/types/book";
+import { type Order, orderSchema } from "@/types/order";
+import {
+  type ReadingStatus,
+  readingStatusSchemaWithoutNone,
+} from "@/types/readingStatus";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
-import { is } from "valibot";
+import { is, safeParse } from "valibot";
 import Layout from "../../_components/Layout";
-import Tab from "../_components/Tab";
+import { LibraryBookList } from "./_components/LibraryBookList";
+import Tab from "./_components/Tab";
 
 export const runtime = "edge";
 
@@ -20,9 +22,12 @@ type Props = {
   params: {
     status: ReadingStatus;
   };
+  searchParams: {
+    order?: Order;
+  };
 };
 
-export default async function Library({ params }: Props) {
+export default async function Library({ params, searchParams }: Props) {
   const session = await auth();
 
   if (!session?.user?.id) {
@@ -34,32 +39,16 @@ export default async function Library({ params }: Props) {
     notFound();
   }
 
+  // ソート順
+  const orderParseResult = safeParse(orderSchema, searchParams.order);
+  const orderType = orderParseResult.success ? orderParseResult.output : "desc";
+
   return (
     <Layout current="ライブラリ">
       <Tab current={params.status} />
       <Suspense fallback={<Loading title="読み込んでいます" />}>
-        <LibraryBookList status={params.status} />
+        <LibraryBookList status={params.status} order={orderType} />
       </Suspense>
     </Layout>
-  );
-}
-
-type LibraryBookListProps = {
-  status: ReadingStatus;
-};
-
-async function LibraryBookList({ status }: LibraryBookListProps) {
-  const session = await auth();
-
-  if (!session?.user?.id) {
-    return null;
-  }
-
-  const books = await getBooksByReadingStatus(session.user.id, status);
-
-  return (
-    <div className="mt-10">
-      <BookList items={books} hideReadingStatusBadge />
-    </div>
   );
 }
