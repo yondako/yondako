@@ -1,5 +1,5 @@
 import type { BookType, ReadingStatus } from "@/types/book";
-import { and, eq } from "drizzle-orm";
+import { and, asc, desc, eq } from "drizzle-orm";
 import db from "..";
 import * as dbSchema from "../schema/book";
 
@@ -36,11 +36,13 @@ export async function upsertReadingStatus(
  * @param d1 D1Database
  * @pqram userId ユーザーID
  * @param status ステータス
+ * @param order ソート順
  * @returns 書籍
  */
 export async function getBooksByReadingStatus(
   userId: string,
   status: ReadingStatus,
+  order: "asc" | "desc",
 ): Promise<BookType[]> {
   try {
     const raw = await db.query.readingStatuses.findMany({
@@ -72,6 +74,10 @@ export async function getBooksByReadingStatus(
           },
         },
       },
+      orderBy:
+        order === "asc"
+          ? asc(dbSchema.readingStatuses.createdAt)
+          : desc(dbSchema.readingStatuses.createdAt),
     });
 
     return raw.map((r) => ({

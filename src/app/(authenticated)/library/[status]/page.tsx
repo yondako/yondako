@@ -55,10 +55,14 @@ async function LibraryBookList({ status }: LibraryBookListProps) {
     return null;
   }
 
-  const books = await getBooksByReadingStatus(session.user.id, status);
+  const books = await getBooksByReadingStatus(session.user.id, status, "desc");
 
   return (
     <div className="mt-10">
+      <h1 className="font-bold">
+        <span className="text-4xl">{books.length}</span>
+        <span className="text-base">冊</span>
+      </h1>
       <BookList items={books} hideReadingStatusBadge />
     </div>
   );
