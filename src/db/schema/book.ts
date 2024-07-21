@@ -114,6 +114,7 @@ export const readingStatuses = sqliteTable(
       enum: readingStatusValues,
     }).notNull(),
     createdAt: text("createdAt").notNull().default(sql`(CURRENT_TIMESTAMP)`),
+    // TODO: これ「よんだ」のステータスに変更した日付でもいいかも
     updatedAt: text("updatedAt").notNull().default(sql`(CURRENT_TIMESTAMP)`),
   },
   (t) => ({
