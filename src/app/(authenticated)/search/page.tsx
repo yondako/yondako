@@ -1,10 +1,18 @@
 import IconHelp from "@/assets/icons/help.svg";
 import Link from "@/components/Link";
+import { Loading } from "@/components/Loading";
 import { auth } from "@/lib/auth.server";
+import { generateMetadataTitle } from "@/lib/metadata";
+import { createSignInPath } from "@/lib/url";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import Layout from "../_components/Layout";
 import SearchForm from "./_components/SearchForm";
 import { SearchResult } from "./_components/SearchResult";
+
+export const runtime = "edge";
+
+export const metadata = generateMetadataTitle("キーワードで探す");
 
 type Props = {
   searchParams: {
@@ -37,21 +45,12 @@ export default async function Search({ searchParams }: Props) {
       </div>
 
       {query ? (
-        <Suspense fallback={<Loading />} key={query}>
+        <Suspense fallback={<Loading title="検索しています" />} key={query}>
           <SearchResult query={query} />
         </Suspense>
       ) : (
         <p className="mx-auto mt-12 w-fit font-noto-emoji">🐙</p>
       )}
     </Layout>
-  );
-}
-
-function Loading() {
-  return (
-    <div className="flex h-full flex-col items-center justify-center space-y-4 text-center">
-      <p className="animate-bounce cursor-grab font-noto-emoji">₍₍⁽⁽🐙₎₎⁾⁾</p>
-      <p className="text-xs">検索しています</p>
-    </div>
   );
 }
