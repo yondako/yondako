@@ -1,5 +1,6 @@
 import IconHelp from "@/assets/icons/help.svg";
 import Link from "@/components/Link";
+import { auth } from "@/lib/auth.server";
 import { Suspense } from "react";
 import Layout from "../_components/Layout";
 import SearchForm from "./_components/SearchForm";
@@ -11,7 +12,13 @@ type Props = {
   };
 };
 
-export default function Search({ searchParams }: Props) {
+export default async function Search({ searchParams }: Props) {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    redirect(createSignInPath("/search"));
+  }
+
   const query = searchParams.q;
 
   // TODO: 検索前の表示

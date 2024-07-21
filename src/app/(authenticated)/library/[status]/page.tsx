@@ -1,6 +1,6 @@
 import BookList from "@/components/BookList";
 import { getBooksByReadingStatus } from "@/db/queries/status.server";
-import { auth } from "@/lib/auth";
+import { auth } from "@/lib/auth.server";
 import { readingStatusSchemaWithoutNone } from "@/schemas/readingStatus";
 import type { ReadingStatus } from "@/types/book";
 import { notFound, redirect } from "next/navigation";
@@ -20,8 +20,7 @@ export default async function Library({ params }: Props) {
   const session = await auth();
 
   if (!session?.user?.id) {
-    const callbackUrl = `/library/${params.status}`;
-    redirect(`/api/auth/signin?callbackUrl=${encodeURIComponent(callbackUrl)}`);
+    redirect(createSignInPath(`/library/${params.status}`));
   }
 
   // ライブラリのステータスが不正な場合は404にリダイレクト
