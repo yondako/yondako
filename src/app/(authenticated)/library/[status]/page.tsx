@@ -1,4 +1,5 @@
 import BookList from "@/components/BookList";
+import { getBooksByReadingStatus } from "@/db/queries/status.server";
 import { auth } from "@/lib/auth";
 import { readingStatusSchemaWithoutNone } from "@/schemas/readingStatus";
 import type { ReadingStatus } from "@/types/book";
@@ -6,7 +7,6 @@ import { notFound, redirect } from "next/navigation";
 import { is } from "valibot";
 import Layout from "../../_components/Layout";
 import Tab from "../_components/Tab";
-import { getBooksByReadingStatus } from "@/db/queries/status.server";
 
 export const runtime = "edge";
 

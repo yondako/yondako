@@ -1,22 +1,16 @@
 import type { BookInfo } from "@/types/book";
 import { eq } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/d1";
 import * as dbSchema from "../schema/book";
-import { createAuthor } from "./author";
-import { createPublisher } from "./publisher";
+import { createAuthor } from "./author.server";
+import db from "..";
+import { createPublisher } from "./publisher.server";
 
 /**
  * 書籍情報を取得
- * @param d1 D1Database
  * @param id 書籍ID
  * @returns 書籍情報
  */
-export async function getBook(
-  d1: D1Database,
-  id: string,
-): Promise<BookInfo | undefined> {
-  const db = drizzle(d1, { schema: dbSchema });
-
+export async function getBook(id: string): Promise<BookInfo | undefined> {
   const bookInfo = await db.query.books.findFirst({
     where: eq(dbSchema.books.ndlBibId, id),
     with: {
@@ -66,15 +60,9 @@ export async function getBook(
 
 /**
  * 書籍情報を登録
- * @param d1 D1Database
  * @param book 書籍情報
  */
-export async function createBook(
-  d1: D1Database,
-  book: BookInfo,
-): Promise<void> {
-  const db = drizzle(d1, { schema: dbSchema });
-
+export async function createBook(book: BookInfo): Promise<void> {
   // 書籍情報を登録
   const { ndlBibId } = await db
     .insert(dbSchema.books)
@@ -85,7 +73,7 @@ export async function createBook(
   // 著者情報を登録
   if (book.authors) {
     for (const name of book.authors) {
-      const id = await createAuthor(d1, name);
+      const id = await createAuthor(name);
 
       await db
         .insert(dbSchema.bookAuthors)
@@ -96,7 +84,7 @@ export async function createBook(
   // 出版社情報を登録
   if (book.publishers) {
     for (const name of book.publishers) {
-      const id = await createPublisher(d1, name);
+      const id = await createPublisher(name);
 
       await db
         .insert(dbSchema.bookPublishers)

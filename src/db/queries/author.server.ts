@@ -1,19 +1,13 @@
 import { eq } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/d1";
 import { authors } from "../schema/book";
+import db from "..";
 
 /**
  * 著者を登録
- * @param d1 D1Database
  * @param name 著者名
  * @returns 著者ID
  */
-export async function createAuthor(
-  d1: D1Database,
-  name: string,
-): Promise<number> {
-  const db = drizzle(d1);
-
+export async function createAuthor(name: string): Promise<number> {
   const author = await db
     .select()
     .from(authors)

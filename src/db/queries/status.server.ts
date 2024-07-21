@@ -1,7 +1,7 @@
 import type { BookType, ReadingStatus } from "@/types/book";
 import { and, eq } from "drizzle-orm";
-import * as dbSchema from "../schema/book";
 import db from "..";
+import * as dbSchema from "../schema/book";
 
 /**
  * 読書ステータスを追加
