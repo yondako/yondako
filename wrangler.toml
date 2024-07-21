@@ -71,8 +71,8 @@ migrations_dir = "src/db/migrations"
 
 ######## PREVIEW environment config ########
 
-# [env.preview.vars]
-# API_KEY = "xyz789"
+[env.preview.vars]
+BUN_VERSION = "1.1.17"
 
 # [[env.preview.kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
@@ -80,8 +80,8 @@ migrations_dir = "src/db/migrations"
 
 ######## PRODUCTION environment config ########
 
-# [env.production.vars]
-# API_KEY = "abc123"
+[env.production.vars]
+BUN_VERSION = "1.1.17"
 
 # [[env.production.kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
