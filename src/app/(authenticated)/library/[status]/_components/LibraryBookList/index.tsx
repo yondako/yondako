@@ -1,7 +1,7 @@
 import IconSortAsc from "@/assets/icons/sort-ascending.svg";
 import IconSortDesc from "@/assets/icons/sort-descending.svg";
-import Button from "@/components/Button";
 import BookList from "@/components/BookList";
+import Button from "@/components/Button";
 import { getBooksByReadingStatus } from "@/db/queries/status.server";
 import { auth } from "@/lib/auth.server";
 import type { Order } from "@/types/order";
