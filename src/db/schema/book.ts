@@ -1,4 +1,4 @@
-import { readingStatusValues } from "@/types/book";
+import { readingStatusValues } from "@/types/readingStatus";
 import { relations, sql } from "drizzle-orm";
 import {
   integer,

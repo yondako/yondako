@@ -1,3 +1,5 @@
+import type { ReadingStatus } from "./readingStatus";
+
 /**
  * 書籍
  */
@@ -27,18 +29,3 @@ export type BookInfo = {
   /** サムネイル画像URL */
   thumbnailUrl?: string | null;
 };
-
-/**
- * 読書ステータスの値
- */
-export const readingStatusValues = [
-  "none",
-  "want_read",
-  "reading",
-  "read",
-] as const;
-
-/**
- * 読書ステータス
- */
-export type ReadingStatus = (typeof readingStatusValues)[number];

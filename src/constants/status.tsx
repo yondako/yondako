@@ -6,7 +6,7 @@ import MoodEmptyFilled from "@/assets/icons/mood-empty-filled.svg";
 import MoodEmpty from "@/assets/icons/mood-empty.svg";
 import SquareCheckFilled from "@/assets/icons/square-check-filled.svg";
 import SquareCheck from "@/assets/icons/square-check.svg";
-import type { ReadingStatus } from "@/types/book";
+import type { ReadingStatus } from "@/types/readingStatus";
 import type { FunctionComponent, SVGProps } from "react";
 
 export type ReadingStatusMetadataItem = {

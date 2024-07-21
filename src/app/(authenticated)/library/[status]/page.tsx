@@ -4,13 +4,15 @@ import { getBooksByReadingStatus } from "@/db/queries/status.server";
 import { auth } from "@/lib/auth.server";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/url";
-import { readingStatusSchemaWithoutNone } from "@/schemas/readingStatus";
-import type { ReadingStatus } from "@/types/book";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
 import { is } from "valibot";
 import Layout from "../../_components/Layout";
 import Tab from "../_components/Tab";
+import {
+  type ReadingStatus,
+  readingStatusSchemaWithoutNone,
+} from "@/types/readingStatus";
 
 export const runtime = "edge";
 
