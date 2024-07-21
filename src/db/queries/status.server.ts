@@ -1,4 +1,5 @@
-import type { BookType, ReadingStatus } from "@/types/book";
+import type { BookType } from "@/types/book";
+import type { ReadingStatus } from "@/types/readingStatus";
 import { and, asc, desc, eq } from "drizzle-orm";
 import db from "..";
 import * as dbSchema from "../schema/book";
