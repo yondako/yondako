@@ -1,8 +1,8 @@
 import type { BookInfo } from "@/types/book";
 import { eq } from "drizzle-orm";
+import db from "..";
 import * as dbSchema from "../schema/book";
 import { createAuthor } from "./author.server";
-import db from "..";
 import { createPublisher } from "./publisher.server";
 
 /**

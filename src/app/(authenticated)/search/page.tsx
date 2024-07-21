@@ -1,9 +1,9 @@
-import Link from "@/components/Link";
-import Layout from "../_components/Layout";
 import IconHelp from "@/assets/icons/help.svg";
-import { SearchResult } from "./_components/SearchResult";
-import SearchForm from "./_components/SearchForm";
+import Link from "@/components/Link";
 import { Suspense } from "react";
+import Layout from "../_components/Layout";
+import SearchForm from "./_components/SearchForm";
+import { SearchResult } from "./_components/SearchResult";
 
 type Props = {
   searchParams: {
@@ -43,9 +43,7 @@ export default function Search({ searchParams }: Props) {
 function Loading() {
   return (
     <div className="flex h-full flex-col items-center justify-center space-y-4 text-center">
-      <p className="animate-bounce cursor-grab font-noto-emoji">
-        ₍₍⁽⁽🐙₎₎⁾⁾
-      </p>
+      <p className="animate-bounce cursor-grab font-noto-emoji">₍₍⁽⁽🐙₎₎⁾⁾</p>
       <p className="text-xs">検索しています</p>
     </div>
   );
