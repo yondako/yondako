@@ -1,5 +1,5 @@
 import Button from "@/components/Button";
-import { signOut } from "@/lib/auth";
+import { signOut } from "@/lib/auth.server";
 
 export default function LogoutButton() {
   const handleSubmit = async () => {

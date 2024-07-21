@@ -1,5 +1,5 @@
 import IconContinueWithGithub from "@/assets/icons/continue-with-github.svg";
-import { signIn } from "@/lib/auth";
+import { signIn } from "@/lib/auth.server";
 
 export default function LoginButton() {
   const handleSubmit = async () => {
