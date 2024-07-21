@@ -46,7 +46,7 @@
     "vercel": "^35.1.0",
     "wrangler": "^3.65.1"
   },
-  "resolutions": {
+  "overrides": {
     "string-width": "4.2.3"
   }
 }
