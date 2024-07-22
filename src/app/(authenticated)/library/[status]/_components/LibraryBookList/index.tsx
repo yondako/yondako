@@ -1,6 +1,6 @@
+import BookList from "@/app/(authenticated)/_components/BookList";
 import IconSortAsc from "@/assets/icons/sort-ascending.svg";
 import IconSortDesc from "@/assets/icons/sort-descending.svg";
-import BookList from "@/components/BookList";
 import Button from "@/components/Button";
 import { getBooksByReadingStatus } from "@/db/queries/status.server";
 import { auth } from "@/lib/auth.server";
@@ -43,7 +43,7 @@ export async function LibraryBookList({ status, order }: Props) {
           </Link>
         </Button>
       </div>
-      <BookList items={books} hideReadingStatusBadge />
+      <BookList items={books} />
     </div>
   );
 }

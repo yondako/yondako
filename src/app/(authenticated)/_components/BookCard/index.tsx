@@ -3,6 +3,7 @@ import type { BookType } from "@/types/book";
 import { twMerge } from "tailwind-merge";
 import BookModal from "../BookModal";
 import { BookThumbnail } from "../BookThumbnail";
+import ReadingStatusBadge from "./ReadingStatusBadge";
 
 export type BookCardProps = {
   data: BookType;
@@ -38,34 +39,5 @@ export default function BookCard({
         </div>
       </button>
     </BookModal>
-  );
-}
-
-/**
- * 読書ステータスのバッジ
- *
- * status が none なら破線のボーダー、それ以外は背景色ありで表示
- */
-function ReadingStatusBadge({ status }: { status: BookType["readingStatus"] }) {
-  const item = readingStatusMetadata.get(status);
-
-  if (!item) {
-    return null;
-  }
-
-  const Icon = status === "none" ? item.IconSolid : item.IconFilled;
-
-  return (
-    <div
-      className={twMerge(
-        "absolute right-4 bottom-4 flex items-center space-x-1 rounded-full px-3 py-1 text-xs",
-        status === "none"
-          ? "border border-tako border-dashed text-tako"
-          : "bg-tako text-card ",
-      )}
-    >
-      <Icon className="h-4 w-4" />
-      <span>{item.label}</span>
-    </div>
   );
 }
