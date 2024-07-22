@@ -1,4 +1,4 @@
-import type { BookInfo } from "@/types/book";
+import type { BookDetail } from "@/types/book";
 import { eq } from "drizzle-orm";
 import db from "..";
 import * as dbSchema from "../schema/book";
@@ -10,8 +10,8 @@ import { createPublisher } from "./publisher.server";
  * @param id 書籍ID
  * @returns 書籍情報
  */
-export async function getBook(id: string): Promise<BookInfo | undefined> {
-  const bookInfo = await db.query.books.findFirst({
+export async function getBook(id: string): Promise<BookDetail | undefined> {
+  const rawBook = await db.query.books.findFirst({
     where: eq(dbSchema.books.ndlBibId, id),
     with: {
       bookAuthors: {
@@ -35,14 +35,14 @@ export async function getBook(id: string): Promise<BookInfo | undefined> {
     },
   });
 
-  if (!bookInfo) {
+  if (!rawBook) {
     return;
   }
 
-  const { bookAuthors, bookPublishers, ...resultBookInfo } = bookInfo;
+  const { bookAuthors, bookPublishers, ...bookDetail } = rawBook;
 
   return {
-    ...resultBookInfo,
+    ...bookDetail,
     authors:
       bookAuthors.length > 0
         ? bookAuthors
@@ -62,7 +62,7 @@ export async function getBook(id: string): Promise<BookInfo | undefined> {
  * 書籍情報を登録
  * @param book 書籍情報
  */
-export async function createBook(book: BookInfo): Promise<void> {
+export async function createBook(book: BookDetail): Promise<void> {
   // 書籍情報を登録
   const { ndlBibId } = await db
     .insert(dbSchema.books)

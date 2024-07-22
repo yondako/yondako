@@ -1,5 +1,5 @@
 import { THUMBNAIL_API_BASE_URL } from "@/constants/api";
-import type { BookInfo } from "@/types/book";
+import type { BookDetail } from "@/types/book";
 import type { AnyNode } from "domhandler";
 import { getElementsByTagName, textContent } from "domutils";
 import * as htmlparser2 from "htmlparser2";
@@ -84,11 +84,11 @@ export const parseOpenSearchResponse = (xml: string) => {
   const replacedXml = xml.replace(/<\S+\/>/g, "");
 
   const dom = htmlparser2.parseDocument(replacedXml);
-  let results: BookInfo[] = [];
+  let results: BookDetail[] = [];
 
   for (const childNode of dom.childNodes) {
     const items = getElementsByTagName("item", childNode).map(
-      (item): BookInfo | undefined => {
+      (item): BookDetail | undefined => {
         const { children } = item;
 
         const ndlBibId = getValueByAttr(
@@ -137,7 +137,7 @@ export const parseOpenSearchResponse = (xml: string) => {
     );
 
     results = results.concat(
-      items.filter((item): item is BookInfo => typeof item !== "undefined"),
+      items.filter((item): item is BookDetail => typeof item !== "undefined"),
     );
   }
 

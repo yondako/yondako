@@ -4,14 +4,14 @@ import type { ReadingStatus } from "./readingStatus";
  * 書籍
  */
 export type BookType = {
-  info: BookInfo;
+  detail: BookDetail;
   readingStatus: ReadingStatus;
 };
 
 /**
  * 書籍情報
  */
-export type BookInfo = {
+export type BookDetail = {
   /** 書誌ID */
   ndlBibId: string;
   /** タイトル */
