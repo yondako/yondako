@@ -1,8 +1,10 @@
 "use client";
 
+import { updateReadingStatus } from "@/app/(authenticated)/_actions/updateReadingStatus";
 import IconBuilding from "@/assets/icons/building.svg";
 import IconFeather from "@/assets/icons/feather.svg";
 import { readingStatusMetadata } from "@/constants/status";
+import { toIsbn10 } from "@/lib/isbn";
 import type { BookType } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
 import {
@@ -18,8 +20,6 @@ import { BookThumbnail } from "../BookThumbnail";
 import ReadingStatusButton from "./ReadingStatusButton";
 import { ShopLinks } from "./ShopLinks";
 import { Tags } from "./Tags";
-import { toIsbn10 } from "@/lib/isbn";
-import { updateReadingStatus } from "@/app/(authenticated)/_actions/updateReadingStatus";
 
 const READING_STATUS_ORDER: ReadingStatus[] = [
   "want_read",

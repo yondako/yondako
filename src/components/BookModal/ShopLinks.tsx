@@ -1,6 +1,6 @@
-import type { FunctionComponent, SVGProps } from "react";
 import IconBrandAmazon from "@/assets/icons/brand-amazon.svg";
 import IconShoppingCart from "@/assets/icons/shopping-cart.svg";
+import type { FunctionComponent, SVGProps } from "react";
 
 type Props = {
   isbn10: string;

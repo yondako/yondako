@@ -1,8 +1,8 @@
 import { readingStatusMetadata } from "@/constants/status";
 import type { BookType } from "@/types/book";
 import { twMerge } from "tailwind-merge";
-import { BookThumbnail } from "../BookThumbnail";
 import BookModal from "../BookModal";
+import { BookThumbnail } from "../BookThumbnail";
 
 export type BookCardProps = {
   data: BookType;
