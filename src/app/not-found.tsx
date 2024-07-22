@@ -1,9 +1,7 @@
-import type { Metadata } from "next";
+import { generateMetadataTitle } from "@/lib/metadata";
 import ErrorPage from "./_components/ErrorPage";
 
-export const metadata: Metadata = {
-  title: "NotFound | yondako",
-};
+export const metadata = generateMetadataTitle("NotFound");
 
 export default function NotFound() {
   return (

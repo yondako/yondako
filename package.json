@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.4.1",
+    "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-slot": "^1.1.0",
     "cloudflare": "^3.5.0",
     "drizzle-orm": "^0.32.0",

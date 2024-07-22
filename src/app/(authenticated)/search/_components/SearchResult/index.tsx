@@ -29,8 +29,8 @@ export async function SearchResult({ query }: Props) {
   return (
     <BookList
       className="mt-8"
-      items={results?.map((info) => ({
-        info,
+      items={results?.map((detail) => ({
+        detail,
         readingStatus: "none", // TODO: 実際のステータスを反映
       }))}
     />

@@ -82,7 +82,7 @@ export async function getBooksByReadingStatus(
     });
 
     return raw.map((r) => ({
-      info: {
+      detail: {
         ...r.book,
         authors:
           r.book.bookAuthors.length > 0
