@@ -12,7 +12,8 @@
     "deploy": "bun pages:build && wrangler pages deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts",
     "generate:schema": "drizzle-kit generate --dialect sqlite --out ./src/db/migrations --schema",
-    "svgo": "bunx svgo ./src/assets/icons/"
+    "svgo": "bunx svgo ./src/assets/icons/",
+    "drizzle:studio": "bun --env-file=.env.local  run drizzle-kit studio"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.4.1",
@@ -33,6 +34,7 @@
     "@biomejs/biome": "^1.8.3",
     "@cloudflare/next-on-pages": "^1.12.1",
     "@cloudflare/workers-types": "^4.20240718.0",
+    "@libsql/client": "^0.7.0",
     "@svgr/webpack": "^8.1.0",
     "@types/bun": "^1.1.6",
     "@types/node": "^20.14.11",

@@ -27,6 +27,6 @@ bun run build && bun run preview
 
 ```
 DATABASE_PATH=".wrangler/state/v3/d1/miniflare-D1DatabaseObject/<id>.sqlite"
-bun run drizzle-kit studio
+bun run drizzle:studio
 ```
 
