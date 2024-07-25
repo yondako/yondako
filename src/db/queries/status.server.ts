@@ -34,7 +34,6 @@ export async function upsertReadingStatus(
 
 /**
  * 読書ステータスから書籍を取得
- * @param d1 D1Database
  * @pqram userId ユーザーID
  * @param status ステータス
  * @param order ソート順
@@ -77,8 +76,8 @@ export async function getBooksByReadingStatus(
       },
       orderBy:
         order === "asc"
-          ? asc(dbSchema.readingStatuses.createdAt)
-          : desc(dbSchema.readingStatuses.createdAt),
+          ? asc(dbSchema.readingStatuses.updatedAt)
+          : desc(dbSchema.readingStatuses.updatedAt),
     });
 
     return raw.map((r) => ({
