@@ -1,4 +1,4 @@
-import BookList from "@/components/BookList";
+import BookList from "@/app/(authenticated)/_components/BookList";
 import { searchBookFromNDL } from "../../_actions/ndl.server";
 
 type Props = {
