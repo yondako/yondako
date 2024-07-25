@@ -22,8 +22,7 @@ export default function ReadingStatusButton({ status, meta, selected }: Props) {
       key={meta.label}
       type="submit"
       name="status"
-      value={status}
-      disabled={selected}
+      value={selected ? "none" : status}
     >
       <Icon className="mx-auto mb-1 h-6 w-6" />
       <span className="text-xxs">{meta.label}</span>

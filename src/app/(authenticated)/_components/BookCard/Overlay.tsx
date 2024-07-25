@@ -1,19 +1,27 @@
 import { readingStatusMetadata } from "@/constants/status";
+import type { BookType } from "@/types/book";
+import type { ReadingStatus } from "@/types/readingStatus";
+import { useOptimistic } from "react";
+import { updateReadingStatus } from "../../_actions/updateReadingStatus";
 import ReadingStatusButton, { readingStatusOrder } from "./ReadingStatusButton";
 import { ShopLinks } from "./ShopLinks";
-import { useOptimistic } from "react";
-import type { ReadingStatus } from "@/types/readingStatus";
-import { updateReadingStatus } from "../../_actions/updateReadingStatus";
-import type { BookType } from "@/types/book";
 
 type Props = {
   bookId: string;
   isbn10: string | null;
   readingStatus: ReadingStatus;
+  onStatusChange: (status: ReadingStatus) => void;
 };
 
-export default function Overlay({ bookId, isbn10, readingStatus }: Props) {
+export default function Overlay({
+  bookId,
+  isbn10,
+  readingStatus,
+  onStatusChange,
+}: Props) {
   const [optimisticStatus, addOptimisticStatus] = useOptimistic(readingStatus);
+
+  console.log(optimisticStatus, readingStatus);
 
   // 読書ステータスが変更された
   const changeStatusFormAction = async (formData: FormData) => {
@@ -26,8 +34,11 @@ export default function Overlay({ bookId, isbn10, readingStatus }: Props) {
     // TODO: トーストとかでエラーを表示する
     if (result.error || !result.book) {
       console.error(result.error);
+      addOptimisticStatus(readingStatus);
       return;
     }
+
+    onStatusChange(result.book.readingStatus);
   };
 
   return (

@@ -16,6 +16,7 @@ export default function BookCard({
   data,
   hideReadingStatusBadge = false,
 }: BookCardProps) {
+  const [displayData, setDisplayData] = useState(data);
   const [isVisible, setIsVisible] = useState(false);
   const isbn10 = toIsbn10(data.detail.isbn);
 
@@ -31,7 +32,10 @@ export default function BookCard({
             <Overlay
               bookId={data.detail.ndlBibId}
               isbn10={isbn10}
-              readingStatus={data.readingStatus}
+              readingStatus={displayData.readingStatus}
+              onStatusChange={(status) => {
+                setDisplayData({ ...displayData, readingStatus: status });
+              }}
             />
           </div>
         )}
@@ -47,7 +51,7 @@ export default function BookCard({
         )}
 
         {!hideReadingStatusBadge && (
-          <ReadingStatusBadge status={data.readingStatus ?? "none"} />
+          <ReadingStatusBadge status={displayData.readingStatus ?? "none"} />
         )}
       </div>
 
