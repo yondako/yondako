@@ -1,13 +1,13 @@
 "use client";
 
+import IconDotsVertical from "@/assets/icons/dots-vertical.svg";
 import { readingStatusMetadata } from "@/constants/status";
 import { toIsbn10 } from "@/lib/isbn";
 import type { BookType } from "@/types/book";
 import { useOptimistic, useState } from "react";
+import { updateReadingStatus } from "../../_actions/updateReadingStatus";
 import ReadingStatusButton, { readingStatusOrder } from "./ReadingStatusButton";
 import { BookThumbnail } from "./Thumbnail";
-import { updateReadingStatus } from "../../_actions/updateReadingStatus";
-import IconDotsVertical from "@/assets/icons/dots-vertical.svg";
 
 export type BookCardProps = {
   data: BookType;
