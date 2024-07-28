@@ -1,56 +1,79 @@
-import IconBrandAmazon from "@/assets/icons/brand-amazon.svg";
-import IconShoppingCart from "@/assets/icons/shopping-cart.svg";
 import Button from "@/components/Button";
-import type { FunctionComponent, SVGProps } from "react";
+import { toIsbn10 } from "@/lib/isbn";
 
-type Props = {
-  isbn10: string;
+export type ShopLinksProps = {
+  rawIsbn: string;
 };
 
-export function ShopLinks({ isbn10 }: Props) {
+export function ShopLinks({ rawIsbn }: ShopLinksProps) {
+  const isbn = rawIsbn.replace(/-/g, "");
+  const isbn10 = toIsbn10(rawIsbn);
+
   return (
-    <div className="mx-auto w-fit space-x-4">
+    <>
       <ShopLink
         title="Amazon"
-        Icon={IconBrandAmazon}
         url={() => {
           const url = new URL(
             `/gp/product/${isbn10}/`,
             "https://www.amazon.co.jp",
           );
+
+          return url.toString();
+        }}
+      />
+
+      <ShopLink
+        title="Rakuten"
+        url={() => {
+          const url = new URL(
+            `/search/mall/${isbn}/`,
+            "https://search.rakuten.co.jp/",
+          );
+
           return url.toString();
         }}
       />
 
       <ShopLink
         title="honto"
-        Icon={IconShoppingCart}
         url={() => {
           const url = new URL(
             `/ebook/search_10${isbn10}.html`,
             "https://honto.jp",
           );
+
           return url.toString();
         }}
       />
-    </div>
+
+      <ShopLink
+        title="紀伊国屋"
+        url={() => {
+          const url = new URL(
+            `/f/dsg-01-${isbn}`,
+            "https://www.kinokuniya.co.jp/",
+          );
+
+          return url.toString();
+        }}
+      />
+    </>
   );
 }
 
 type ShopLinkProps = {
   title: string;
-  Icon: FunctionComponent<SVGProps<SVGElement>>;
   url: () => string;
 };
 
-function ShopLink({ title, Icon, url }: ShopLinkProps) {
+function ShopLink({ title, url }: ShopLinkProps) {
   return (
     <Button
-      className="inline-flex items-center space-x-2 border-tako bg-card py-1 text-sm text-tako"
+      className="inline-flex w-fit items-center space-x-1 border-tako bg-card px-4 py-1 text-sm text-tako text-xs"
       asChild
     >
       <a href={url()} target="_blank" rel="noreferrer">
-        <Icon className="h-4 w-4" />
         <span>{title}</span>
       </a>
     </Button>
