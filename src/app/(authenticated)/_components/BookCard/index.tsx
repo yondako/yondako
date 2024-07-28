@@ -5,9 +5,9 @@ import { readingStatusMetadata } from "@/constants/status";
 import type { BookType } from "@/types/book";
 import { useOptimistic, useState } from "react";
 import { updateReadingStatus } from "../../_actions/updateReadingStatus";
+import Detail from "./Detail";
 import ReadingStatusButton, { readingStatusOrder } from "./ReadingStatusButton";
 import { BookThumbnail } from "./Thumbnail";
-import Detail from "./Detail";
 
 export type BookCardProps = {
   data: BookType;

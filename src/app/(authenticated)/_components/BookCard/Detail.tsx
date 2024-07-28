@@ -1,7 +1,7 @@
+import IconX from "@/assets/icons/x.svg";
 import { useRef } from "react";
 import { useClickAway } from "react-use";
 import { ShopLinks, type ShopLinksProps } from "./ShopLinks";
-import IconX from "@/assets/icons/x.svg";
 
 type DetailProps = {
   open: boolean;
