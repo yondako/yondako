@@ -18,14 +18,13 @@ export default function ReadingStatusButton({ status, meta, selected }: Props) {
 
   return (
     <button
-      className="h-14 w-20 rounded-2xl bg-card transition hover:brightness-95"
+      className="rounded-2xl bg-card px-3 py-1 transition hover:brightness-95"
       key={meta.label}
       type="submit"
       name="status"
       value={selected ? "none" : status}
     >
-      <Icon className="mx-auto mb-1 h-6 w-6" />
-      <span className="text-xxs">{meta.label}</span>
+      <Icon className="mx-auto h-5 w-5" />
     </button>
   );
 }
