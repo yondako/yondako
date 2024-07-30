@@ -54,7 +54,10 @@ export default async function Search({ searchParams }: Props) {
           <SearchResult query={query} />
         </Suspense>
       ) : (
-        <p className="mx-auto mt-12 w-fit font-noto-emoji">🐙</p>
+        <div className="mx-auto mt-12 w-fit space-y-1 text-center font-noto-emoji">
+          <p className="text-xs">\ ｹﾝｻｸｼﾃﾈ /</p>
+          <p>🐙</p>
+        </div>
       )}
     </Layout>
   );
