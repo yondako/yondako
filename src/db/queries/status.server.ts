@@ -1,6 +1,6 @@
-import type { BookType } from "@/types/book";
+import type { BookDetail, BookType } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
-import { and, asc, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq, inArray } from "drizzle-orm";
 import db from "..";
 import * as dbSchema from "../schema/book";
 
@@ -103,4 +103,30 @@ export async function getBooksByReadingStatus(
     console.log(e);
     return [];
   }
+}
+
+/**
+ * BookDetailのリストから該当する書籍のステータスを取得
+ * @param userId ユーザーID
+ * @param bookDetails 書籍詳細のリスト
+ * @returns 該当する書籍のステータスの配列
+ */
+export async function getStatusesByBookIds(
+  userId: string,
+  bookDetails: BookDetail[],
+) {
+  const bookIds = bookDetails.map((b) => b.ndlBibId);
+
+  const raw = await db.query.readingStatuses.findMany({
+    where: and(
+      eq(dbSchema.readingStatuses.userId, userId),
+      inArray(dbSchema.readingStatuses.bookId, bookIds),
+    ),
+    columns: {
+      bookId: true,
+      status: true,
+    },
+  });
+
+  return raw;
 }
