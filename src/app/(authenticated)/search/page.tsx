@@ -45,7 +45,12 @@ export default async function Search({ searchParams }: Props) {
       </div>
 
       {query ? (
-        <Suspense fallback={<Loading title="検索しています" />} key={query}>
+        <Suspense
+          fallback={
+            <Loading className="mt-12 md:mt-0" title="検索しています" />
+          }
+          key={query}
+        >
           <SearchResult query={query} />
         </Suspense>
       ) : (
