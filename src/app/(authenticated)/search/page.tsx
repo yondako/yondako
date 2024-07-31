@@ -1,6 +1,7 @@
 import IconHelp from "@/assets/icons/help.svg";
 import ExternalLink from "@/components/ExternalLink";
 import { Loading } from "@/components/Loading";
+import SayTako from "@/components/SayTako";
 import { auth } from "@/lib/auth.server";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/url";
@@ -9,7 +10,6 @@ import { Suspense } from "react";
 import Layout from "../_components/Layout";
 import SearchForm from "./_components/SearchForm";
 import { SearchResult } from "./_components/SearchResult";
-import SayTako from "@/components/SayTako";
 
 export const runtime = "edge";
 
