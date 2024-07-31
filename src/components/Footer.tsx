@@ -18,11 +18,11 @@ const links: LinkItem[] = [
   },
   {
     title: "利用規約",
-    href: "/",
+    href: "https://docs.yondako.com/terms",
   },
   {
     title: "プライバシーポリシー",
-    href: "/",
+    href: "https://docs.yondako.com/privacy",
   },
 ];
 
