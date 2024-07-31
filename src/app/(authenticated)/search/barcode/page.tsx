@@ -1,8 +1,8 @@
+import ErrorPage from "@/app/_components/ErrorPage";
 import { auth } from "@/lib/auth.server";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/url";
 import { redirect } from "next/navigation";
-import ErrorPage from "@/app/_components/ErrorPage";
 
 export const runtime = "edge";
 
