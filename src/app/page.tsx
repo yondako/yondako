@@ -21,12 +21,10 @@ export default async function Home() {
 
   return (
     <LandingLayout>
-      <Image
-        className="mx-auto md:mx-0"
-        width={256}
-        src={imageLogo}
-        alt={site.name}
-      />
+      <div className="mx-auto md:mx-0">
+        <Image width={256} src={imageLogo} alt={site.name} />
+        <p className="text-base text-tako">ver.beta</p>
+      </div>
       <h1 className="mt-12 text-center text-3xl tracking-wide md:text-left md:text-4xl">
         {site.description.short}
       </h1>

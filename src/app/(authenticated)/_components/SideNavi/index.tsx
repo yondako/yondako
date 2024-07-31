@@ -22,6 +22,7 @@ export default function SideNavi({
       <div className="mt-8">
         <Link className="ml-8 block w-32" href="/">
           <Image src={logoUrl} alt={site.name} priority />
+          <p className="text-tako text-xs">ver.beta</p>
         </Link>
 
         <div className="mt-6 space-y-2">
