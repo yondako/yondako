@@ -2,6 +2,7 @@ import BookList from "@/app/(authenticated)/_components/BookList";
 import IconSortAsc from "@/assets/icons/sort-ascending.svg";
 import IconSortDesc from "@/assets/icons/sort-descending.svg";
 import Button from "@/components/Button";
+import SayTako from "@/components/SayTako";
 import { getBooksByReadingStatus } from "@/db/queries/status.server";
 import { auth } from "@/lib/auth.server";
 import type { Order } from "@/types/order";
@@ -43,7 +44,29 @@ export async function LibraryBookList({ status, order }: Props) {
           </Link>
         </Button>
       </div>
-      <BookList items={books} />
+      {books.length === 0 ? (
+        <SayTako message={getEmptyMessage(status)} />
+      ) : (
+        <BookList items={books} />
+      )}
     </div>
   );
+}
+
+/**
+ * ライブラリのステータスに応じた空メッセージを取得
+ * @param status ライブラリのステータス
+ * @returns 空メッセージ
+ */
+function getEmptyMessage(status: ReadingStatus) {
+  switch (status) {
+    case "reading":
+      return "ｶﾗｯﾎﾟ";
+    case "read":
+      return "ﾅﾆﾓﾅｲ";
+    case "want_read":
+      return "ｽｯｷﾘ";
+    default:
+      return "ｺｺﾊﾄﾞｺ";
+  }
 }

@@ -13,7 +13,7 @@ export default function SayTako({ message, className }: Props) {
         className,
       )}
     >
-      <p className="text-xs">{`\ ${message} /`}</p>
+      <p className="text-xs">{`\\ ${message} /`}</p>
       <p>🐙</p>
     </div>
   );
