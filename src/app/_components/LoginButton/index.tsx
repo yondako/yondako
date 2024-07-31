@@ -1,11 +1,13 @@
 import IconContinueWithGithub from "@/assets/icons/continue-with-github.svg";
+import IconContinueWithGoogle from "@/assets/icons/continue-with-google.svg";
 import { signIn } from "@/lib/auth.server";
 
 export default function LoginButton() {
-  const handleSubmit = async () => {
+  const handleSubmit = async (formData: FormData) => {
     "use server";
+    const provider = formData.get("provider") as string;
 
-    await signIn("github", { redirectTo: "/library/reading" });
+    await signIn(provider, { redirectTo: "/library/reading" });
   };
 
   return (
@@ -13,6 +15,16 @@ export default function LoginButton() {
       <button
         className="mx-auto block h-[41px] w-[189px] md:mx-0"
         type="submit"
+        name="provider"
+        value="google"
+      >
+        <IconContinueWithGoogle />
+      </button>
+      <button
+        className="mx-auto block h-[41px] w-[189px] md:mx-0"
+        type="submit"
+        name="provider"
+        value="github"
       >
         <IconContinueWithGithub />
       </button>
