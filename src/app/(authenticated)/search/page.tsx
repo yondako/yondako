@@ -9,6 +9,7 @@ import { Suspense } from "react";
 import Layout from "../_components/Layout";
 import SearchForm from "./_components/SearchForm";
 import { SearchResult } from "./_components/SearchResult";
+import SayTako from "@/components/SayTako";
 
 export const runtime = "edge";
 
@@ -54,10 +55,7 @@ export default async function Search({ searchParams }: Props) {
           <SearchResult query={query} />
         </Suspense>
       ) : (
-        <div className="mx-auto mt-12 w-fit space-y-1 text-center font-noto-emoji">
-          <p className="text-xs">\ ｹﾝｻｸｼﾃﾈ /</p>
-          <p>🐙</p>
-        </div>
+        <SayTako message="ｹﾝｻｸｼﾃﾈ" />
       )}
     </Layout>
   );
