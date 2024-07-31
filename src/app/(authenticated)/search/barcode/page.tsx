@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth.server";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/url";
 import { redirect } from "next/navigation";
-import Layout from "../../_components/Layout";
+import ErrorPage from "@/app/_components/ErrorPage";
 
 export const runtime = "edge";
 
@@ -16,8 +16,9 @@ export default async function SearchBarcode() {
   }
 
   return (
-    <Layout current="バーコードで探す">
-      <h1>barcode</h1>
-    </Layout>
+    <ErrorPage title="WIP...">
+      <p>この機能は現在開発中です！</p>
+      <p>実装までしばらくお待ちください 🐙</p>
+    </ErrorPage>
   );
 }
