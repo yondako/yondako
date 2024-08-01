@@ -1,7 +1,7 @@
 import IconSearch from "@/assets/icons/search.svg";
 import type { ComponentPropsWithRef } from "react";
-import Input from "../Input";
 import { twMerge } from "tailwind-merge";
+import Input from "../Input";
 
 export default function SearchBox({
   className,

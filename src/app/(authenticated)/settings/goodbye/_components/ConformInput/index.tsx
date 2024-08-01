@@ -1,12 +1,12 @@
 "use client";
 
-import { goodbyeUser } from "../../_actions/goodbye";
-import Input from "@/components/Input";
-import Button from "@/components/Button";
-import { useFormState } from "react-dom";
 import IconExclamationCircle from "@/assets/icons/exclamation-circle.svg";
-import { useEffect } from "react";
+import Button from "@/components/Button";
+import Input from "@/components/Input";
 import { signOut } from "next-auth/react";
+import { useEffect } from "react";
+import { useFormState } from "react-dom";
+import { goodbyeUser } from "../../_actions/goodbye";
 
 export default function ConfirmInput() {
   const [result, dispatch] = useFormState(goodbyeUser, { success: false });
