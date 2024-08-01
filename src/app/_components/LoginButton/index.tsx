@@ -11,7 +11,7 @@ export default function LoginButton() {
   };
 
   return (
-    <form className="mt-12 flex flex-col space-y-4" action={handleSubmit}>
+    <form className="mt-10 flex flex-col space-y-2" action={handleSubmit}>
       <button
         className="mx-auto block h-[41px] w-[189px] md:mx-0"
         type="submit"
