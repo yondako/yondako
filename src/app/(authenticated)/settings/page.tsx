@@ -21,12 +21,6 @@ export default async function Settings() {
   return (
     <Layout current="設定">
       <h2 className="font-bold text-xl">アカウント</h2>
-      <div className="mt-4 flex flex-col text-sm md:flex-row md:items-center md:space-x-8">
-        <p>ユーザーID</p>
-        <p className="mt-2 rounded-full bg-card px-4 py-2 md:mt-0">
-          {session.user.id}
-        </p>
-      </div>
       <LogoutButton />
 
       <h2 className="mt-16 font-bold text-xl">退会</h2>
