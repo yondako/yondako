@@ -20,7 +20,7 @@ export default async function Home() {
   }
 
   return (
-    <LandingLayout>
+    <LandingLayout showTermsNotice>
       <div className="mx-auto md:mx-0">
         <Image width={256} src={imageLogo} alt={site.name} />
         <p className="text-base text-tako">ver.beta</p>
