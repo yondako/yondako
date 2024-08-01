@@ -1,6 +1,6 @@
+import IconLogout from "@/assets/icons/logout.svg";
 import Button from "@/components/Button";
 import { signOut } from "@/lib/auth.server";
-import IconLogout from "@/assets/icons/logout.svg";
 
 export default function LogoutButton() {
   const handleSubmit = async () => {
