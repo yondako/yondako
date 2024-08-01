@@ -27,10 +27,10 @@ BUN_VERSION = "1.1.17"
 # Bind a D1 database. D1 is Cloudflare’s native serverless SQL database.
 # Docs: https://developers.cloudflare.com/pages/functions/bindings/#d1-databases
 [[d1_databases]]
-binding = "DB" # i.e. available in your Worker on env.DB
-database_name = "yondako_dev"
-database_id = "216d1af1-ddc6-4738-bd6f-378bc1129af7"
-migrations_dir = "src/db/migrations"
+# binding = "DB" # i.e. available in your Worker on env.DB
+# database_name = "yondako_dev"
+# database_id = "216d1af1-ddc6-4738-bd6f-378bc1129af7"
+# migrations_dir = "src/db/migrations"
 
 # Bind a Durable Object. Durable objects are a scale-to-zero compute primitive based on the actor model.
 # Durable Objects can live for as long as needed. Use these when you need a long-running "server", such as in realtime apps.
