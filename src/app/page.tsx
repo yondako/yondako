@@ -28,7 +28,7 @@ export default async function Home() {
       <h1 className="mt-12 text-center text-3xl tracking-wide md:text-left md:text-4xl">
         {site.description.short}
       </h1>
-      <p className="mt-6 text-center md:text-left">{site.description.long}</p>
+      <p className="mt-4 text-center md:text-left">{site.description.long}</p>
       <LoginButton />
     </LandingLayout>
   );
