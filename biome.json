@@ -1,5 +1,8 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.5.3/schema.json",
+  "files": {
+    "ignore": [".next/**", ".vercel/**", ".wrangler/**", "node_modules/**"]
+  },
   "organizeImports": {
     "enabled": true
   },
@@ -13,8 +16,16 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "nursery": {
+        "useSortedClasses": {
+          "level": "warn",
+          "fix": "safe",
+          "options": {}
+        }
+      },
       "a11y": {
-        "useButtonType": "off"
+        "useButtonType": "off",
+        "noSvgWithoutTitle": "off"
       }
     }
   }
