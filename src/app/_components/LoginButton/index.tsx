@@ -7,7 +7,7 @@ export default function LoginButton() {
     "use server";
     const provider = formData.get("provider") as string;
 
-    await signIn(provider, { redirectTo: "/library/reading" });
+    await signIn(provider, { redirectTo: "/library/want_read" });
   };
 
   return (

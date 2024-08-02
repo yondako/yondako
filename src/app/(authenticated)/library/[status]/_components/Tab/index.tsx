@@ -3,8 +3,8 @@ import type { ReadingStatus } from "@/types/readingStatus";
 import { TabItem } from "./TabItem";
 
 const readingStatusOrder: ReadingStatus[] = [
-  "reading",
   "want_read",
+  "reading",
   "read",
 ] as const;
 
