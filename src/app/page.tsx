@@ -16,7 +16,7 @@ export default async function Home() {
 
   // セッションがある場合はライブラリにリダイレクト
   if (session?.user) {
-    redirect("/library/reading");
+    redirect("/library/want_read");
   }
 
   return (

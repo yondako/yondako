@@ -18,7 +18,7 @@ export const naviItems = [
   {
     title: "ライブラリ",
     short: "ライブラリ",
-    href: "/library/reading",
+    href: "/library/want_read",
     IconSolid: Bookmarks,
     IconFilled: BookmarksFilled,
   },
