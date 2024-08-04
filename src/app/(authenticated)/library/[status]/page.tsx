@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth.server";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/url";
 import { type Order, orderSchema } from "@/types/order";
+import { pageIndexSchema } from "@/types/page";
 import {
   type ReadingStatus,
   readingStatusSchemaWithoutNone,
@@ -23,6 +24,7 @@ type Props = {
     status: ReadingStatus;
   };
   searchParams: {
+    page?: string;
     order?: Order;
   };
 };
@@ -39,6 +41,13 @@ export default async function Library({ params, searchParams }: Props) {
     notFound();
   }
 
+  // ページ数
+  const pageParseResult = safeParse(
+    pageIndexSchema,
+    Number.parseInt(searchParams.page ?? "1"),
+  );
+  const page = pageParseResult.success ? pageParseResult.output : 1;
+
   // ソート順
   const orderParseResult = safeParse(orderSchema, searchParams.order);
   const orderType = orderParseResult.success ? orderParseResult.output : "desc";
@@ -51,7 +60,7 @@ export default async function Library({ params, searchParams }: Props) {
           <Loading className="mt-12 md:mt-0" title="読み込んでいます" />
         }
       >
-        <LibraryBookList status={params.status} order={orderType} />
+        <LibraryBookList status={params.status} page={page} order={orderType} />
       </Suspense>
     </Layout>
   );
