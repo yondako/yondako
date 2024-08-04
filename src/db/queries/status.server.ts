@@ -1,6 +1,6 @@
 import type { BookDetail, BookType } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
-import { and, asc, desc, eq, inArray } from "drizzle-orm";
+import { and, asc, count, desc, eq, inArray } from "drizzle-orm";
 import db from "..";
 import * as dbSchema from "../schema/book";
 
@@ -32,55 +32,82 @@ export async function upsertReadingStatus(
   return result.status;
 }
 
+type BookReadimgStatusResult = {
+  books: BookType[];
+  total: number;
+};
+
 /**
  * 読書ステータスから書籍を取得
  * @pqram userId ユーザーID
  * @param status ステータス
  * @param order ソート順
- * @returns 書籍
+ * @param page ページ
+ * @param pageSize 取得件数
+ * @returns 書籍, 総数
  */
 export async function getBooksByReadingStatus(
   userId: string,
   status: ReadingStatus,
   order: "asc" | "desc",
-): Promise<BookType[]> {
+  page: number,
+  pageSize = 25,
+): Promise<BookReadimgStatusResult> {
   try {
-    const raw = await db.query.readingStatuses.findMany({
-      where: and(
-        eq(dbSchema.readingStatuses.userId, userId),
-        eq(dbSchema.readingStatuses.status, status),
-      ),
-      with: {
-        book: {
-          with: {
-            bookAuthors: {
-              with: {
-                author: {
-                  columns: {
-                    name: true,
+    const [total, raw] = await Promise.all([
+      db
+        .select({ count: count() })
+        .from(dbSchema.readingStatuses)
+        .where(
+          and(
+            eq(dbSchema.readingStatuses.userId, userId),
+            eq(dbSchema.readingStatuses.status, status),
+          ),
+        )
+        .get(),
+      db.query.readingStatuses.findMany({
+        where: and(
+          eq(dbSchema.readingStatuses.userId, userId),
+          eq(dbSchema.readingStatuses.status, status),
+        ),
+        with: {
+          book: {
+            with: {
+              bookAuthors: {
+                with: {
+                  author: {
+                    columns: {
+                      name: true,
+                    },
                   },
                 },
               },
-            },
-            bookPublishers: {
-              with: {
-                publisher: {
-                  columns: {
-                    name: true,
+              bookPublishers: {
+                with: {
+                  publisher: {
+                    columns: {
+                      name: true,
+                    },
                   },
                 },
               },
             },
           },
         },
-      },
-      orderBy:
-        order === "asc"
-          ? asc(dbSchema.readingStatuses.updatedAt)
-          : desc(dbSchema.readingStatuses.updatedAt),
-    });
+        orderBy:
+          order === "asc"
+            ? asc(dbSchema.readingStatuses.updatedAt)
+            : desc(dbSchema.readingStatuses.updatedAt),
+        limit: pageSize,
+        offset: pageSize * (page - 1),
+      }),
+    ]);
 
-    return raw.map((r) => ({
+    if (!total) {
+      return { books: [], total: 0 };
+    }
+
+    const books = raw.map((r) => ({
       detail: {
         ...r.book,
         authors:
@@ -98,10 +125,12 @@ export async function getBooksByReadingStatus(
       },
       readingStatus: r.status,
     }));
+
+    return { books, total: total.count };
   } catch (e) {
     // TODO: エラーハンドリング
     console.log(e);
-    return [];
+    return { books: [], total: 0 };
   }
 }
 
