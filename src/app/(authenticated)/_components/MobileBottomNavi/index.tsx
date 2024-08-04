@@ -11,7 +11,7 @@ export default function MobileBottomNavi({
   return (
     <nav
       {...props}
-      className="fixed bottom-4 left-4 flex w-[calc(100%-2rem)] justify-between rounded-full bg-card px-8 md:hidden"
+      className="fixed bottom-4 left-4 flex w-[calc(100%-2rem)] justify-between rounded-full border-2 border-background bg-card px-8 md:hidden"
     >
       {naviItems.map(({ title, href, IconSolid, IconFilled }) => {
         const isCurrent = title === current;
