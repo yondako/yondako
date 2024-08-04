@@ -2,6 +2,7 @@ import BookList from "@/app/(authenticated)/_components/BookList";
 import IconSortAsc from "@/assets/icons/sort-ascending.svg";
 import IconSortDesc from "@/assets/icons/sort-descending.svg";
 import Button from "@/components/Button";
+import Pagenation from "@/components/Pagination";
 import SayTako from "@/components/SayTako";
 import { getBooksByReadingStatus } from "@/db/queries/status.server";
 import { auth } from "@/lib/auth.server";
@@ -9,12 +10,15 @@ import type { Order } from "@/types/order";
 import type { ReadingStatus } from "@/types/readingStatus";
 import Link from "next/link";
 
+const pageSize = 24;
+
 type Props = {
   status: ReadingStatus;
+  page: number;
   order: Order;
 };
 
-export async function LibraryBookList({ status, order }: Props) {
+export async function LibraryBookList({ status, page, order }: Props) {
   const session = await auth();
 
   if (!session?.user?.id) {
@@ -25,13 +29,20 @@ export async function LibraryBookList({ status, order }: Props) {
   const nextOrder: Order = isOrderAsc ? "desc" : "asc";
   const IconSort = isOrderAsc ? IconSortAsc : IconSortDesc;
 
-  const books = await getBooksByReadingStatus(session.user.id, status, order);
+  const { books, total } = await getBooksByReadingStatus(
+    session.user.id,
+    status,
+    order,
+    page,
+    pageSize,
+  );
+  const totalPage = Math.ceil(total / pageSize);
 
   return (
-    <div className="mt-10">
-      <div className="flex items-center justify-between space-x-4">
+    <>
+      <div className="mt-10 flex items-center justify-between space-x-4 ">
         <h1 className="font-bold">
-          <span className="text-4xl">{books.length}</span>
+          <span className="text-4xl">{total}</span>
           <span className="text-base">冊</span>
         </h1>
         <Button
@@ -47,9 +58,18 @@ export async function LibraryBookList({ status, order }: Props) {
       {books.length === 0 ? (
         <SayTako message={getEmptyMessage(status)} />
       ) : (
-        <BookList items={books} />
+        <>
+          <BookList items={books} />
+          {totalPage !== 1 && (
+            <Pagenation
+              className="mt-auto pt-10"
+              currentPage={page}
+              totalPage={totalPage}
+            />
+          )}
+        </>
       )}
-    </div>
+    </>
   );
 }
 
