@@ -10,7 +10,7 @@ type Props = {
 
 export default function Layout({ children, ...props }: Props) {
   return (
-    <div className="mb-20 md:mb-0 md:flex md:h-svh">
+    <div className="pb-20 md:flex md:h-svh md:pb-0">
       <MobileHeader className="block md:hidden" />
       <SideNavi {...props} />
 

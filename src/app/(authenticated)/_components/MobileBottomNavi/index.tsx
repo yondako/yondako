@@ -11,25 +11,27 @@ export default function MobileBottomNavi({
   return (
     <nav
       {...props}
-      className="fixed bottom-4 left-4 flex w-[calc(100%-2rem)] justify-between rounded-full border-2 border-background bg-card px-8 md:hidden"
+      className="fixed bottom-4 left-4 flex w-[calc(100%-2rem)] justify-center rounded-full border-2 border-background bg-card md:hidden"
     >
-      {naviItems.map(({ title, href, IconSolid, IconFilled }) => {
-        const isCurrent = title === current;
-        const Icon = isCurrent ? IconFilled : IconSolid;
+      <div className="flex w-full max-w-96 justify-between px-8">
+        {naviItems.map(({ title, href, IconSolid, IconFilled }) => {
+          const isCurrent = title === current;
+          const Icon = isCurrent ? IconFilled : IconSolid;
 
-        return (
-          <Link
-            className={twMerge(
-              "flex flex-col items-center p-4",
-              isCurrent && "text-tako",
-            )}
-            href={href}
-            key={title}
-          >
-            <Icon className="h-7 w-7" />
-          </Link>
-        );
-      })}
+          return (
+            <Link
+              className={twMerge(
+                "flex flex-col items-center p-4",
+                isCurrent && "text-tako",
+              )}
+              href={href}
+              key={title}
+            >
+              <Icon className="h-7 w-7" />
+            </Link>
+          );
+        })}
+      </div>
     </nav>
   );
 }
