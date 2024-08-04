@@ -35,7 +35,7 @@ export async function upsertReadingStatus(
 type BookReadimgStatusResult = {
   books: BookType[];
   total: number;
-}
+};
 
 /**
  * 読書ステータスから書籍を取得
