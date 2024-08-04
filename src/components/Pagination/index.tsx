@@ -1,8 +1,11 @@
+"use client";
+
 import IconChevronLeft from "@/assets/icons/chevron-left.svg";
 import IconChevronRight from "@/assets/icons/chevron-right.svg";
 import IconChevronsLeft from "@/assets/icons/chevrons-left.svg";
 import IconChevronsRight from "@/assets/icons/chevrons-right.svg";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import type { ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -83,6 +86,11 @@ type LinkButtonProps = {
 };
 
 function LinkButton({ page, children, current = false }: LinkButtonProps) {
+  const searchParams = useSearchParams();
+
+  const params = new URLSearchParams(searchParams.toString());
+  params.set("page", page.toString());
+
   return (
     <Link
       className={twMerge(
@@ -90,7 +98,7 @@ function LinkButton({ page, children, current = false }: LinkButtonProps) {
         current && "bg-tako text-white",
       )}
       href={{
-        query: { page },
+        query: params.toString(),
       }}
     >
       <span className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2">
