@@ -5,7 +5,7 @@ import SideNavi from "./_components/SideNavi";
 
 type Props = {
   children: ReactNode;
-}
+};
 
 export default function Layout({ children }: Props) {
   return (
