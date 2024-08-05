@@ -7,7 +7,6 @@ import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/url";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
-import Layout from "../_components/Layout";
 import SearchForm from "./_components/SearchForm";
 import { SearchResult } from "./_components/SearchResult";
 
@@ -33,7 +32,7 @@ export default async function Search({ searchParams }: Props) {
   // TODO: 検索前の表示
 
   return (
-    <Layout current="キーワードで探す">
+    <>
       <div className="flex flex-col items-end md:flex-row md:items-center">
         <SearchForm />
         <ExternalLink
@@ -57,6 +56,6 @@ export default async function Search({ searchParams }: Props) {
       ) : (
         <SayTako message="ｹﾝｻｸｼﾃﾈ" />
       )}
-    </Layout>
+    </>
   );
 }

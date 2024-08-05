@@ -1,24 +1,19 @@
+"use client";
+
 import logoUrl from "@/assets/images/logo_portrait.svg?url";
 import Footer from "@/components/Footer";
 import { type NavItem, naviItems } from "@/constants/navi-items";
 import { site } from "@/constants/site";
 import Image from "next/image";
 import Link from "next/link";
-import type { ComponentProps } from "react";
+import { useSelectedLayoutSegments } from "next/navigation";
 import { twMerge } from "tailwind-merge";
-import type { NaviProps } from "../../_types/navi";
 
-export default function SideNavi({
-  current,
-  ...props
-}: NaviProps & ComponentProps<"nav">) {
+export default function SideNavi() {
+  const segments = useSelectedLayoutSegments().join("/");
+
   return (
-    <nav
-      {...props}
-      className={twMerge(
-        "hidden h-full w-full max-w-60 md:flex md:flex-col md:justify-between",
-      )}
-    >
+    <nav className="hidden h-full w-full max-w-60 md:flex md:flex-col md:justify-between">
       <div className="mt-8">
         <Link className="ml-8 block w-32" href="/">
           <Image src={logoUrl} alt={site.name} priority />
@@ -26,8 +21,12 @@ export default function SideNavi({
         </Link>
 
         <div className="mt-6 space-y-2">
-          {naviItems.map((item) => (
-            <Item {...item} current={item.title === current} key={item.title} />
+          {naviItems.map(({ matchSegmentsRegExp, ...item }) => (
+            <Item
+              {...item}
+              current={matchSegmentsRegExp.test(segments)}
+              key={item.title}
+            />
           ))}
         </div>
       </div>
@@ -39,7 +38,7 @@ export default function SideNavi({
 
 type ItemProps = {
   current?: boolean;
-} & NavItem;
+} & Omit<NavItem, "matchSegmentsRegExp">;
 
 function Item({
   title,

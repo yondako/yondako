@@ -11,7 +11,6 @@ import {
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
 import { is, safeParse } from "valibot";
-import Layout from "../../_components/Layout";
 import { LibraryBookList } from "./_components/LibraryBookList";
 import Tab from "./_components/Tab";
 
@@ -53,7 +52,7 @@ export default async function Library({ params, searchParams }: Props) {
   const orderType = orderParseResult.success ? orderParseResult.output : "desc";
 
   return (
-    <Layout current="ライブラリ">
+    <>
       <Tab current={params.status} />
       <Suspense
         fallback={
@@ -62,6 +61,6 @@ export default async function Library({ params, searchParams }: Props) {
       >
         <LibraryBookList status={params.status} page={page} order={orderType} />
       </Suspense>
-    </Layout>
+    </>
   );
 }
