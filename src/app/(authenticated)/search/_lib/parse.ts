@@ -33,7 +33,7 @@ const createAuthors = (
     .map((author) =>
       author
         // yyyy-yyyy pub. (YYYY年) を消す
-        .replace(/(\d{4}-(\d{0,4})?|pub. \d{4}|\(\d{4}年\))/, "")
+        .replace(/(, )?(\d{4}-(\d{0,4})?|pub. \d{4}|\(\d{4}年\))/, "")
         // 苗字と名前を区切っているカンマを消す
         .replace(", ", " ")
         .trim(),
