@@ -14,7 +14,7 @@ type Props = {
 
 export default function Tab({ current }: Props) {
   return (
-    <div className="mx-auto flex w-full rounded-full bg-card md:w-fit">
+    <div className="mx-auto flex w-full rounded-full bg-card lg:w-fit">
       {readingStatusOrder.map((status) => {
         const item = readingStatusMetadata.get(status);
 

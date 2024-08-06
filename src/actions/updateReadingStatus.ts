@@ -5,7 +5,7 @@ import { upsertReadingStatus } from "@/db/queries/status.server";
 import { auth } from "@/lib/auth.server";
 import type { BookType } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
-import { searchBookFromNDL } from "../search/_actions/ndl.server";
+import { searchBookFromNDL } from "./ndl.server";
 
 type UpdateReadingStatusResult = {
   book?: BookType;

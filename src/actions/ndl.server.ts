@@ -1,5 +1,5 @@
 import { OPENSEARCH_API_BASE_URL } from "@/constants/api";
-import { parseOpenSearchResponse } from "../_lib/parse";
+import { parseOpenSearchResponse } from "@/lib/parseOpenSearch";
 
 type SearchOptions = {
   /* 取得件数 */

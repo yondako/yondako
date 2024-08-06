@@ -9,10 +9,10 @@ type Props = {
 
 export default function Layout({ children }: Props) {
   return (
-    <div className="pb-20 md:flex md:h-svh md:pb-0">
-      <MobileHeader className="block md:hidden" />
+    <div className="pb-20 lg:flex lg:h-svh lg:pb-0">
+      <MobileHeader className="block lg:hidden" />
       <SideNavi />
-      <div className="flex h-full w-full flex-col px-6 py-8 md:shrink md:overflow-y-scroll md:px-12 ">
+      <div className="flex h-full w-full flex-col px-6 py-8 lg:shrink lg:overflow-y-scroll lg:px-12 ">
         {children}
       </div>
       <MobileBottomNavi />

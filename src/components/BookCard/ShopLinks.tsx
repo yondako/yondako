@@ -1,5 +1,6 @@
-import Button from "@/components/Button";
+import IconExternalLink from "@/assets/icons/external-link.svg";
 import { toIsbn10 } from "@/lib/isbn";
+import ExternalLink from "../ExternalLink";
 
 export type ShopLinksProps = {
   rawIsbn: string;
@@ -24,12 +25,26 @@ export function ShopLinks({ rawIsbn }: ShopLinksProps) {
       />
 
       <ShopLink
-        title="Rakuten"
+        title="楽天市場"
         url={() => {
           const url = new URL(
             `/search/mall/${isbn}/`,
             "https://search.rakuten.co.jp/",
           );
+
+          return url.toString();
+        }}
+      />
+
+      <ShopLink
+        title="ヨドバシ.com"
+        url={() => {
+          const url = new URL(
+            "https://www.yodobashi.com/ec/category/index.html",
+          );
+
+          url.searchParams.append("word", isbn);
+          url.searchParams.append("extst", "rutles");
 
           return url.toString();
         }}
@@ -48,12 +63,27 @@ export function ShopLinks({ rawIsbn }: ShopLinksProps) {
       />
 
       <ShopLink
-        title="紀伊国屋"
+        title="紀伊国屋書店"
         url={() => {
           const url = new URL(
             `/f/dsg-01-${isbn}`,
             "https://www.kinokuniya.co.jp/",
           );
+
+          return url.toString();
+        }}
+      />
+
+      <ShopLink
+        title="e-hon"
+        url={() => {
+          const url = new URL("https://www.e-hon.ne.jp/bec/SA/Forward");
+
+          url.searchParams.append("cnt", "1");
+          url.searchParams.append("scope", "isbn");
+          url.searchParams.append("mode", "speed");
+          url.searchParams.append("button", "btnSpeed");
+          url.searchParams.append("spKeyword", isbn);
 
           return url.toString();
         }}
@@ -69,13 +99,12 @@ type ShopLinkProps = {
 
 function ShopLink({ title, url }: ShopLinkProps) {
   return (
-    <Button
-      className="inline-flex w-fit items-center space-x-1 border-tako bg-card px-4 py-1 text-sm text-tako text-xs"
-      asChild
+    <ExternalLink
+      className="flex items-center text-text-sub text-xs"
+      href={url()}
     >
-      <a href={url()} target="_blank" rel="noreferrer">
-        <span>{title}</span>
-      </a>
-    </Button>
+      {title}
+      <IconExternalLink className="ml-0.5 h-3 w-3" />
+    </ExternalLink>
   );
 }

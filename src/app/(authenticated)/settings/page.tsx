@@ -25,13 +25,13 @@ export default async function Settings() {
 
       <h2 className="mt-12 font-bold text-xl">退会</h2>
       <Button
-        className="mt-4 block w-full border-0 bg-rose-700 text-background text-sm md:max-w-48"
+        className="mt-4 block w-full border-0 bg-rose-700 text-background text-sm lg:max-w-48"
         asChild
       >
         <Link href="/settings/goodbye">アカウントを削除</Link>
       </Button>
 
-      <Footer className="mt-16 text-center md:hidden" />
+      <Footer className="mt-16 text-center lg:hidden" />
     </>
   );
 }

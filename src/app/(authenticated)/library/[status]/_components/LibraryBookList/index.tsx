@@ -1,6 +1,6 @@
-import BookList from "@/app/(authenticated)/_components/BookList";
 import IconSortAsc from "@/assets/icons/sort-ascending.svg";
 import IconSortDesc from "@/assets/icons/sort-descending.svg";
+import BookList from "@/components/BookList";
 import Button from "@/components/Button";
 import Pagenation from "@/components/Pagination";
 import SayTako from "@/components/SayTako";

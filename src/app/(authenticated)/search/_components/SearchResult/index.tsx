@@ -1,8 +1,8 @@
-import BookList from "@/app/(authenticated)/_components/BookList";
+import { searchBookFromNDL } from "@/actions/ndl.server";
+import BookList from "@/components/BookList";
 import Pagination from "@/components/Pagination";
 import { getStatusesByBookIds } from "@/db/queries/status.server";
 import { auth } from "@/lib/auth.server";
-import { searchBookFromNDL } from "../../_actions/ndl.server";
 
 const minLimit = 1;
 const limit = 48;

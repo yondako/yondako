@@ -14,7 +14,7 @@ export function TabItem({ id, meta, current }: TabItemProps) {
   return (
     <Link
       className={twMerge(
-        "flex w-full items-center justify-center space-x-2 rounded-full px-4 py-2 text-center text-xs md:min-w-32",
+        "flex w-full items-center justify-center space-x-2 rounded-full px-4 py-2 text-center text-xs lg:min-w-32",
         current
           ? "bg-tako font-bold text-background"
           : "transition hover:bg-card hover:brightness-95",

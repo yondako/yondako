@@ -17,7 +17,7 @@ export default function BookList({
   return (
     <div
       className={twMerge(
-        "grid grid-cols-1 justify-items-center gap-6 lg:grid-cols-2 xl:grid-cols-3 [&>*]:w-full",
+        "grid grid-cols-1 justify-items-center gap-6 md:grid-cols-2 xl:grid-cols-3 [&>*]:w-full",
         props.className,
       )}
     >
