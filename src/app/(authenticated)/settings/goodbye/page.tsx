@@ -1,13 +1,12 @@
 "use client";
 
-import Layout from "../../_components/Layout";
 import ConfirmInput from "./_components/ConformInput";
 
 export const runtime = "edge";
 
 export default function Goodbye() {
   return (
-    <Layout current="設定">
+    <>
       <h2 className="font-bold text-2xl">アカウントの削除</h2>
 
       <div className="mt-4 text-sm">
@@ -21,6 +20,6 @@ export default function Goodbye() {
       </div>
 
       <ConfirmInput />
-    </Layout>
+    </>
   );
 }

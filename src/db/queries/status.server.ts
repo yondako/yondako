@@ -129,7 +129,7 @@ export async function getBooksByReadingStatus(
     return { books, total: total.count };
   } catch (e) {
     // TODO: エラーハンドリング
-    console.log(e);
+    console.error(e);
     return { books: [], total: 0 };
   }
 }

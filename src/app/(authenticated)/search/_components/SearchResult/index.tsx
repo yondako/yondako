@@ -1,26 +1,33 @@
 import BookList from "@/app/(authenticated)/_components/BookList";
+import Pagination from "@/components/Pagination";
 import { getStatusesByBookIds } from "@/db/queries/status.server";
 import { auth } from "@/lib/auth.server";
 import { searchBookFromNDL } from "../../_actions/ndl.server";
 
+const minLimit = 1;
+const limit = 48;
+
 type Props = {
   query: string;
+  currentPage: number;
 };
 
-export async function SearchResult({ query }: Props) {
+export async function SearchResult({ query, currentPage }: Props) {
   const session = await auth();
 
   if (!session?.user?.id) {
     return <p className="mt-12 text-center">ログインが必要です</p>;
   }
 
-  const results = await searchBookFromNDL({
+  const result = await searchBookFromNDL({
     any: query,
-    cnt: 50, // TODO: 仮。あとでページネーションする
+    cnt: limit,
+    // NOTE: idx は 1 始まりなので計算結果に +1 する
+    idx: (currentPage - 1) * limit + 1 || minLimit,
   });
 
   // 検索エラー
-  if (!results) {
+  if (!result) {
     return (
       <p className="mt-12 text-center">
         検索できませんでした。
@@ -30,13 +37,16 @@ export async function SearchResult({ query }: Props) {
     );
   }
 
-  if (results.length === 0) {
+  if (result.books.length === 0) {
     return <p className="mt-12 text-center">みつかりませんでした</p>;
   }
 
-  const readingStatuses = await getStatusesByBookIds(session.user.id, results);
+  const readingStatuses = await getStatusesByBookIds(
+    session.user.id,
+    result.books,
+  );
 
-  const items = results.map((detail) => {
+  const items = result.books.map((detail) => {
     const readingStatus =
       readingStatuses.find((s) => s.bookId === detail.ndlBibId)?.status ??
       "none";
@@ -47,5 +57,22 @@ export async function SearchResult({ query }: Props) {
     };
   });
 
-  return <BookList className="mt-8" items={items} />;
+  const totalPage = Math.ceil(result.meta.totalResults / limit);
+
+  return (
+    <>
+      <h1 className="mt-10 font-bold">
+        <span className="text-4xl">{result.meta.totalResults}</span>
+        <span className="text-base">冊 みつかりました</span>
+      </h1>
+      <BookList items={items} />
+      {totalPage > 1 && (
+        <Pagination
+          className="mt-auto pt-10"
+          currentPage={currentPage}
+          totalPage={totalPage}
+        />
+      )}
+    </>
+  );
 }

@@ -32,27 +32,29 @@ export async function updateReadingStatus(
 
   // Dbに登録されているか確認
   let bookDetail = await getBook(bookId);
-  console.log("[DB]", bookDetail);
 
   // DBに登録
   if (!bookDetail) {
     // NDLから書籍情報を取得
-    const results = await searchBookFromNDL({ any: bookId, cnt: 1 });
+    const results = await searchBookFromNDL({
+      any: bookId,
+      cnt: 1,
+    });
 
-    if (!results || results.length <= 0) {
+    if (
+      !results ||
+      results.books.length <= 0 ||
+      results.books[0].ndlBibId !== bookId
+    ) {
       return {
         error: "書籍が見つかりませんでした",
       };
     }
 
-    bookDetail = results[0];
+    bookDetail = results.books[0];
 
     await createBook(bookDetail);
-
-    console.log("[INSERT]", bookDetail);
   }
-
-  console.log("[BOOK]", session.user.id, status);
 
   // ステータスの変更をDBに反映
   const resultReadingStatus = await upsertReadingStatus(

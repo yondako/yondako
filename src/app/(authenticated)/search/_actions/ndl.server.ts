@@ -31,11 +31,11 @@ export const searchBookFromNDL = async (opts: SearchOptions) => {
     );
   }
 
-  // データプロバイダ
+  // データプロバイダ: 国立国会図書館蔵書
   endpoint.searchParams.append("dpid", "iss-ndl-opac");
 
-  // 対象を図書・雑誌・電子雑誌に絞る
-  endpoint.searchParams.append("mediatype", "books periodicals");
+  // 対象を図書に絞る
+  endpoint.searchParams.append("mediatype", "books");
 
   try {
     const res = await fetch(endpoint);

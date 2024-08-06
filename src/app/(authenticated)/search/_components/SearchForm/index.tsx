@@ -2,11 +2,15 @@
 
 import SearchBox from "@/components/SearchBox";
 import { useRouter, useSearchParams } from "next/navigation";
-import type { FormEventHandler } from "react";
+import { type FormEventHandler, useRef } from "react";
 
 export default function SearchForm() {
+  const searchBoxRef = useRef<HTMLInputElement>(null);
+
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const query = searchParams.get("q");
 
   // クエリパラメータを更新してページを更新
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
@@ -19,6 +23,8 @@ export default function SearchForm() {
       return;
     }
 
+    searchBoxRef.current?.blur();
+
     const newSearchParams = new URLSearchParams();
     newSearchParams.set("q", query?.toString());
 
@@ -29,8 +35,11 @@ export default function SearchForm() {
     <form className="m-0 w-full" onSubmit={handleSubmit}>
       <SearchBox
         name="q"
-        defaultValue={searchParams.get("q") ?? ""}
+        defaultValue={query ?? ""}
         placeholder="書籍名、著者名で検索"
+        autoFocus={!query}
+        inputMode="search"
+        ref={searchBoxRef}
       />
     </form>
   );

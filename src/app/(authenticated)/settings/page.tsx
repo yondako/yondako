@@ -5,7 +5,6 @@ import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/url";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import Layout from "../_components/Layout";
 import LogoutButton from "./_components/LogoutButton";
 
 export const runtime = "edge";
@@ -20,7 +19,7 @@ export default async function Settings() {
   }
 
   return (
-    <Layout current="設定">
+    <>
       <h2 className="font-bold text-xl">アカウント</h2>
       <LogoutButton />
 
@@ -33,6 +32,6 @@ export default async function Settings() {
       </Button>
 
       <Footer className="mt-16 text-center md:hidden" />
-    </Layout>
+    </>
   );
 }

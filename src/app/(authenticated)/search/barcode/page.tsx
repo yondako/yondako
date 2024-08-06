@@ -1,4 +1,3 @@
-import ErrorPage from "@/app/_components/ErrorPage";
 import { auth } from "@/lib/auth.server";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/url";
@@ -16,9 +15,10 @@ export default async function SearchBarcode() {
   }
 
   return (
-    <ErrorPage title="WIP...">
-      <p>この機能は現在開発中です！</p>
-      <p>実装までしばらくお待ちください 🐙</p>
-    </ErrorPage>
+    <div className="my-auto text-center">
+      <p className="ml-3 rotate-12 text-3xl">⚒️</p>
+      <p className="font-noto-emoji text-5xl">🐙</p>
+      <p className="mt-3 text-sm">現在開発中です…！</p>
+    </div>
   );
 }

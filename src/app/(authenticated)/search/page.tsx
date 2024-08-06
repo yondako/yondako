@@ -5,21 +5,30 @@ import SayTako from "@/components/SayTako";
 import { auth } from "@/lib/auth.server";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/url";
+import { pageIndexSchema } from "@/types/page";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
-import Layout from "../_components/Layout";
+import { safeParse } from "valibot";
 import SearchForm from "./_components/SearchForm";
 import { SearchResult } from "./_components/SearchResult";
 
 export const runtime = "edge";
 
-export const metadata = generateMetadataTitle("キーワードで探す");
-
 type Props = {
   searchParams: {
     q?: string;
+    page?: string;
   };
 };
+
+export function generateMetadata({ searchParams }: Props): Metadata {
+  const query = searchParams.q;
+
+  return generateMetadataTitle(
+    query ? `「${query}」の検索結果` : "キーワードで探す",
+  );
+}
 
 export default async function Search({ searchParams }: Props) {
   const session = await auth();
@@ -28,12 +37,18 @@ export default async function Search({ searchParams }: Props) {
     redirect(createSignInPath("/search"));
   }
 
+  // ページ数
+  const pageParseResult = safeParse(
+    pageIndexSchema,
+    Number.parseInt(searchParams.page ?? "1"),
+  );
+  const page = pageParseResult.success ? pageParseResult.output : 1;
+
+  // キーワード
   const query = searchParams.q;
 
-  // TODO: 検索前の表示
-
   return (
-    <Layout current="キーワードで探す">
+    <>
       <div className="flex flex-col items-end md:flex-row md:items-center">
         <SearchForm />
         <ExternalLink
@@ -50,13 +65,13 @@ export default async function Search({ searchParams }: Props) {
           fallback={
             <Loading className="mt-12 md:mt-0" title="検索しています" />
           }
-          key={query}
+          key={`${query}_${page}`}
         >
-          <SearchResult query={query} />
+          <SearchResult query={query} currentPage={page} />
         </Suspense>
       ) : (
         <SayTako message="ｹﾝｻｸｼﾃﾈ" />
       )}
-    </Layout>
+    </>
   );
 }

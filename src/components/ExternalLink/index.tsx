@@ -1,10 +1,10 @@
-import type { ComponentProps } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
 
 export default function ExternalLink({
   className,
   ...props
-}: Omit<ComponentProps<"a">, "target" | "rel">) {
+}: Omit<ComponentPropsWithoutRef<"a">, "target" | "rel">) {
   return (
     <a
       {...props}
