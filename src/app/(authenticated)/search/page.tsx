@@ -23,7 +23,11 @@ type Props = {
 };
 
 export function generateMetadata({ searchParams }: Props): Metadata {
-  return generateMetadataTitle(`「${searchParams.q}」の検索結果`);
+  const query = searchParams.q;
+
+  return generateMetadataTitle(
+    query ? `「${query}」の検索結果` : "キーワードで探す",
+  );
 }
 
 export default async function Search({ searchParams }: Props) {
