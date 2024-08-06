@@ -98,6 +98,11 @@ type OpenSearchResult = {
   };
 };
 
+// NOTE:
+// 国立国会図書館が提供するAPIでは最大500件までしか取得できない
+// https://ndlsearch.ndl.go.jp/file/help/api/specifications/ndlsearch_api_20240712.pdf
+const totalResultsLimit = 500;
+
 /**
  * NDL API (OpenSearch) のレスポンスをパース
  * @param xml レスポンス (RSS)
@@ -181,9 +186,12 @@ export const parseOpenSearchResponse = (xml: string): OpenSearchResponse => {
     };
   });
 
+  const totalResults = parsed.rss.channel["openSearch:totalResults"] ?? 0;
+
   return {
     meta: {
-      totalResults: parsed.rss.channel["openSearch:totalResults"] ?? 0,
+      totalResults:
+        totalResults >= totalResultsLimit ? totalResultsLimit : totalResults,
       startIndex: parsed.rss.channel["openSearch:startIndex"] ?? 0,
       itemsPerPage: parsed.rss.channel["openSearch:itemsPerPage"] ?? 0,
     },
