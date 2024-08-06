@@ -1,9 +1,9 @@
 import IconSearch from "@/assets/icons/search.svg";
-import { type ComponentPropsWithoutRef, forwardRef } from "react";
+import { type ComponentPropsWithRef, forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
 import Input from "../Input";
 
-export default forwardRef<HTMLInputElement, ComponentPropsWithoutRef<"input">>(
+export default forwardRef<HTMLInputElement, ComponentPropsWithRef<"input">>(
   function SearchBox({ className, ...props }, ref) {
     return (
       <div className="relative text-text">

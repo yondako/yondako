@@ -1,5 +1,5 @@
 import type { BookType } from "@/types/book";
-import type { ComponentProps } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
 import type { BookCardProps } from "../BookCard";
 import BookCard from "../BookCard";
@@ -7,7 +7,7 @@ import BookCard from "../BookCard";
 type Props = {
   items: BookType[];
 } & Pick<BookCardProps, "hideReadingStatusBadge"> &
-  ComponentProps<"div">;
+  ComponentPropsWithoutRef<"div">;
 
 export default function BookList({
   items,

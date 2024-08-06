@@ -1,4 +1,4 @@
-import type { ComponentProps } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
 import ExternalLink from "./ExternalLink";
 
@@ -29,7 +29,7 @@ const links: LinkItem[] = [
 export type FooterProps = {
   portrait?: boolean;
   showTermsNotice?: boolean;
-} & ComponentProps<"div">;
+} & ComponentPropsWithoutRef<"div">;
 
 export default function Footer({
   portrait = false,
