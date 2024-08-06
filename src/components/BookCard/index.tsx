@@ -1,10 +1,10 @@
 "use client";
 
+import { updateReadingStatus } from "@/actions/updateReadingStatus";
 import IconDotsVertical from "@/assets/icons/dots-vertical.svg";
 import { readingStatusMetadata } from "@/constants/status";
 import type { BookType } from "@/types/book";
 import { useOptimistic, useState } from "react";
-import { updateReadingStatus } from "../../_actions/updateReadingStatus";
 import Detail from "./Detail";
 import ReadingStatusButton, { readingStatusOrder } from "./ReadingStatusButton";
 import { BookThumbnail } from "./Thumbnail";
