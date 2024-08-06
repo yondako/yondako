@@ -72,24 +72,26 @@ type OpenSearchResponse = {
   books: BookDetail[];
 };
 
+type OpenSearchItem = {
+  title: string;
+  link: string;
+  "dc:title"?: string;
+  "dc:creator"?: string | string[];
+  "dcndl:volume"?: string;
+  "dc:publisher"?: string | string[];
+  "dc:identifier"?: {
+    "#text": string;
+    "@_xsi:type": string;
+  }[];
+};
+
 type OpenSearchResult = {
   rss?: {
     channel: Partial<{
       "openSearch:totalResults": number;
       "openSearch:startIndex": number;
       "openSearch:itemsPerPage": number;
-      item: {
-        title: string;
-        link: string;
-        "dc:title"?: string;
-        "dc:creator"?: string | string[];
-        "dcndl:volume"?: string;
-        "dc:publisher"?: string | string[];
-        "dc:identifier"?: {
-          "#text": string;
-          "@_xsi:type": string;
-        }[];
-      }[];
+      item: OpenSearchItem | OpenSearchItem[];
     }>;
   };
 };
@@ -104,6 +106,10 @@ export const parseOpenSearchResponse = (xml: string): OpenSearchResponse => {
     ignoreAttributes: false,
     trimValues: true,
     parseAttributeValue: true,
+    numberParseOptions: {
+      hex: false,
+      leadingZeros: false,
+    },
   });
 
   const parsed: OpenSearchResult = parser.parse(xml);
@@ -124,43 +130,45 @@ export const parseOpenSearchResponse = (xml: string): OpenSearchResponse => {
     };
   }
 
-  const rawBooks: (BookDetail | undefined)[] = parsed.rss.channel.item.map(
-    (item) => {
-      const ndlBibId = item["dc:identifier"]?.find(
-        (id) => id["@_xsi:type"] === "dcndl:NDLBibID",
-      )?.["#text"];
+  const items = Array.isArray(parsed.rss.channel.item)
+    ? parsed.rss.channel.item
+    : [parsed.rss.channel.item];
 
-      // NDLBibID がない場合はDBに追加できないのでスキップ
-      if (!ndlBibId) {
-        console.error(`NDLBibIDがありません: ${item.title}`);
-        return;
-      }
+  const rawBooks: (BookDetail | undefined)[] = items.map((item) => {
+    const ndlBibId = item["dc:identifier"]?.find(
+      (id) => id["@_xsi:type"] === "dcndl:NDLBibID",
+    )?.["#text"];
 
-      // 巻数があればタイトルに追加
-      const title = item["dcndl:volume"]
-        ? `${item.title} (${item["dcndl:volume"]})`
-        : item.title;
+    // NDLBibID がない場合はDBに追加できないのでスキップ
+    if (!ndlBibId) {
+      console.error(`NDLBibIDがありません: ${item.title}`);
+      return;
+    }
 
-      const isbn = item["dc:identifier"]?.find(
-        (id) => id["@_xsi:type"] === "dcndl:ISBN",
-      )?.["#text"];
+    // 巻数があればタイトルに追加
+    const title = item["dcndl:volume"]
+      ? `${item.title} (${item["dcndl:volume"]})`
+      : item.title;
 
-      const jpNo = item["dc:identifier"]?.find(
-        (id) => id["@_xsi:type"] === "dcndl:JPNO",
-      )?.["#text"];
+    const isbn = item["dc:identifier"]?.find(
+      (id) => id["@_xsi:type"] === "dcndl:ISBN",
+    )?.["#text"];
 
-      return {
-        title,
-        link: item.link,
-        authors: createAuthors(item["dc:creator"]),
-        publishers: createPublishers(item["dc:publisher"]),
-        isbn,
-        ndlBibId,
-        jpNo,
-        thumbnailUrl: createThumbnailUrl(isbn),
-      };
-    },
-  );
+    const jpNo = item["dc:identifier"]?.find(
+      (id) => id["@_xsi:type"] === "dcndl:JPNO",
+    )?.["#text"];
+
+    return {
+      title,
+      link: item.link,
+      authors: createAuthors(item["dc:creator"]),
+      publishers: createPublishers(item["dc:publisher"]),
+      isbn,
+      ndlBibId,
+      jpNo,
+      thumbnailUrl: createThumbnailUrl(isbn),
+    };
+  });
 
   return {
     meta: {
