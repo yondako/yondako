@@ -22,8 +22,8 @@ export default function Detail({ open, onChangeOpen, rawIsbn }: DetailProps) {
       className="relative flex h-full w-full flex-col justify-center"
       ref={ref}
     >
-      <p className="font-bold font-noto-emoji text-xs">{"この本を買う🐙"}</p>
-      <div className="mt-3 mb-2 flex flex-wrap gap-1">
+      <p className="flex items-center font-bold text-sm">詳しくみる</p>
+      <div className="mt-2 mb-2 flex max-w-80 flex-wrap gap-x-3 gap-y-1">
         <ShopLinks rawIsbn={rawIsbn} />
       </div>
 
