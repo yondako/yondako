@@ -9,16 +9,22 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import SearchForm from "./_components/SearchForm";
 import { SearchResult } from "./_components/SearchResult";
+import { pageIndexSchema } from "@/types/page";
+import { safeParse } from "valibot";
+import type { Metadata } from "next";
 
 export const runtime = "edge";
-
-export const metadata = generateMetadataTitle("キーワードで探す");
 
 type Props = {
   searchParams: {
     q?: string;
+    page?: string;
   };
 };
+
+export function generateMetadata({ searchParams }: Props): Metadata {
+  return generateMetadataTitle(`「${searchParams.q}」の検索結果`);
+}
 
 export default async function Search({ searchParams }: Props) {
   const session = await auth();
@@ -27,9 +33,15 @@ export default async function Search({ searchParams }: Props) {
     redirect(createSignInPath("/search"));
   }
 
-  const query = searchParams.q;
+  // ページ数
+  const pageParseResult = safeParse(
+    pageIndexSchema,
+    Number.parseInt(searchParams.page ?? "1"),
+  );
+  const page = pageParseResult.success ? pageParseResult.output : 1;
 
-  // TODO: 検索前の表示
+  // キーワード
+  const query = searchParams.q;
 
   return (
     <>
@@ -49,9 +61,9 @@ export default async function Search({ searchParams }: Props) {
           fallback={
             <Loading className="mt-12 md:mt-0" title="検索しています" />
           }
-          key={query}
+          key={`${query}_${page}`}
         >
-          <SearchResult query={query} />
+          <SearchResult query={query} currentPage={page} />
         </Suspense>
       ) : (
         <SayTako message="ｹﾝｻｸｼﾃﾈ" />

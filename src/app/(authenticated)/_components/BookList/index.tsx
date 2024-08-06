@@ -25,7 +25,7 @@ export default function BookList({
         <BookCard
           data={book}
           hideReadingStatusBadge={hideReadingStatusBadge}
-          key={book.detail.ndlBibId}
+          key={book.detail.link}
         />
       ))}
     </div>
