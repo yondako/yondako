@@ -72,6 +72,11 @@ type OpenSearchResponse = {
   books: BookDetail[];
 };
 
+type OpenSearchDcIdentifier = {
+  "#text": string;
+  "@_xsi:type": string;
+};
+
 type OpenSearchItem = {
   title: string;
   link: string;
@@ -79,10 +84,7 @@ type OpenSearchItem = {
   "dc:creator"?: string | string[];
   "dcndl:volume"?: string;
   "dc:publisher"?: string | string[];
-  "dc:identifier"?: {
-    "#text": string;
-    "@_xsi:type": string;
-  }[];
+  "dc:identifier"?: OpenSearchDcIdentifier | OpenSearchDcIdentifier[];
 };
 
 type OpenSearchResult = {
@@ -135,7 +137,16 @@ export const parseOpenSearchResponse = (xml: string): OpenSearchResponse => {
     : [parsed.rss.channel.item];
 
   const rawBooks: (BookDetail | undefined)[] = items.map((item) => {
-    const ndlBibId = item["dc:identifier"]?.find(
+    if (!item["dc:identifier"]) {
+      console.error(`dc:identifier がありません: ${item.title}`);
+      return;
+    }
+
+    const identifier = Array.isArray(item["dc:identifier"])
+      ? item["dc:identifier"]
+      : [item["dc:identifier"]];
+
+    const ndlBibId = identifier.find(
       (id) => id["@_xsi:type"] === "dcndl:NDLBibID",
     )?.["#text"];
 
@@ -150,13 +161,13 @@ export const parseOpenSearchResponse = (xml: string): OpenSearchResponse => {
       ? `${item.title} (${item["dcndl:volume"]})`
       : item.title;
 
-    const isbn = item["dc:identifier"]?.find(
-      (id) => id["@_xsi:type"] === "dcndl:ISBN",
-    )?.["#text"];
+    const isbn = identifier.find((id) => id["@_xsi:type"] === "dcndl:ISBN")?.[
+      "#text"
+    ];
 
-    const jpNo = item["dc:identifier"]?.find(
-      (id) => id["@_xsi:type"] === "dcndl:JPNO",
-    )?.["#text"];
+    const jpNo = identifier.find((id) => id["@_xsi:type"] === "dcndl:JPNO")?.[
+      "#text"
+    ];
 
     return {
       title,
