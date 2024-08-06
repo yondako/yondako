@@ -5,13 +5,13 @@ import SayTako from "@/components/SayTako";
 import { auth } from "@/lib/auth.server";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/url";
+import { pageIndexSchema } from "@/types/page";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
+import { safeParse } from "valibot";
 import SearchForm from "./_components/SearchForm";
 import { SearchResult } from "./_components/SearchResult";
-import { pageIndexSchema } from "@/types/page";
-import { safeParse } from "valibot";
-import type { Metadata } from "next";
 
 export const runtime = "edge";
 
