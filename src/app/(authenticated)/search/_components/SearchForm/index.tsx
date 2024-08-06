@@ -8,6 +8,8 @@ export default function SearchForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const query = searchParams.get("q");
+
   // クエリパラメータを更新してページを更新
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
@@ -29,9 +31,9 @@ export default function SearchForm() {
     <form className="m-0 w-full" onSubmit={handleSubmit}>
       <SearchBox
         name="q"
-        defaultValue={searchParams.get("q") ?? ""}
+        defaultValue={query ?? ""}
         placeholder="書籍名、著者名で検索"
-        autoFocus
+        autoFocus={!query}
         inputMode="search"
       />
     </form>
