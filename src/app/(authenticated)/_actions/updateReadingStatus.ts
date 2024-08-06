@@ -32,7 +32,6 @@ export async function updateReadingStatus(
 
   // Dbに登録されているか確認
   let bookDetail = await getBook(bookId);
-  console.log("[DB]", bookDetail);
 
   // DBに登録
   if (!bookDetail) {
