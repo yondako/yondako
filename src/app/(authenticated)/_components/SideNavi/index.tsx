@@ -13,7 +13,7 @@ export default function SideNavi() {
   const segments = useSelectedLayoutSegments().join("/");
 
   return (
-    <nav className="hidden h-full w-full max-w-60 md:flex md:flex-col md:justify-between">
+    <nav className="hidden h-full w-full max-w-60 lg:flex lg:flex-col lg:justify-between">
       <div className="mt-8">
         <Link className="ml-8 block w-32" href="/">
           <Image src={logoUrl} alt={site.name} priority />

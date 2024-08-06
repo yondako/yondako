@@ -49,10 +49,10 @@ export default async function Search({ searchParams }: Props) {
 
   return (
     <>
-      <div className="flex flex-col items-end md:flex-row md:items-center">
+      <div className="flex flex-col items-end lg:flex-row lg:items-center">
         <SearchForm />
         <ExternalLink
-          className="mt-4 flex shrink-0 items-center space-x-1 text-xs md:mt-0 md:ml-4"
+          className="mt-4 flex shrink-0 items-center space-x-1 text-xs lg:mt-0 lg:ml-4"
           href="https://docs.yondako.com/data-source"
         >
           <IconHelp className="h-4 w-4" />
@@ -63,7 +63,7 @@ export default async function Search({ searchParams }: Props) {
       {query ? (
         <Suspense
           fallback={
-            <Loading className="mt-12 md:mt-0" title="検索しています" />
+            <Loading className="mt-12 lg:mt-0" title="検索しています" />
           }
           key={`${query}_${page}`}
         >
