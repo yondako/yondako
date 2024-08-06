@@ -39,13 +39,13 @@ export async function updateReadingStatus(
     // NDLから書籍情報を取得
     const results = await searchBookFromNDL({ any: bookId, cnt: 1 });
 
-    if (!results || results.length <= 0) {
+    if (!results || results.books.length <= 0) {
       return {
         error: "書籍が見つかりませんでした",
       };
     }
 
-    bookDetail = results[0];
+    bookDetail = results.books[0];
 
     await createBook(bookDetail);
 
