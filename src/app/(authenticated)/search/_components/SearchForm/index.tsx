@@ -31,6 +31,8 @@ export default function SearchForm() {
         name="q"
         defaultValue={searchParams.get("q") ?? ""}
         placeholder="書籍名、著者名で検索"
+        autoFocus
+        inputMode="search"
       />
     </form>
   );
