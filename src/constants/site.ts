@@ -1,8 +1,8 @@
 export const site = {
   name: "yondako",
   description: {
-    short: "“よんだこと”を記録する",
-    long: `yondakoは、"よんだこと"を記録するだけのシンプルなWebサービスです。`,
+    short: "“よんだこと”をわすれない",
+    long: `yondakoは、"よんだこと"をわすれないための読書記録サービスです`,
   },
   url: "https://yondako.com",
 };
