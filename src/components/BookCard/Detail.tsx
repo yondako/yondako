@@ -22,8 +22,15 @@ export default function Detail({ open, onChangeOpen, rawIsbn }: DetailProps) {
       className="relative flex h-full w-full flex-col justify-center"
       ref={ref}
     >
-      <p className="flex items-center font-bold text-sm">詳しくみる</p>
-      <div className="mt-2 mb-2 flex max-w-80 flex-wrap gap-x-3 gap-y-1">
+      <p className="flex items-center font-bold text-xs">詳しくみる</p>
+
+      <div className="my-2 flex w-full space-x-1">
+        <div className="h-1 w-2 rounded-full bg-tako" />
+        <div className="h-1 w-2 rounded-full bg-tako" />
+        <div className="h-1 w-2 rounded-full bg-tako" />
+      </div>
+
+      <div className="mb-2 flex max-w-80 flex-wrap gap-x-3 gap-y-1">
         <ShopLinks rawIsbn={rawIsbn} />
       </div>
 
