@@ -7,20 +7,20 @@ import { XMLParser } from "fast-xml-parser";
  * @param id JP-eコードもしくはISBN-13
  * @return URL
  */
-const createThumbnailUrl = (id: string | undefined): string | undefined => {
+function createThumbnailUrl(id: string | undefined): string | undefined {
   return id
     ? `${THUMBNAIL_API_BASE_URL}/${id.replace(/-/g, "")}.jpg`
     : undefined;
-};
+}
 
 /**
  * 著者名の配列を作成
  * @param authors カンマ区切りの著者名 or 著者名の配列
  * @return 著者名の配列
  */
-const createAuthors = (
+function createAuthors(
   rawAuthors: string | string[] | undefined,
-): string[] | undefined => {
+): string[] | undefined {
   if (!rawAuthors) {
     return;
   }
@@ -42,7 +42,7 @@ const createAuthors = (
 
   // 重複を排除
   return [...new Set(results)];
-};
+}
 
 /**
  * 出版社の配列を作成
@@ -108,7 +108,7 @@ const totalResultsLimit = 500;
  * @param xml レスポンス (RSS)
  * @returns Bookオブジェクトの配列
  */
-export const parseOpenSearchResponse = (xml: string): OpenSearchResponse => {
+export function parseOpenSearchResponse(xml: string): OpenSearchResponse {
   const parser = new XMLParser({
     ignoreAttributes: false,
     trimValues: true,
@@ -197,4 +197,4 @@ export const parseOpenSearchResponse = (xml: string): OpenSearchResponse => {
     },
     books: rawBooks.filter((book) => book !== undefined),
   };
-};
+}
