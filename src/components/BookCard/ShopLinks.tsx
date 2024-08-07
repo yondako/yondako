@@ -92,10 +92,13 @@ export function ShopLinks({ rawIsbn }: ShopLinksProps) {
   const shopList = createShopList(isbn);
 
   return shopList.map(({ title, url }) => (
-    <ExternalLink className="flex items-center text-text text-xs" href={url()} key={title}>
+    <ExternalLink
+      className="flex items-center text-text text-xs"
+      href={url()}
+      key={title}
+    >
       {title}
       <IconExternalLink className="ml-0.5 h-3 w-3" />
     </ExternalLink>
   ));
 }
-
