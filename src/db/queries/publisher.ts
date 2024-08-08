@@ -1,3 +1,5 @@
+import "server-only";
+
 import { eq } from "drizzle-orm";
 import db from "..";
 import { publishers } from "../schema/book";

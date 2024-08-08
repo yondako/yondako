@@ -1,3 +1,5 @@
+import "server-only";
+
 import type { BookDetail, BookType } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
 import { and, asc, count, desc, eq, inArray } from "drizzle-orm";

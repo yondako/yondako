@@ -2,7 +2,7 @@ import IconHelp from "@/assets/icons/help.svg";
 import ExternalLink from "@/components/ExternalLink";
 import { Loading } from "@/components/Loading";
 import SayTako from "@/components/SayTako";
-import { auth, createSignInPath } from "@/lib/auth.server";
+import { auth, createSignInPath } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { pageIndexSchema } from "@/types/page";
 import type { Metadata } from "next";

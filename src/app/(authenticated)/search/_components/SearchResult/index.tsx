@@ -1,8 +1,8 @@
-import { searchBookFromNDL } from "@/actions/ndl.server";
 import BookList from "@/components/BookList";
 import Pagination from "@/components/Pagination";
-import { getStatusesByBookIds } from "@/db/queries/status.server";
-import { auth } from "@/lib/auth.server";
+import { getStatusesByBookIds } from "@/db/queries/status";
+import { auth } from "@/lib/auth";
+import { searchBooksFromNDL } from "@/lib/searchBooks";
 
 const minLimit = 1;
 const limit = 48;
@@ -19,7 +19,7 @@ export async function SearchResult({ query, currentPage }: Props) {
     return <p className="mt-12 text-center">ログインが必要です</p>;
   }
 
-  const result = await searchBookFromNDL({
+  const result = await searchBooksFromNDL({
     any: query,
     cnt: limit,
     // NOTE: idx は 1 始まりなので計算結果に +1 する

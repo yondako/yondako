@@ -1,4 +1,4 @@
-import { auth, createSignInPath } from "@/lib/auth.server";
+import { auth, createSignInPath } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { redirect } from "next/navigation";
 

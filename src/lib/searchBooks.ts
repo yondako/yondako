@@ -1,4 +1,4 @@
-import { parseOpenSearchXml } from "@/lib/parseOpenSearchResponse";
+import { parseOpenSearchXml } from "./parseOpenSearchXml";
 
 const apiBaseUrl = "https://iss.ndl.go.jp/api/opensearch";
 
@@ -22,7 +22,7 @@ type SearchOptions = {
  * @param opts 検索オプション
  * @returns 検索結果 / エラーの場合はundefined
  */
-export const searchBookFromNDL = async (opts: SearchOptions) => {
+export async function searchBooksFromNDL(opts: SearchOptions) {
   const endpoint = new URL(apiBaseUrl);
 
   for (const [key, value] of Object.entries(opts)) {
@@ -46,4 +46,4 @@ export const searchBookFromNDL = async (opts: SearchOptions) => {
   } catch (e) {
     console.error("[NDL]", e);
   }
-};
+}

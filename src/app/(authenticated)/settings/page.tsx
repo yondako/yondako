@@ -1,6 +1,6 @@
 import Button from "@/components/Button";
 import Footer from "@/components/Footer";
-import { auth, createSignInPath } from "@/lib/auth.server";
+import { auth, createSignInPath } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import Link from "next/link";
 import { redirect } from "next/navigation";
