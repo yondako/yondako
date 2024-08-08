@@ -1,4 +1,6 @@
-import { auth } from "@/lib/auth.server";
+import "server-only";
+
+import { auth } from "@/lib/auth";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";

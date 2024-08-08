@@ -1,67 +1,6 @@
-import { THUMBNAIL_API_BASE_URL } from "@/constants/api";
 import type { BookDetail } from "@/types/book";
 import { XMLParser } from "fast-xml-parser";
-
-/**
- * 書影画像のURLを作成
- * @param id JP-eコードもしくはISBN-13
- * @return URL
- */
-const createThumbnailUrl = (id: string | undefined): string | undefined => {
-  return id
-    ? `${THUMBNAIL_API_BASE_URL}/${id.replace(/-/g, "")}.jpg`
-    : undefined;
-};
-
-/**
- * 著者名の配列を作成
- * @param authors カンマ区切りの著者名 or 著者名の配列
- * @return 著者名の配列
- */
-const createAuthors = (
-  rawAuthors: string | string[] | undefined,
-): string[] | undefined => {
-  if (!rawAuthors) {
-    return;
-  }
-
-  const authors = Array.isArray(rawAuthors)
-    ? rawAuthors
-    : rawAuthors.split(",");
-
-  const results = authors
-    .map((author) =>
-      author
-        // yyyy-yyyy pub. (YYYY年) を消す
-        .replace(/(, )?(\d{4}-(\d{0,4})?|pub. \d{4}|\(\d{4}年\))/, "")
-        // 苗字と名前を区切っているカンマを消す
-        .replace(", ", " ")
-        .trim(),
-    )
-    .filter((author) => author !== "");
-
-  // 重複を排除
-  return [...new Set(results)];
-};
-
-/**
- * 出版社の配列を作成
- * @param publishers カンマ区切りの出版社名 or 出版社名の配列
- * @return 出版社名の配列
- */
-function createPublishers(
-  rawPublisher: string | string[] | undefined,
-): string[] | undefined {
-  if (!rawPublisher) {
-    return;
-  }
-
-  const publishers = Array.isArray(rawPublisher)
-    ? rawPublisher
-    : rawPublisher.split(",");
-
-  return [...new Set(publishers)];
-}
+import { createAuthors, createPublishers, createThumbnailUrl } from "./utils";
 
 type OpenSearchResponse = {
   meta: {
@@ -108,7 +47,7 @@ const totalResultsLimit = 500;
  * @param xml レスポンス (RSS)
  * @returns Bookオブジェクトの配列
  */
-export const parseOpenSearchResponse = (xml: string): OpenSearchResponse => {
+export function parseOpenSearchXml(xml: string): OpenSearchResponse {
   const parser = new XMLParser({
     ignoreAttributes: false,
     trimValues: true,
@@ -141,9 +80,12 @@ export const parseOpenSearchResponse = (xml: string): OpenSearchResponse => {
     ? parsed.rss.channel.item
     : [parsed.rss.channel.item];
 
+  let totalResults = parsed.rss.channel["openSearch:totalResults"] ?? 0;
+
   const rawBooks: (BookDetail | undefined)[] = items.map((item) => {
     if (!item["dc:identifier"]) {
       console.error(`dc:identifier がありません: ${item.title}`);
+      totalResults--;
       return;
     }
 
@@ -158,6 +100,7 @@ export const parseOpenSearchResponse = (xml: string): OpenSearchResponse => {
     // NDLBibID がない場合はDBに追加できないのでスキップ
     if (!ndlBibId) {
       console.error(`NDLBibIDがありません: ${item.title}`);
+      totalResults--;
       return;
     }
 
@@ -186,8 +129,6 @@ export const parseOpenSearchResponse = (xml: string): OpenSearchResponse => {
     };
   });
 
-  const totalResults = parsed.rss.channel["openSearch:totalResults"] ?? 0;
-
   return {
     meta: {
       totalResults:
@@ -197,4 +138,4 @@ export const parseOpenSearchResponse = (xml: string): OpenSearchResponse => {
     },
     books: rawBooks.filter((book) => book !== undefined),
   };
-};
+}

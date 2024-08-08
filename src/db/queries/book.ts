@@ -1,9 +1,11 @@
+import "server-only";
+
 import type { BookDetail } from "@/types/book";
 import { eq } from "drizzle-orm";
 import db from "..";
 import * as dbSchema from "../schema/book";
-import { createAuthor } from "./author.server";
-import { createPublisher } from "./publisher.server";
+import { createAuthor } from "./author";
+import { createPublisher } from "./publisher";
 
 /**
  * 書籍情報を取得
