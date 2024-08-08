@@ -47,7 +47,7 @@ const totalResultsLimit = 500;
  * @param xml レスポンス (RSS)
  * @returns Bookオブジェクトの配列
  */
-export function parseOpenSearchResponse(xml: string): OpenSearchResponse {
+export function parseOpenSearchXml(xml: string): OpenSearchResponse {
   const parser = new XMLParser({
     ignoreAttributes: false,
     trimValues: true,
@@ -80,9 +80,12 @@ export function parseOpenSearchResponse(xml: string): OpenSearchResponse {
     ? parsed.rss.channel.item
     : [parsed.rss.channel.item];
 
+  let totalResults = parsed.rss.channel["openSearch:totalResults"] ?? 0;
+
   const rawBooks: (BookDetail | undefined)[] = items.map((item) => {
     if (!item["dc:identifier"]) {
       console.error(`dc:identifier がありません: ${item.title}`);
+      totalResults--;
       return;
     }
 
@@ -97,6 +100,7 @@ export function parseOpenSearchResponse(xml: string): OpenSearchResponse {
     // NDLBibID がない場合はDBに追加できないのでスキップ
     if (!ndlBibId) {
       console.error(`NDLBibIDがありません: ${item.title}`);
+      totalResults--;
       return;
     }
 
@@ -124,8 +128,6 @@ export function parseOpenSearchResponse(xml: string): OpenSearchResponse {
       thumbnailUrl: createThumbnailUrl(isbn),
     };
   });
-
-  const totalResults = parsed.rss.channel["openSearch:totalResults"] ?? 0;
 
   return {
     meta: {
