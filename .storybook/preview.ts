@@ -3,11 +3,14 @@ import "../src/app/globals.css";
 
 const preview: Preview = {
   parameters: {
-    controls: {
-      matchers: {
-        color: /(background|color)$/i,
-        date: /Date$/i,
-      },
+    backgrounds: {
+      default: "light",
+      values: [
+        {
+          name: "light",
+          value: "#FFFAF6",
+        },
+      ],
     },
   },
 };
