@@ -1,4 +1,4 @@
-import "server-only"
+import "server-only";
 
 import db from "@/db";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";

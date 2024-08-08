@@ -1,6 +1,7 @@
 import { Loading } from "@/components/Loading";
 import { auth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
+import { createSignInPath } from "@/lib/path";
 import { type Order, orderSchema } from "@/types/order";
 import { pageIndexSchema } from "@/types/page";
 import {
@@ -12,7 +13,6 @@ import { Suspense } from "react";
 import { is, safeParse } from "valibot";
 import { LibraryBookList } from "./_components/LibraryBookList";
 import Tab from "./_components/Tab";
-import { createSignInPath } from "@/lib/path";
 
 export const runtime = "edge";
 
