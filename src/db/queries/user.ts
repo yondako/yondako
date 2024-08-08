@@ -1,4 +1,4 @@
-import "server-only"
+import "server-only";
 
 import { auth } from "@/lib/auth";
 import { getRequestContext } from "@cloudflare/next-on-pages";
