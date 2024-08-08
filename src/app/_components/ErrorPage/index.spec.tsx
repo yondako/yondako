@@ -1,4 +1,4 @@
-import { test, expect } from "bun:test";
+import { expect, test } from "bun:test";
 import { render, screen } from "@testing-library/react";
 import ErrorPage from ".";
 
