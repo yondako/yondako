@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import Input from ".";
 
 const meta: Meta<typeof Input> = {
+  title: "Common/Input",
   component: () => {
     return (
       <div className="max-w-96 space-y-6">
