@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import Footer, { type FooterProps } from "./Footer";
+import Footer, { type FooterProps } from "../Footer";
 
 type Props = Readonly<
   {

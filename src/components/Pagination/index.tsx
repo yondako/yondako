@@ -15,7 +15,7 @@ type Props = {
   className?: string;
 };
 
-export default function Pagenation({
+export default function Pagination({
   currentPage,
   totalPage,
   className,

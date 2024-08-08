@@ -1,6 +1,6 @@
 import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
-import ExternalLink from "./ExternalLink";
+import ExternalLink from "../ExternalLink";
 
 type LinkItem = {
   title: string;
