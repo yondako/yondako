@@ -1,8 +1,7 @@
 import Button from "@/components/Button";
 import Footer from "@/components/Footer";
-import { auth } from "@/lib/auth.server";
+import { auth, createSignInPath } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
-import { createSignInPath } from "@/lib/url";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import LogoutButton from "./_components/LogoutButton";

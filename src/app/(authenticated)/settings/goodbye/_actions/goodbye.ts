@@ -1,6 +1,6 @@
 "use server";
 
-import { deleteUser } from "@/db/queries/user.server";
+import { deleteUser } from "@/db/queries/user";
 
 export type GoodByeUserResult = {
   success: boolean;

@@ -1,6 +1,5 @@
-import { auth } from "@/lib/auth.server";
+import { auth, createSignInPath } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
-import { createSignInPath } from "@/lib/url";
 import { redirect } from "next/navigation";
 
 export const runtime = "edge";

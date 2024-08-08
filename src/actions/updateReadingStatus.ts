@@ -1,11 +1,11 @@
 "use server";
 
-import { createBook, getBook } from "@/db/queries/book.server";
-import { upsertReadingStatus } from "@/db/queries/status.server";
-import { auth } from "@/lib/auth.server";
+import { createBook, getBook } from "@/db/queries/book";
+import { upsertReadingStatus } from "@/db/queries/status";
+import { auth } from "@/lib/auth";
+import { searchBooksFromNDL } from "@/lib/searchBooks";
 import type { BookType } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
-import { searchBookFromNDL } from "./ndl.server";
 
 type UpdateReadingStatusResult = {
   book?: BookType;
@@ -36,7 +36,7 @@ export async function updateReadingStatus(
   // DBに登録
   if (!bookDetail) {
     // NDLから書籍情報を取得
-    const results = await searchBookFromNDL({
+    const results = await searchBooksFromNDL({
       any: bookId,
       cnt: 1,
     });
