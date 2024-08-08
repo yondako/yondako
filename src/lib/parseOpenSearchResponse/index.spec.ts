@@ -292,8 +292,8 @@ test("巻数がある場合はタイトルに含まれる", () => {
     books: [
       {
         ...createWantBookDetail("000000000"),
-        title: "ダミータイトル (05)"
-      }
+        title: "ダミータイトル (05)",
+      },
     ],
   });
 });
@@ -307,9 +307,6 @@ test("totalResultsが500件以上なら丸められる", () => {
       startIndex: 1,
       itemsPerPage: 10,
     },
-    books: [
-      createWantBookDetail("000000000")
-    ],
+    books: [createWantBookDetail("000000000")],
   });
-  
-})
+});
