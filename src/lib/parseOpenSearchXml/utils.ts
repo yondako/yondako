@@ -54,5 +54,5 @@ export function createPublishers(
     ? rawPublisher
     : rawPublisher.split(",");
 
-  return [...new Set(publishers)];
+  return [...new Set(publishers.map((e) => e.trim()))];
 }
