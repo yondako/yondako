@@ -25,7 +25,6 @@ export function middleware(request: NextRequest) {
   const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
 
   const cspList = {
-    "default-src": ["'self'"],
     "script-src": [
       "'self'",
       `'nonce-${nonce}'`,
@@ -33,11 +32,9 @@ export function middleware(request: NextRequest) {
       isDev && "'unsafe-eval'",
       isDev && "'unsafe-inline'",
     ],
-    "style-src": ["'self'", isDev ? "'unsafe-inline'" : `'nonce-${nonce}'`],
-    "img-src": ["'self'", "blob:", "data:"],
     "font-src": ["'self'"],
     "object-src": ["https://ndlsearch.ndl.go.jp"],
-    "base-uri": ["'self'"],
+    "base-uri": ["'none'"],
     "form-action": ["'self'"],
     "frame-ancestors": ["'none'"],
     "upgrade-insecure-requests": [],
