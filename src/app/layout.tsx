@@ -2,8 +2,8 @@ import { twMerge } from "tailwind-merge";
 import "./globals.css";
 import { site } from "@/constants/site";
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import { Noto_Color_Emoji } from "next/font/google";
+import localFont from "next/font/local";
 
 const notoEmoji = Noto_Color_Emoji({
   weight: ["400"],
