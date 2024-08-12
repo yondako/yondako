@@ -3,8 +3,16 @@ import "./globals.css";
 import { site } from "@/constants/site";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Noto_Color_Emoji } from "next/font/google";
 
-const fonts = localFont({
+const notoEmoji = Noto_Color_Emoji({
+  weight: ["400"],
+  subsets: ["emoji"],
+  display: "swap",
+  variable: "--font-noto-emoji",
+});
+
+const lineSeedJp = localFont({
   src: [
     {
       path: "../assets/fonts/LINESeedJP_OTF_Rg.woff2",
@@ -45,8 +53,9 @@ export default function RootLayout({
     <html lang="ja">
       <body
         className={twMerge(
-          "bg-background font-noto-emoji text-text",
-          fonts.className,
+          "bg-background text-text",
+          lineSeedJp.className,
+          notoEmoji.variable,
         )}
       >
         {children}
