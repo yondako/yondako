@@ -15,7 +15,7 @@ export default function ErrorPage({ title, children }: Props) {
       <div className="mt-10 space-y-1">{children}</div>
       <Button asChild>
         <Link className="mx-auto mt-10 block w-fit text-base md:mx-0" href="/">
-          <span className="font-noto-emoji">🐙</span>
+          <span>🐙</span>
           <span className="ml-2">トップページに戻る</span>
         </Link>
       </Button>

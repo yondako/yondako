@@ -17,7 +17,7 @@ export default async function SearchBarcode() {
   return (
     <div className="my-auto text-center">
       <p className="ml-3 rotate-12 text-3xl">⚒️</p>
-      <p className="font-noto-emoji text-5xl">🐙</p>
+      <p className="text-5xl">🐙</p>
       <p className="mt-3 text-sm">現在開発中です…！</p>
     </div>
   );

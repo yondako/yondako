@@ -13,7 +13,7 @@ export function Loading({ title, className }: Props) {
         className,
       )}
     >
-      <p className="animate-bounce cursor-grab font-noto-emoji">₍₍⁽⁽🐙₎₎⁾⁾</p>
+      <p className="animate-bounce cursor-grab">₍₍⁽⁽🐙₎₎⁾⁾</p>
       <p className="text-xs">{title}</p>
     </div>
   );
