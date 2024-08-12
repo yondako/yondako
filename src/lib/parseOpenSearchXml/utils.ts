@@ -21,9 +21,7 @@ export function createAuthors(
     return;
   }
 
-  const authors = Array.isArray(rawAuthors)
-    ? rawAuthors
-    : rawAuthors.split(",");
+  const authors = Array.isArray(rawAuthors) ? rawAuthors : [rawAuthors];
 
   const results = authors
     .map((author) =>
@@ -56,5 +54,5 @@ export function createPublishers(
     ? rawPublisher
     : rawPublisher.split(",");
 
-  return [...new Set(publishers)];
+  return [...new Set(publishers.map((e) => e.trim()))];
 }

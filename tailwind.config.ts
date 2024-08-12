@@ -9,7 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        "noto-emoji": "Noto Color Emoji",
+        "noto-emoji": "var(--font-noto-emoji)",
       },
       fontSize: {
         xxs: "0.625rem",

@@ -3,13 +3,23 @@
 import { naviItems } from "@/constants/navi-items";
 import Link from "next/link";
 import { useSelectedLayoutSegments } from "next/navigation";
+import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
 
-export default function MobileBottomNavi() {
+export default function MobileBottomNavi({
+  className,
+  ...props
+}: ComponentPropsWithoutRef<"nav">) {
   const segments = useSelectedLayoutSegments().join("/");
 
   return (
-    <nav className="sm:-translate-x-1/2 fixed bottom-4 left-4 flex w-[calc(100%-2rem)] justify-center rounded-full border-2 border-background bg-card shadow-sm sm:left-1/2 sm:w-fit lg:hidden">
+    <nav
+      {...props}
+      className={twMerge(
+        "sm:-translate-x-1/2 fixed bottom-4 left-4 flex w-[calc(100%-2rem)] justify-center rounded-full border-2 border-background bg-card shadow-sm sm:left-1/2 sm:w-fit",
+        className,
+      )}
+    >
       <div className="flex w-full max-w-96 justify-between px-8">
         {naviItems.map(
           ({ title, href, matchSegmentsRegExp, IconSolid, IconFilled }) => {

@@ -2,7 +2,7 @@ import IconSortAsc from "@/assets/icons/sort-ascending.svg";
 import IconSortDesc from "@/assets/icons/sort-descending.svg";
 import BookList from "@/components/BookList";
 import Button from "@/components/Button";
-import Pagenation from "@/components/Pagination";
+import Pagination from "@/components/Pagination";
 import SayTako from "@/components/SayTako";
 import { getBooksByReadingStatus } from "@/db/queries/status";
 import { auth } from "@/lib/auth";
@@ -61,7 +61,7 @@ export async function LibraryBookList({ status, page, order }: Props) {
         <>
           <BookList items={books} />
           {totalPage !== 1 && (
-            <Pagenation
+            <Pagination
               className="mt-auto pt-10"
               currentPage={page}
               totalPage={totalPage}

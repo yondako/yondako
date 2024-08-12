@@ -1,6 +1,7 @@
 import { Loading } from "@/components/Loading";
-import { auth, createSignInPath } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
+import { createSignInPath } from "@/lib/path";
 import { type Order, orderSchema } from "@/types/order";
 import { pageIndexSchema } from "@/types/page";
 import {

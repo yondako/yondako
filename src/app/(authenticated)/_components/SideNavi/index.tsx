@@ -7,13 +7,23 @@ import { site } from "@/constants/site";
 import Image from "next/image";
 import Link from "next/link";
 import { useSelectedLayoutSegments } from "next/navigation";
+import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
 
-export default function SideNavi() {
+export default function SideNavi({
+  className,
+  ...props
+}: ComponentPropsWithoutRef<"nav">) {
   const segments = useSelectedLayoutSegments().join("/");
 
   return (
-    <nav className="hidden h-full w-full max-w-60 lg:flex lg:flex-col lg:justify-between">
+    <nav
+      {...props}
+      className={twMerge(
+        "flex h-full w-full max-w-60 flex-col justify-between",
+        className,
+      )}
+    >
       <div className="mt-8">
         <Link className="ml-8 block w-32" href="/">
           <Image src={logoUrl} alt={site.name} priority />

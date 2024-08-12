@@ -11,11 +11,11 @@ export default function Layout({ children }: Props) {
   return (
     <div className="pb-20 lg:flex lg:h-svh lg:pb-0">
       <MobileHeader className="block lg:hidden" />
-      <SideNavi />
+      <SideNavi className="hidden lg:flex" />
       <div className="flex h-full w-full flex-col px-6 py-8 lg:shrink lg:overflow-y-scroll lg:px-12 ">
         {children}
       </div>
-      <MobileBottomNavi />
+      <MobileBottomNavi className="lg:hidden" />
     </div>
   );
 }

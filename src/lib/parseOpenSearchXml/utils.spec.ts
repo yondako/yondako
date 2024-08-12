@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { createAuthors, createThumbnailUrl } from "./utils";
+import { createAuthors, createPublishers, createThumbnailUrl } from "./utils";
 
 describe("createThumbnailUrl", () => {
   test("作成できる", () => {
@@ -16,9 +16,9 @@ describe("createThumbnailUrl", () => {
 describe("createAuthors", () => {
   const testList = [
     {
-      title: "カンマ区切り文字列の場合",
-      value: "白菊ほたる, 鷹富士茄子",
-      want: ["白菊ほたる", "鷹富士茄子"],
+      title: "苗字と名前がカンマで区切られている場合",
+      value: "苗字, 名前",
+      want: ["苗字 名前"],
     },
     {
       title: "配列の場合",
@@ -102,7 +102,7 @@ describe("createPublishers", () => {
 
   for (const { title, value, want } of testList) {
     test(title, () => {
-      const got = createAuthors(value);
+      const got = createPublishers(value);
       expect(got).toEqual(want);
     });
   }
