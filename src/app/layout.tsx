@@ -2,15 +2,7 @@ import { twMerge } from "tailwind-merge";
 import "./globals.css";
 import { site } from "@/constants/site";
 import type { Metadata } from "next";
-import { Noto_Color_Emoji } from "next/font/google";
 import localFont from "next/font/local";
-
-const notoEmoji = Noto_Color_Emoji({
-  weight: ["400"],
-  subsets: ["emoji"],
-  display: "swap",
-  variable: "--font-noto-emoji",
-});
 
 const lineSeedJp = localFont({
   src: [
@@ -52,11 +44,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body
-        className={twMerge(
-          "bg-background text-text",
-          lineSeedJp.className,
-          notoEmoji.variable,
-        )}
+        className={twMerge("bg-background text-text", lineSeedJp.className)}
       >
         {children}
       </body>

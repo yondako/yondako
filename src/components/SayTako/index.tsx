@@ -14,7 +14,7 @@ export default function SayTako({ message, className }: Props) {
       )}
     >
       <p className="text-xs">{`\\ ${message} /`}</p>
-      <p className="font-noto-emoji">🐙</p>
+      <p>🐙</p>
     </div>
   );
 }
