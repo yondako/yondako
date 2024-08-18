@@ -1,4 +1,5 @@
 import { Loading } from "@/components/Loading";
+import { readingStatusMetadata } from "@/constants/status";
 import { auth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
@@ -8,13 +9,12 @@ import {
   type ReadingStatus,
   readingStatusSchemaWithoutNone,
 } from "@/types/readingStatus";
+import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
 import { is, safeParse } from "valibot";
 import { LibraryBookList } from "./_components/LibraryBookList";
 import Tab from "./_components/Tab";
-import type { Metadata } from "next";
-import { readingStatusMetadata } from "@/constants/status";
 
 export const runtime = "edge";
 
@@ -29,7 +29,7 @@ type Props = {
 };
 
 export function generateMetadata({ params }: Props): Metadata {
-  const readingStatus = readingStatusMetadata.get(params.status)
+  const readingStatus = readingStatusMetadata.get(params.status);
 
   if (!readingStatus || !is(readingStatusSchemaWithoutNone, params.status)) {
     notFound();
