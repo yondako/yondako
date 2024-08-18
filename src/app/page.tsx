@@ -1,14 +1,14 @@
 import imageLogo from "@/assets/images/logo_portrait.svg?url";
+import OpenDoodlesReadingSide from "@/assets/images/reading-side.svg";
+import imageScreenshot from "@/assets/images/screenshot.png";
+import OpenDoodlesSittingReading from "@/assets/images/sitting-reading.svg";
+import Footer from "@/components/Footer";
 import { site } from "@/constants/site";
 import { auth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import LoginButton from "./_components/LoginButton";
-import imageScreenshot from "@/assets/images/screenshot.png";
-import OpenDoodlesSittingReading from "@/assets/images/sitting-reading.svg";
-import OpenDoodlesReadingSide from "@/assets/images/reading-side.svg";
-import Footer from "@/components/Footer";
 
 export const runtime = "edge";
 
