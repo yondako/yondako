@@ -1,30 +1,7 @@
+import { links } from "@/constants/site";
 import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
 import ExternalLink from "../ExternalLink";
-
-type LinkItem = {
-  title: string;
-  href: string;
-};
-
-const links: LinkItem[] = [
-  {
-    title: "データソース",
-    href: "https://docs.yondako.com/data-source",
-  },
-  {
-    title: "GitHub",
-    href: "https://github.com/yondako/yondako",
-  },
-  {
-    title: "利用規約",
-    href: "https://docs.yondako.com/terms",
-  },
-  {
-    title: "プライバシーポリシー",
-    href: "https://docs.yondako.com/privacy",
-  },
-];
 
 export type FooterProps = {
   portrait?: boolean;
@@ -40,20 +17,6 @@ export default function Footer({
 
   return (
     <div {...props} className={twMerge("text-xs", props.className)}>
-      {showTermsNotice && (
-        <p className="mb-2 text-xs">
-          アカウントを登録することにより、
-          <ExternalLink className="mx-1" href={links[2].href}>
-            {links[2].title}
-          </ExternalLink>
-          および
-          <ExternalLink className="mx-1" href={links[3].href}>
-            {links[3].title}
-          </ExternalLink>
-          に同意したものとみなされます。
-        </p>
-      )}
-
       <div className={portrait ? "space-y-1" : "space-x-2"}>
         {links.map(({ title, href }) => {
           if (
