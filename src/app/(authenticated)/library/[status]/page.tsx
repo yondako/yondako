@@ -1,4 +1,5 @@
 import { Loading } from "@/components/Loading";
+import { readingStatusMetadata } from "@/constants/status";
 import { auth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
@@ -8,6 +9,7 @@ import {
   type ReadingStatus,
   readingStatusSchemaWithoutNone,
 } from "@/types/readingStatus";
+import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
 import { is, safeParse } from "valibot";
@@ -15,8 +17,6 @@ import { LibraryBookList } from "./_components/LibraryBookList";
 import Tab from "./_components/Tab";
 
 export const runtime = "edge";
-
-export const metadata = generateMetadataTitle("ライブラリ");
 
 type Props = {
   params: {
@@ -27,6 +27,16 @@ type Props = {
     order?: Order;
   };
 };
+
+export function generateMetadata({ params }: Props): Metadata {
+  const readingStatus = readingStatusMetadata.get(params.status);
+
+  if (!readingStatus || !is(readingStatusSchemaWithoutNone, params.status)) {
+    notFound();
+  }
+
+  return generateMetadataTitle(readingStatus.label);
+}
 
 export default async function Library({ params, searchParams }: Props) {
   const session = await auth();
