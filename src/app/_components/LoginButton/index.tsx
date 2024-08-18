@@ -44,7 +44,7 @@ export default function LoginButtons({ className }: Props) {
           {links[3].title}
         </ExternalLink>
         <wbr />
-        に同意したものと みなされます。
+        に同意したものとみなされます。
       </p>
     </div>
   );
