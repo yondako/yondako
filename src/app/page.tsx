@@ -69,9 +69,11 @@ export default async function Home() {
         </svg>
         <div className="flex justify-between bg-card px-24 py-8">
           <OpenDoodlesSittingReading className="w-1/2" />
-          <div className="my-auto text-right">
-            <h2 className="font-bold text-5xl md:tracking-wide">
-              できることは記録だけ
+          <div className="my-auto break-keep text-right">
+            <h2 className="font-bold text-5xl leading-tight md:tracking-wide">
+              できることは
+              <wbr />
+              記録だけ
             </h2>
             <p className="mt-6">
               誰かとつながったり、感想を共有するような機能はありません。
@@ -91,9 +93,11 @@ export default async function Home() {
       </section>
 
       <section className="my-24 flex justify-between md:px-24">
-        <div className="my-auto">
-          <h2 className="font-bold text-5xl md:tracking-wide">
-            “よんだこと”を記録しよう
+        <div className="my-auto break-keep">
+          <h2 className="font-bold text-5xl leading-tight md:tracking-wide">
+            “よんだこと”を
+            <wbr />
+            記録しよう
           </h2>
           <p className="mt-6">yondako は個人開発のサービスです。</p>
           <p className="mt-1">利用料金はかかりません。ずーっと無料です。</p>
