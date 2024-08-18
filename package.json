@@ -22,6 +22,8 @@
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-popover": "^1.1.1",
     "@radix-ui/react-slot": "^1.1.0",
+    "@react-spring/web": "^9.7.4",
+    "budoux": "^0.6.2",
     "cloudflare": "^3.5.0",
     "drizzle-orm": "^0.32.1",
     "fast-xml-parser": "^4.4.1",
@@ -62,7 +64,7 @@
     "storybook": "^8.2.8",
     "tailwindcss": "^3.4.7",
     "typescript": "^5.5.4",
-    "vercel": "^35.2.2",
+    "vercel": "^36.0.0",
     "wrangler": "^3.68.0"
   },
   "overrides": {
