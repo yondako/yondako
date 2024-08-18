@@ -20,7 +20,7 @@ export default function LoginButtons({ className }: Props) {
   };
 
   return (
-    <div className={twMerge("w-full max-w-64", className)}>
+    <div className={twMerge("w-full", className)}>
       <form className="flex flex-col space-y-2" action={handleSubmit}>
         <LoginButton value="google">
           <IconBrandGoogle className="h-[20px] w-[20px]" />
@@ -31,23 +31,21 @@ export default function LoginButtons({ className }: Props) {
           <span className="text-sm">GitHubで続ける</span>
         </LoginButton>
       </form>
-      <div className="mt-4 text-xxs">
-        <p className="break-keep text-justify">
-          アカウントを登録することにより、
-          <wbr />
-          <ExternalLink className="font-bold" href={links[2].href}>
-            {links[2].title}
-          </ExternalLink>
-          <wbr />
-          および
-          <wbr />
-          <ExternalLink className="font-bold" href={links[3].href}>
-            {links[3].title}
-          </ExternalLink>
-          <wbr />
-          に同意したものとみなされます。
-        </p>
-      </div>
+      <p className="mt-4 break-keep text-xxs">
+        アカウントを登録することにより、
+        <wbr />
+        <ExternalLink className="font-bold" href={links[2].href}>
+          {links[2].title}
+        </ExternalLink>
+        <wbr />
+        および
+        <wbr />
+        <ExternalLink className="font-bold" href={links[3].href}>
+          {links[3].title}
+        </ExternalLink>
+        <wbr />
+        に同意したものと みなされます。
+      </p>
     </div>
   );
 }

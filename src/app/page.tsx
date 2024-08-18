@@ -9,6 +9,7 @@ import { generateMetadataTitle } from "@/lib/metadata";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import LoginButtons from "./_components/LoginButton";
+import BudouX from "@/components/BudouX";
 
 export const runtime = "edge";
 
@@ -24,35 +25,35 @@ export default async function Home() {
 
   return (
     <>
-      <section className="flex h-svh flex-col justify-between bg-[length:90vw] bg-[top_-20vw_right] bg-background bg-gradation bg-no-repeat px-4 py-8 sm:bg-[length:70vw] md:px-24 md:py-14 lg:bg-contain lg:bg-right">
+      <section className="flex h-svh flex-col justify-between bg-[length:90vw] bg-[top_-20vw_right] bg-background bg-gradation bg-no-repeat px-8 py-8 sm:bg-[length:70vw] md:px-24 md:py-14 lg:bg-contain lg:bg-right">
         <div className="mt-auto flex w-full flex-col text-left md:my-auto md:w-fit">
           <div className="mx-auto md:mx-0">
-            <Image width={256} src={imageLogo} alt={site.name} />
+            <Image width={256} src={imageLogo} alt={site.name} priority />
             <p className="text-2xl text-tako">ver.beta</p>
           </div>
 
-          <h1 className="mt-12 text-center text-3xl tracking-tight md:text-left md:text-5xl md:tracking-wide">
-            "よんだこと"をわすれない
+          <h1 className="mt-12 text-center text-4xl leading-tight tracking-wide md:text-left md:text-5xl">
+            <BudouX>{site.description.short}</BudouX>
           </h1>
           <p className="mt-4 text-center md:text-left">
-            {site.description.long}
+            <BudouX>{site.description.long}</BudouX>
           </p>
 
-          <LoginButtons className="mt-12 items-center md:items-start" />
+          <LoginButtons className="mt-12 text-center md:max-w-64 md:text-left" />
         </div>
       </section>
 
-      <section className="mt-24 px-4 md:px-24">
+      <section className="mt-24 px-8 md:px-24">
         <div>
-          <h2 className="break-keep font-bold text-4xl leading-tight md:text-5xl md:tracking-wide">
-            よみたいも、
-            <wbr />
-            よんでるも
+          <h2 className="font-bold text-4xl leading-tight md:text-5xl md:tracking-wide">
+            <BudouX>よみたいも、よんでるも</BudouX>
           </h2>
           <p className="mt-6">
-            読書の状況を「よみたい」「よんでる」「よんだ」の3状態で記録できます。
+            <BudouX>
+              読書の状況を「よみたい」「よんでる」「よんだ」の3状態で記録できます。
+            </BudouX>
           </p>
-          <p className="mt-1">記録するにはボタンをクリックするだけです。</p>
+          <p className="mt-1">記録は簡単。ボタンをクリックするだけ。</p>
         </div>
         <Image
           className="mt-12 rounded-2xl border border-line shadow-xl"
@@ -71,17 +72,19 @@ export default async function Home() {
         </svg>
         <div className="bg-card px-8 py-8 md:flex md:justify-between md:px-24">
           <OpenDoodlesSittingReading className="md:w-1/2" />
-          <div className="my-auto mt-12 break-keep text-right md:mt-auto">
+          <div className="my-auto mt-12 text-right md:mt-auto">
             <h2 className="font-bold text-4xl leading-tight md:text-5xl md:tracking-wide">
-              できることは
-              <wbr />
-              記録だけ
+              <BudouX>できることは記録だけ</BudouX>
             </h2>
-            <p className="mt-6">
-              誰かとつながったり、感想を共有するような機能はありません。
+            <p className="mt-6 break-keep">
+              誰かとつながったり、
+              <wbr />
+              感想を共有するような機能はありません。
             </p>
-            <p className="mt-1">
-              しずかにゆったりと、本と向き合ってみませんか？
+            <p className="mt-1 break-keep">
+              しずかにゆったりと
+              <wbr />
+              本と向き合ってみませんか？
             </p>
           </div>
         </div>
@@ -95,15 +98,19 @@ export default async function Home() {
       </section>
 
       <section className="my-24 flex flex-col-reverse px-8 md:flex-row md:justify-between md:px-24">
-        <div className="my-auto mt-12 break-keep md:mt-0">
+        <div className="my-auto mt-12 md:mt-0">
           <h2 className="font-bold text-4xl leading-tight tracking-wide md:text-5xl">
-            “よんだこと”を
-            <wbr />
-            記録しよう
+            <BudouX>“よんだこと”を記録しよう</BudouX>
           </h2>
-          <p className="mt-6">yondako は個人開発のサービスです。</p>
-          <p className="mt-1">利用料金はかかりません。ずーっと無料です。</p>
-          <LoginButtons className="mt-12" />
+          <p className="mt-6">
+            <BudouX>yondako は個人開発のサービスです。</BudouX>
+          </p>
+          <p className="mt-1 break-keep">
+            利用料金はかかりません。
+            <wbr />
+            ずーっと無料です。
+          </p>
+          <LoginButtons className="mt-12 text-center md:max-w-64 md:text-left" />
         </div>
         <OpenDoodlesReadingSide className="md:w-1/2" />
       </section>
