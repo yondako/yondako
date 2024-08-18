@@ -1,15 +1,17 @@
-import IconContinueWithGithub from "@/assets/icons/continue-with-github.svg";
-import IconContinueWithGoogle from "@/assets/icons/continue-with-google.svg";
 import ExternalLink from "@/components/ExternalLink";
 import { links } from "@/constants/site";
 import { signIn } from "@/lib/auth";
 import { twMerge } from "tailwind-merge";
+import IconBrandGoogle from "@/assets/icons/brand-google.svg";
+import IconBrandGitHub from "@/assets/icons/brand-github.svg";
+import type { ComponentPropsWithoutRef } from "react";
+import Button from "@/components/Button";
 
 type Props = {
   className?: string;
 };
 
-export default function LoginButton({ className }: Props) {
+export default function LoginButtons({ className }: Props) {
   const handleSubmit = async (formData: FormData) => {
     "use server";
     const provider = formData.get("provider") as string;
@@ -18,41 +20,50 @@ export default function LoginButton({ className }: Props) {
   };
 
   return (
-    <>
-      <form
-        className={twMerge("flex flex-col space-y-2", className)}
-        action={handleSubmit}
-      >
-        <button
-          className="mx-auto block h-[41px] w-[189px] md:mx-0"
-          type="submit"
-          name="provider"
-          value="google"
-        >
-          <IconContinueWithGoogle />
-        </button>
-        <button
-          className="mx-auto block h-[41px] w-[189px] md:mx-0"
-          type="submit"
-          name="provider"
-          value="github"
-        >
-          <IconContinueWithGithub />
-        </button>
+    <div className={twMerge("w-full max-w-64", className)}>
+      <form className="flex flex-col space-y-2" action={handleSubmit}>
+        <LoginButton value="google">
+          <IconBrandGoogle className="h-[20px] w-[20px]" />
+          <span className="text-sm">Googleで続ける</span>
+        </LoginButton>
+        <LoginButton value="github">
+          <IconBrandGitHub className="h-[20px] w-[20px]" />
+          <span className="text-sm">GitHubで続ける</span>
+        </LoginButton>
       </form>
       <div className="mt-4 text-xxs">
-        <p>アカウントを登録することにより、</p>
-        <p>
-          <ExternalLink className="mr-1 font-bold" href={links[2].href}>
+        <p className="break-keep text-justify">
+          アカウントを登録することにより、
+          <wbr />
+          <ExternalLink className="font-bold" href={links[2].href}>
             {links[2].title}
           </ExternalLink>
+          <wbr />
           および
-          <ExternalLink className="mx-1 font-bold" href={links[3].href}>
+          <wbr />
+          <ExternalLink className="font-bold" href={links[3].href}>
             {links[3].title}
           </ExternalLink>
+          <wbr />
           に同意したものとみなされます。
         </p>
       </div>
-    </>
+    </div>
+  );
+}
+
+function LoginButton({
+  children,
+  ...props
+}: Omit<ComponentPropsWithoutRef<"button">, "className">) {
+  return (
+    <Button
+      {...props}
+      className="flex items-center justify-center space-x-[10px] bg-white tracking-wider"
+      type="submit"
+      name="provider"
+    >
+      {children}
+    </Button>
   );
 }
