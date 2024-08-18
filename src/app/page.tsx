@@ -45,7 +45,7 @@ export default async function Home() {
       <section className="mt-24 md:px-24">
         <div>
           <h2 className="font-bold text-5xl md:tracking-wide">
-            よみたいもよんでるも、わすれない
+            よみたいもよんでるも
           </h2>
           <p className="mt-6">
             読書の状況を「よみたい」「よんでる」「よんだ」の3状態で記録できます。
