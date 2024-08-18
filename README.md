@@ -33,3 +33,11 @@ DATABASE_PATH=".wrangler/state/v3/d1/miniflare-D1DatabaseObject/<id>.sqlite"
 bun run drizzle:studio
 ```
 
+## 使用素材
+
+| 内容 | 提供元 |
+| -| - |
+| グラデーション素材 | [Grads V2 \| Charco Design](https://www.charco.design/grads-v2) |
+| イラスト | [Open Doodles](https://www.opendoodles.com/) |
+| フォント | [LINE Seed JP](https://seed.line.me/index_jp.html) |
+| アイコン | [Tabler: Free and Open-Source HTML Dashboard Template](https://tabler.io/icons) |
