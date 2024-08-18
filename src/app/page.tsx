@@ -2,6 +2,7 @@ import imageLogo from "@/assets/images/logo_portrait.svg?url";
 import OpenDoodlesReadingSide from "@/assets/images/reading-side.svg";
 import imageScreenshot from "@/assets/images/screenshot.png";
 import OpenDoodlesSittingReading from "@/assets/images/sitting-reading.svg";
+import BudouX from "@/components/BudouX";
 import Footer from "@/components/Footer";
 import { site } from "@/constants/site";
 import { auth } from "@/lib/auth";
@@ -9,7 +10,6 @@ import { generateMetadataTitle } from "@/lib/metadata";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import LoginButtons from "./_components/LoginButton";
-import BudouX from "@/components/BudouX";
 
 export const runtime = "edge";
 
