@@ -10,6 +10,7 @@ import { generateMetadataTitle } from "@/lib/metadata";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import LoginButtons from "./_components/LoginButton";
+import SlideIn from "./_components/SlideIn";
 
 export const runtime = "edge";
 
@@ -45,7 +46,7 @@ export default async function Home() {
 
       <section className="mt-24 px-8 md:px-24">
         <div>
-          <h2 className="font-bold text-4xl leading-tight md:text-5xl md:tracking-wide">
+          <h2 className="space-y-1 font-bold text-4xl md:text-5xl md:tracking-wide">
             <BudouX>よみたいも、よんでるも</BudouX>
           </h2>
           <p className="mt-6">
@@ -55,11 +56,13 @@ export default async function Home() {
           </p>
           <p className="mt-1">記録は簡単。ボタンをクリックするだけ。</p>
         </div>
-        <Image
-          className="mt-12 rounded-2xl border border-line shadow-xl"
-          src={imageScreenshot}
-          alt="スクリーンショット"
-        />
+        <SlideIn>
+          <Image
+            className="mt-12 rounded-2xl border border-line shadow-xl"
+            src={imageScreenshot}
+            alt="スクリーンショット"
+          />
+        </SlideIn>
       </section>
 
       <section>
@@ -71,9 +74,11 @@ export default async function Home() {
           />
         </svg>
         <div className="bg-card px-8 py-8 md:flex md:justify-between md:px-24">
-          <OpenDoodlesSittingReading className="md:w-1/2" />
+          <SlideIn className="md:w-1/2">
+            <OpenDoodlesSittingReading />
+          </SlideIn>
           <div className="my-auto mt-12 text-right md:mt-auto">
-            <h2 className="font-bold text-4xl leading-tight md:text-5xl md:tracking-wide">
+            <h2 className="space-y-1 font-bold text-4xl md:text-5xl md:tracking-wide">
               <BudouX>できることは記録だけ</BudouX>
             </h2>
             <p className="mt-6 break-keep">
@@ -99,7 +104,7 @@ export default async function Home() {
 
       <section className="my-24 flex flex-col-reverse px-8 md:flex-row md:justify-between md:px-24">
         <div className="my-auto mt-12 md:mt-0">
-          <h2 className="font-bold text-4xl leading-tight tracking-wide md:text-5xl">
+          <h2 className="space-y-1 font-bold text-4xl tracking-wide md:text-5xl">
             <BudouX>“よんだこと”を記録しよう</BudouX>
           </h2>
           <p className="mt-6">
@@ -112,7 +117,9 @@ export default async function Home() {
           </p>
           <LoginButtons className="mt-12 text-center md:max-w-64 md:text-left" />
         </div>
-        <OpenDoodlesReadingSide className="md:w-1/2" />
+        <SlideIn className="md:w-1/2">
+          <OpenDoodlesReadingSide />
+        </SlideIn>
       </section>
 
       <Footer className="px-8 pb-8 text-center md:px-24 md:text-left" />
