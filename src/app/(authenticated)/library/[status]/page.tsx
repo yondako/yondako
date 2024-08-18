@@ -13,10 +13,10 @@ import { Suspense } from "react";
 import { is, safeParse } from "valibot";
 import { LibraryBookList } from "./_components/LibraryBookList";
 import Tab from "./_components/Tab";
+import type { Metadata } from "next";
+import { readingStatusMetadata } from "@/constants/status";
 
 export const runtime = "edge";
-
-export const metadata = generateMetadataTitle("ライブラリ");
 
 type Props = {
   params: {
@@ -27,6 +27,16 @@ type Props = {
     order?: Order;
   };
 };
+
+export function generateMetadata({ params }: Props): Metadata {
+  const readingStatus = readingStatusMetadata.get(params.status)
+
+  if (!readingStatus || !is(readingStatusSchemaWithoutNone, params.status)) {
+    notFound();
+  }
+
+  return generateMetadataTitle(readingStatus.label);
+}
 
 export default async function Library({ params, searchParams }: Props) {
   const session = await auth();
