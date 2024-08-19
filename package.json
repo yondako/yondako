@@ -36,7 +36,7 @@
     "server-only": "^0.0.1",
     "sharp": "^0.33.4",
     "tailwind-merge": "^2.4.0",
-    "valibot": "^0.36.0"
+    "valibot": "^0.37.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
