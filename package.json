@@ -35,6 +35,7 @@
     "react-use": "^17.5.1",
     "server-only": "^0.0.1",
     "sharp": "^0.33.4",
+    "sonner": "^1.5.0",
     "tailwind-merge": "^2.4.0",
     "valibot": "^0.37.0"
   },
