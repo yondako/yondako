@@ -5,10 +5,10 @@ import IconDotsVertical from "@/assets/icons/dots-vertical.svg";
 import { readingStatusMetadata } from "@/constants/status";
 import type { BookType } from "@/types/book";
 import { useOptimistic, useState } from "react";
+import { toast } from "sonner";
 import Detail from "./Detail";
 import ReadingStatusButton, { readingStatusOrder } from "./ReadingStatusButton";
 import { BookThumbnail } from "./Thumbnail";
-import { toast } from "sonner";
 
 export type BookCardProps = {
   data: BookType;
