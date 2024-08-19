@@ -1,5 +1,5 @@
-import { twMerge } from "tailwind-merge";
 import NotoColorEmojiTako from "@/assets/images/noto-color-emoji/emoji_u1f419.svg";
+import { twMerge } from "tailwind-merge";
 
 type Props = {
   message: string;
