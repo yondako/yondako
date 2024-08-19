@@ -1,6 +1,6 @@
 "use client";
 
-import logoUrl from "@/assets/images/logo_portrait.svg?url";
+import logoUrl from "@/assets/images/logo/portrait.svg?url";
 import Footer from "@/components/Footer";
 import { type NavItem, naviItems } from "@/constants/navi-items";
 import { site } from "@/constants/site";
