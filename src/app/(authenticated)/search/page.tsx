@@ -56,14 +56,17 @@ export default async function Search({ searchParams }: Props) {
           href="https://docs.yondako.com/data-source"
         >
           <IconHelp className="h-4 w-4" />
-          <span>データはどこから取得してるの？</span>
+          <span>使用しているデータについて</span>
         </ExternalLink>
       </div>
 
       {query ? (
         <Suspense
           fallback={
-            <Loading className="mt-12 lg:mt-0" title="検索しています" />
+            <Loading
+              className="mt-12 justify-start"
+              title="がんばって検索しています"
+            />
           }
           key={`${query}_${page}`}
         >

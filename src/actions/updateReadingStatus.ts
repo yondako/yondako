@@ -26,7 +26,7 @@ export async function updateReadingStatus(
 
   if (!session || !session.user?.id) {
     return {
-      error: "ログインしてください",
+      error: "この操作にはログインが必要です",
     };
   }
 
@@ -35,7 +35,7 @@ export async function updateReadingStatus(
 
   // DBに登録
   if (!bookDetail) {
-    // NDLから書籍情報を取得
+    // NDLから書籍データを取得
     const results = await searchBooksFromNDL({
       any: bookId,
       cnt: 1,
@@ -47,7 +47,7 @@ export async function updateReadingStatus(
       results.books[0].ndlBibId !== bookId
     ) {
       return {
-        error: "書籍が見つかりませんでした",
+        error: "対象の書籍データを取得できませんでした",
       };
     }
 

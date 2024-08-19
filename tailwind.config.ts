@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        "line-seed-jp": "var(--font-line-seed-jp)",
+      },
       fontSize: {
         xxs: "0.625rem",
       },

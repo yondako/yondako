@@ -8,9 +8,9 @@ import { createAuthor } from "./author";
 import { createPublisher } from "./publisher";
 
 /**
- * 書籍情報を取得
+ * 書籍データを取得
  * @param id 書籍ID
- * @returns 書籍情報
+ * @returns 書籍データ
  */
 export async function getBook(id: string): Promise<BookDetail | undefined> {
   const rawBook = await db.query.books.findFirst({
@@ -61,11 +61,11 @@ export async function getBook(id: string): Promise<BookDetail | undefined> {
 }
 
 /**
- * 書籍情報を登録
- * @param book 書籍情報
+ * 書籍データを登録
+ * @param book 書籍データ
  */
 export async function createBook(book: BookDetail): Promise<void> {
-  // 書籍情報を登録
+  // 書籍データを登録
   const { ndlBibId } = await db
     .insert(dbSchema.books)
     .values(book)

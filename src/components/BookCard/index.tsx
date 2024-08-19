@@ -5,6 +5,7 @@ import IconDotsVertical from "@/assets/icons/dots-vertical.svg";
 import { readingStatusMetadata } from "@/constants/status";
 import type { BookType } from "@/types/book";
 import { useOptimistic, useState } from "react";
+import { toast } from "sonner";
 import Detail from "./Detail";
 import ReadingStatusButton, { readingStatusOrder } from "./ReadingStatusButton";
 import { BookThumbnail } from "./Thumbnail";
@@ -30,9 +31,18 @@ export default function BookCard({ data }: BookCardProps) {
 
     const result = await updateReadingStatus(data.detail.ndlBibId, newStatus);
 
-    // TODO: トーストとかでエラーを表示する
+    // 記録に失敗
     if (result.error || !result.book) {
-      console.error(result.error);
+      toast.error("記録に失敗しました", {
+        description: (
+          <p>
+            {result.error}
+            <br />
+            {data.detail.title}
+          </p>
+        ),
+      });
+
       addOptimisticStatus(data.readingStatus);
       return;
     }

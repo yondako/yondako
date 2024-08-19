@@ -9,7 +9,7 @@ export type BookType = {
 };
 
 /**
- * 書籍情報
+ * 書籍データ
  */
 export type BookDetail = {
   /** 書誌ID */

@@ -9,7 +9,7 @@ import {
 import { users } from "./user";
 
 /**
- * 書籍情報
+ * 書籍データ
  */
 export const books = sqliteTable("books", {
   ndlBibId: text("id").primaryKey().notNull(),
