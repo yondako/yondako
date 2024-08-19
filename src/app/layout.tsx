@@ -47,7 +47,7 @@ export default function RootLayout({
         className={twMerge(
           "bg-background text-text",
           lineSeedJp.className,
-          lineSeedJp.variable
+          lineSeedJp.variable,
         )}
       >
         {children}

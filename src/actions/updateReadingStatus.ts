@@ -26,7 +26,7 @@ export async function updateReadingStatus(
 
   if (!session || !session.user?.id) {
     return {
-      error: "ログインしてください",
+      error: "この操作にはログインが必要です",
     };
   }
 
