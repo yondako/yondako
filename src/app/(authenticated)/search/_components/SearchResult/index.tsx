@@ -3,6 +3,7 @@ import Pagination from "@/components/Pagination";
 import { getStatusesByBookIds } from "@/db/queries/status";
 import { auth } from "@/lib/auth";
 import { searchBooksFromNDL } from "@/lib/searchBooks";
+import SearchError from "../SearchError";
 
 const minLimit = 1;
 const limit = 48;
@@ -29,16 +30,31 @@ export async function SearchResult({ query, currentPage }: Props) {
   // 検索エラー
   if (!result) {
     return (
-      <p className="mt-12 text-center">
-        検索できませんでした。
-        <wbr />
-        しばらく時間をおいて再度お試しください
-      </p>
+      <SearchError
+        title="検索できませんでした"
+        decoration={
+          <span className="-right-2 absolute top-0 text-5xl">🔧</span>
+        }
+      >
+        <p className="mt-3">一時的に検索が利用できない状態です。</p>
+        <p>時間をおいて、再度お試しください。</p>
+      </SearchError>
     );
   }
 
+  // 見つからない
   if (result.books.length === 0) {
-    return <p className="mt-12 text-center">みつかりませんでした</p>;
+    return (
+      <SearchError
+        title="見つかりませんでした"
+        decoration={
+          <span className="-right-8 absolute top-0 text-5xl">❓️</span>
+        }
+      >
+        <p className="mt-3">該当する書籍が見つかりませんでした。</p>
+        <p>キーワードを変更して、再度お試しください。</p>
+      </SearchError>
+    );
   }
 
   const readingStatuses = await getStatusesByBookIds(

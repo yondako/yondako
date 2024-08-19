@@ -1,4 +1,4 @@
-import imageLogo from "@/assets/images/logo_landscape.svg?url";
+import imageLogo from "@/assets/images/logo/landscape.svg?url";
 import { site } from "@/constants/site";
 import Image from "next/image";
 import Link from "next/link";
