@@ -33,6 +33,12 @@ DATABASE_PATH=".wrangler/state/v3/d1/miniflare-D1DatabaseObject/<id>.sqlite"
 bun run drizzle:studio
 ```
 
+## 使用素材とライセンス
+
+| 内容 | ディレクトリ | 提供元 | ライセンス |
+|-|-|-|-|
+| Noto Color Emoji | `/src/assets/images/noto-color-emoji/` | [googlefonts/noto-emoji: Noto Emoji fonts](https://github.com/googlefonts/noto-emoji?tab=readme-ov-file) | [Apache license, version 2.0](./src/assets/images/noto-color-emoji/LICENSE.txt) |
+
 ## 使用素材
 
 | 内容 | 提供元 |
