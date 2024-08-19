@@ -1,5 +1,5 @@
-import IconBrandGitHub from "@/assets/icons/brand-github.svg";
-import IconBrandGoogle from "@/assets/icons/brand-google.svg";
+import IconBrandGitHub from "@/assets/brands/brand-github.svg";
+import IconBrandGoogle from "@/assets/brands/brand-google.svg";
 import Button from "@/components/Button";
 import ExternalLink from "@/components/ExternalLink";
 import { links } from "@/constants/site";
