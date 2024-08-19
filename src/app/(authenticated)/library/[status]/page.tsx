@@ -66,7 +66,10 @@ export default async function Library({ params, searchParams }: Props) {
       <Tab current={params.status} />
       <Suspense
         fallback={
-          <Loading className="mt-12 lg:mt-0" title="読み込んでいます" />
+          <Loading
+            className="mt-12 justify-start lg:mt-0 lg:justify-center"
+            title="読み込んでいます"
+          />
         }
       >
         <LibraryBookList status={params.status} page={page} order={orderType} />
