@@ -1,4 +1,5 @@
 import { twMerge } from "tailwind-merge";
+import NotoColorEmojiTako from "@/assets/images/noto-color-emoji/emoji_u1f419.svg";
 
 type Props = {
   message: string;
@@ -14,7 +15,7 @@ export default function SayTako({ message, className }: Props) {
       )}
     >
       <p className="text-xs">{`\\ ${message} /`}</p>
-      <p>🐙</p>
+      <NotoColorEmojiTako className="h-12 w-12" />
     </div>
   );
 }
