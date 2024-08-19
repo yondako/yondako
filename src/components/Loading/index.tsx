@@ -10,12 +10,7 @@ type Props = {
 
 export function Loading({ title, className }: Props) {
   return (
-    <div
-      className={twMerge(
-        "flex h-full flex-col items-center",
-        className,
-      )}
-    >
+    <div className={twMerge("flex h-full flex-col items-center", className)}>
       <Player
         className="h-24 w-24"
         autoplay
