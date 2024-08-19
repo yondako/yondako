@@ -15,7 +15,7 @@ export default function SayTako({ message, className }: Props) {
       )}
     >
       <p className="text-xs">{`\\ ${message} /`}</p>
-      <NotoColorEmojiTako className="h-12 w-12" />
+      <NotoColorEmojiTako className="mx-auto h-12 w-12" />
     </div>
   );
 }
