@@ -1,3 +1,6 @@
+"use client";
+
+import { Player } from "@lottiefiles/react-lottie-player";
 import { twMerge } from "tailwind-merge";
 
 type Props = {
@@ -9,12 +12,17 @@ export function Loading({ title, className }: Props) {
   return (
     <div
       className={twMerge(
-        "flex h-full flex-col items-center justify-center space-y-4 text-center",
+        "flex h-full flex-col items-center justify-center",
         className,
       )}
     >
-      <p className="animate-bounce cursor-grab">₍₍⁽⁽🐙₎₎⁾⁾</p>
-      <p className="text-xs">{title}</p>
+      <Player
+        className="h-24 w-24"
+        autoplay
+        loop
+        src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f419/lottie.json"
+      />
+      <p className="mt-3 text-sm tracking-wider">{title}</p>
     </div>
   );
 }
