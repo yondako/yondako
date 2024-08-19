@@ -26,7 +26,7 @@
     "@react-spring/web": "^9.7.4",
     "budoux": "^0.6.2",
     "cloudflare": "^3.5.0",
-    "drizzle-orm": "^0.32.1",
+    "drizzle-orm": "^0.33.0",
     "fast-xml-parser": "^4.4.1",
     "next": "14.2.5",
     "next-auth": "^5.0.0-beta.20",
