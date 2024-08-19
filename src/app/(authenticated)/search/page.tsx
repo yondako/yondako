@@ -56,7 +56,7 @@ export default async function Search({ searchParams }: Props) {
           href="https://docs.yondako.com/data-source"
         >
           <IconHelp className="h-4 w-4" />
-          <span>データはどこから取得してるの？</span>
+          <span>使用しているデータについて</span>
         </ExternalLink>
       </div>
 
