@@ -35,15 +35,10 @@ bun run drizzle:studio
 
 ## 使用素材とライセンス
 
-| 内容 | ディレクトリ | 提供元 | ライセンス |
+| 名称 | ディレクトリ | 提供元 | ライセンス |
 |-|-|-|-|
 | Noto Color Emoji | `/src/assets/images/noto-color-emoji/` | [googlefonts/noto-emoji: Noto Emoji fonts](https://github.com/googlefonts/noto-emoji?tab=readme-ov-file) | [Apache license, version 2.0](./src/assets/images/noto-color-emoji/LICENSE.txt) |
-
-## 使用素材
-
-| 内容 | 提供元 |
-| -| - |
-| グラデーション素材 | [Grads V2 \| Charco Design](https://www.charco.design/grads-v2) |
-| イラスト | [Open Doodles](https://www.opendoodles.com/) |
-| フォント | [LINE Seed JP](https://seed.line.me/index_jp.html) |
-| アイコン | [Tabler: Free and Open-Source HTML Dashboard Template](https://tabler.io/icons) |
+| Open Doodles | `/src/assets/images/open-doodles/` | [Open Doodles](https://www.opendoodles.com/) | [Deed - CC0 1.0 Universal - Creative Commons](https://creativecommons.org/publicdomain/zero/1.0/) |
+| Grads V2 | `/public/images/gradation.webp` (加工済) | [Grads V2 \| Charco Design](https://www.charco.design/grads-v2) | [独自ライセンス](https://charcodesign.gumroad.com/l/gradsv2) |
+| Tabler | `/src/assets/icons/` | [Tabler: Free and Open-Source HTML Dashboard Template](https://tabler.io/icons) | [MIT License](./src/assets/icons/LICENSE.txt) |
+| LINE Seed JP | `src/assets/fonts` | [LINE Seed JP](https://seed.line.me/index_jp.html) | [SIL Open Font License, Version 1.1](./src/assets/fonts/LICENSE.txt) |
