@@ -64,7 +64,7 @@ export default async function Search({ searchParams }: Props) {
         <Suspense
           fallback={
             <Loading
-              className="mt-12 justify-start"
+              className="mt-12 justify-start lg:mt-0 lg:justify-center"
               title="がんばって検索しています"
             />
           }
