@@ -26,7 +26,7 @@ export default async function Home() {
 
   return (
     <>
-      <section className="flex h-svh flex-col justify-between bg-[length:90vw] bg-[top_-20vw_right] bg-primary-background bg-gradation bg-no-repeat px-8 py-8 sm:bg-[length:70vw] md:px-24 md:py-14 lg:bg-contain lg:bg-right">
+      <section className="flex h-svh flex-col justify-between bg-[length:90vw] bg-[top_-20vw_right] bg-gradation bg-primary-background bg-no-repeat px-8 py-8 sm:bg-[length:70vw] md:px-24 md:py-14 lg:bg-contain lg:bg-right">
         <div className="mt-auto flex w-full flex-col text-left md:my-auto md:w-fit">
           <div className="mx-auto md:mx-0">
             <Image width={256} src={imageLogo} alt={site.name} priority />
