@@ -9,7 +9,7 @@ export default function ExternalLink({
     <a
       {...props}
       className={twMerge(
-        "transition-colors hover:text-tako hover:underline",
+        "transition-colors hover:text-accent hover:underline",
         className,
       )}
       target="_blank"

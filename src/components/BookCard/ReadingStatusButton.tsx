@@ -18,7 +18,7 @@ export default function ReadingStatusButton({ status, meta, selected }: Props) {
 
   return (
     <button
-      className="rounded-2xl bg-card px-3 py-1 transition hover:brightness-95"
+      className="rounded-2xl bg-tertiary-background px-3 py-1 transition hover:brightness-95"
       key={meta.label}
       title={meta.label}
       type="submit"

@@ -31,7 +31,7 @@ export default function ConfirmInput() {
           <span>{result.error}</span>
         </p>
       )}
-      <Button className="mt-4 block w-full border-0 bg-rose-700 text-background text-sm lg:w-fit">
+      <Button className="mt-4 block w-full border-0 bg-rose-700 text-primary-background text-sm lg:w-fit">
         👋 アカウントの削除を実行する
       </Button>
     </form>

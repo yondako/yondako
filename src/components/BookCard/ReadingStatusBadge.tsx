@@ -18,8 +18,8 @@ export default function ReadingStatusBadge({
       className={twMerge(
         "absolute right-4 bottom-4 flex items-center space-x-1 rounded-full px-3 py-1",
         status === "none"
-          ? "border border-tako border-dashed text-tako"
-          : "bg-tako text-card ",
+          ? "border border-accent border-dashed text-accent"
+          : "bg-accent text-tertiary-background ",
       )}
     >
       <Icon className="h-3 w-3" />

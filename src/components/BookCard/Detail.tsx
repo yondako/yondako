@@ -25,9 +25,9 @@ export default function Detail({ open, onChangeOpen, rawIsbn }: DetailProps) {
       <p className="flex items-center font-bold text-xs">詳しくみる</p>
 
       <div className="my-2 flex w-full space-x-1">
-        <div className="h-1 w-2 rounded-full bg-tako" />
-        <div className="h-1 w-2 rounded-full bg-tako" />
-        <div className="h-1 w-2 rounded-full bg-tako" />
+        <div className="h-1 w-2 rounded-full bg-accent" />
+        <div className="h-1 w-2 rounded-full bg-accent" />
+        <div className="h-1 w-2 rounded-full bg-accent" />
       </div>
 
       <div className="mb-2 flex max-w-80 flex-wrap gap-x-3 gap-y-1">
@@ -35,7 +35,7 @@ export default function Detail({ open, onChangeOpen, rawIsbn }: DetailProps) {
       </div>
 
       <button
-        className="absolute right-0 bottom-0 rounded-2xl bg-card p-1 transition hover:brightness-95"
+        className="absolute right-0 bottom-0 rounded-2xl bg-tertiary-background p-1 transition hover:brightness-95"
         onClick={close}
       >
         <IconX className="h-4 w-4" />

@@ -8,7 +8,7 @@ type Props = {
 
 export default function Button({ asChild, className, ...props }: Props) {
   const style = twMerge(
-    "px-5 py-3 border border-text rounded-full text-center text-text bg-background transition hover:brightness-95",
+    "px-5 py-3 border border-primary-border rounded-full text-center text-text bg-primary-background transition hover:brightness-95",
     className,
   );
 

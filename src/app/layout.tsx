@@ -45,7 +45,7 @@ export default function RootLayout({
     <html lang="ja">
       <body
         className={twMerge(
-          "bg-background text-text",
+          "bg-primary-background text-primary-text",
           lineSeedJp.className,
           lineSeedJp.variable,
         )}
