@@ -8,7 +8,7 @@ export default forwardRef<HTMLInputElement, ComponentPropsWithRef<"input">>(
         {...props}
         ref={ref}
         className={twMerge(
-          "w-full rounded-full bg-tertiary-background px-4 py-2 text-base placeholder:text-secondary-text focus:outline-accent lg:text-sm",
+          "w-full rounded-full bg-tertiary-background px-4 py-2 text-sm placeholder:text-secondary-text focus:outline-accent",
           className,
         )}
       />
