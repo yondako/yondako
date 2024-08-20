@@ -1,14 +1,11 @@
-import IconSortAsc from "@/assets/icons/sort-ascending.svg";
-import IconSortDesc from "@/assets/icons/sort-descending.svg";
 import BookList from "@/components/BookList";
-import Button from "@/components/Button";
 import Pagination from "@/components/Pagination";
 import SayTako from "@/components/SayTako";
 import { getBooksByReadingStatus } from "@/db/queries/status";
 import { auth } from "@/lib/auth";
 import type { Order } from "@/types/order";
 import type { ReadingStatus } from "@/types/readingStatus";
-import Link from "next/link";
+import Filter from "./Filter";
 
 const pageSize = 24;
 
@@ -24,10 +21,6 @@ export async function LibraryBookList({ status, page, order }: Props) {
   if (!session?.user?.id) {
     return null;
   }
-
-  const isOrderAsc = order === "asc";
-  const nextOrder: Order = isOrderAsc ? "desc" : "asc";
-  const IconSort = isOrderAsc ? IconSortAsc : IconSortDesc;
 
   const { books, total } = await getBooksByReadingStatus(
     session.user.id,
@@ -45,15 +38,7 @@ export async function LibraryBookList({ status, page, order }: Props) {
           <span className="text-4xl">{total}</span>
           <span className="text-base">冊</span>
         </h1>
-        <Button
-          className="inline-flex h-fit items-center space-x-1 px-4 py-1 text-xs"
-          asChild
-        >
-          <Link href={`/library/${status}?order=${nextOrder}`} replace>
-            <IconSort className="h-5" />
-            <span>{isOrderAsc ? "登録日が古い順" : "登録日が新しい順"}</span>
-          </Link>
-        </Button>
+        <Filter isOrderAsc={order === "asc"} />
       </div>
       {books.length === 0 ? (
         <SayTako message={getEmptyMessage(status)} />
