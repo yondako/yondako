@@ -20,9 +20,10 @@ const config: Config = {
         "secondary-text": "#9d9595",
         "primary-background": "#FFFAF6",
         "secondary-background": "#FAF9F9",
-        "tertiary-background": "#FDF3EB",
+        "tertiary-background": "#fff3e9",
         "primary-border": "#494949",
         "secondary-border": "#DDDDDD",
+        "tertiary-border": "#f0e1d5",
       },
       backgroundImage: {
         gradation: "url('/images/gradation.webp')",
