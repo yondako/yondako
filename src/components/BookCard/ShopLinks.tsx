@@ -93,7 +93,7 @@ export function ShopLinks({ rawIsbn }: ShopLinksProps) {
 
   return shopList.map(({ title, url }) => (
     <ExternalLink
-      className="flex items-center text-text text-xs"
+      className="flex items-center text-primary-text text-xs"
       href={url()}
       key={title}
     >

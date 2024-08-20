@@ -7,7 +7,7 @@ type Props = Readonly<{
 
 export default function LandingLayout({ children }: Props) {
   return (
-    <div className="flex h-svh flex-col justify-between bg-[length:90vw] bg-[top_-20vw_right] bg-background bg-gradation bg-no-repeat p-8 sm:bg-[length:70vw] md:px-24 md:py-14 lg:bg-contain lg:bg-right">
+    <div className="flex h-svh flex-col justify-between bg-[length:90vw] bg-[top_-20vw_right] bg-primary-background bg-gradation bg-no-repeat p-8 sm:bg-[length:70vw] md:px-24 md:py-14 lg:bg-contain lg:bg-right">
       <div className="flex flex-1 items-end md:items-center">
         <div className="flex w-full flex-col text-center md:w-fit md:text-left">
           {children}

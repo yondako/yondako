@@ -26,11 +26,11 @@ export default async function Home() {
 
   return (
     <>
-      <section className="flex h-svh flex-col justify-between bg-[length:90vw] bg-[top_-20vw_right] bg-background bg-gradation bg-no-repeat px-8 py-8 sm:bg-[length:70vw] md:px-24 md:py-14 lg:bg-contain lg:bg-right">
+      <section className="flex h-svh flex-col justify-between bg-[length:90vw] bg-[top_-20vw_right] bg-primary-background bg-gradation bg-no-repeat px-8 py-8 sm:bg-[length:70vw] md:px-24 md:py-14 lg:bg-contain lg:bg-right">
         <div className="mt-auto flex w-full flex-col text-left md:my-auto md:w-fit">
           <div className="mx-auto md:mx-0">
             <Image width={256} src={imageLogo} alt={site.name} priority />
-            <p className="text-2xl text-tako">ver.beta</p>
+            <p className="text-2xl text-accent">ver.beta</p>
           </div>
 
           <h1 className="mt-12 text-center text-4xl leading-tight tracking-wide md:text-left md:text-5xl">
@@ -58,7 +58,7 @@ export default async function Home() {
         </div>
         <SlideIn>
           <Image
-            className="mt-12 rounded-2xl border border-line shadow-xl"
+            className="mt-12 rounded-2xl border border-secondary-border shadow-xl"
             src={imageScreenshot}
             alt="スクリーンショット"
           />
@@ -73,7 +73,7 @@ export default async function Home() {
             d="M0,224L80,229.3C160,235,320,245,480,224C640,203,800,149,960,138.7C1120,128,1280,160,1360,176L1440,192L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
           />
         </svg>
-        <div className="bg-card px-8 py-8 md:flex md:justify-between md:px-24">
+        <div className="bg-tertiary-background px-8 py-8 md:flex md:justify-between md:px-24">
           <SlideIn className="md:w-1/2">
             <OpenDoodlesSittingReading />
           </SlideIn>
