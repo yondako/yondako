@@ -10,7 +10,7 @@ type Props = {
 
 export default function Layout({ children }: Props) {
   return (
-    <div className="h-svh pb-20 lg:flex lg:pb-0">
+    <div className="min-h-svh pb-20 lg:flex lg:pb-0">
       <Toaster
         richColors
         toastOptions={{

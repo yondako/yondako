@@ -3,4 +3,4 @@ pre-commit:
   commands:
     biome:
       glob: "*.{js,ts,jsx,tsx,css}"
-      run: bun biome check --apply {staged_files}
+      run: bun biome check --write {staged_files}

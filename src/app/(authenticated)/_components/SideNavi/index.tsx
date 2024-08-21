@@ -27,7 +27,7 @@ export default function SideNavi({
       <div className="mt-8">
         <Link className="ml-8 block w-32" href="/">
           <Image src={logoUrl} alt={site.name} priority />
-          <p className="text-tako text-xs">ver.beta</p>
+          <p className="text-accent text-xs">ver.beta</p>
         </Link>
 
         <div className="mt-6 space-y-2">
@@ -64,8 +64,8 @@ function Item({
       className={twMerge(
         "flex cursor-pointer items-center space-x-3 rounded-r-full px-8 py-2 text-base",
         current
-          ? "bg-tako text-background"
-          : "bg-background text-text transition hover:brightness-95",
+          ? "bg-accent text-primary-background"
+          : "bg-primary-background text-primary-text transition hover:brightness-95",
       )}
       href={href}
     >

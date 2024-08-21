@@ -94,8 +94,8 @@ function LinkButton({ page, children, current = false }: LinkButtonProps) {
   return (
     <Link
       className={twMerge(
-        "relative h-8 w-8 rounded-full bg-card transition hover:brightness-95",
-        current && "bg-tako text-white",
+        "relative h-8 w-8 rounded-full bg-tertiary-background transition hover:brightness-95",
+        current && "bg-accent text-white",
       )}
       href={{
         query: params.toString(),

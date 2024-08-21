@@ -16,7 +16,7 @@ export default function MobileBottomNavi({
     <nav
       {...props}
       className={twMerge(
-        "sm:-translate-x-1/2 fixed bottom-4 left-4 flex w-[calc(100%-2rem)] justify-center rounded-full border-2 border-background bg-card shadow-sm sm:left-1/2 sm:w-fit",
+        "sm:-translate-x-1/2 fixed bottom-4 left-4 flex w-[calc(100%-2rem)] justify-center rounded-full border-2 border-primary-background bg-tertiary-background shadow-sm sm:left-1/2 sm:w-fit",
         className,
       )}
     >
@@ -30,7 +30,7 @@ export default function MobileBottomNavi({
               <Link
                 className={twMerge(
                   "flex flex-col items-center p-4",
-                  isCurrent && "text-tako",
+                  isCurrent && "text-accent",
                 )}
                 href={href}
                 key={title}

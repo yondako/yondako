@@ -16,8 +16,8 @@ export function TabItem({ id, meta, current }: TabItemProps) {
       className={twMerge(
         "flex w-full items-center justify-center space-x-2 rounded-full px-4 py-2 text-center text-xs lg:min-w-32",
         current
-          ? "bg-tako font-bold text-background"
-          : "transition hover:bg-card hover:brightness-95",
+          ? "bg-accent font-bold text-primary-background"
+          : "transition hover:bg-tertiary-background hover:brightness-95",
       )}
       href={`/library/${id}`}
     >
