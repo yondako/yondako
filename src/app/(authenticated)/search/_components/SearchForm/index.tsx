@@ -36,7 +36,7 @@ export default function SearchForm() {
       <SearchBox
         name="q"
         defaultValue={query ?? ""}
-        placeholder="書籍名、著者名で検索"
+        placeholder="タイトル、著者名で検索"
         autoFocus={!query}
         inputMode="search"
         ref={searchBoxRef}
