@@ -24,6 +24,7 @@ type Props = {
   };
   searchParams: {
     page?: string;
+    q?: string;
     order?: Order;
   };
 };
@@ -72,7 +73,12 @@ export default async function Library({ params, searchParams }: Props) {
           />
         }
       >
-        <LibraryBookList status={params.status} page={page} order={orderType} />
+        <LibraryBookList
+          status={params.status}
+          page={page}
+          order={orderType}
+          titleKeyword={searchParams.q}
+        />
       </Suspense>
     </>
   );

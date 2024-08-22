@@ -1,34 +1,31 @@
 import BookList from "@/components/BookList";
 import Pagination from "@/components/Pagination";
 import SayTako from "@/components/SayTako";
-import { getBooksByReadingStatus } from "@/db/queries/status";
+import {
+  type searchBooksFromLibraryOptions,
+  searchBooksFromLibrary,
+} from "@/db/queries/status";
 import { auth } from "@/lib/auth";
-import type { Order } from "@/types/order";
 import type { ReadingStatus } from "@/types/readingStatus";
 import Filter from "./Filter";
 
 const pageSize = 24;
 
-type Props = {
-  status: ReadingStatus;
-  page: number;
-  order: Order;
-};
-
-export async function LibraryBookList({ status, page, order }: Props) {
+export async function LibraryBookList(
+  props: Omit<searchBooksFromLibraryOptions, "userId" | "pageSize">,
+) {
   const session = await auth();
 
   if (!session?.user?.id) {
     return null;
   }
 
-  const { books, total } = await getBooksByReadingStatus(
-    session.user.id,
-    status,
-    order,
-    page,
+  const { books, total } = await searchBooksFromLibrary({
+    userId: session.user.id,
     pageSize,
-  );
+    ...props,
+  });
+
   const totalPage = Math.ceil(total / pageSize);
 
   return (
@@ -38,17 +35,17 @@ export async function LibraryBookList({ status, page, order }: Props) {
           <span className="text-4xl">{total}</span>
           <span className="text-base">冊</span>
         </h1>
-        <Filter isOrderAsc={order === "asc"} />
+        <Filter isOrderAsc={props.order === "asc"} />
       </div>
       {books.length === 0 ? (
-        <SayTako message={getEmptyMessage(status)} />
+        <SayTako message={getEmptyMessage(props.status)} />
       ) : (
         <>
           <BookList items={books} />
           {totalPage !== 1 && (
             <Pagination
               className="mt-auto pt-10"
-              currentPage={page}
+              currentPage={props.page}
               totalPage={totalPage}
             />
           )}

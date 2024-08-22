@@ -20,12 +20,12 @@ export default function Filter({ isOrderAsc }: Props) {
   const IconSort = isOrderAsc ? IconSortAsc : IconSortDesc;
   const nextOrder: Order = isOrderAsc ? "desc" : "asc";
 
-  const createHref = (query?: string, order?: Order): string => {
+  const createHref = (keyword?: string, order?: Order): string => {
     const newSearchParams = new URLSearchParams(searchParams);
 
-    // 絞り込みクエリ
-    if (query) {
-      newSearchParams.set("q", query);
+    // 絞り込みキーワード
+    if (keyword) {
+      newSearchParams.set("q", keyword);
     }
 
     // ソート順
@@ -50,7 +50,7 @@ export default function Filter({ isOrderAsc }: Props) {
       <form onSubmit={handleSubmitForm}>
         <SearchBox
           className="h-8 text-sm lg:text-xs"
-          placeholder="タイトル・著者"
+          placeholder="タイトルの一部"
           name="q"
         />
       </form>
