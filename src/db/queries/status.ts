@@ -11,7 +11,6 @@ import {
   eq,
   getTableColumns,
   inArray,
-  like,
   sql,
 } from "drizzle-orm";
 import db from "..";
@@ -75,6 +74,10 @@ export async function searchBooksFromLibrary({
   pageSize,
   titleKeyword,
 }: searchBooksFromLibraryOptions): Promise<BookReadimgStatusResult> {
+  const escapedTitleKeyword = titleKeyword
+    ? `%${titleKeyword?.replaceAll("%", "\\%").replaceAll("_", "//_")}%`
+    : undefined;
+
   try {
     const results = db.$with("results").as(
       db
@@ -97,8 +100,8 @@ export async function searchBooksFromLibrary({
           dbSchema.books,
           and(
             eq(dbSchema.readingStatuses.bookId, dbSchema.books.ndlBibId),
-            titleKeyword
-              ? like(dbSchema.books.title, `%${titleKeyword}%`)
+            escapedTitleKeyword
+              ? sql`${dbSchema.books.title} LIKE ${escapedTitleKeyword} ESCAPE '\\'`
               : undefined,
           ),
         ),
