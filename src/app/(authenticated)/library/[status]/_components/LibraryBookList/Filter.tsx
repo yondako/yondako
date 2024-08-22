@@ -35,15 +35,15 @@ export default function Filter({ isOrderAsc }: Props) {
   const nextOrder: Order = isOrderAsc ? "desc" : "asc";
 
   return (
-    <div className="flex items-center space-x-3">
+    <div className="flex w-full space-x-3 sm:justify-end">
       <SearchBox
-        className="h-8 text-sm lg:text-xs"
+        className="grow text-sm sm:max-w-64 lg:text-xs"
         placeholder="タイトルの一部"
         onChange={(e) => debounced(e.target.value)}
       />
 
       <Button
-        className="inline-flex h-8 w-40 items-center justify-center space-x-1 border-0 bg-tertiary-background p-0 text-xs"
+        className="flex w-40 items-center justify-center space-x-1 border-0 bg-tertiary-background p-0 text-xs"
         asChild
       >
         <Link
@@ -51,7 +51,7 @@ export default function Filter({ isOrderAsc }: Props) {
           replace
         >
           <IconSort className="h-5" />
-          <span>{isOrderAsc ? "登録日が古い順" : "登録日が新しい順"}</span>
+          <span>{isOrderAsc ? "登録日が古い" : "最近登録した"}</span>
         </Link>
       </Button>
     </div>

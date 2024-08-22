@@ -30,8 +30,8 @@ export async function LibraryBookList(
 
   return (
     <>
-      <div className="mt-10 flex items-center justify-between space-x-4 ">
-        <h1 className="font-bold">
+      <div className="mt-10 flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0 ">
+        <h1 className="flex w-full grow-0 items-end font-bold sm:w-auto">
           <span className="text-4xl">{total}</span>
           <span className="text-base">冊</span>
         </h1>
@@ -41,7 +41,7 @@ export async function LibraryBookList(
         <SayTako message={getEmptyMessage(props.status)} />
       ) : (
         <>
-          <BookList items={books} />
+          <BookList className="mt-2" items={books} />
           {totalPage !== 1 && (
             <Pagination
               className="mt-auto pt-10"
