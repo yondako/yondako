@@ -38,7 +38,7 @@
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.4.0",
     "use-debounce": "^10.0.3",
-    "valibot": "^0.37.0"
+    "valibot": "^0.38.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
