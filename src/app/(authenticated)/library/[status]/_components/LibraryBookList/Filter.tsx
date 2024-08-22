@@ -8,7 +8,10 @@ import type { Order } from "@/types/order";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
-import { createFilterSearchParams, removeKeywordParam } from "./filterSearchParams";
+import {
+  createFilterSearchParams,
+  removeKeywordParam,
+} from "./filterSearchParams";
 
 type Props = {
   isOrderAsc: boolean;
