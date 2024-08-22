@@ -1,9 +1,9 @@
-import { describe, test, expect } from "bun:test";
+import { describe, expect, test } from "bun:test";
+import { ReadonlyURLSearchParams } from "next/navigation";
 import {
   createFilterSearchParams,
   removeKeywordParam,
 } from "./filterSearchParams";
-import { ReadonlyURLSearchParams } from "next/navigation";
 
 describe("createFilterSearchParams", () => {
   const tests = [
