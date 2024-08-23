@@ -22,7 +22,7 @@ export default async function Settings() {
   return (
     <>
       <h2 className="font-bold text-xl">アカウント</h2>
-      <div className="mt-4 w-full space-y-4 rounded-2xl bg-tertiary-background p-8">
+      <div className="mt-4 w-full space-y-6 rounded-2xl bg-tertiary-background p-8">
         <SettingProperty
           title="ユーザーID"
           description="サポート時などに使用します"
