@@ -1,9 +1,9 @@
-import BookmarksFilled from "@/assets/icons/bookmarks-filled.svg";
-import Bookmarks from "@/assets/icons/bookmarks.svg";
-import Scan from "@/assets/icons/scan.svg";
-import Search from "@/assets/icons/search.svg";
-import SettingsFilled from "@/assets/icons/settings-filled.svg";
-import Settings from "@/assets/icons/settings.svg";
+import IconBookmarksFilled from "@/assets/icons/bookmarks-filled.svg";
+import IconBookmarks from "@/assets/icons/bookmarks.svg";
+import IconScan from "@/assets/icons/scan.svg";
+import IconSearch from "@/assets/icons/search.svg";
+import IconSettingsFilled from "@/assets/icons/settings-filled.svg";
+import IconSettings from "@/assets/icons/settings.svg";
 import type { FunctionComponent, SVGProps } from "react";
 
 export type NavItem = {
@@ -27,28 +27,28 @@ export const naviItems = [
     title: "ライブラリ",
     href: "/library/want_read",
     matchSegmentsRegExp: /^library/,
-    IconSolid: Bookmarks,
-    IconFilled: BookmarksFilled,
+    IconSolid: IconBookmarks,
+    IconFilled: IconBookmarksFilled,
   },
   {
     title: "キーワードで探す",
     href: "/search",
     matchSegmentsRegExp: /^search$/,
-    IconSolid: Search,
-    IconFilled: Search,
+    IconSolid: IconSearch,
+    IconFilled: IconSearch,
   },
   {
     title: "バーコードで探す",
     href: "/search/barcode",
     matchSegmentsRegExp: /^search\/barcode$/,
-    IconSolid: Scan,
-    IconFilled: Scan,
+    IconSolid: IconScan,
+    IconFilled: IconScan,
   },
   {
     title: "設定",
     href: "/settings",
     matchSegmentsRegExp: /^settings/,
-    IconSolid: Settings,
-    IconFilled: SettingsFilled,
+    IconSolid: IconSettings,
+    IconFilled: IconSettingsFilled,
   },
 ] as const;
