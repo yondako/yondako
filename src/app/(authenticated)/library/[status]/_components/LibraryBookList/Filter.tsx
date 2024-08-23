@@ -3,6 +3,7 @@
 import IconSortAsc from "@/assets/icons/sort-ascending.svg";
 import IconSortDesc from "@/assets/icons/sort-descending.svg";
 import Button from "@/components/Button";
+import Input from "@/components/Input";
 import type { Order } from "@/types/order";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -11,7 +12,6 @@ import {
   createFilterSearchParams,
   removeKeywordParam,
 } from "./filterSearchParams";
-import Input from "@/components/Input";
 
 type Props = {
   isOrderAsc: boolean;
