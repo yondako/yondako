@@ -1,8 +1,18 @@
 import "server-only";
 
 import type { BookDetail, BookType } from "@/types/book";
+import type { Order } from "@/types/order";
 import type { ReadingStatus } from "@/types/readingStatus";
-import { and, asc, count, desc, eq, inArray } from "drizzle-orm";
+import {
+  and,
+  asc,
+  count,
+  desc,
+  eq,
+  getTableColumns,
+  inArray,
+  sql,
+} from "drizzle-orm";
 import db from "..";
 import * as dbSchema from "../schema/book";
 
@@ -34,31 +44,51 @@ export async function upsertReadingStatus(
   return result.status;
 }
 
+export type searchBooksFromLibraryOptions = {
+  userId: string;
+  status: ReadingStatus;
+  order: Order;
+  /** 現在のページ */
+  page: number;
+  /** 1ページの件数 */
+  pageSize: number;
+  /** 絞り込み用キーワード (書籍のタイトルに含まれる文字列) */
+  titleKeyword?: string;
+};
+
 type BookReadimgStatusResult = {
   books: BookType[];
   total: number;
 };
 
 /**
- * 読書ステータスから書籍を取得
- * @pqram userId ユーザーID
- * @param status ステータス
- * @param order ソート順
- * @param page ページ
- * @param pageSize 取得件数
- * @returns 書籍, 総数
+ * 条件からライブラリ内の書籍を検索
+ * @params 検索条件
+ * @returns 結果,総数
  */
-export async function getBooksByReadingStatus(
-  userId: string,
-  status: ReadingStatus,
-  order: "asc" | "desc",
-  page: number,
-  pageSize = 25,
-): Promise<BookReadimgStatusResult> {
+export async function searchBooksFromLibrary({
+  userId,
+  status,
+  order,
+  page,
+  pageSize,
+  titleKeyword,
+}: searchBooksFromLibraryOptions): Promise<BookReadimgStatusResult> {
+  const escapedTitleKeyword = titleKeyword
+    ? `%${titleKeyword?.replaceAll("%", "\\%").replaceAll("_", "//_")}%`
+    : undefined;
+
   try {
-    const [total, raw] = await Promise.all([
+    const results = db.$with("results").as(
       db
-        .select({ count: count() })
+        .select({
+          readingStatus: {
+            ...getTableColumns(dbSchema.readingStatuses),
+          },
+          book: {
+            ...getTableColumns(dbSchema.books),
+          },
+        })
         .from(dbSchema.readingStatuses)
         .where(
           and(
@@ -66,66 +96,75 @@ export async function getBooksByReadingStatus(
             eq(dbSchema.readingStatuses.status, status),
           ),
         )
-        .get(),
-      db.query.readingStatuses.findMany({
-        where: and(
-          eq(dbSchema.readingStatuses.userId, userId),
-          eq(dbSchema.readingStatuses.status, status),
+        .innerJoin(
+          dbSchema.books,
+          and(
+            eq(dbSchema.readingStatuses.bookId, dbSchema.books.ndlBibId),
+            escapedTitleKeyword
+              ? sql`${dbSchema.books.title} LIKE ${escapedTitleKeyword} ESCAPE '\\'`
+              : undefined,
+          ),
         ),
-        with: {
-          book: {
-            with: {
-              bookAuthors: {
-                with: {
-                  author: {
-                    columns: {
-                      name: true,
-                    },
-                  },
-                },
-              },
-              bookPublishers: {
-                with: {
-                  publisher: {
-                    columns: {
-                      name: true,
-                    },
-                  },
-                },
-              },
-            },
+    );
+
+    const [total, raw] = await Promise.all([
+      db.with(results).select({ count: count() }).from(results).get(),
+      db
+        .with(results)
+        .select({
+          readingStatus: {
+            ...results.readingStatus,
           },
-        },
-        orderBy:
+          book: {
+            ...results.book,
+          },
+          authors: sql<
+            string | null
+          >`GROUP_CONCAT(DISTINCT ${dbSchema.authors.name})`,
+          publishers: sql<
+            string | null
+          >`GROUP_CONCAT(DISTINCT ${dbSchema.publishers.name})`,
+        })
+        .from(results)
+        .leftJoin(
+          dbSchema.bookAuthors,
+          eq(results.book.ndlBibId, dbSchema.bookAuthors.bookId),
+        )
+        .leftJoin(
+          dbSchema.authors,
+          eq(dbSchema.bookAuthors.authorId, dbSchema.authors.id),
+        )
+        .leftJoin(
+          dbSchema.bookPublishers,
+          eq(results.book.ndlBibId, dbSchema.bookPublishers.bookId),
+        )
+        .leftJoin(
+          dbSchema.publishers,
+          eq(dbSchema.bookPublishers.publisherId, dbSchema.publishers.id),
+        )
+        .groupBy(results.book.ndlBibId)
+        .orderBy(
           order === "asc"
-            ? asc(dbSchema.readingStatuses.updatedAt)
-            : desc(dbSchema.readingStatuses.updatedAt),
-        limit: pageSize,
-        offset: pageSize * (page - 1),
-      }),
+            ? asc(results.readingStatus.updatedAt)
+            : desc(results.readingStatus.updatedAt),
+        )
+        .limit(pageSize)
+        .offset(pageSize * (page - 1))
+        .all(),
     ]);
 
+    // 結果なし
     if (!total) {
       return { books: [], total: 0 };
     }
 
-    const books = raw.map((r) => ({
+    const books: BookType[] = raw.map((r) => ({
       detail: {
         ...r.book,
-        authors:
-          r.book.bookAuthors.length > 0
-            ? r.book.bookAuthors
-                .map(({ author }) => author?.name)
-                .filter((x) => typeof x === "string")
-            : undefined,
-        publishers:
-          r.book.bookPublishers.length > 0
-            ? r.book.bookPublishers
-                .map(({ publisher }) => publisher?.name)
-                .filter((x) => typeof x === "string")
-            : undefined,
+        authors: r.authors ? r.authors.split(",") : undefined,
+        publishers: r.publishers ? r.publishers?.split(",") : undefined,
       },
-      readingStatus: r.status,
+      readingStatus: r.readingStatus.status,
     }));
 
     return { books, total: total.count };

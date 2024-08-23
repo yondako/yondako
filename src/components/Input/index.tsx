@@ -1,17 +1,30 @@
+import IconSearch from "@/assets/icons/search.svg";
 import { type ComponentPropsWithRef, forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
 
-export default forwardRef<HTMLInputElement, ComponentPropsWithRef<"input">>(
-  function Input({ className, ...props }, ref) {
-    return (
+type Props = {
+  /** 検索アイコンを表示 */
+  search?: boolean;
+} & ComponentPropsWithRef<"input">;
+
+export default forwardRef<HTMLInputElement, Props>(function Input(
+  { search, className, ...props },
+  ref,
+) {
+  return (
+    <div className={twMerge("relative text-primary-text", className)}>
+      {search && (
+        <IconSearch className="-translate-y-1/2 absolute top-1/2 left-4 h-4 w-4 text-primary-text" />
+      )}
       <input
         {...props}
         ref={ref}
         className={twMerge(
-          "w-full rounded-full bg-tertiary-background px-4 py-2 text-base placeholder:text-secondary-text focus:outline-accent lg:text-sm",
-          className,
+          "w-full rounded-full bg-tertiary-background px-4 py-2 text-sm placeholder:text-secondary-text focus:outline-accent",
+          search && "pl-10",
         )}
+        type={search ? "search" : "text"}
       />
-    );
-  },
-);
+    </div>
+  );
+});
