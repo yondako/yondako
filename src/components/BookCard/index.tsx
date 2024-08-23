@@ -51,7 +51,7 @@ export default function BookCard({ data }: BookCardProps) {
   };
 
   return (
-    <div className="relative w-full text-left text-primary-text">
+    <div className="relative w-full text-left text-primary-foreground">
       <div className="mt-8 flex h-40 w-full flex-col justify-between overflow-hidden rounded-2xl bg-tertiary-background p-4 pl-36">
         {data.detail.isbn && showDetail ? (
           <Detail
@@ -67,7 +67,7 @@ export default function BookCard({ data }: BookCardProps) {
               </p>
 
               {data.detail.authors && (
-                <p className="line-clamp-1 text-secondary-text text-xxs">
+                <p className="line-clamp-1 text-secondary-foreground text-xxs">
                   {data.detail.authors.join(", ")}
                 </p>
               )}
