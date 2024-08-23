@@ -27,7 +27,7 @@ export default async function Settings() {
           title="ユーザーID"
           description="サポート時などに使用します"
         >
-          <p className="break-all text-primary-text text-sm">
+          <p className="break-all text-primary-foreground text-sm">
             {session.user.id}
           </p>
         </SettingProperty>

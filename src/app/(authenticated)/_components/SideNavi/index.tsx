@@ -65,7 +65,7 @@ function Item({
         "flex cursor-pointer items-center space-x-3 rounded-r-full px-8 py-2 text-base",
         current
           ? "bg-accent text-primary-background"
-          : "bg-primary-background text-primary-text transition hover:brightness-95",
+          : "bg-primary-background text-primary-foreground transition hover:brightness-95",
       )}
       href={href}
     >
