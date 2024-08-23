@@ -12,15 +12,15 @@ export default forwardRef<HTMLInputElement, Props>(function Input(
   ref,
 ) {
   return (
-    <div className={twMerge("relative text-primary-text", className)}>
+    <div className={twMerge("relative text-primary-foreground", className)}>
       {search && (
-        <IconSearch className="-translate-y-1/2 absolute top-1/2 left-4 h-4 w-4 text-primary-text" />
+        <IconSearch className="-translate-y-1/2 absolute top-1/2 left-4 h-4 w-4 text-primary-foreground" />
       )}
       <input
         {...props}
         ref={ref}
         className={twMerge(
-          "w-full rounded-full bg-tertiary-background px-4 py-2 text-sm placeholder:text-secondary-text focus:outline-accent",
+          "w-full rounded-full bg-tertiary-background px-4 py-2 text-sm placeholder:text-secondary-foreground focus:outline-accent",
           search && "pl-10",
         )}
         type={search ? "search" : "text"}

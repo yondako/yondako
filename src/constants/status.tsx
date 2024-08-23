@@ -1,11 +1,11 @@
-import BookFilled from "@/assets/icons/book-filled.svg";
-import Book from "@/assets/icons/book.svg";
-import BookmarkFilled from "@/assets/icons/bookmark-filled.svg";
-import Bookmark from "@/assets/icons/bookmark.svg";
-import MoodEmptyFilled from "@/assets/icons/mood-empty-filled.svg";
-import MoodEmpty from "@/assets/icons/mood-empty.svg";
-import SquareCheckFilled from "@/assets/icons/square-check-filled.svg";
-import SquareCheck from "@/assets/icons/square-check.svg";
+import IconBookFilled from "@/assets/icons/book-filled.svg";
+import IconBook from "@/assets/icons/book.svg";
+import IconBookmarkFilled from "@/assets/icons/bookmark-filled.svg";
+import IconBookmark from "@/assets/icons/bookmark.svg";
+import IconMoodEmptyFilled from "@/assets/icons/mood-empty-filled.svg";
+import IconMoodEmpty from "@/assets/icons/mood-empty.svg";
+import IconSquareCheckFilled from "@/assets/icons/square-check-filled.svg";
+import IconSquareCheck from "@/assets/icons/square-check.svg";
 import type { ReadingStatus } from "@/types/readingStatus";
 import type { FunctionComponent, SVGProps } from "react";
 
@@ -26,32 +26,32 @@ export const readingStatusMetadata = new Map<
     "none",
     {
       label: "よんでない",
-      IconSolid: MoodEmpty,
-      IconFilled: MoodEmptyFilled,
+      IconSolid: IconMoodEmpty,
+      IconFilled: IconMoodEmptyFilled,
     },
   ],
   [
     "want_read",
     {
       label: "よみたい",
-      IconSolid: Bookmark,
-      IconFilled: BookmarkFilled,
+      IconSolid: IconBookmark,
+      IconFilled: IconBookmarkFilled,
     },
   ],
   [
     "reading",
     {
       label: "よんでる",
-      IconSolid: Book,
-      IconFilled: BookFilled,
+      IconSolid: IconBook,
+      IconFilled: IconBookFilled,
     },
   ],
   [
     "read",
     {
       label: "よんだ",
-      IconSolid: SquareCheck,
-      IconFilled: SquareCheckFilled,
+      IconSolid: IconSquareCheck,
+      IconFilled: IconSquareCheckFilled,
     },
   ],
 ]);
