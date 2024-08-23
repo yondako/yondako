@@ -3,7 +3,7 @@
 import IconSortAsc from "@/assets/icons/sort-ascending.svg";
 import IconSortDesc from "@/assets/icons/sort-descending.svg";
 import Button from "@/components/Button";
-import SearchBox from "@/components/SearchBox";
+import Input from "@/components/Input";
 import type { Order } from "@/types/order";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -36,10 +36,11 @@ export default function Filter({ isOrderAsc }: Props) {
 
   return (
     <div className="flex w-full space-x-3 sm:justify-end">
-      <SearchBox
+      <Input
         className="grow text-sm sm:max-w-64 lg:text-xs"
         placeholder="タイトルの一部"
         onChange={(e) => debounced(e.target.value)}
+        search
       />
 
       <Button

@@ -1,6 +1,6 @@
 "use client";
 
-import SearchBox from "@/components/SearchBox";
+import Input from "@/components/Input";
 import { useRouter, useSearchParams } from "next/navigation";
 import { type FormEventHandler, useRef } from "react";
 
@@ -33,13 +33,14 @@ export default function SearchForm() {
 
   return (
     <form className="m-0 w-full" onSubmit={handleSubmit}>
-      <SearchBox
+      <Input
         name="q"
         defaultValue={query ?? ""}
         placeholder="タイトル、著者名で検索"
         autoFocus={!query}
         inputMode="search"
         ref={searchBoxRef}
+        search
       />
     </form>
   );
