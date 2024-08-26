@@ -1,7 +1,7 @@
+import MobileBottomNavi from "@/components/MobileBottomNavi";
+import MobileHeader from "@/components/MobileHeader";
 import type { ReactNode } from "react";
 import { Toaster } from "sonner";
-import MobileBottomNavi from "./_components/MobileBottomNavi";
-import MobileHeader from "./_components/MobileHeader";
 import SideNavi from "./_components/SideNavi";
 
 type Props = {
@@ -21,7 +21,7 @@ export default function Layout({ children }: Props) {
           },
         }}
       />
-      <MobileHeader className="block lg:hidden" />
+      <MobileHeader className="block text-accent lg:hidden" />
       <SideNavi className="hidden lg:flex" />
       <div className="flex h-full w-full flex-col px-6 py-8 lg:shrink lg:overflow-y-scroll lg:px-12 ">
         {children}
