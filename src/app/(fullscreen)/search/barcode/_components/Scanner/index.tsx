@@ -55,7 +55,12 @@ export default function Scanner() {
       style={{ width, height }}
       ref={scannerRef}
     >
-      <div className="absolute inset-x-0 top-0 h-2/5 bg-black/40" />
+      <div className="absolute inset-x-0 top-0 h-2/5 bg-black/40">
+        <div className="absolute bottom-8 w-full text-center text-white">
+          <p>書籍のバーコードを映してください</p>
+          <p>(数字が 978 で始まるもの)</p>
+        </div>
+      </div>
       <div className="absolute inset-x-0 bottom-0 h-2/5 bg-black/40" />
       <canvas
         className="drawingBuffer" // これがないと Quagga に認識されない
