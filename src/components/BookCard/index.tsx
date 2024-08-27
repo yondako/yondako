@@ -6,9 +6,9 @@ import { readingStatusMetadata } from "@/constants/status";
 import type { BookType } from "@/types/book";
 import { useOptimistic, useState } from "react";
 import { toast } from "sonner";
+import { BookThumbnail } from "../BookThumbnail";
 import Detail from "./Detail";
 import ReadingStatusButton, { readingStatusOrder } from "./ReadingStatusButton";
-import { BookThumbnail } from "./Thumbnail";
 
 export type BookCardProps = {
   data: BookType;
@@ -108,7 +108,7 @@ export default function BookCard({ data }: BookCardProps) {
       </div>
 
       <BookThumbnail
-        className="absolute top-4 left-4 w-28"
+        className="absolute top-4 left-4 w-28 border-4 border-tertiary-background shadow-xl"
         src={data.detail.thumbnailUrl}
       />
     </div>

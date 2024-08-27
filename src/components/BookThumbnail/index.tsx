@@ -13,7 +13,7 @@ export function BookThumbnail({ src, className }: Props) {
   return (
     <div
       className={twMerge(
-        "flex aspect-[64/91] items-center justify-center overflow-hidden rounded-2xl border-4 border-tertiary-background bg-secondary-background shadow-xl",
+        "flex aspect-[64/91] items-center justify-center overflow-hidden rounded-2xl bg-secondary-background",
         className,
       )}
     >
