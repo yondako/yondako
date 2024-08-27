@@ -46,7 +46,9 @@ export default function BookDrawer({ data, children, ...props }: Props) {
             <div className="mt-8">
               <BookReadingStatusForm
                 className="mx-auto w-fit space-x-10"
-                currentStatus={data.readingStatus}
+                bookId={data.detail.ndlBibId}
+                bookTitle={data.detail.title}
+                defaultStatus={data.readingStatus}
               />
             </div>
 
