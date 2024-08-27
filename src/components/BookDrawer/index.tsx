@@ -45,7 +45,7 @@ export default function BookDrawer({ data, children, ...props }: Props) {
 
             <div className="mt-8">
               <BookReadingStatusForm
-                className="mx-auto w-fit space-x-10 text-accent"
+                className="mx-auto w-fit space-x-10"
                 currentStatus={data.readingStatus}
               />
             </div>

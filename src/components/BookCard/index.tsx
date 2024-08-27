@@ -2,13 +2,12 @@
 
 import { updateReadingStatus } from "@/actions/updateReadingStatus";
 import IconDotsVertical from "@/assets/icons/dots-vertical.svg";
-import { readingStatusMetadata } from "@/constants/status";
 import type { BookType } from "@/types/book";
 import { useOptimistic, useState } from "react";
 import { toast } from "sonner";
 import BookDrawer from "../BookDrawer";
+import BookReadingStatusForm from "../BookReadingStatusForm";
 import { BookThumbnail } from "../BookThumbnail";
-import ReadingStatusButton, { readingStatusOrder } from "./ReadingStatusButton";
 
 export type BookCardProps = {
   data: BookType;
@@ -65,23 +64,12 @@ export default function BookCard({ data }: BookCardProps) {
         </div>
 
         <div className="flex justify-between">
-          <form
-            className="flex w-full justify-start text-accent"
+          <BookReadingStatusForm
+            className="shrink-0"
+            currentStatus={optimisticStatus}
+            compact
             action={changeStatusFormAction}
-          >
-            {readingStatusOrder.map((status) => {
-              const meta = readingStatusMetadata.get(status);
-
-              return meta ? (
-                <ReadingStatusButton
-                  status={status}
-                  meta={meta}
-                  selected={optimisticStatus === status}
-                  key={status}
-                />
-              ) : null;
-            })}
-          </form>
+          />
 
           <BookDrawer data={data}>
             <button className="rounded-2xl bg-tertiary-background p-1 transition hover:brightness-95">

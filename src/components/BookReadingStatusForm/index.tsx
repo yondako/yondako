@@ -1,6 +1,7 @@
 import { readingStatusMetadata } from "@/constants/status";
 import type { ReadingStatus } from "@/types/readingStatus";
 import type { ComponentPropsWithoutRef } from "react";
+import { twMerge } from "tailwind-merge";
 import BookReadingStatusButton, {
   type BookReadingStatusButtonProps,
 } from "./ReadingStatusButton";
@@ -15,10 +16,11 @@ type Props = {
 export default function BookReadingStatusForm({
   currentStatus,
   compact,
+  className,
   ...props
 }: Props) {
   return (
-    <form {...props}>
+    <form {...props} className={twMerge("text-accent", className)}>
       {order.map((status) => {
         const meta = readingStatusMetadata.get(status);
 
@@ -27,6 +29,7 @@ export default function BookReadingStatusForm({
             status={status}
             meta={meta}
             selected={status === currentStatus}
+            compact={compact}
             key={status}
           />
         ) : null;
