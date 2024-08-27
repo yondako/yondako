@@ -7,6 +7,7 @@ import { useScanner } from "./useScanner";
 
 /**
  * TODO:
+ * - [ ] カメラの権限を要求する表示
  * - [ ] デスクトップからは開けないように。スマホのみ対応しています！って出す
  * - [ ] スマホが横向きの場合、縦にしてくださいって出す
  */
@@ -51,7 +52,7 @@ export default function Scanner() {
 
   return (
     <div
-      className="relative bg-red-500"
+      className="relative bg-primary-background"
       style={{ width, height }}
       ref={scannerRef}
     >
