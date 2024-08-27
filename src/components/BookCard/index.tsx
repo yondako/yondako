@@ -1,10 +1,7 @@
 "use client";
 
-import { updateReadingStatus } from "@/actions/updateReadingStatus";
 import IconDotsVertical from "@/assets/icons/dots-vertical.svg";
 import type { BookType } from "@/types/book";
-import { useOptimistic, useState } from "react";
-import { toast } from "sonner";
 import BookDrawer from "../BookDrawer";
 import BookReadingStatusForm from "../BookReadingStatusForm";
 import { BookThumbnail } from "../BookThumbnail";
@@ -15,39 +12,6 @@ export type BookCardProps = {
 };
 
 export default function BookCard({ data }: BookCardProps) {
-  const [displayReadingStatus, setDisplayReadingStatus] = useState(
-    data.readingStatus,
-  );
-  const [optimisticStatus, addOptimisticStatus] =
-    useOptimistic(displayReadingStatus);
-
-  // 読書ステータスが変更された
-  const changeStatusFormAction = async (formData: FormData) => {
-    const newStatus = formData.get("status") as BookType["readingStatus"];
-
-    addOptimisticStatus(newStatus);
-
-    const result = await updateReadingStatus(data.detail.ndlBibId, newStatus);
-
-    // 記録に失敗
-    if (result.error || !result.book) {
-      toast.error("記録に失敗しました", {
-        description: (
-          <p>
-            {result.error}
-            <br />
-            {data.detail.title}
-          </p>
-        ),
-      });
-
-      addOptimisticStatus(data.readingStatus);
-      return;
-    }
-
-    setDisplayReadingStatus(result.book.readingStatus);
-  };
-
   return (
     <div className="relative w-full text-left text-primary-foreground">
       <div className="mt-8 flex h-40 w-full flex-col justify-between overflow-hidden rounded-2xl bg-tertiary-background p-4 pl-36">
@@ -66,9 +30,10 @@ export default function BookCard({ data }: BookCardProps) {
         <div className="flex justify-between">
           <BookReadingStatusForm
             className="shrink-0"
-            currentStatus={optimisticStatus}
+            bookId={data.detail.ndlBibId}
+            bookTitle={data.detail.title}
+            defaultStatus={data.readingStatus}
             compact
-            action={changeStatusFormAction}
           />
 
           <BookDrawer data={data}>
