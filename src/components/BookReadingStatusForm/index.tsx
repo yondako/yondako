@@ -2,7 +2,6 @@ import { updateReadingStatus } from "@/actions/updateReadingStatus";
 import { readingStatusMetadata } from "@/constants/status";
 import type { BookType } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
-import { type ComponentPropsWithoutRef, useOptimistic, useState } from "react";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 import BookReadingStatusButton, {
@@ -11,31 +10,36 @@ import BookReadingStatusButton, {
 
 const order: ReadingStatus[] = ["want_read", "reading", "read"] as const;
 
+export type BookReadingStatusFormProps = {
+  status: ReadingStatus;
+  onChangeStatus: (status: ReadingStatus) => void;
+  optimisticStatus: ReadingStatus;
+  onChangeOptimisticStatus: (status: ReadingStatus) => void;
+};
+
 type Props = {
   bookId: string;
   bookTitle: string;
-  defaultStatus: ReadingStatus;
-} & Pick<BookReadingStatusButtonProps, "compact"> &
-  ComponentPropsWithoutRef<"form">;
+  className?: string;
+} & BookReadingStatusFormProps &
+  Pick<BookReadingStatusButtonProps, "compact">;
 
 export default function BookReadingStatusForm({
   bookId,
   bookTitle,
-  defaultStatus,
+  status: defaultStatus,
+  optimisticStatus,
+  onChangeOptimisticStatus: setOptimisticStatus,
+  onChangeStatus,
   compact,
   className,
   ...props
 }: Props) {
-  const [displayReadingStatus, setDisplayReadingStatus] =
-    useState(defaultStatus);
-  const [optimisticStatus, addOptimisticStatus] =
-    useOptimistic(displayReadingStatus);
-
   // 読書ステータスが変更された
   const changeStatusFormAction = async (formData: FormData) => {
     const newStatus = formData.get("status") as BookType["readingStatus"];
 
-    addOptimisticStatus(newStatus);
+    setOptimisticStatus(newStatus);
 
     const result = await updateReadingStatus(bookId, newStatus);
 
@@ -51,12 +55,12 @@ export default function BookReadingStatusForm({
         ),
       });
 
-      addOptimisticStatus(defaultStatus);
+      setOptimisticStatus(defaultStatus);
 
       return;
     }
 
-    setDisplayReadingStatus(result.book.readingStatus);
+    onChangeStatus(result.book.readingStatus);
   };
 
   return (

@@ -2,8 +2,11 @@
 
 import IconDotsVertical from "@/assets/icons/dots-vertical.svg";
 import type { BookType } from "@/types/book";
+import { useOptimistic, useState } from "react";
 import BookDrawer from "../BookDrawer";
-import BookReadingStatusForm from "../BookReadingStatusForm";
+import BookReadingStatusForm, {
+  type BookReadingStatusFormProps,
+} from "../BookReadingStatusForm";
 import { BookThumbnail } from "../BookThumbnail";
 
 export type BookCardProps = {
@@ -12,6 +15,19 @@ export type BookCardProps = {
 };
 
 export default function BookCard({ data }: BookCardProps) {
+  const [displayReadingStatus, setDisplayReadingStatus] = useState(
+    data.readingStatus,
+  );
+  const [optimisticStatus, addOptimisticStatus] =
+    useOptimistic(displayReadingStatus);
+
+  const formProps: BookReadingStatusFormProps = {
+    status: displayReadingStatus,
+    onChangeStatus: (status) => setDisplayReadingStatus(status),
+    optimisticStatus,
+    onChangeOptimisticStatus: (status) => addOptimisticStatus(status),
+  };
+
   return (
     <div className="relative w-full text-left text-primary-foreground">
       <div className="mt-8 flex h-40 w-full flex-col justify-between overflow-hidden rounded-2xl bg-tertiary-background p-4 pl-36">
@@ -30,13 +46,13 @@ export default function BookCard({ data }: BookCardProps) {
         <div className="flex justify-between">
           <BookReadingStatusForm
             className="shrink-0"
+            compact
             bookId={data.detail.ndlBibId}
             bookTitle={data.detail.title}
-            defaultStatus={data.readingStatus}
-            compact
+            {...formProps}
           />
 
-          <BookDrawer data={data}>
+          <BookDrawer data={data} {...formProps}>
             <button className="rounded-2xl bg-tertiary-background p-1 transition hover:brightness-95">
               <IconDotsVertical className="h-4 w-4" />
             </button>

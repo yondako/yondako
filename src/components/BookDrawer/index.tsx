@@ -1,18 +1,30 @@
-"use client";
-
 import type { BookType } from "@/types/book";
 import type { DialogProps } from "@radix-ui/react-dialog";
 import { Drawer } from "vaul";
-import BookReadingStatusForm from "../BookReadingStatusForm";
+import BookReadingStatusForm, {
+  type BookReadingStatusFormProps,
+} from "../BookReadingStatusForm";
 import { BookThumbnail } from "../BookThumbnail";
 import { DescriptionBlock } from "./DescriptionBlock";
 import ECLinks from "./ECLinks";
 
 type Props = {
   data: BookType;
-} & DialogProps;
+} & Pick<
+  BookReadingStatusFormProps,
+  "status" | "onChangeStatus" | "optimisticStatus" | "onChangeOptimisticStatus"
+> &
+  DialogProps;
 
-export default function BookDrawer({ data, children, ...props }: Props) {
+export default function BookDrawer({
+  data,
+  children,
+  status,
+  optimisticStatus,
+  onChangeOptimisticStatus: setOptimisticStatus,
+  onChangeStatus,
+  ...props
+}: Props) {
   const { title, thumbnailUrl, authors, publishers, isbn } = data.detail;
 
   return (
@@ -48,7 +60,10 @@ export default function BookDrawer({ data, children, ...props }: Props) {
                 className="mx-auto w-fit space-x-10"
                 bookId={data.detail.ndlBibId}
                 bookTitle={data.detail.title}
-                defaultStatus={data.readingStatus}
+                status={data.readingStatus}
+                onChangeStatus={onChangeStatus}
+                optimisticStatus={optimisticStatus}
+                onChangeOptimisticStatus={setOptimisticStatus}
               />
             </div>
 
