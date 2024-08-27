@@ -19,7 +19,7 @@ export default async function SearchBarcode() {
 
   return (
     <>
-      <MobileHeader className="absolute inset-0 z-10 text-white" />
+      <MobileHeader className="absolute inset-0 z-10 h-fit text-white" />
       <Scanner />
     </>
   );
