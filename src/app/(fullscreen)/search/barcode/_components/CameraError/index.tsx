@@ -6,7 +6,6 @@ export default function CameraError() {
     <div className="flex h-svh items-center px-6">
       <MobileHeader className="fixed inset-0 z-10 h-fit text-accent" />
       <ErrorMessage
-        className="mt-0"
         title="カメラが起動できませんでした"
         decoration={
           <>

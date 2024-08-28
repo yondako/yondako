@@ -31,6 +31,7 @@ export async function SearchResult({ query, currentPage }: Props) {
   if (!result) {
     return (
       <ErrorMessage
+        className="mt-16"
         title="検索できませんでした"
         decoration={
           <span className="-right-2 absolute top-0 text-5xl">🔧</span>
@@ -46,6 +47,7 @@ export async function SearchResult({ query, currentPage }: Props) {
   if (result.books.length === 0) {
     return (
       <ErrorMessage
+        className="mt-16"
         title="見つかりませんでした"
         decoration={
           <span className="-right-8 absolute top-0 text-5xl">❓️</span>
