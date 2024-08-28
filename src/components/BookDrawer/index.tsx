@@ -39,7 +39,7 @@ export default function BookDrawer({
             src={thumbnailUrl}
           />
           <div className="mx-auto max-w-sm">
-            <Drawer.Title className="mt-4 text-center font-bold">
+            <Drawer.Title className="mt-4 line-clamp-3 text-center font-bold">
               {title}
             </Drawer.Title>
 
