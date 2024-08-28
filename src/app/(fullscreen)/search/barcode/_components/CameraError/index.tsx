@@ -6,7 +6,7 @@ export default function CameraError() {
     <div className="flex h-svh items-center px-6">
       <MobileHeader className="fixed inset-0 z-10 h-fit text-accent" />
       <ErrorMessage
-        title="カメラが起動できませんでした"
+        title="外カメラが起動できませんでした"
         decoration={
           <>
             <span className="absolute top-0 left-0 text-2xl">📷️</span>
@@ -14,9 +14,9 @@ export default function CameraError() {
           </>
         }
       >
-        <p className="mx-4 mt-3">お使いのデバイスにカメラはありますか？</p>
-        <p className="mx-4">
-          カメラの使用を許可しているか、ブラウザの設定をご確認ください
+        <p className="mx-4 mt-3">この機能では外カメラを使用します</p>
+        <p className="mx-4 mt-1">
+          外カメラがお使いのデバイスにある場合は、ブラウザで使用を許可しているか設定をご確認ください
         </p>
       </ErrorMessage>
     </div>
