@@ -29,13 +29,29 @@ import Quagga from "@ericblade/quagga2";
 import { useCallback, useEffect, useRef } from "react";
 
 type Props = {
+  /** 画面幅 */
   width: number;
+  /** 画面高さ */
   height: number;
   landscape: boolean;
+
+  /**
+   * バーコードを検出した
+   * @param code 検出したコード
+   */
   onDetected: (code: string) => void;
+  /**
+   * 初期化時にエラーが発生した
+   * @param err エラー
+   */
+  onInitError: (err: unknown) => void;
 };
 
-// 中央値を取得
+/**
+ * 中央値を取得
+ * @param arr 配列
+ * @returns 中央値
+ */
 function getMedian(arr: number[]): number {
   const newArr = [...arr];
   newArr.sort((a, b) => a - b);
@@ -48,7 +64,13 @@ function getMedian(arr: number[]): number {
   return (newArr[half - 1] + newArr[half]) / 2;
 }
 
-export const useScanner = ({ width, height, landscape, onDetected }: Props) => {
+export const useScanner = ({
+  width,
+  height,
+  landscape,
+  onDetected,
+  onInitError,
+}: Props) => {
   const prevScanCode = useRef("");
   const scannerRef = useRef<HTMLDivElement>(null);
 
@@ -123,9 +145,10 @@ export const useScanner = ({ width, height, landscape, onDetected }: Props) => {
           locate: true,
         },
         async (err) => {
-          // TODO: 初期化失敗時のエラーハンドリング
+          // 初期化失敗
           if (err) {
-            return console.error("Error starting Quagga:", err);
+            onInitError(err);
+            return;
           }
 
           if (scannerRef.current) {
@@ -144,7 +167,7 @@ export const useScanner = ({ width, height, landscape, onDetected }: Props) => {
       Quagga.stop();
       Quagga.offDetected(checkError);
     };
-  }, [width, height, landscape, checkError]);
+  }, [width, height, landscape, checkError, onInitError]);
 
   return scannerRef;
 };
