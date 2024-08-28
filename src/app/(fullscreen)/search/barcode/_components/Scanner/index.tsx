@@ -1,6 +1,7 @@
 "use client";
 
 import BookDrawer from "@/components/BookDrawer";
+import MobileHeader from "@/components/MobileHeader";
 import type { BookType } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
 import Quagga from "@ericblade/quagga2";
@@ -83,42 +84,45 @@ export default function Scanner() {
   }, []);
 
   return (
-    <div
-      className="relative bg-primary-background"
-      style={{ width, height }}
-      ref={scannerRef}
-    >
-      <div className="absolute inset-x-0 top-0 h-2/5 bg-black/40">
-        <div className="absolute bottom-8 w-full text-center text-white">
-          <p>書籍のバーコードを映してください</p>
-          <p>(数字が 978 で始まるもの)</p>
+    <>
+      <MobileHeader className="fixed inset-0 z-10 h-fit text-white" />
+      <div
+        className="relative bg-primary-background"
+        style={{ width, height }}
+        ref={scannerRef}
+      >
+        <div className="absolute inset-x-0 top-0 h-2/5 bg-black/40">
+          <div className="absolute bottom-8 w-full text-center text-white">
+            <p>書籍のバーコードを映してください</p>
+            <p>(数字が 978 で始まるもの)</p>
+          </div>
         </div>
-      </div>
-      <div className="absolute inset-x-0 bottom-0 h-2/5 bg-black/40" />
+        <div className="absolute inset-x-0 bottom-0 h-2/5 bg-black/40" />
 
-      <canvas
-        className="drawingBuffer" // これがないと Quagga に認識されない
-        style={{ position: "absolute" }}
-        width={width}
-        height={height}
-      />
-
-      {searchResult && (
-        <BookDrawer
-          open={true}
-          onOpenChange={(open) => {
-            if (!open) {
-              setSearchResult(null);
-              isSearched.current = false;
-            }
-          }}
-          data={searchResult}
-          status={displayReadingStatus}
-          onChangeStatus={(status) => setDisplayReadingStatus(status)}
-          optimisticStatus={optimisticStatus}
-          onChangeOptimisticStatus={(status) => addOptimisticStatus(status)}
+        <canvas
+          className="drawingBuffer" // これがないと Quagga に認識されない
+          style={{ position: "absolute" }}
+          width={width}
+          height={height}
         />
-      )}
-    </div>
+
+        {searchResult && (
+          <BookDrawer
+            open={true}
+            onOpenChange={(open) => {
+              if (!open) {
+                setSearchResult(null);
+                isSearched.current = false;
+              }
+            }}
+            data={searchResult}
+            status={displayReadingStatus}
+            onChangeStatus={(status) => setDisplayReadingStatus(status)}
+            optimisticStatus={optimisticStatus}
+            onChangeOptimisticStatus={(status) => addOptimisticStatus(status)}
+          />
+        )}
+      </div>
+    </>
   );
 }

@@ -1,4 +1,3 @@
-import MobileHeader from "@/components/MobileHeader";
 import { generateMetadataTitle } from "@/lib/metadata";
 import dynamic from "next/dynamic";
 
@@ -17,10 +16,5 @@ export default async function SearchBarcode() {
   //   redirect(createSignInPath("/search/barcode"));
   // }
 
-  return (
-    <>
-      <MobileHeader className="absolute inset-0 z-10 h-fit text-white" />
-      <Scanner />
-    </>
-  );
+  return <Scanner />;
 }
