@@ -13,11 +13,6 @@ import CameraError from "../CameraError";
 import OrientationError from "../OrientationError";
 import { useScanner } from "./useScanner";
 
-/**
- * TODO:
- * - [ ] デスクトップからは開けないように。スマホのみ対応しています！って出す
- */
-
 export default function Scanner() {
   const [isCameraError, setIsCameraError] = useState(false);
   const [searchResult, setSearchResult] = useState<BookType | null>(null);
