@@ -10,12 +10,12 @@ import { useWindowSize } from "react-use";
 import { toast } from "sonner";
 import { searchFromIsbn } from "../../_actions/searchFromIsbn";
 import CameraError from "../CameraError";
+import OrientationError from "../OrientationError";
 import { useScanner } from "./useScanner";
 
 /**
  * TODO:
  * - [ ] デスクトップからは開けないように。スマホのみ対応しています！って出す
- * - [ ] スマホが横向きの場合、縦にしてくださいって出す
  */
 
 export default function Scanner() {
@@ -89,6 +89,10 @@ export default function Scanner() {
       disableCamera();
     };
   }, []);
+
+  if (screen.orientation.angle !== 0) {
+    return <OrientationError />;
+  }
 
   if (isCameraError) {
     return <CameraError />;
