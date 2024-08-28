@@ -1,3 +1,5 @@
+import { Fragment } from "react";
+
 type Props = {
   label: string;
   values: string[];
@@ -12,12 +14,10 @@ export function DescriptionBlock({ label, values }: Props) {
           const separator = i !== values.length - 1;
 
           return (
-            <>
-              <span className="inline-block" key={value}>
-                {value}
-              </span>
+            <Fragment key={value}>
+              <span className="inline-block">{value}</span>
               {separator && <span>{"/"}</span>}
-            </>
+            </Fragment>
           );
         })}
       </p>

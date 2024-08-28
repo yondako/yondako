@@ -44,14 +44,18 @@ export default function BookDrawer({
             </Drawer.Title>
 
             {(authors || publishers) && (
-              <Drawer.Description className="mt-4 flex justify-center rounded-2xl bg-tertiary-background px-4 py-2">
-                {authors && <DescriptionBlock label="著者" values={authors} />}
-                {authors && publishers && (
-                  <div className="mx-4 w-[1px] bg-secondary-foreground" />
-                )}
-                {publishers && (
-                  <DescriptionBlock label="出版社" values={publishers} />
-                )}
+              <Drawer.Description asChild>
+                <div className="mt-4 flex justify-center rounded-2xl bg-tertiary-background px-4 py-2">
+                  {authors && (
+                    <DescriptionBlock label="著者" values={authors} />
+                  )}
+                  {authors && publishers && (
+                    <div className="mx-4 w-[1px] bg-secondary-foreground" />
+                  )}
+                  {publishers && (
+                    <DescriptionBlock label="出版社" values={publishers} />
+                  )}
+                </div>
               </Drawer.Description>
             )}
 
