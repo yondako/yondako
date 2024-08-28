@@ -49,6 +49,7 @@ function getMedian(arr: number[]): number {
 }
 
 export const useScanner = ({ width, height, landscape, onDetected }: Props) => {
+  const prevScanCode = useRef("");
   const scannerRef = useRef<HTMLDivElement>(null);
 
   const checkError = useCallback<QuaggaJSResultCallbackFunction>(
@@ -61,8 +62,16 @@ export const useScanner = ({ width, height, landscape, onDetected }: Props) => {
 
       const medianOfErrors = getMedian(errors);
 
-      if (code && medianOfErrors < 0.25) {
+      // コードが無い or 精度がしきい値未満
+      if (!code || medianOfErrors > 0.25) {
+        return;
+      }
+
+      // 2回同じコードを検出したら、検出成功とみなす
+      if (code === prevScanCode.current) {
         onDetected(code);
+      } else {
+        prevScanCode.current = code;
       }
     },
     [onDetected],
@@ -103,7 +112,7 @@ export const useScanner = ({ width, height, landscape, onDetected }: Props) => {
             willReadFrequently: true,
           },
           locator: {
-            patchSize: "medium",
+            patchSize: "large",
             halfSample: true,
             willReadFrequently: true,
           },
