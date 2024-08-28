@@ -30,7 +30,7 @@ export default function BookCard({ data }: BookCardProps) {
 
   return (
     <div className="relative w-full text-left text-primary-foreground">
-      <BookDrawer data={data} {...formProps}>
+      <BookDrawer bookDetailProps={{ data, ...formProps }}>
         <button className="mt-8 flex h-40 w-full flex-col justify-between overflow-hidden rounded-2xl bg-tertiary-background p-4 pl-36 text-left">
           <div className="space-y-1">
             <p className="line-clamp-3 font-bold text-sm leading-5">

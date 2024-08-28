@@ -1,32 +1,17 @@
-import type { BookType } from "@/types/book";
 import type { DialogProps } from "@radix-ui/react-dialog";
 import { Drawer } from "vaul";
-import BookReadingStatusForm, {
-  type BookReadingStatusFormProps,
-} from "../BookReadingStatusForm";
+import BookDetail, { type BookDetailProps } from "../BookDetail";
 import { BookThumbnail } from "../BookThumbnail";
-import { DescriptionBlock } from "./DescriptionBlock";
-import ECLinks from "./ECLinks";
 
 type Props = {
-  data: BookType;
-} & Pick<
-  BookReadingStatusFormProps,
-  "status" | "onChangeStatus" | "optimisticStatus" | "onChangeOptimisticStatus"
-> &
-  DialogProps;
+  bookDetailProps: Omit<BookDetailProps, "Title" | "Description">;
+} & DialogProps;
 
 export default function BookDrawer({
-  data,
+  bookDetailProps,
   children,
-  status,
-  optimisticStatus,
-  onChangeOptimisticStatus: setOptimisticStatus,
-  onChangeStatus,
   ...props
 }: Props) {
-  const { title, thumbnailUrl, authors, publishers, isbn } = data.detail;
-
   return (
     <Drawer.Root {...props}>
       {children && <Drawer.Trigger asChild>{children}</Drawer.Trigger>}
@@ -36,43 +21,13 @@ export default function BookDrawer({
           <Drawer.Handle className="mt-2 bg-primary-foreground" />
           <BookThumbnail
             className="mx-auto mt-8 h-40 border border-secondary-border"
-            src={thumbnailUrl}
+            src={bookDetailProps.data.detail.thumbnailUrl}
           />
-          <div className="mx-auto max-w-sm">
-            <Drawer.Title className="mt-4 line-clamp-3 text-center font-bold">
-              {title}
-            </Drawer.Title>
-
-            {(authors || publishers) && (
-              <Drawer.Description asChild>
-                <div className="mt-4 flex justify-center rounded-2xl bg-tertiary-background px-4 py-2">
-                  {authors && (
-                    <DescriptionBlock label="著者" values={authors} />
-                  )}
-                  {authors && publishers && (
-                    <div className="mx-4 w-[1px] bg-secondary-foreground" />
-                  )}
-                  {publishers && (
-                    <DescriptionBlock label="出版社" values={publishers} />
-                  )}
-                </div>
-              </Drawer.Description>
-            )}
-
-            <div className="mt-8">
-              <BookReadingStatusForm
-                className="mx-auto w-fit space-x-10"
-                bookId={data.detail.ndlBibId}
-                bookTitle={data.detail.title}
-                status={data.readingStatus}
-                onChangeStatus={onChangeStatus}
-                optimisticStatus={optimisticStatus}
-                onChangeOptimisticStatus={setOptimisticStatus}
-              />
-            </div>
-
-            {isbn && <ECLinks isbn={isbn} />}
-          </div>
+          <BookDetail
+            {...bookDetailProps}
+            Title={Drawer.Title}
+            Description={Drawer.Description}
+          />
         </Drawer.Content>
       </Drawer.Portal>
     </Drawer.Root>

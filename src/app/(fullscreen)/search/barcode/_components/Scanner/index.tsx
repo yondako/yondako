@@ -125,11 +125,13 @@ export default function Scanner() {
                 isSearched.current = false;
               }
             }}
-            data={searchResult}
-            status={displayReadingStatus}
-            onChangeStatus={(status) => setDisplayReadingStatus(status)}
-            optimisticStatus={optimisticStatus}
-            onChangeOptimisticStatus={(status) => addOptimisticStatus(status)}
+            bookDetailProps={{
+              data: searchResult,
+              status: displayReadingStatus,
+              onChangeStatus: (status) => setDisplayReadingStatus(status),
+              optimisticStatus,
+              onChangeOptimisticStatus: (status) => addOptimisticStatus(status),
+            }}
           />
         )}
       </div>
