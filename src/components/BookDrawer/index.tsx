@@ -29,7 +29,7 @@ export default function BookDrawer({
 
   return (
     <Drawer.Root {...props}>
-      <Drawer.Trigger asChild>{children}</Drawer.Trigger>
+      {children && <Drawer.Trigger asChild>{children}</Drawer.Trigger>}
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 bg-black/40" />
         <Drawer.Content className="fixed inset-x-0 bottom-0 rounded-t-2xl bg-primary-background px-6 pb-8">
