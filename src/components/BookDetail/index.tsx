@@ -4,11 +4,11 @@ import type {
   DialogTitleProps,
 } from "@radix-ui/react-dialog";
 import type { ForwardRefExoticComponent, RefAttributes } from "react";
-import { DescriptionBlock } from "../BookDrawer/DescriptionBlock";
-import ECLinks from "../BookDrawer/ECLinks";
 import BookReadingStatusForm, {
   type BookReadingStatusFormProps,
 } from "../BookReadingStatusForm";
+import { DescriptionBlock } from "./DescriptionBlock";
+import ECLinks from "./ECLinks";
 
 export type BookDetailProps = {
   data: BookType;
@@ -57,7 +57,7 @@ export default function BookDetail({
           className="mx-auto w-fit space-x-10"
           bookId={data.detail.ndlBibId}
           bookTitle={data.detail.title}
-          status={data.readingStatus}
+          status={status}
           optimisticStatus={optimisticStatus}
           onChangeStatus={onChangeStatus}
           onChangeOptimisticStatus={onChangeOptimisticStatus}

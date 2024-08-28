@@ -27,7 +27,7 @@ type Props = {
 export default function BookReadingStatusForm({
   bookId,
   bookTitle,
-  status: defaultStatus,
+  status,
   optimisticStatus,
   onChangeOptimisticStatus: setOptimisticStatus,
   onChangeStatus,
@@ -55,7 +55,7 @@ export default function BookReadingStatusForm({
         ),
       });
 
-      setOptimisticStatus(defaultStatus);
+      setOptimisticStatus(status);
 
       return;
     }
