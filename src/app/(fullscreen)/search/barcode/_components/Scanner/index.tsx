@@ -9,16 +9,17 @@ import { useCallback, useEffect, useOptimistic, useRef, useState } from "react";
 import { useWindowSize } from "react-use";
 import { toast } from "sonner";
 import { searchFromIsbn } from "../../_actions/searchFromIsbn";
+import CameraError from "../CameraError";
 import { useScanner } from "./useScanner";
 
 /**
  * TODO:
- * - [ ] カメラの権限を要求する表示
  * - [ ] デスクトップからは開けないように。スマホのみ対応しています！って出す
  * - [ ] スマホが横向きの場合、縦にしてくださいって出す
  */
 
 export default function Scanner() {
+  const [isCameraError, setIsCameraError] = useState(false);
   const [searchResult, setSearchResult] = useState<BookType | null>(null);
   const [displayReadingStatus, setDisplayReadingStatus] =
     useState<ReadingStatus>(searchResult?.readingStatus ?? "none");
@@ -54,11 +55,17 @@ export default function Scanner() {
     setSearchResult(result);
   }, []);
 
+  const handleInitError = useCallback((err: unknown) => {
+    console.error("InitError", err);
+    setIsCameraError(true);
+  }, []);
+
   const scannerRef = useScanner({
     width,
     height,
     landscape: false,
     onDetected: handleDetected,
+    onInitError: handleInitError,
   });
 
   // 権限を取得
@@ -74,14 +81,18 @@ export default function Scanner() {
     enableCamera()
       .then(disableCamera)
       .catch((err) => {
-        // TODO: カメラの権限不足
-        console.error("camera", err);
+        console.error("CameraError", err);
+        setIsCameraError(true);
       });
 
     return () => {
       disableCamera();
     };
   }, []);
+
+  if (isCameraError) {
+    return <CameraError />;
+  }
 
   return (
     <>
