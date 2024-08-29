@@ -40,7 +40,7 @@ export const naviItems = [
   {
     title: "バーコードで探す",
     href: "/search/barcode",
-    matchSegmentsRegExp: /^search\/barcode$/,
+    matchSegmentsRegExp: /^search\/barcode/,
     IconSolid: IconScan,
     IconFilled: IconScan,
   },

@@ -29,13 +29,29 @@ import Quagga from "@ericblade/quagga2";
 import { useCallback, useEffect, useRef } from "react";
 
 type Props = {
+  /** 画面幅 */
   width: number;
+  /** 画面高さ */
   height: number;
   landscape: boolean;
+
+  /**
+   * バーコードを検出した
+   * @param code 検出したコード
+   */
   onDetected: (code: string) => void;
+  /**
+   * 初期化時にエラーが発生した
+   * @param err エラー
+   */
+  onInitError: (err: unknown) => void;
 };
 
-// 中央値を取得
+/**
+ * 中央値を取得
+ * @param arr 配列
+ * @returns 中央値
+ */
 function getMedian(arr: number[]): number {
   const newArr = [...arr];
   newArr.sort((a, b) => a - b);
@@ -48,7 +64,14 @@ function getMedian(arr: number[]): number {
   return (newArr[half - 1] + newArr[half]) / 2;
 }
 
-export const useScanner = ({ width, height, landscape, onDetected }: Props) => {
+export const useScanner = ({
+  width,
+  height,
+  landscape,
+  onDetected,
+  onInitError,
+}: Props) => {
+  const prevScanCode = useRef("");
   const scannerRef = useRef<HTMLDivElement>(null);
 
   const checkError = useCallback<QuaggaJSResultCallbackFunction>(
@@ -61,8 +84,16 @@ export const useScanner = ({ width, height, landscape, onDetected }: Props) => {
 
       const medianOfErrors = getMedian(errors);
 
-      if (code && medianOfErrors < 0.25) {
+      // コードが無い or 精度がしきい値未満
+      if (!code || medianOfErrors > 0.25) {
+        return;
+      }
+
+      // 2回同じコードを検出したら、検出成功とみなす
+      if (code === prevScanCode.current) {
         onDetected(code);
+      } else {
+        prevScanCode.current = code;
       }
     },
     [onDetected],
@@ -80,30 +111,34 @@ export const useScanner = ({ width, height, landscape, onDetected }: Props) => {
         return;
       }
 
+      // getUserMedia API で取得できるサイズは横向きの場合の値らしいので入れ替える
+      // TODO: 横向き or デスクトップ対応する場合はここを見直すこと
+      const constraintsWidth = landscape ? width : height;
+      const constraintsHeight = landscape ? height : width;
+
       await Quagga.init(
         {
           inputStream: {
             type: "LiveStream",
             constraints: {
-              facingMode: {
-                exact: "environment",
+              facingMode: "environment",
+              width: constraintsWidth,
+              height: constraintsHeight,
+              aspectRatio: {
+                ideal: constraintsWidth / constraintsHeight,
               },
-              // TODO: スマホなら w/h を反転させる
-              // ポートレートで読みたいけど、getUserMedia API で取得できるものは横向きの場合の値らしい
-              width: landscape ? width : height,
-              height: landscape ? height : width,
             },
             area: {
-              top: "40%", // 上からのオフセット
-              right: "0%", // 右からのオフセット
-              left: "0%", // 左からのオフセット
-              bottom: "40%", // 下からのオフセット
+              top: "40%",
+              right: "0%",
+              left: "0%",
+              bottom: "40%",
             },
             target: scannerRef.current ?? undefined,
             willReadFrequently: true,
           },
           locator: {
-            patchSize: "medium",
+            patchSize: "large",
             halfSample: true,
             willReadFrequently: true,
           },
@@ -114,9 +149,10 @@ export const useScanner = ({ width, height, landscape, onDetected }: Props) => {
           locate: true,
         },
         async (err) => {
-          // TODO: 初期化失敗時のエラーハンドリング
+          // 初期化失敗
           if (err) {
-            return console.error("Error starting Quagga:", err);
+            onInitError(err);
+            return;
           }
 
           if (scannerRef.current) {
@@ -135,7 +171,7 @@ export const useScanner = ({ width, height, landscape, onDetected }: Props) => {
       Quagga.stop();
       Quagga.offDetected(checkError);
     };
-  }, [width, height, landscape, checkError]);
+  }, [width, height, landscape, checkError, onInitError]);
 
   return scannerRef;
 };

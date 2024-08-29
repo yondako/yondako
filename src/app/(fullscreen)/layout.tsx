@@ -10,10 +10,8 @@ export default function Layout({ children }: Props) {
   return (
     <>
       <Toaster />
-      <div className="relative max-h-svh bg-blue-500">
-        {children}
-        <MobileBottomNavi className="lg:hidden" />
-      </div>
+      {children}
+      <MobileBottomNavi className="lg:hidden" />
     </>
   );
 }

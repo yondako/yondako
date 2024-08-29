@@ -12,7 +12,7 @@
     "deploy": "bun pages:build && wrangler pages deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts",
     "generate:schema": "drizzle-kit generate --dialect sqlite --out ./src/db/migrations --schema",
-    "svgo": "bunx svgo ./src/assets/icons/",
+    "svgo": "bunx svgo ./src/assets/**/*.svg",
     "drizzle:studio": "bun --env-file=.env.local  run drizzle-kit studio",
     "storybook": "storybook dev -p 6006",
     "build:storybook": "storybook build"
