@@ -1,9 +1,22 @@
 import ImageQrCode from "@/assets/images/qr-search-barcode.svg";
 import ErrorMessage from "@/components/ErrorMessage";
+import { auth } from "@/lib/auth";
+import { generateMetadataTitle } from "@/lib/metadata";
+import { createSignInPath } from "@/lib/path";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-export default function MobileExclusive() {
+export const runtime = "edge";
+
+export const metadata = generateMetadataTitle("バーコードで探す");
+
+export default async function MobileExclusive() {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    redirect(createSignInPath("/search/barcode"));
+  }
+
   const isMobile = headers().get("X-IS-DESKTOP") === null;
 
   // モバイルであれば利用可能なのでリダイレクト
