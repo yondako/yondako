@@ -85,8 +85,7 @@ export default function Scanner() {
     };
   }, []);
 
-  // TODO: iPad だと、横が 0 で縦が 90 っぽい
-  if (screen.orientation.angle !== 0) {
+  if (screen.orientation.type !== "portrait-primary") {
     return <OrientationError />;
   }
 
