@@ -14,7 +14,7 @@ export default async function MobileExclusive() {
   const session = await auth();
 
   if (!session?.user?.id) {
-    redirect(createSignInPath("/search/barcode"));
+    redirect(createSignInPath("/search/barcode/mobile-exclusive"));
   }
 
   const isMobile = headers().get("X-IS-DESKTOP") === null;
