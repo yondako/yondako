@@ -39,7 +39,7 @@
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.4.0",
     "use-debounce": "^10.0.3",
-    "valibot": "^0.39.0",
+    "valibot": "^0.40.0",
     "vaul": "^0.9.1"
   },
   "devDependencies": {
