@@ -4,7 +4,7 @@ import BookDetailDrawer from "./Drawer";
 import type { BookDetailProps } from "./props";
 
 export default function BookDetail(props: BookDetailProps) {
-  const isDesktopWidth = useMedia("(min-width: 1024px)");
+  const isDesktopWidth = useMedia("(min-width: 1024px)"); // Tailwind の lg 幅
 
   return isDesktopWidth ? (
     <BookDetailDialog {...props} />
