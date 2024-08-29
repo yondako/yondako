@@ -1,17 +1,13 @@
-import type { DialogProps } from "@radix-ui/react-dialog";
 import { Drawer } from "vaul";
-import BookDetail, { type BookDetailProps } from "../BookDetail";
 import { BookThumbnail } from "../BookThumbnail";
+import BookDetailContent from "./Content";
+import type { BookDetailProps } from "./props";
 
-type Props = {
-  bookDetailProps: Omit<BookDetailProps, "Title" | "Description">;
-} & DialogProps;
-
-export default function BookDrawer({
+export default function BookDetailDrawer({
   bookDetailProps,
   children,
   ...props
-}: Props) {
+}: BookDetailProps) {
   return (
     <Drawer.Root {...props}>
       {children && <Drawer.Trigger asChild>{children}</Drawer.Trigger>}
@@ -23,8 +19,9 @@ export default function BookDrawer({
             className="mx-auto mt-8 h-40 border border-secondary-border"
             src={bookDetailProps.data.detail.thumbnailUrl}
           />
-          <BookDetail
+          <BookDetailContent
             {...bookDetailProps}
+            className="mt-4 max-w-sm"
             Title={Drawer.Title}
             Description={Drawer.Description}
           />

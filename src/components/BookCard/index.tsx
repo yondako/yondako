@@ -3,7 +3,7 @@
 import IconDotsVertical from "@/assets/icons/dots-vertical.svg";
 import type { BookType } from "@/types/book";
 import { useOptimistic, useState } from "react";
-import BookDrawer from "../BookDrawer";
+import BookDetail from "../BookDetail";
 import BookReadingStatusForm, {
   type BookReadingStatusFormProps,
 } from "../BookReadingStatusForm";
@@ -30,7 +30,7 @@ export default function BookCard({ data }: BookCardProps) {
 
   return (
     <div className="relative w-full text-left text-primary-foreground">
-      <BookDrawer bookDetailProps={{ data, ...formProps }}>
+      <BookDetail bookDetailProps={{ data, ...formProps }}>
         <button className="mt-8 flex h-40 w-full flex-col justify-between overflow-hidden rounded-2xl bg-tertiary-background p-4 pl-36 text-left">
           <div className="space-y-1">
             <p className="line-clamp-3 font-bold text-sm leading-5">
@@ -44,7 +44,7 @@ export default function BookCard({ data }: BookCardProps) {
             )}
           </div>
         </button>
-      </BookDrawer>
+      </BookDetail>
 
       <BookReadingStatusForm
         className="absolute bottom-4 left-36"

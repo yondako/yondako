@@ -1,6 +1,6 @@
 "use client";
 
-import BookDrawer from "@/components/BookDrawer";
+import BookDetailDrawer from "@/components/BookDetail/Drawer";
 import MobileHeader from "@/components/MobileHeader";
 import type { BookType } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
@@ -85,6 +85,7 @@ export default function Scanner() {
     };
   }, []);
 
+  // TODO: iPad だと、横が 0 で縦が 90 っぽい
   if (screen.orientation.angle !== 0) {
     return <OrientationError />;
   }
@@ -117,7 +118,7 @@ export default function Scanner() {
         />
 
         {searchResult && (
-          <BookDrawer
+          <BookDetailDrawer
             open={true}
             onOpenChange={(open) => {
               if (!open) {
