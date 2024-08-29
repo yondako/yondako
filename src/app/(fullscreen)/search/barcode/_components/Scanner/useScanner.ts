@@ -111,24 +111,28 @@ export const useScanner = ({
         return;
       }
 
+      // getUserMedia API で取得できるサイズは横向きの場合の値らしいので入れ替える
+      // TODO: 横向き or デスクトップ対応する場合はここを見直すこと
+      const constraintsWidth = landscape ? width : height;
+      const constraintsHeight = landscape ? height : width;
+
       await Quagga.init(
         {
           inputStream: {
             type: "LiveStream",
             constraints: {
-              facingMode: {
-                exact: "environment",
+              facingMode: "environment",
+              width: constraintsWidth,
+              height: constraintsHeight,
+              aspectRatio: {
+                ideal: constraintsWidth / constraintsHeight,
               },
-              // TODO: スマホなら w/h を反転させる
-              // ポートレートで読みたいけど、getUserMedia API で取得できるものは横向きの場合の値らしい
-              width: landscape ? width : height,
-              height: landscape ? height : width,
             },
             area: {
-              top: "40%", // 上からのオフセット
-              right: "0%", // 右からのオフセット
-              left: "0%", // 左からのオフセット
-              bottom: "40%", // 下からのオフセット
+              top: "40%",
+              right: "0%",
+              left: "0%",
+              bottom: "40%",
             },
             target: scannerRef.current ?? undefined,
             willReadFrequently: true,
