@@ -126,9 +126,8 @@ export function parseOpenSearchXml(xml: string): OpenSearchResponse {
       ? item["rdfs:seeAlso"].map((e) => e["@_rdf:resource"])
       : [item["rdfs:seeAlso"]?.["@_rdf:resource"]];
 
-    const jpeCode = getJpeCode(
-      seeAlsoUrls.filter((e) => typeof e === "string"),
-    );
+    const jpeCode = getJpeCode(seeAlsoUrls);
+    console.log(jpeCode);
 
     return {
       title,

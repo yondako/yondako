@@ -3,26 +3,16 @@
  * @param seeAlsoUrls URLの配列
  * @returns JP-eコード
  */
-export function getJpeCode(seeAlsoUrls: string[]): string | undefined {
+export function getJpeCode(
+  seeAlsoUrls: (string | undefined)[],
+): string | undefined {
+  const jpeUrlRegex =
+    /^https:\/\/www\.books\.or\.jp\/book-details\/([a-zA-Z0-9]{20})$/;
+
   // JP-eコードを取り出す
-  // 対象のURL形式はこんな感じ
-  // https://www.books.or.jp/book-details/<JP-eコード>
-  const jpeCode = seeAlsoUrls
-    .map((rawUrl) => {
-      const { hostname, pathname } = new URL(rawUrl);
+  const jpeCode = seeAlsoUrls.find((url) => url && jpeUrlRegex.test(url));
 
-      if (hostname !== "www.books.or.jp") {
-        return;
-      }
-
-      const paths = pathname.split("/");
-
-      // JP-eコードは20ケタ
-      return paths.find((path) => path.length === 20);
-    })
-    .filter((code) => typeof code === "string");
-
-  return jpeCode.length <= 0 ? undefined : jpeCode[0];
+  return jpeCode?.match(jpeUrlRegex)?.[1];
 }
 
 /**
