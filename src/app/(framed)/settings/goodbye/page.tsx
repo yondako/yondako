@@ -1,12 +1,19 @@
-"use client";
-
+import { auth } from "@/lib/auth";
+import { createSignInPath } from "@/lib/path";
+import { redirect } from "next/navigation";
 import ConfirmInput from "./_components/ConformInput";
 
 export const runtime = "edge";
 
-export default function Goodbye() {
+export default async function Goodbye() {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    redirect(createSignInPath("/settings/goodbye"));
+  }
+
   return (
-    <>
+    <div className="mx-auto max-w-lg lg:mx-0">
       <h2 className="font-bold text-2xl">アカウントの削除</h2>
 
       <div className="mt-4 text-sm">
@@ -20,6 +27,6 @@ export default function Goodbye() {
       </div>
 
       <ConfirmInput />
-    </>
+    </div>
   );
 }
