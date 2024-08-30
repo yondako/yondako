@@ -59,7 +59,8 @@ export default function BookCard({ data }: BookCardProps) {
 
       <BookThumbnail
         className="pointer-events-none absolute top-4 left-4 w-28 border-4 border-tertiary-background shadow-xl"
-        src={data.detail.thumbnailUrl}
+        isbn={data.detail.isbn}
+        jpeCode={data.detail.jpeCode}
       />
     </div>
   );

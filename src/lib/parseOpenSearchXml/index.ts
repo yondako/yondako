@@ -1,6 +1,6 @@
 import type { BookDetail } from "@/types/book";
 import { XMLParser } from "fast-xml-parser";
-import { createAuthors, createPublishers, createThumbnailUrl } from "./utils";
+import { createAuthors, createPublishers, getJpeCode } from "./utils";
 
 type OpenSearchResponse = {
   meta: {
@@ -16,6 +16,10 @@ type OpenSearchDcIdentifier = {
   "@_xsi:type": string;
 };
 
+type OpenSearchRdfSeeAlso = {
+  "@_rdf:resource": string;
+};
+
 type OpenSearchItem = {
   title: string;
   link: string;
@@ -24,6 +28,7 @@ type OpenSearchItem = {
   "dcndl:volume"?: string;
   "dc:publisher"?: string | string[];
   "dc:identifier"?: OpenSearchDcIdentifier | OpenSearchDcIdentifier[];
+  "rdfs:seeAlso"?: OpenSearchRdfSeeAlso | OpenSearchRdfSeeAlso[];
 };
 
 type OpenSearchResult = {
@@ -117,6 +122,12 @@ export function parseOpenSearchXml(xml: string): OpenSearchResponse {
       "#text"
     ];
 
+    const seeAlsoUrls = Array.isArray(item["rdfs:seeAlso"])
+      ? item["rdfs:seeAlso"].map((e) => e["@_rdf:resource"])
+      : [item["rdfs:seeAlso"]?.["@_rdf:resource"]];
+
+    const jpeCode = getJpeCode(seeAlsoUrls);
+
     return {
       title,
       link: item.link,
@@ -125,7 +136,7 @@ export function parseOpenSearchXml(xml: string): OpenSearchResponse {
       isbn,
       ndlBibId,
       jpNo,
-      thumbnailUrl: createThumbnailUrl(isbn),
+      jpeCode,
     };
   });
 

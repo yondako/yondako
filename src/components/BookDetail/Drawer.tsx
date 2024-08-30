@@ -17,7 +17,8 @@ export default function BookDetailDrawer({
           <Drawer.Handle className="mt-2 bg-primary-foreground" />
           <BookThumbnail
             className="mx-auto mt-8 h-40 border border-secondary-border"
-            src={bookDetailProps.data.detail.thumbnailUrl}
+            isbn={bookDetailProps.data.detail.isbn}
+            jpeCode={bookDetailProps.data.detail.jpeCode}
           />
           <BookDetailContent
             {...bookDetailProps}

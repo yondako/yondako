@@ -1,12 +1,18 @@
-export const thumbnailApiBaseUrl = "https://ndlsearch.ndl.go.jp/thumbnail";
-
 /**
- * 書影画像のURLを作成
- * @param id JP-eコードもしくはISBN-13
- * @return URL
+ * JP-eコードを取得
+ * @param seeAlsoUrls URLの配列
+ * @returns JP-eコード
  */
-export function createThumbnailUrl(id: string | undefined): string | undefined {
-  return id ? `${thumbnailApiBaseUrl}/${id.replace(/-/g, "")}.jpg` : undefined;
+export function getJpeCode(
+  seeAlsoUrls: (string | undefined)[],
+): string | undefined {
+  const jpeUrlRegex =
+    /^https:\/\/www\.books\.or\.jp\/book-details\/([a-zA-Z0-9]{20})$/;
+
+  // JP-eコードを取り出す
+  const jpeCode = seeAlsoUrls.find((url) => url && jpeUrlRegex.test(url));
+
+  return jpeCode?.match(jpeUrlRegex)?.[1];
 }
 
 /**
