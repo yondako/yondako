@@ -32,8 +32,12 @@ export async function searchBooksFromNDL(opts: SearchOptions) {
     );
   }
 
-  // データプロバイダ: 国立国会図書館蔵書
-  endpoint.searchParams.append("dpid", "iss-ndl-opac");
+  // データプロバイダ:
+  // 国立国会図書館蔵書 + 国立国会図書館新着書誌情報 + 国立国会図書館全国書誌情報
+  endpoint.searchParams.append(
+    "dpid",
+    "iss-ndl-opac iss-ndl-opac-inprocess iss-ndl-opac-national",
+  );
 
   // 対象を図書に絞る
   endpoint.searchParams.append("mediatype", "books");
