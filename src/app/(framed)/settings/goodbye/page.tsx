@@ -13,7 +13,7 @@ export default async function Goodbye() {
   }
 
   return (
-    <>
+    <div className="mx-auto max-w-lg lg:mx-0">
       <h2 className="font-bold text-2xl">アカウントの削除</h2>
 
       <div className="mt-4 text-sm">
@@ -27,6 +27,6 @@ export default async function Goodbye() {
       </div>
 
       <ConfirmInput />
-    </>
+    </div>
   );
 }

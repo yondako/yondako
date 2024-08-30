@@ -21,7 +21,7 @@ export default function ConfirmInput() {
   return (
     <form className="mt-6 text-sm" action={dispatch}>
       <Input
-        className="max-w-96 px-5 py-3"
+        className="lg:max-w-96"
         placeholder="アカウントを削除"
         name="phrase"
       />
