@@ -26,6 +26,8 @@ export type BookDetail = {
   isbn?: string | null;
   /** 全国書誌番号 */
   jpNo?: string | null;
-  /** サムネイル画像URL */
+  /** JP-eコード */
+  jpeCode?: string | null;
+  /** サムネイル画像URL (ISBN) */
   thumbnailUrl?: string | null;
 };
