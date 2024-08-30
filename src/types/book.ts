@@ -28,6 +28,4 @@ export type BookDetail = {
   jpNo?: string | null;
   /** JP-eコード */
   jpeCode?: string | null;
-  /** サムネイル画像URL (ISBN) */
-  thumbnailUrl?: string | null;
 };
