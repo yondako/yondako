@@ -29,7 +29,7 @@ export default function BookReadingStatusForm({
   bookTitle,
   status,
   optimisticStatus,
-  onChangeOptimisticStatus: setOptimisticStatus,
+  onChangeOptimisticStatus,
   onChangeStatus,
   compact,
   className,
@@ -39,7 +39,7 @@ export default function BookReadingStatusForm({
   const changeStatusFormAction = async (formData: FormData) => {
     const newStatus = formData.get("status") as BookType["readingStatus"];
 
-    setOptimisticStatus(newStatus);
+    onChangeOptimisticStatus(newStatus);
 
     const result = await updateReadingStatus(bookId, newStatus);
 
@@ -55,7 +55,7 @@ export default function BookReadingStatusForm({
         ),
       });
 
-      setOptimisticStatus(status);
+      onChangeOptimisticStatus(status);
 
       return;
     }
