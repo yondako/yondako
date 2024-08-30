@@ -17,7 +17,7 @@ export default function Scanner() {
   const [isCameraError, setIsCameraError] = useState(false);
   const [searchResult, setSearchResult] = useState<BookType | null>(null);
   const [displayReadingStatus, setDisplayReadingStatus] =
-    useState<ReadingStatus>(searchResult?.readingStatus ?? "none");
+    useState<ReadingStatus>("none");
   const [optimisticStatus, addOptimisticStatus] =
     useOptimistic(displayReadingStatus);
   const isSearched = useRef(false);
@@ -48,6 +48,7 @@ export default function Scanner() {
     }
 
     setSearchResult(result);
+    setDisplayReadingStatus(result.readingStatus);
   }, []);
 
   const handleInitError = useCallback((err: unknown) => {
