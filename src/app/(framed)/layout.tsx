@@ -1,8 +1,13 @@
 import MobileBottomNavi from "@/components/MobileBottomNavi";
 import MobileHeader from "@/components/MobileHeader";
-import Toaster from "@/components/Toaster";
+import dynamic from "next/dynamic";
+// import Toaster from "@/components/Toaster";
 import type { ReactNode } from "react";
 import SideNavi from "./_components/SideNavi";
+
+const Toaster = dynamic(import("@/components/Toaster"), {
+  ssr: false,
+});
 
 type Props = {
   children: ReactNode;
