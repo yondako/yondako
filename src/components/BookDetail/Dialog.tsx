@@ -95,7 +95,8 @@ export default function BookDetailDialog({
                 </Dialog.Close>
                 <BookThumbnail
                   className="-left-10 absolute top-9 h-52 border-4 border-primary-background shadow-xl"
-                  src={data.detail.thumbnailUrl}
+                  isbn={data.detail.isbn}
+                  jpeCode={data.detail.jpeCode}
                 />
                 <BookDetailContent
                   {...bookDetailProps}
