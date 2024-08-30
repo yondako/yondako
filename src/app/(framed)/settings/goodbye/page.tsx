@@ -1,10 +1,17 @@
-"use client";
-
+import { auth } from "@/lib/auth";
+import { createSignInPath } from "@/lib/path";
+import { redirect } from "next/navigation";
 import ConfirmInput from "./_components/ConformInput";
 
 export const runtime = "edge";
 
-export default function Goodbye() {
+export default async function Goodbye() {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    redirect(createSignInPath("/settings/goodbye"));
+  }
+
   return (
     <>
       <h2 className="font-bold text-2xl">アカウントの削除</h2>
