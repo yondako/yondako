@@ -11,7 +11,7 @@ export default function BookDetail(
     "open" | "onOpenChange" | "defaultOpen" | "modal"
   >,
 ) {
-  const isDesktopWidth = useMedia("(min-width: 1024px)"); // Tailwind の lg 幅
+  const isDesktopWidth = useMedia("(min-width: 1024px)", false); // Tailwind の lg 幅
 
   return isDesktopWidth ? (
     <BookDetailDialog {...props} />
