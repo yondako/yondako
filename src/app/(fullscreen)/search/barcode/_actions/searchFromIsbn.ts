@@ -8,11 +8,11 @@ import type { BookType } from "@/types/book";
 export async function searchFromIsbn(
   isbn: string,
 ): Promise<BookType | undefined> {
-  // const session = await auth();
-  //
-  // if (!session?.user?.id) {
-  //   return;
-  // }
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    return;
+  }
 
   const result = await searchBooksFromNDL({
     cnt: 1,
@@ -23,15 +23,14 @@ export async function searchFromIsbn(
     return;
   }
 
-  // const libraryBook = await getStatusesByBookIds(session.user.id, result.books);
-  //
-  // if (libraryBook.length <= 0) {
-  //   return;
-  // }
+  const libraryBook = await getStatusesByBookIds(session.user.id, result.books);
+
+  if (libraryBook.length <= 0) {
+    return;
+  }
 
   return {
     detail: result.books[0],
-    // readingStatus: libraryBook[0].status,
-    readingStatus: "none",
+    readingStatus: libraryBook[0].status,
   };
 }
