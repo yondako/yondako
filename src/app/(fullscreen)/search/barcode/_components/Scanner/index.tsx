@@ -127,7 +127,7 @@ export default function Scanner() {
     <>
       <MobileHeader className="fixed inset-0 z-10 h-fit text-white" />
       <div
-        className="relative h-full bg-primary-background [&>video]:h-full"
+        className="relative h-svh w-screen bg-primary-background [&>video]:h-full"
         ref={scannerRef}
       >
         <div className="absolute inset-x-0 top-0 h-2/5 bg-black/40">
