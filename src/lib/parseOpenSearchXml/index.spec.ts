@@ -64,7 +64,6 @@ const createWantBookDetail = (id: string): BookDetail => {
     link: "https://example.com/books/dummy-link",
     ndlBibId: id,
     publishers: ["ダミー出版社"],
-    thumbnailUrl: "https://ndlsearch.ndl.go.jp/thumbnail/9784040000000.jpg",
     title: `ダミータイトル ${id}`,
   };
 };
@@ -180,7 +179,6 @@ describe("パースできる", () => {
         {
           ...createWantBookDetail("000000000"),
           title: "ダミータイトル",
-          thumbnailUrl: undefined,
           isbn: undefined,
           jpNo: undefined,
         },

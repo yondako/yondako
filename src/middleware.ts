@@ -1,4 +1,4 @@
-import { type NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse, userAgent } from "next/server";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -68,6 +68,14 @@ export function middleware(request: NextRequest) {
     "Content-Security-Policy",
     contentSecurityPolicyHeaderValue,
   );
+
+  // デスクトップ判定
+  const { device } = userAgent(request);
+  const isDesktop = typeof device.type === "undefined";
+
+  if (isDesktop) {
+    response.headers.set("X-IS-DESKTOP", "true");
+  }
 
   return response;
 }

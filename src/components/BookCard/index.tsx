@@ -1,14 +1,13 @@
 "use client";
 
-import { updateReadingStatus } from "@/actions/updateReadingStatus";
 import IconDotsVertical from "@/assets/icons/dots-vertical.svg";
-import { readingStatusMetadata } from "@/constants/status";
 import type { BookType } from "@/types/book";
 import { useOptimistic, useState } from "react";
-import { toast } from "sonner";
-import Detail from "./Detail";
-import ReadingStatusButton, { readingStatusOrder } from "./ReadingStatusButton";
-import { BookThumbnail } from "./Thumbnail";
+import BookDetail from "../BookDetail";
+import BookReadingStatusForm, {
+  type BookReadingStatusFormProps,
+} from "../BookReadingStatusForm";
+import { BookThumbnail } from "../BookThumbnail";
 
 export type BookCardProps = {
   data: BookType;
@@ -16,100 +15,52 @@ export type BookCardProps = {
 };
 
 export default function BookCard({ data }: BookCardProps) {
-  const [showDetail, setShowDetail] = useState(false);
   const [displayReadingStatus, setDisplayReadingStatus] = useState(
     data.readingStatus,
   );
   const [optimisticStatus, addOptimisticStatus] =
     useOptimistic(displayReadingStatus);
 
-  // 読書ステータスが変更された
-  const changeStatusFormAction = async (formData: FormData) => {
-    const newStatus = formData.get("status") as BookType["readingStatus"];
-
-    addOptimisticStatus(newStatus);
-
-    const result = await updateReadingStatus(data.detail.ndlBibId, newStatus);
-
-    // 記録に失敗
-    if (result.error || !result.book) {
-      toast.error("記録に失敗しました", {
-        description: (
-          <p>
-            {result.error}
-            <br />
-            {data.detail.title}
-          </p>
-        ),
-      });
-
-      addOptimisticStatus(data.readingStatus);
-      return;
-    }
-
-    setDisplayReadingStatus(result.book.readingStatus);
+  const formProps: BookReadingStatusFormProps = {
+    status: displayReadingStatus,
+    onChangeStatus: (status) => setDisplayReadingStatus(status),
+    optimisticStatus,
+    onChangeOptimisticStatus: (status) => addOptimisticStatus(status),
   };
 
   return (
     <div className="relative w-full text-left text-primary-foreground">
-      <div className="mt-8 flex h-40 w-full flex-col justify-between overflow-hidden rounded-2xl bg-tertiary-background p-4 pl-36">
-        {data.detail.isbn && showDetail ? (
-          <Detail
-            rawIsbn={data.detail.isbn}
-            open={showDetail}
-            onChangeOpen={setShowDetail}
-          />
-        ) : (
-          <>
-            <div className="space-y-1">
-              <p className="line-clamp-3 font-bold text-sm leading-5">
-                {data.detail.title}
+      <BookDetail bookDetailProps={{ data, ...formProps }}>
+        <button className="mt-8 flex h-40 w-full flex-col justify-between overflow-hidden rounded-2xl bg-tertiary-background p-4 pl-36 text-left">
+          <div className="space-y-1">
+            <p className="line-clamp-3 font-bold text-sm leading-5">
+              {data.detail.title}
+            </p>
+
+            {data.detail.authors && (
+              <p className="line-clamp-1 text-secondary-foreground text-xxs">
+                {data.detail.authors.join(", ")}
               </p>
+            )}
+          </div>
+        </button>
+      </BookDetail>
 
-              {data.detail.authors && (
-                <p className="line-clamp-1 text-secondary-foreground text-xxs">
-                  {data.detail.authors.join(", ")}
-                </p>
-              )}
-            </div>
+      <BookReadingStatusForm
+        className="absolute bottom-4 left-36"
+        compact
+        bookId={data.detail.ndlBibId}
+        bookTitle={data.detail.title}
+        {...formProps}
+      />
 
-            <div className="flex justify-between">
-              <form
-                className="flex w-full justify-start text-accent"
-                action={changeStatusFormAction}
-              >
-                {readingStatusOrder.map((status) => {
-                  const meta = readingStatusMetadata.get(status);
-
-                  return meta ? (
-                    <ReadingStatusButton
-                      status={status}
-                      meta={meta}
-                      selected={optimisticStatus === status}
-                      key={status}
-                    />
-                  ) : null;
-                })}
-              </form>
-
-              {data.detail.isbn && (
-                <button
-                  className="rounded-2xl bg-tertiary-background p-1 transition hover:brightness-95"
-                  onClick={() => {
-                    setShowDetail(true);
-                  }}
-                >
-                  <IconDotsVertical className="h-4 w-4" />
-                </button>
-              )}
-            </div>
-          </>
-        )}
-      </div>
+      {/* ドロワーを開くボタンの名残り */}
+      <IconDotsVertical className="pointer-events-none absolute right-5 bottom-6 block h-4 w-4 rounded-2xl" />
 
       <BookThumbnail
-        className="absolute top-4 left-4 w-28"
-        src={data.detail.thumbnailUrl}
+        className="pointer-events-none absolute top-4 left-4 w-28 border-4 border-tertiary-background shadow-xl"
+        isbn={data.detail.isbn}
+        jpeCode={data.detail.jpeCode}
       />
     </div>
   );

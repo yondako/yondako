@@ -17,7 +17,7 @@ export const books = sqliteTable("books", {
   link: text("link").notNull(),
   isbn: text("isbn"),
   jpNo: text("jpNo"),
-  thumbnailUrl: text("thumbnailUrl"),
+  jpeCode: text("jpeCode"),
 });
 
 export const booksRelations = relations(books, ({ many }) => ({

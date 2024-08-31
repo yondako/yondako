@@ -1,17 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { createAuthors, createPublishers, createThumbnailUrl } from "./utils";
-
-describe("createThumbnailUrl", () => {
-  test("作成できる", () => {
-    const got = createThumbnailUrl("978-4-906649-00-6");
-
-    expect(got).toBe("https://ndlsearch.ndl.go.jp/thumbnail/9784906649006.jpg");
-  });
-
-  test("空ならundefinedが返る", () => {
-    expect(createThumbnailUrl(undefined)).toBeUndefined();
-  });
-});
+import { createAuthors, createPublishers } from "./utils";
 
 describe("createAuthors", () => {
   const testList = [
