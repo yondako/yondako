@@ -13,7 +13,7 @@ const Scanner = dynamic(() => import("../Scanner"), {
 
 // NOTE:
 // ページ表示と同時にスキャナーを起動するようにすると Safari でランダムにカメラの初期化に失敗することがあるので
-// ワンクッション挟むことでこれを緩和しています
+// ワンクッション挟むことで緩和しています
 
 export default function ScannerStartPage() {
   const [scanning, setScanning] = useState(false);
