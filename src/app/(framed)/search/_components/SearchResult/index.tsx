@@ -1,5 +1,5 @@
 import BookList from "@/components/BookList";
-import ErrorMessage from "@/components/ErrorMessage";
+import MessageTako from "@/components/MessageTako";
 import Pagination from "@/components/Pagination";
 import { getStatusesByBookIds } from "@/db/queries/status";
 import { auth } from "@/lib/auth";
@@ -30,7 +30,7 @@ export async function SearchResult({ query, currentPage }: Props) {
   // 検索エラー
   if (!result) {
     return (
-      <ErrorMessage
+      <MessageTako
         className="mt-16"
         title="検索できませんでした"
         decoration={
@@ -39,14 +39,14 @@ export async function SearchResult({ query, currentPage }: Props) {
       >
         <p className="mt-3">一時的に検索が利用できない状態です。</p>
         <p>時間をおいて、再度お試しください。</p>
-      </ErrorMessage>
+      </MessageTako>
     );
   }
 
   // 見つからない
   if (result.books.length === 0) {
     return (
-      <ErrorMessage
+      <MessageTako
         className="mt-16"
         title="見つかりませんでした"
         decoration={
@@ -55,7 +55,7 @@ export async function SearchResult({ query, currentPage }: Props) {
       >
         <p className="mt-3">該当する書籍が見つかりませんでした。</p>
         <p>キーワードを変更して、再度お試しください。</p>
-      </ErrorMessage>
+      </MessageTako>
     );
   }
 

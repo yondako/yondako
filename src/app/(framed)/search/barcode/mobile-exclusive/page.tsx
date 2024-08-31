@@ -1,5 +1,5 @@
 import ImageQrCode from "@/assets/images/qr-search-barcode.svg";
-import ErrorMessage from "@/components/ErrorMessage";
+import MessageTako from "@/components/MessageTako";
 import { auth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
@@ -26,7 +26,7 @@ export default async function MobileExclusive() {
 
   return (
     <div className="flex h-full items-center">
-      <ErrorMessage
+      <MessageTako
         title="この機能はスマホからのみ利用可能です"
         decoration={
           <>
@@ -42,7 +42,7 @@ export default async function MobileExclusive() {
         <div className="mx-auto mt-12 w-48 rounded-2xl bg-tertiary-background p-4">
           <ImageQrCode className="text-accent" />
         </div>
-      </ErrorMessage>
+      </MessageTako>
     </div>
   );
 }
