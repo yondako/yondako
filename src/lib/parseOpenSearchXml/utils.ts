@@ -1,4 +1,15 @@
 /**
+ * number型を含む値をstring or undefinedに変換
+ * @param value 値
+ * @returns 変換後
+ */
+export function toStringOrUndefined(
+  value: string | number | undefined,
+): string | undefined {
+  return typeof value === "number" ? String(value) : value;
+}
+
+/**
  * JP-eコードを取得
  * @param seeAlsoUrls URLの配列
  * @returns JP-eコード
