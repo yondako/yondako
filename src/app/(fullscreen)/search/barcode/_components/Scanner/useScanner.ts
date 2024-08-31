@@ -111,8 +111,6 @@ export const useScanner = ({ onDetected, onInitError }: Props) => {
         ? window.innerHeight
         : window.innerWidth;
 
-      console.log(constraintsWidth, constraintsHeight);
-
       await Quagga.init(
         {
           inputStream: {

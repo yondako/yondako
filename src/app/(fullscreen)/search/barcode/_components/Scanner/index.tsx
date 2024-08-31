@@ -37,7 +37,6 @@ export default function Scanner() {
     }
 
     isSearched.current = true;
-    console.log("searching");
     const result = await searchFromIsbn(code);
 
     if (!result) {
