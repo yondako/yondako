@@ -1,5 +1,19 @@
 import { describe, expect, test } from "bun:test";
-import { createAuthors, createPublishers } from "./utils";
+import { createAuthors, createPublishers, toStringOrUndefined } from "./utils";
+
+describe("toStringOrUndefined", () => {
+  test("numberがstringに変換できる", () => {
+    expect(toStringOrUndefined(12345)).toBe("12345");
+  });
+
+  test("stringはそのまま返る", () => {
+    expect(toStringOrUndefined("abcd")).toBe("abcd");
+  });
+
+  test("undefinedはそのまま返る", () => {
+    expect(toStringOrUndefined(undefined)).toBeUndefined();
+  });
+});
 
 describe("createAuthors", () => {
   const testList = [

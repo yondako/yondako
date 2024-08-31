@@ -1,6 +1,11 @@
 import type { BookDetail } from "@/types/book";
 import { XMLParser } from "fast-xml-parser";
-import { createAuthors, createPublishers, getJpeCode } from "./utils";
+import {
+  createAuthors,
+  createPublishers,
+  getJpeCode,
+  toStringOrUndefined,
+} from "./utils";
 
 type OpenSearchResponse = {
   meta: {
@@ -12,7 +17,7 @@ type OpenSearchResponse = {
 };
 
 type OpenSearchDcIdentifier = {
-  "#text": string;
+  "#text": string | number;
   "@_xsi:type": string;
 };
 
@@ -25,7 +30,7 @@ type OpenSearchItem = {
   link: string;
   "dc:title"?: string;
   "dc:creator"?: string | string[];
-  "dcndl:volume"?: string;
+  "dcndl:volume"?: string | number;
   "dc:publisher"?: string | string[];
   "dc:identifier"?: OpenSearchDcIdentifier | OpenSearchDcIdentifier[];
   "rdfs:seeAlso"?: OpenSearchRdfSeeAlso | OpenSearchRdfSeeAlso[];
@@ -98,9 +103,9 @@ export function parseOpenSearchXml(xml: string): OpenSearchResponse {
       ? item["dc:identifier"]
       : [item["dc:identifier"]];
 
-    const ndlBibId = identifier.find(
-      (id) => id["@_xsi:type"] === "dcndl:NDLBibID",
-    )?.["#text"];
+    const ndlBibId = toStringOrUndefined(
+      identifier.find((id) => id["@_xsi:type"] === "dcndl:NDLBibID")?.["#text"],
+    );
 
     // NDLBibID がない場合はDBに追加できないのでスキップ
     if (!ndlBibId) {
@@ -133,9 +138,9 @@ export function parseOpenSearchXml(xml: string): OpenSearchResponse {
       link: item.link,
       authors: createAuthors(item["dc:creator"]),
       publishers: createPublishers(item["dc:publisher"]),
-      isbn,
+      isbn: toStringOrUndefined(isbn),
       ndlBibId,
-      jpNo,
+      jpNo: toStringOrUndefined(jpNo),
       jpeCode,
     };
   });
