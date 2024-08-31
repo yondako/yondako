@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import type { BookDetail } from "@/types/book";
-import { parseOpenSearchXml } from ".";
+import { parseOpenSearchXml } from "./parse";
 
 const createDummyItem = (id: string) => `
 <item>

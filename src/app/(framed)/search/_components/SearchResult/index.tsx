@@ -3,7 +3,7 @@ import MessageTako from "@/components/MessageTako";
 import Pagination from "@/components/Pagination";
 import { getStatusesByBookIds } from "@/db/queries/status";
 import { auth } from "@/lib/auth";
-import { searchBooksFromNDL } from "@/lib/searchBooks";
+import { searchBooksFromNDL } from "@/lib/ndl";
 
 const minLimit = 1;
 const limit = 48;
