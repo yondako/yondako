@@ -1,4 +1,4 @@
-import { parseOpenSearchXml } from "./parseOpenSearchXml";
+import { parseOpenSearchXml } from "./parse";
 
 const apiBaseUrl = "https://iss.ndl.go.jp/api/opensearch";
 
