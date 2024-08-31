@@ -2,7 +2,7 @@ import NotoColorEmojiTako from "@/assets/images/noto-color-emoji/emoji_u1f419.sv
 import type { ReactNode } from "react";
 import { twJoin, twMerge } from "tailwind-merge";
 
-type Props = {
+export type MessageTakoProps = {
   title: string;
   decoration: JSX.Element;
   children: ReactNode;
@@ -10,13 +10,13 @@ type Props = {
   className?: string;
 };
 
-export default function ErrorMessage({
+export default function MessageTako({
   title,
   decoration,
   children,
   landscape = false,
   className,
-}: Props) {
+}: MessageTakoProps) {
   return (
     <div
       className={twMerge(

@@ -1,16 +1,23 @@
 "use client";
 
-import BookDetailDrawer from "@/components/BookDetail/Drawer";
+import IconBlubOff from "@/assets/icons/bulb-off.svg";
+import IconBulb from "@/assets/icons/bulb.svg";
+import BookDetail from "@/components/BookDetail";
 import MobileHeader from "@/components/MobileHeader";
 import type { BookType } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
 import Quagga from "@ericblade/quagga2";
-import { useCallback, useEffect, useOptimistic, useRef, useState } from "react";
-import { useWindowSize } from "react-use";
+import {
+  useCallback,
+  useEffect,
+  useOptimistic,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import { toast } from "sonner";
 import { searchFromIsbn } from "../../_actions/searchFromIsbn";
-import CameraError from "../CameraError";
-import OrientationError from "../OrientationError";
+import MessagePage from "../MessagePage";
 import { useScanner } from "./useScanner";
 
 export default function Scanner() {
@@ -20,9 +27,8 @@ export default function Scanner() {
     useState<ReadingStatus>("none");
   const [optimisticStatus, addOptimisticStatus] =
     useOptimistic(displayReadingStatus);
+  const [torchOn, toggleTorchOn] = useReducer((v) => !v, false);
   const isSearched = useRef(false);
-
-  const { width, height } = useWindowSize();
 
   const handleDetected = useCallback(async (code: string) => {
     // ISBNではない or 検索済みならスキップ
@@ -57,9 +63,6 @@ export default function Scanner() {
   }, []);
 
   const scannerRef = useScanner({
-    width,
-    height,
-    landscape: false,
     onDetected: handleDetected,
     onInitError: handleInitError,
   });
@@ -76,6 +79,7 @@ export default function Scanner() {
 
     enableCamera()
       .then(disableCamera)
+      .then(() => Quagga.CameraAccess.disableTorch())
       .catch((err) => {
         console.error("CameraError", err);
         setIsCameraError(true);
@@ -86,23 +90,53 @@ export default function Scanner() {
     };
   }, []);
 
-  if (screen.orientation.type !== "portrait-primary") {
-    return <OrientationError />;
-  }
+  // ライトのオン・オフ
+  const handleTorchClick = useCallback(() => {
+    const torch = !torchOn;
+
+    toggleTorchOn();
+
+    if (torch) {
+      Quagga.CameraAccess.enableTorch();
+    } else {
+      Quagga.CameraAccess.disableTorch();
+    }
+  }, [torchOn]);
 
   if (isCameraError) {
-    return <CameraError />;
+    return (
+      <MessagePage
+        title="外カメラが起動できませんでした"
+        decoration={
+          <>
+            <span className="absolute top-0 left-0 text-3xl">📷️</span>
+            <span className="-right-8 absolute top-0 text-5xl">❓️</span>
+          </>
+        }
+      >
+        <p className="mx-4 mt-3">
+          外カメラがお使いのデバイスにある場合は、ブラウザで使用を許可しているか設定をご確認ください
+        </p>
+      </MessagePage>
+    );
   }
+
+  const IconBlubStatus = torchOn ? IconBulb : IconBlubOff;
 
   return (
     <>
       <MobileHeader className="fixed inset-0 z-10 h-fit text-white" />
       <div
-        className="relative bg-primary-background"
-        style={{ width, height }}
+        className="relative h-full bg-primary-background [&>video]:h-full"
         ref={scannerRef}
       >
         <div className="absolute inset-x-0 top-0 h-2/5 bg-black/40">
+          <button
+            className="absolute top-8 right-8 z-20 text-white"
+            onClick={handleTorchClick}
+          >
+            <IconBlubStatus className="h-8 w-8" />
+          </button>
           <div className="absolute bottom-8 w-full text-center text-white">
             <p>書籍のバーコードを映してください</p>
             <p>(数字が 978 で始まるもの)</p>
@@ -113,29 +147,27 @@ export default function Scanner() {
         <canvas
           className="drawingBuffer" // これがないと Quagga に認識されない
           style={{ position: "absolute" }}
-          width={width}
-          height={height}
         />
-
-        {searchResult && (
-          <BookDetailDrawer
-            open={true}
-            onOpenChange={(open) => {
-              if (!open) {
-                setSearchResult(null);
-                isSearched.current = false;
-              }
-            }}
-            bookDetailProps={{
-              data: searchResult,
-              status: displayReadingStatus,
-              onChangeStatus: (status) => setDisplayReadingStatus(status),
-              optimisticStatus,
-              onChangeOptimisticStatus: (status) => addOptimisticStatus(status),
-            }}
-          />
-        )}
       </div>
+
+      {searchResult && (
+        <BookDetail
+          open={true}
+          onOpenChange={(open) => {
+            if (!open) {
+              setSearchResult(null);
+              isSearched.current = false;
+            }
+          }}
+          bookDetailProps={{
+            data: searchResult,
+            status: displayReadingStatus,
+            onChangeStatus: (status) => setDisplayReadingStatus(status),
+            optimisticStatus,
+            onChangeOptimisticStatus: (status) => addOptimisticStatus(status),
+          }}
+        />
+      )}
     </>
   );
 }

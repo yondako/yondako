@@ -1,13 +1,9 @@
 import { auth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
-import dynamic from "next/dynamic";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-
-const Scanner = dynamic(() => import("./_components/Scanner"), {
-  ssr: false,
-});
+import ScannerStartPage from "./_components/ScannerStartPage";
 
 export const runtime = "edge";
 
@@ -27,5 +23,5 @@ export default async function SearchBarcode() {
     redirect("/search/barcode/mobile-exclusive");
   }
 
-  return <Scanner />;
+  return <ScannerStartPage />;
 }

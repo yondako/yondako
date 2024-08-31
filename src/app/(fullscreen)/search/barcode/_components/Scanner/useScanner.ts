@@ -26,15 +26,9 @@ repo: https://github.com/ericblade/quagga2-react-example
 
 import type { QuaggaJSResultCallbackFunction } from "@ericblade/quagga2";
 import Quagga from "@ericblade/quagga2";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useLayoutEffect, useRef } from "react";
 
 type Props = {
-  /** 画面幅 */
-  width: number;
-  /** 画面高さ */
-  height: number;
-  landscape: boolean;
-
   /**
    * バーコードを検出した
    * @param code 検出したコード
@@ -64,13 +58,7 @@ function getMedian(arr: number[]): number {
   return (newArr[half - 1] + newArr[half]) / 2;
 }
 
-export const useScanner = ({
-  width,
-  height,
-  landscape,
-  onDetected,
-  onInitError,
-}: Props) => {
+export const useScanner = ({ onDetected, onInitError }: Props) => {
   const prevScanCode = useRef("");
   const scannerRef = useRef<HTMLDivElement>(null);
 
@@ -100,7 +88,7 @@ export const useScanner = ({
   );
 
   // 初期化
-  useEffect(() => {
+  useLayoutEffect(() => {
     let ignoreStart = false;
 
     const init = async () => {
@@ -111,10 +99,17 @@ export const useScanner = ({
         return;
       }
 
+      const isLandscape =
+        screen.orientation.type === "landscape-primary" ||
+        screen.orientation.type === "landscape-secondary";
+
       // getUserMedia API で取得できるサイズは横向きの場合の値らしいので入れ替える
-      // TODO: 横向き or デスクトップ対応する場合はここを見直すこと
-      const constraintsWidth = landscape ? width : height;
-      const constraintsHeight = landscape ? height : width;
+      const constraintsWidth = isLandscape
+        ? window.innerWidth
+        : window.innerHeight;
+      const constraintsHeight = isLandscape
+        ? window.innerHeight
+        : window.innerWidth;
 
       await Quagga.init(
         {
@@ -126,9 +121,6 @@ export const useScanner = ({
               },
               width: constraintsWidth,
               height: constraintsHeight,
-              aspectRatio: {
-                ideal: constraintsWidth / constraintsHeight,
-              },
             },
             area: {
               top: "40%",
@@ -148,7 +140,7 @@ export const useScanner = ({
             readers: ["ean_reader"],
             multiple: false,
           },
-          locate: true,
+          locate: false,
         },
         async (err) => {
           // 初期化失敗
@@ -173,7 +165,7 @@ export const useScanner = ({
       Quagga.stop();
       Quagga.offDetected(checkError);
     };
-  }, [width, height, landscape, checkError, onInitError]);
+  }, [checkError, onInitError]);
 
   return scannerRef;
 };

@@ -11,7 +11,8 @@ export default function Layout({ children }: Props) {
     <>
       <Toaster />
       {children}
-      <MobileBottomNavi className="lg:hidden" />
+      {/* NOTE: 全画面でサイドバーを出すのもなんか変なので、とりあえずこれで */}
+      <MobileBottomNavi />
     </>
   );
 }

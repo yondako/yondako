@@ -1,6 +1,10 @@
 import IconClose from "@/assets/icons/x.svg";
 import * as Dialog from "@radix-ui/react-dialog";
-import { animated, useTransition } from "@react-spring/web";
+import {
+  type AnimationResult,
+  animated,
+  useTransition,
+} from "@react-spring/web";
 import { useRef, useState } from "react";
 import { BookThumbnail } from "../BookThumbnail";
 import BookDetailContent from "./Content";
@@ -9,10 +13,14 @@ import type { BookDetailProps } from "./props";
 export default function BookDetailDialog({
   bookDetailProps,
   children,
+  ...props
 }: BookDetailProps) {
+  const [isOpen, setIsOpen] = useState(props.open ?? false);
   const ref = useRef<HTMLButtonElement>(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const handleDialogChange = (isOpen: boolean) => setIsOpen(isOpen);
+
+  const handleDialogChange = (isOpen: boolean) => {
+    setIsOpen(isOpen);
+  };
 
   const transitions = useTransition(isOpen, {
     from: () => {
@@ -56,6 +64,12 @@ export default function BookDetailDialog({
         tension: 200,
         friction: 26,
       },
+    },
+    onRest: (result: AnimationResult) => {
+      // ダイアログの閉じるアニメーションが再生完了した
+      if (result.finished && props.onOpenChange) {
+        props.onOpenChange(isOpen);
+      }
     },
   });
 
