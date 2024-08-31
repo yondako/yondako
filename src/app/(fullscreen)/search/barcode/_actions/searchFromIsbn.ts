@@ -4,6 +4,7 @@ import { getStatusesByBookIds } from "@/db/queries/status";
 import { auth } from "@/lib/auth";
 import { searchBooksFromNDL } from "@/lib/searchBooks";
 import type { BookType } from "@/types/book";
+import type { ReadingStatus } from "@/types/readingStatus";
 
 export async function searchFromIsbn(
   isbn: string,
@@ -23,14 +24,15 @@ export async function searchFromIsbn(
     return;
   }
 
+  // ライブラリを検索
   const libraryBook = await getStatusesByBookIds(session.user.id, result.books);
 
-  if (libraryBook.length <= 0) {
-    return;
-  }
+  // 自分の読書ステータス
+  const readingStatus: ReadingStatus =
+    libraryBook.length > 0 ? libraryBook[0].status : "none";
 
   return {
     detail: result.books[0],
-    readingStatus: libraryBook[0].status,
+    readingStatus,
   };
 }
