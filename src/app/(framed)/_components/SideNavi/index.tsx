@@ -58,6 +58,7 @@ function Item({
   current = false,
 }: ItemProps) {
   const Icon = current ? IconFilled : IconSolid;
+  const to = typeof href === "string" ? href : href.desktop;
 
   return (
     <Link
@@ -67,7 +68,7 @@ function Item({
           ? "bg-accent text-primary-background"
           : "bg-primary-background text-primary-foreground transition hover:brightness-95",
       )}
-      href={href}
+      href={to}
     >
       <Icon className="h-5 w-5" />
       <span>{title}</span>

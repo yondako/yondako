@@ -10,7 +10,7 @@ export type NavItem = {
   /** ページタイトル */
   title: string;
   /** ページのパス */
-  href: string;
+  href: string | { desktop: string; mobile: string };
   /**
    * 現在開いているページかどうかをチェックするための正規表現
    * useSelectedLayoutSegments().join("/") で取得した文字列とマッチするかどうかで判定しています
@@ -39,7 +39,10 @@ export const naviItems = [
   },
   {
     title: "バーコードで探す",
-    href: "/search/barcode",
+    href: {
+      desktop: "/search/barcode/mobile-exclusive",
+      mobile: "/search/barcode",
+    },
     matchSegmentsRegExp: /^search\/barcode/,
     IconSolid: IconScan,
     IconFilled: IconScan,
