@@ -20,7 +20,7 @@ export default forwardRef<HTMLInputElement, Props>(function Input(
         {...props}
         ref={ref}
         className={twMerge(
-          "w-full rounded-full bg-tertiary-background px-4 py-2 text-sm placeholder:text-secondary-foreground focus:outline-accent",
+          "w-full rounded-full bg-tertiary-background px-4 py-2 text-sm placeholder:text-secondary-foreground focus:outline focus:outline-2 focus:outline-accent",
           search && "pl-10",
         )}
         type={search ? "search" : "text"}
