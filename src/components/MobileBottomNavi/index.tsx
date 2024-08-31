@@ -25,6 +25,7 @@ export default function MobileBottomNavi({
           ({ title, href, matchSegmentsRegExp, IconSolid, IconFilled }) => {
             const isCurrent = matchSegmentsRegExp.test(segments);
             const Icon = isCurrent ? IconFilled : IconSolid;
+            const to = typeof href === "string" ? href : href.mobile;
 
             return (
               <Link
@@ -32,7 +33,7 @@ export default function MobileBottomNavi({
                   "flex flex-col items-center p-4",
                   isCurrent && "text-accent",
                 )}
-                href={href}
+                href={to}
                 key={title}
               >
                 <Icon className="h-7 w-7" />
