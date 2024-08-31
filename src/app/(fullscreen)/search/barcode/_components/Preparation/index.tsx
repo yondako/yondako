@@ -9,13 +9,13 @@ const Scanner = dynamic(() => import("../Scanner"), {
 });
 
 export default function Preparation() {
-  const [scanning, setScanning] = useState(true);
+  const [scanning, setScanning] = useState(false);
   const { type } = useOrientation();
 
   // 画面が回転したらカメラのサイズを変更する必要があるので、最初からやり直す
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    // setScanning(false);
+    setScanning(false);
   }, [type]);
 
   return scanning ? (
