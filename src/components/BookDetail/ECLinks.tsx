@@ -1,6 +1,6 @@
 import IconExternalLink from "@/assets/icons/external-link.svg";
-import { toIsbn10 } from "@/lib/isbn";
 import Button from "../Button";
+import { toIsbn10 } from "./toIsbn10";
 
 type Props = {
   isbn: string;

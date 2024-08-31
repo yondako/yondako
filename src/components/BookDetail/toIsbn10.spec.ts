@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { toIsbn10 } from "./isbn";
+import { toIsbn10 } from "./toIsbn10";
 
 test("ISBN-10ならそのまま返る", () => {
   const isbn = "4003101014";
