@@ -3,6 +3,7 @@
 import IconBlubOff from "@/assets/icons/bulb-off.svg";
 import IconBulb from "@/assets/icons/bulb.svg";
 import BookDetail from "@/components/BookDetail";
+import MobileHeader from "@/components/MobileHeader";
 import type { BookType } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
 import Quagga from "@ericblade/quagga2";
@@ -16,7 +17,7 @@ import {
 } from "react";
 import { toast } from "sonner";
 import { searchFromIsbn } from "../../_actions/searchFromIsbn";
-import CameraError from "../CameraError";
+import MessagePage from "../MessagePage";
 import { useScanner } from "./useScanner";
 
 export default function Scanner() {
@@ -104,13 +105,28 @@ export default function Scanner() {
   }, [torchOn]);
 
   if (isCameraError) {
-    return <CameraError />;
+    return (
+      <MessagePage
+        title="外カメラが起動できませんでした"
+        decoration={
+          <>
+            <span className="absolute top-0 left-0 text-3xl">📷️</span>
+            <span className="-right-8 absolute top-0 text-5xl">❓️</span>
+          </>
+        }
+      >
+        <p className="mx-4 mt-3">
+          外カメラがお使いのデバイスにある場合は、ブラウザで使用を許可しているか設定をご確認ください
+        </p>
+      </MessagePage>
+    );
   }
 
   const IconBlubStatus = torchOn ? IconBulb : IconBlubOff;
 
   return (
     <>
+      <MobileHeader className="fixed inset-0 z-10 h-fit text-white" />
       <div
         className="relative h-full bg-primary-background [&>video]:h-full"
         ref={scannerRef}

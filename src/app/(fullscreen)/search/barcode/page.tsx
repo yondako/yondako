@@ -4,7 +4,7 @@ import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import Preparation from "./_components/Preparation";
+import ScannerStartPage from "./_components/ScannerStartPage";
 
 export const runtime = "edge";
 
@@ -24,10 +24,5 @@ export default async function SearchBarcode() {
     redirect("/search/barcode/mobile-exclusive");
   }
 
-  return (
-    <>
-      <MobileHeader className="fixed inset-0 z-10 h-fit text-white" />
-      <Preparation />
-    </>
-  );
+  return <ScannerStartPage />;
 }

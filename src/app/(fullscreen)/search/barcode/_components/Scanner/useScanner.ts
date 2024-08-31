@@ -118,7 +118,9 @@ export const useScanner = ({ onDetected, onInitError }: Props) => {
           inputStream: {
             type: "LiveStream",
             constraints: {
-              facingMode: "environment",
+              facingMode: {
+                exact: "environment",
+              },
               width: constraintsWidth,
               height: constraintsHeight,
             },
