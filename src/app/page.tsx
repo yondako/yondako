@@ -56,12 +56,15 @@ export default async function Home() {
           </p>
           <p className="mt-1">記録は簡単。ボタンをクリックするだけ。</p>
         </div>
-        <SlideIn>
-          <Image
-            className="mt-12 rounded-2xl border border-secondary-border shadow-xl"
-            src={imageScreenshot}
-            alt="スクリーンショット"
-          />
+        <SlideIn className="mt-12">
+          <video
+            className="w-full rounded-2xl border border-secondary-border"
+            autoPlay
+            muted
+            loop
+          >
+            <source src="/videos/demo.webm" type="video/webm" />
+          </video>
         </SlideIn>
       </section>
 
@@ -82,9 +85,7 @@ export default async function Home() {
               <BudouX>できることは記録だけ</BudouX>
             </h2>
             <p className="mt-6 break-keep">
-              誰かとつながったり、
-              <wbr />
-              感想を共有するような機能はありません。
+              誰かとつながったりするような機能はありません。
             </p>
             <p className="mt-1 break-keep">
               しずかにゆったりと
