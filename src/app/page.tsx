@@ -56,12 +56,15 @@ export default async function Home() {
           </p>
           <p className="mt-1">記録は簡単。ボタンをクリックするだけ。</p>
         </div>
-        <SlideIn>
-          <Image
-            className="mt-12 rounded-2xl border border-secondary-border shadow-xl"
-            src={imageScreenshot}
-            alt="スクリーンショット"
-          />
+        <SlideIn className="mt-12">
+          <video
+            className="w-full rounded-2xl border border-secondary-border"
+            autoPlay
+            muted
+            loop
+          >
+            <source src="/videos/demo.webm" type="video/webm" />
+          </video>
         </SlideIn>
       </section>
 
