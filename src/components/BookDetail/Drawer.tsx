@@ -9,7 +9,7 @@ export default function BookDetailDrawer({
   ...props
 }: BookDetailProps) {
   return (
-    <Drawer.Root {...props} preventScrollRestoration>
+    <Drawer.Root {...props} preventScrollRestoration={false}>
       {children && <Drawer.Trigger asChild>{children}</Drawer.Trigger>}
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 bg-black/40" />
