@@ -85,9 +85,7 @@ export default async function Home() {
               <BudouX>できることは記録だけ</BudouX>
             </h2>
             <p className="mt-6 break-keep">
-              誰かとつながったり、
-              <wbr />
-              感想を共有するような機能はありません。
+              誰かとつながったりするような機能はありません。
             </p>
             <p className="mt-1 break-keep">
               しずかにゆったりと
