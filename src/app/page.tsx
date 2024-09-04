@@ -26,7 +26,7 @@ export default async function Home() {
 
   return (
     <>
-      <section className="flex h-svh flex-col justify-between bg-[length:90vw] bg-[top_-20vw_right] bg-gradation bg-primary-background bg-no-repeat px-8 py-8 sm:bg-[length:70vw] md:px-24 md:py-14 lg:bg-contain lg:bg-right">
+      <section className="flex h-svh flex-col justify-between bg-[length:90vw] bg-[top_-20vw_right] bg-gradation bg-primary-background bg-no-repeat px-8 py-8 sm:bg-[length:70vw] md:h-auto md:px-24 md:py-36 lg:bg-contain lg:bg-right">
         <div className="mt-auto flex w-full flex-col text-left md:my-auto md:w-fit">
           <div className="mx-auto md:mx-0">
             <Image width={256} src={imageLogo} alt={site.name} priority />
@@ -44,7 +44,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="mt-24 px-8 md:px-24">
+      <section className="mt-24 px-8 md:mt-0 md:px-24">
         <div>
           <h2 className="space-y-1 font-bold text-4xl md:text-5xl md:tracking-wide">
             <BudouX>よみたいも、よんでるも</BudouX>
