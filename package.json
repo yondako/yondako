@@ -28,7 +28,7 @@
     "cloudflare": "^3.5.0",
     "drizzle-orm": "^0.33.0",
     "fast-xml-parser": "^4.4.1",
-    "next": "14.2.6",
+    "next": "14.2.13",
     "next-auth": "^5.0.0-beta.20",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -38,7 +38,7 @@
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.4.0",
     "use-debounce": "^10.0.3",
-    "valibot": "^0.41.0",
+    "valibot": "^0.42.0",
     "vaul": "^0.9.1"
   },
   "devDependencies": {
@@ -46,7 +46,7 @@
     "@cloudflare/next-on-pages": "^1.13.1",
     "@cloudflare/workers-types": "^4.20240725.0",
     "@happy-dom/global-registrator": "^15.0.0",
-    "@libsql/client": "^0.10.0",
+    "@libsql/client": "^0.14.0",
     "@storybook/addon-essentials": "^8.2.8",
     "@storybook/addon-interactions": "^8.2.8",
     "@storybook/addon-links": "^8.2.8",
