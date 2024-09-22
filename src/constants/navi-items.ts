@@ -1,3 +1,5 @@
+import IconBellFilled from "@/assets/icons/bell-filled.svg";
+import IconBell from "@/assets/icons/bell.svg";
 import IconBookmarksFilled from "@/assets/icons/bookmarks-filled.svg";
 import IconBookmarks from "@/assets/icons/bookmarks.svg";
 import IconScan from "@/assets/icons/scan.svg";
@@ -46,6 +48,13 @@ export const naviItems = [
     matchSegmentsRegExp: /^search\/barcode/,
     IconSolid: IconScan,
     IconFilled: IconScan,
+  },
+  {
+    title: "お知らせ",
+    href: "/news",
+    matchSegmentsRegExp: /^news/,
+    IconSolid: IconBell,
+    IconFilled: IconBellFilled,
   },
   {
     title: "設定",

@@ -1,7 +1,6 @@
 import MobileBottomNavi from "@/components/MobileBottomNavi";
 import MobileHeader from "@/components/MobileHeader";
 import dynamic from "next/dynamic";
-// import Toaster from "@/components/Toaster";
 import type { ReactNode } from "react";
 import SideNavi from "./_components/SideNavi";
 

@@ -1,5 +1,3 @@
-const infoBaseUrl = "https://info.yondako.com";
-
 export const site = {
   name: "yondako",
   description: {
@@ -7,12 +5,13 @@ export const site = {
     long: "yondakoは、よんだことをわすれないための読書記録サービスです。",
   },
   url: "https://yondako.com",
+  infoUrl: "https://info.yondako.com",
 };
 
 export const links = [
   {
     title: "データソース",
-    href: new URL("/docs/data-source", infoBaseUrl).toString(),
+    href: new URL("/docs/data-source", site.infoUrl).toString(),
   },
   {
     title: "GitHub",
@@ -20,10 +19,10 @@ export const links = [
   },
   {
     title: "利用規約",
-    href: new URL("/docs/terms", infoBaseUrl).toString(),
+    href: new URL("/docs/terms", site.infoUrl).toString(),
   },
   {
     title: "プライバシーポリシー",
-    href: new URL("/docs/privacy", infoBaseUrl).toString(),
+    href: new URL("/docs/privacy", site.infoUrl).toString(),
   },
 ] as const;
