@@ -1,3 +1,4 @@
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export const lastNewsCheckedKey = "lastNewsChecked";
@@ -9,13 +10,15 @@ export const lastNewsCheckedKey = "lastNewsChecked";
  */
 export const useCheckLatestNews = (latestNewsTimestamp: number): boolean => {
   const [hasNewNews, setHasNewNews] = useState(false);
+  const pathname = usePathname();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const rawPrev = localStorage.getItem(lastNewsCheckedKey);
     const prevNewsCheckedTimestamp = rawPrev ? Number.parseInt(rawPrev) : 0;
 
     setHasNewNews(latestNewsTimestamp > prevNewsCheckedTimestamp);
-  }, [latestNewsTimestamp]);
+  }, [latestNewsTimestamp, pathname]);
 
   return hasNewNews;
 };
