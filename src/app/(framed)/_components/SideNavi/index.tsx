@@ -4,7 +4,7 @@ import logoUrl from "@/assets/images/logo/portrait.svg?url";
 import Footer from "@/components/Footer";
 import { naviItems } from "@/constants/navi-items";
 import { site } from "@/constants/site";
-import { checkForNewNews } from "@/lib/news";
+import { useCheckLatestNews } from "@/hooks/useCheckLatestNews";
 import type { NaviProps } from "@/types/navi";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,7 +18,7 @@ export default function SideNavi({
   ...props
 }: NaviProps) {
   const segments = useSelectedLayoutSegments().join("/");
-  const hasNewNews = checkForNewNews(latestNewsPublishedAt);
+  const hasNewNews = useCheckLatestNews(latestNewsPublishedAt);
 
   return (
     <nav

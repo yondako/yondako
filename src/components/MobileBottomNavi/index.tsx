@@ -1,7 +1,7 @@
 "use client";
 
 import { naviItems } from "@/constants/navi-items";
-import { checkForNewNews } from "@/lib/news";
+import { useCheckLatestNews } from "@/hooks/useCheckLatestNews";
 import type { NaviProps } from "@/types/navi";
 import Link from "next/link";
 import { useSelectedLayoutSegments } from "next/navigation";
@@ -13,7 +13,7 @@ export default function MobileBottomNavi({
   ...props
 }: NaviProps) {
   const segments = useSelectedLayoutSegments().join("/");
-  const hasNewNews = checkForNewNews(latestNewsTimestamp);
+  const hasNewNews = useCheckLatestNews(latestNewsTimestamp);
 
   return (
     <nav

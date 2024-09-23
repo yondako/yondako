@@ -34,21 +34,3 @@ export async function checkLatestNews(): Promise<number> {
     return 0;
   }
 }
-
-export const lastNewsCheckedAtKey = "lastNewsCheckedAt";
-
-/**
- * 新着のお知らせがあるかどうか
- * @param latestNewsTimestamp 最新のお知らせのタイムスタンプ
- * @returns あればtrue
- */
-export const checkForNewNews = (latestNewsTimestamp: number): boolean => {
-  if (typeof window === "undefined") {
-    return false;
-  }
-
-  const rawPrev = localStorage.getItem(lastNewsCheckedAtKey);
-  const prevNewsCheckedTimestamp = rawPrev ? Number.parseInt(rawPrev) : 0;
-
-  return latestNewsTimestamp > prevNewsCheckedTimestamp;
-};
