@@ -15,7 +15,7 @@ export const newsSchema = array(
  */
 export const fetchRecentNews = async () => {
   const res = await fetch("https://info.yondako.com/api/news/recent.json", {
-    cache: "no-store",
+    next: { revalidate: 0 },
   });
 
   if (!res.ok) {
