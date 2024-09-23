@@ -1,7 +1,7 @@
 "use client";
 
 import { naviItems } from "@/constants/navi-items";
-import { checkForNewNews } from "@/lib/lastNewsCheckedAt";
+import { checkForNewNews } from "@/lib/news";
 import type { NaviProps } from "@/types/navi";
 import Link from "next/link";
 import { useSelectedLayoutSegments } from "next/navigation";
