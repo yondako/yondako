@@ -8,12 +8,12 @@ import { useSelectedLayoutSegments } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 
 export default function MobileBottomNavi({
-  latestNewsPublishedAt,
+  latestNewsTimestamp,
   className,
   ...props
 }: NaviProps) {
   const segments = useSelectedLayoutSegments().join("/");
-  const hasNewNews = checkForNewNews(latestNewsPublishedAt);
+  const hasNewNews = checkForNewNews(latestNewsTimestamp);
 
   return (
     <nav

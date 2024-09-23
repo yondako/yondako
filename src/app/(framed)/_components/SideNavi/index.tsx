@@ -13,7 +13,7 @@ import { twMerge } from "tailwind-merge";
 import Item from "./Item";
 
 export default function SideNavi({
-  latestNewsPublishedAt,
+  latestNewsTimestamp: latestNewsPublishedAt,
   className,
   ...props
 }: NaviProps) {
