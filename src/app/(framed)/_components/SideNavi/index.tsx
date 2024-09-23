@@ -4,7 +4,7 @@ import logoUrl from "@/assets/images/logo/portrait.svg?url";
 import Footer from "@/components/Footer";
 import { naviItems } from "@/constants/navi-items";
 import { site } from "@/constants/site";
-import { checkForNewNews } from "@/lib/lastNewsCheckedAt";
+import { checkForNewNews } from "@/lib/news";
 import type { NaviProps } from "@/types/navi";
 import Image from "next/image";
 import Link from "next/link";
