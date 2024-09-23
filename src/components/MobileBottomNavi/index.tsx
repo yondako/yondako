@@ -38,10 +38,14 @@ export default function MobileBottomNavi({
                   isCurrent && "text-accent",
                 )}
                 href={to}
+                aria-current={isCurrent ? "page" : undefined}
                 key={title}
               >
                 {badge && (
-                  <div className="absolute top-3 right-3 h-2.5 w-2.5 rounded-full bg-red-400 outline outline-2 outline-primary-background outline-offset-0" />
+                  <div
+                    className="absolute top-3 right-3 h-2.5 w-2.5 rounded-full bg-red-400 outline outline-2 outline-primary-background outline-offset-0"
+                    aria-label="新しい通知があります"
+                  />
                 )}
                 <Icon className="h-7 w-7" />
               </Link>

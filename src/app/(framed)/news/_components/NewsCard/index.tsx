@@ -1,6 +1,6 @@
+import type { newsSchema } from "@/app/(framed)/news/_lib/fetchRecentNews";
 import { site } from "@/constants/site";
 import type { InferInput } from "valibot";
-import type { newsSchema } from "../../_lib/fetchRecentNews";
 import Tag from "./Tag";
 
 type Props = InferInput<typeof newsSchema.item>;
@@ -20,6 +20,7 @@ export default function NewsCard({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
+      aria-label={`${title}の詳細を見る`}
     >
       <p className="text-4xl md:text-5xl">{emoji}</p>
       <p className="font-bold text-base md:text-lg">{title}</p>

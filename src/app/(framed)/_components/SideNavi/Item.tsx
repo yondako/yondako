@@ -27,6 +27,7 @@ export default function Item({
           : "bg-primary-background text-primary-foreground transition hover:brightness-95",
       )}
       href={to}
+      aria-current={current ? "page" : undefined}
     >
       <div className="relative">
         {badge && (
@@ -36,6 +37,7 @@ export default function Item({
               current &&
                 "outline outline-1 outline-primary-background outline-offset-0",
             )}
+            aria-label="新しい通知があります"
           />
         )}
         <Icon className="h-5 w-5" />
