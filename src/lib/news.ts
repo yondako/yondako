@@ -20,7 +20,7 @@ export async function checkLatestNews(): Promise<number> {
     ).toString();
 
     const res = await fetch(endpoint, {
-      cache: "no-store",
+      next: { revalidate: 0 },
       signal: ctrl.signal,
     });
 
