@@ -1,38 +1,49 @@
 import { beforeEach, describe, expect, test } from "bun:test";
-import { checkForNewNews } from "@/lib/news";
+import { useCheckLatestNews } from "@/hooks/useCheckLatestNews";
+import { renderHook } from "@testing-library/react-hooks";
 
-describe("checkForNewNews", () => {
+describe("useCheckLatestNews", () => {
+  const lastNewsCheckedKey = "lastNewsChecked";
+
   beforeEach(() => {
     localStorage.clear();
   });
 
   test("新着のお知らせがある場合trueが返る", () => {
-    localStorage.setItem("lastNewsCheckedAt", "1630000000000");
-    const latestNewsPublishedAt = 1630000000001;
-    expect(checkForNewNews(latestNewsPublishedAt)).toBe(true);
+    const latestNewsTimestamp = Date.now();
+    localStorage.setItem(
+      lastNewsCheckedKey,
+      (latestNewsTimestamp - 1000).toString(),
+    );
+
+    const { result } = renderHook(() =>
+      useCheckLatestNews(latestNewsTimestamp),
+    );
+
+    expect(result.current).toBe(true);
   });
 
   test("新着のお知らせがない場合falseが返る", () => {
-    localStorage.setItem("lastNewsCheckedAt", "1630000000000");
-    const latestNewsPublishedAt = 1630000000000;
-    expect(checkForNewNews(latestNewsPublishedAt)).toBe(false);
+    const latestNewsTimestamp = Date.now();
+    localStorage.setItem(
+      lastNewsCheckedKey,
+      (latestNewsTimestamp + 1000).toString(),
+    );
+
+    const { result } = renderHook(() =>
+      useCheckLatestNews(latestNewsTimestamp),
+    );
+
+    expect(result.current).toBe(false);
   });
 
   test("localStorageに値がない場合trueが返る", () => {
-    const latestNewsPublishedAt = 1630000000000;
-    expect(checkForNewNews(latestNewsPublishedAt)).toBe(true);
-  });
+    const latestNewsTimestamp = Date.now();
 
-  test("windowがundefinedの場合falseが返る", () => {
-    const originalWindow = global.window;
+    const { result } = renderHook(() =>
+      useCheckLatestNews(latestNewsTimestamp),
+    );
 
-    // @ts-ignore
-    // biome-ignore lint/performance/noDelete: <explanation>
-    delete global.window;
-
-    const latestNewsPublishedAt = 1630000000000;
-    expect(checkForNewNews(latestNewsPublishedAt)).toBe(false);
-
-    global.window = originalWindow;
+    expect(result.current).toBe(true);
   });
 });
