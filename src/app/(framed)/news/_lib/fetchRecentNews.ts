@@ -18,6 +18,10 @@ export const fetchRecentNews = async () => {
     cache: "no-store",
   });
 
+  if (!res.ok) {
+    throw new Error(`HTTP error: ${res.status}`);
+  }
+
   const json = await res.json();
 
   return parse(newsSchema, json);
