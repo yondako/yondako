@@ -15,6 +15,6 @@ export const Default: Story = {
     title: "タイトル",
     emoji: "📚",
     tags: ["タグ1", "タグ2"],
-    publishedAt: "2021/01/01 00:00",
+    publishedAt: "2021/01/01",
   },
 };
