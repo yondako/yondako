@@ -25,7 +25,7 @@ export default function NewsCard({
       <p className="font-bold text-base md:text-lg">{title}</p>
       <div className="flex items-center justify-between text-xs">
         <span className="text-secondary-foreground">{publishedAt}</span>
-        <div className="space-x-1">
+        <div className="flex space-x-1">
           {tags.map((tag) => (
             <Tag key={tag} name={tag} />
           ))}
