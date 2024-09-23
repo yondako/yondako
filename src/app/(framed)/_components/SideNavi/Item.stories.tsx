@@ -10,6 +10,8 @@ const meta: Meta<typeof Item> = {
     <div className="w-48 space-y-4">
       <Item {...args} current />
       <Item {...args} />
+      <Item {...args} badge current />
+      <Item {...args} badge />
     </div>
   ),
 };

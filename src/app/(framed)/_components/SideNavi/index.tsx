@@ -4,18 +4,21 @@ import logoUrl from "@/assets/images/logo/portrait.svg?url";
 import Footer from "@/components/Footer";
 import { naviItems } from "@/constants/navi-items";
 import { site } from "@/constants/site";
+import { checkForNewNews } from "@/lib/lastNewsCheckedAt";
+import type { NaviProps } from "@/types/navi";
 import Image from "next/image";
 import Link from "next/link";
 import { useSelectedLayoutSegments } from "next/navigation";
-import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
 import Item from "./Item";
 
 export default function SideNavi({
+  latestNewsPublishedAt,
   className,
   ...props
-}: ComponentPropsWithoutRef<"nav">) {
+}: NaviProps) {
   const segments = useSelectedLayoutSegments().join("/");
+  const hasNewNews = checkForNewNews(latestNewsPublishedAt);
 
   return (
     <nav
@@ -32,13 +35,18 @@ export default function SideNavi({
         </Link>
 
         <div className="mt-6 space-y-2">
-          {naviItems.map(({ matchSegmentsRegExp, ...item }) => (
-            <Item
-              {...item}
-              current={matchSegmentsRegExp.test(segments)}
-              key={item.title}
-            />
-          ))}
+          {naviItems.map(({ matchSegmentsRegExp, ...item }) => {
+            const badge = item.title === "お知らせ" && hasNewNews;
+
+            return (
+              <Item
+                {...item}
+                key={item.title}
+                current={matchSegmentsRegExp.test(segments)}
+                badge={badge}
+              />
+            );
+          })}
         </div>
       </div>
 

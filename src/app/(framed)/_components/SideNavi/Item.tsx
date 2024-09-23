@@ -4,6 +4,7 @@ import { twMerge } from "tailwind-merge";
 
 type Props = {
   current?: boolean;
+  badge?: boolean;
 } & Omit<NavItem, "matchSegmentsRegExp">;
 
 export default function Item({
@@ -12,6 +13,7 @@ export default function Item({
   IconFilled,
   href,
   current = false,
+  badge = false,
 }: Props) {
   const Icon = current ? IconFilled : IconSolid;
   const to = typeof href === "string" ? href : href.desktop;
@@ -26,7 +28,18 @@ export default function Item({
       )}
       href={to}
     >
-      <Icon className="h-5 w-5" />
+      <div className="relative">
+        {badge && (
+          <div
+            className={twMerge(
+              "-top-0.5 -right-0.5 absolute h-2 w-2 rounded-full bg-red-400",
+              current &&
+                "outline outline-1 outline-primary-background outline-offset-0",
+            )}
+          />
+        )}
+        <Icon className="h-5 w-5" />
+      </div>
       <span>{title}</span>
     </Link>
   );
