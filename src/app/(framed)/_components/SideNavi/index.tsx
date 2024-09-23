@@ -2,13 +2,14 @@
 
 import logoUrl from "@/assets/images/logo/portrait.svg?url";
 import Footer from "@/components/Footer";
-import { type NavItem, naviItems } from "@/constants/navi-items";
+import { naviItems } from "@/constants/navi-items";
 import { site } from "@/constants/site";
 import Image from "next/image";
 import Link from "next/link";
 import { useSelectedLayoutSegments } from "next/navigation";
 import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
+import Item from "./Item";
 
 export default function SideNavi({
   className,
@@ -43,35 +44,5 @@ export default function SideNavi({
 
       <Footer className="mt-auto p-8" portrait />
     </nav>
-  );
-}
-
-type ItemProps = {
-  current?: boolean;
-} & Omit<NavItem, "matchSegmentsRegExp">;
-
-function Item({
-  title,
-  IconSolid,
-  IconFilled,
-  href,
-  current = false,
-}: ItemProps) {
-  const Icon = current ? IconFilled : IconSolid;
-  const to = typeof href === "string" ? href : href.desktop;
-
-  return (
-    <Link
-      className={twMerge(
-        "flex cursor-pointer items-center space-x-3 rounded-r-full px-8 py-2 text-base",
-        current
-          ? "bg-accent text-primary-background"
-          : "bg-primary-background text-primary-foreground transition hover:brightness-95",
-      )}
-      href={to}
-    >
-      <Icon className="h-5 w-5" />
-      <span>{title}</span>
-    </Link>
   );
 }
