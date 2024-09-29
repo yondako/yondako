@@ -33,9 +33,9 @@ export default function BookCard({ data }: BookCardProps) {
       <BookDetail bookDetailProps={{ data, ...formProps }}>
         <button className="mt-8 flex h-40 w-full flex-col justify-between overflow-hidden rounded-2xl bg-tertiary-background p-4 pl-36 text-left">
           <div className="space-y-1">
-            <p className="line-clamp-3 font-bold text-sm leading-5">
+            <h3 className="palt line-clamp-3 font-bold text-sm leading-5">
               {data.detail.title}
-            </p>
+            </h3>
 
             {data.detail.authors && (
               <p className="line-clamp-1 text-secondary-foreground text-xxs">
