@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse, userAgent } from "next/server";
+import { site } from "./constants/site";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -28,7 +29,7 @@ export function middleware(request: NextRequest) {
     "script-src": [
       "'self'",
       `'nonce-${nonce}'`,
-      "'strict-dynamic'",
+      site.url,
       isDev && "'unsafe-eval'",
       isDev && "'unsafe-inline'",
     ],
