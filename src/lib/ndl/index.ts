@@ -22,7 +22,10 @@ type SearchOptions = {
  * @param opts 検索オプション
  * @returns 検索結果 / エラーの場合はundefined
  */
-export async function searchBooksFromNDL(opts: SearchOptions) {
+export async function searchBooksFromNDL(
+  opts: SearchOptions,
+  fetch = global.fetch,
+) {
   const endpoint = new URL(apiBaseUrl);
 
   for (const [key, value] of Object.entries(opts)) {

@@ -1,3 +1,4 @@
+import { site } from "@/constants/site";
 import { array, object, parse, string } from "valibot";
 
 export const newsSchema = array(
@@ -13,8 +14,9 @@ export const newsSchema = array(
 /**
  * 直近のお知らせを取得する
  */
-export const fetchRecentNews = async () => {
-  const res = await fetch("https://info.yondako.com/api/news/recent.json", {
+export const fetchRecentNews = async (fetch = global.fetch) => {
+  const url = new URL("/api/news/recent.json", site.infoUrl).toString();
+  const res = await fetch(url, {
     next: { revalidate: 0 },
   });
 

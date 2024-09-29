@@ -1,5 +1,10 @@
 import { describe, expect, test } from "bun:test";
-import { createAuthors, createPublishers, toStringOrUndefined } from "./utils";
+import {
+  createAuthors,
+  createPublishers,
+  getJpeCode,
+  toStringOrUndefined,
+} from "./utils";
 
 describe("toStringOrUndefined", () => {
   test("numberがstringに変換できる", () => {
@@ -12,6 +17,38 @@ describe("toStringOrUndefined", () => {
 
   test("undefinedはそのまま返る", () => {
     expect(toStringOrUndefined(undefined)).toBeUndefined();
+  });
+});
+
+describe("getJpeCode", () => {
+  test("JP-eコードを正常に取得できること", () => {
+    const urls = [
+      "https://www.books.or.jp/book-details/12345678901234567890",
+      "https://example.com/other-url",
+    ];
+
+    const result = getJpeCode(urls);
+    expect(result).toBe("12345678901234567890");
+  });
+
+  test("JP-eコードが含まれていない場合はundefinedを返すこと", () => {
+    const urls = [
+      "https://example.com/other-url",
+      "https://another-example.com/another-url",
+    ];
+
+    const result = getJpeCode(urls);
+    expect(result).toBeUndefined();
+  });
+
+  test("undefinedが含まれている場合でもJP-eコードを正常に取得できること", () => {
+    const urls = [
+      undefined,
+      "https://www.books.or.jp/book-details/09876543210987654321",
+    ];
+
+    const result = getJpeCode(urls);
+    expect(result).toBe("09876543210987654321");
   });
 });
 
