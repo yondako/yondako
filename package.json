@@ -39,7 +39,7 @@
     "tailwind-merge": "^2.4.0",
     "use-debounce": "^10.0.3",
     "valibot": "^0.42.0",
-    "vaul": "^0.9.1"
+    "vaul": "^1.0.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
