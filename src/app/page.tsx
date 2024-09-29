@@ -1,7 +1,6 @@
 import imageLogo from "@/assets/images/logo/portrait.svg?url";
 import OpenDoodlesReadingSide from "@/assets/images/open-doodles/reading-side.svg";
 import OpenDoodlesSittingReading from "@/assets/images/open-doodles/sitting-reading.svg";
-import imageScreenshot from "@/assets/images/screenshot.png";
 import BudouX from "@/components/BudouX";
 import Footer from "@/components/Footer";
 import { site } from "@/constants/site";
