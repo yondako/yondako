@@ -15,7 +15,8 @@
     "svgo": "bunx svgo ./src/assets/**/*.svg",
     "drizzle:studio": "bun --env-file=.env.local  run drizzle-kit studio",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "chromatic": "chromatic --exit-zero-on-changes"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.4.2",
