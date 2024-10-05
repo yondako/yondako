@@ -7,7 +7,7 @@ import BookDetail from "../BookDetail";
 import BookReadingStatusForm, {
   type BookReadingStatusFormProps,
 } from "../BookReadingStatusForm";
-import { BookThumbnail } from "../BookThumbnail";
+import BookThumbnail from "../BookThumbnail";
 
 export type BookCardProps = {
   data: BookType;

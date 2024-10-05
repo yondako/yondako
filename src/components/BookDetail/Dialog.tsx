@@ -6,7 +6,7 @@ import {
   useTransition,
 } from "@react-spring/web";
 import { useRef, useState } from "react";
-import { BookThumbnail } from "../BookThumbnail";
+import BookThumbnail from "../BookThumbnail";
 import BookDetailContent from "./Content";
 import type { BookDetailProps } from "./props";
 
