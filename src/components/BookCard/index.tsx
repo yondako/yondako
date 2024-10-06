@@ -9,12 +9,11 @@ import BookReadingStatusForm, {
 } from "../BookReadingStatusForm";
 import BookThumbnail from "../BookThumbnail";
 
-export type BookCardProps = {
+type Props = {
   data: BookType;
-  hideReadingStatusBadge?: boolean;
 };
 
-export default function BookCard({ data }: BookCardProps) {
+export default function BookCard({ data }: Props) {
   const [displayReadingStatus, setDisplayReadingStatus] = useState(
     data.readingStatus,
   );
