@@ -3,12 +3,13 @@ import Input from ".";
 
 const meta: Meta<typeof Input> = {
   title: "Common/Input",
-  component: (props) => {
+  component: Input,
+  render: (args) => {
     return (
       <div className="max-w-96 space-y-6">
-        <Input {...props} />
-        <Input {...props} placeholder="プレースホルダー" />
-        <Input {...props} value="テキスト" />
+        <Input {...args} />
+        <Input {...args} placeholder="プレースホルダー" />
+        <Input {...args} value="テキスト" />
       </div>
     );
   },

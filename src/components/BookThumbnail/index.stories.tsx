@@ -3,8 +3,9 @@ import BookThumbnail from ".";
 
 const meta: Meta<typeof BookThumbnail> = {
   title: "Common/BookThumbnail",
-  component: (props) => {
-    return <BookThumbnail {...props} className="w-32" />;
+  component: BookThumbnail,
+  render: (args) => {
+    return <BookThumbnail {...args} className="w-32" />;
   },
 };
 
