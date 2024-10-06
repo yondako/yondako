@@ -1,8 +1,8 @@
 import "server-only";
 
-import type { BookDetail } from "@/types/book";
 import { eq } from "drizzle-orm";
-import db from "..";
+import type { BookDetail } from "#src/types/book";
+import db from "../";
 import * as dbSchema from "../schema/book";
 import { createAuthor } from "./author";
 import { createPublisher } from "./publisher";

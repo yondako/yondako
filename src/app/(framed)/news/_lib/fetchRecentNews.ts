@@ -1,5 +1,5 @@
-import { site } from "@/constants/site";
 import { array, object, parse, string } from "valibot";
+import { site } from "#src/constants/site";
 
 export const newsSchema = array(
   object({

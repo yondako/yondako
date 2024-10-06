@@ -1,10 +1,10 @@
-import type { BookType } from "@/types/book";
 import type {
   DialogDescriptionProps,
   DialogTitleProps,
 } from "@radix-ui/react-dialog";
 import type { ForwardRefExoticComponent, RefAttributes } from "react";
 import { twMerge } from "tailwind-merge";
+import type { BookType } from "#src/types/book";
 import BookReadingStatusForm, {
   type BookReadingStatusFormProps,
 } from "../BookReadingStatusForm";

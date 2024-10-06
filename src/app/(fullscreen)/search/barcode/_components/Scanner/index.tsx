@@ -1,11 +1,5 @@
 "use client";
 
-import IconBlubOff from "@/assets/icons/bulb-off.svg";
-import IconBulb from "@/assets/icons/bulb.svg";
-import BookDetail from "@/components/BookDetail";
-import MobileHeader from "@/components/MobileHeader";
-import type { BookType } from "@/types/book";
-import type { ReadingStatus } from "@/types/readingStatus";
 import Quagga from "@ericblade/quagga2";
 import {
   useCallback,
@@ -16,6 +10,12 @@ import {
   useState,
 } from "react";
 import { toast } from "sonner";
+import IconBlubOff from "#src/assets/icons/bulb-off.svg";
+import IconBulb from "#src/assets/icons/bulb.svg";
+import BookDetail from "#src/components/BookDetail/index";
+import MobileHeader from "#src/components/MobileHeader/index";
+import type { BookType } from "#src/types/book";
+import type { ReadingStatus } from "#src/types/readingStatus";
 import { searchFromIsbn } from "../../_actions/searchFromIsbn";
 import MessagePage from "../MessagePage";
 import { useScanner } from "./useScanner";

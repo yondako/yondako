@@ -1,6 +1,6 @@
-import type { BookType } from "@/types/book";
 import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
+import type { BookType } from "#src/types/book";
 import BookCard from "../BookCard";
 
 type Props = {

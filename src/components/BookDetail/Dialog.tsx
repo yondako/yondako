@@ -1,4 +1,3 @@
-import IconClose from "@/assets/icons/x.svg";
 import * as Dialog from "@radix-ui/react-dialog";
 import {
   type AnimationResult,
@@ -6,6 +5,7 @@ import {
   useTransition,
 } from "@react-spring/web";
 import { useRef, useState } from "react";
+import IconClose from "#src/assets/icons/x.svg";
 import BookThumbnail from "../BookThumbnail";
 import BookDetailContent from "./Content";
 import type { BookDetailProps } from "./props";

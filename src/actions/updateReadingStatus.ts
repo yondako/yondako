@@ -1,11 +1,11 @@
 "use server";
 
-import { createBook, getBook } from "@/db/queries/book";
-import { upsertReadingStatus } from "@/db/queries/status";
-import { auth } from "@/lib/auth";
-import { searchBooksFromNDL } from "@/lib/ndl";
-import type { BookType } from "@/types/book";
-import type { ReadingStatus } from "@/types/readingStatus";
+import { createBook, getBook } from "#src/db/queries/book";
+import { upsertReadingStatus } from "#src/db/queries/status";
+import { auth } from "#src/lib/auth";
+import type { BookType } from "#src/types/book";
+import type { ReadingStatus } from "#src/types/readingStatus";
+import { searchBooksFromNDL } from "../lib/ndl";
 
 type UpdateReadingStatusResult = {
   book?: BookType;

@@ -1,7 +1,7 @@
-import type { BookType } from "@/types/book";
 import type { Meta, StoryObj } from "@storybook/react";
 import { createDummyBookDetail } from "#src/_mocks/book";
-import BookList from "./index";
+import type { BookType } from "#src/types/book";
+import BookList from "./";
 
 const meta: Meta<typeof BookList> = {
   title: "Common/BookList",

@@ -1,4 +1,4 @@
-import { generateMetadataTitle } from "@/lib/metadata";
+import { generateMetadataTitle } from "#src/lib/metadata";
 import ErrorPage from "./_components/ErrorPage";
 
 export const metadata = generateMetadataTitle("NotFound");

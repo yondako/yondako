@@ -1,11 +1,11 @@
-import MobileBottomNavi from "@/components/MobileBottomNavi";
-import MobileHeader from "@/components/MobileHeader";
-import { checkLatestNews } from "@/lib/news";
 import dynamic from "next/dynamic";
 import type { ReactNode } from "react";
+import MobileBottomNavi from "#src/components/MobileBottomNavi/index";
+import MobileHeader from "#src/components/MobileHeader/index";
+import { checkLatestNews } from "#src/lib/news";
 import SideNavi from "./_components/SideNavi";
 
-const Toaster = dynamic(import("@/components/Toaster"), {
+const Toaster = dynamic(import("../../components/Toaster"), {
   ssr: false,
 });
 

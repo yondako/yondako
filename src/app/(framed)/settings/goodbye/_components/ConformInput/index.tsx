@@ -1,11 +1,11 @@
 "use client";
 
-import IconExclamationCircle from "@/assets/icons/exclamation-circle.svg";
-import Button from "@/components/Button";
-import Input from "@/components/Input";
 import { signOut } from "next-auth/react";
 import { useEffect } from "react";
 import { useFormState } from "react-dom";
+import IconExclamationCircle from "#src/assets/icons/exclamation-circle.svg";
+import Button from "#src/components/Button/index";
+import Input from "#src/components/Input/index";
 import { goodbyeUser } from "../../_actions/goodbye";
 
 export default function ConfirmInput() {

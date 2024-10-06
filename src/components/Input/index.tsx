@@ -1,6 +1,6 @@
-import IconSearch from "@/assets/icons/search.svg";
 import { type ComponentPropsWithRef, forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
+import IconSearch from "#src/assets/icons/search.svg";
 
 type Props = {
   /** 検索アイコンを表示 */

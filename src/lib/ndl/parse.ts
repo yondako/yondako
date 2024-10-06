@@ -1,5 +1,5 @@
-import type { BookDetail } from "@/types/book";
 import { XMLParser } from "fast-xml-parser";
+import type { BookDetail } from "#src/types/book";
 import {
   createAuthors,
   createPublishers,

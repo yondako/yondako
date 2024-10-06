@@ -1,10 +1,10 @@
 "use client";
 
-import IconScan from "@/assets/icons/scan.svg";
-import Button from "@/components/Button";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { useOrientation } from "react-use";
+import IconScan from "#src/assets/icons/scan.svg";
+import Button from "#src/components/Button/index";
 import MessagePage from "../MessagePage";
 
 const Scanner = dynamic(() => import("../Scanner"), {

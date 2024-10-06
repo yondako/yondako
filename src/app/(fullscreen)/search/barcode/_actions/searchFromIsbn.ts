@@ -1,10 +1,10 @@
 "use server";
 
-import { getStatusesByBookIds } from "@/db/queries/status";
-import { auth } from "@/lib/auth";
-import { searchBooksFromNDL } from "@/lib/ndl";
-import type { BookType } from "@/types/book";
-import type { ReadingStatus } from "@/types/readingStatus";
+import { getStatusesByBookIds } from "#src/db/queries/status";
+import { auth } from "#src/lib/auth";
+import { searchBooksFromNDL } from "#src/lib/ndl/index";
+import type { BookType } from "#src/types/book";
+import type { ReadingStatus } from "#src/types/readingStatus";
 
 export async function searchFromIsbn(
   isbn: string,

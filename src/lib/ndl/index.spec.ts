@@ -3,7 +3,7 @@ import {
   createDummyBookDetail,
   createDummyItem,
   createDummyXml,
-} from "@/_mocks/book";
+} from "#src/_mocks/book";
 import { searchBooksFromNDL } from "./index";
 
 describe("searchBooksFromNDL", () => {

@@ -1,5 +1,5 @@
-import { site } from "@/constants/site";
 import { number, object, parse } from "valibot";
+import { site } from "#src/constants/site";
 
 export const latestTimestampSchema = object({
   timestamp: number(),

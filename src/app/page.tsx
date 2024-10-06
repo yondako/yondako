@@ -1,13 +1,13 @@
-import imageLogo from "@/assets/images/logo/portrait.svg?url";
-import OpenDoodlesReadingSide from "@/assets/images/open-doodles/reading-side.svg";
-import OpenDoodlesSittingReading from "@/assets/images/open-doodles/sitting-reading.svg";
-import BudouX from "@/components/BudouX";
-import Footer from "@/components/Footer";
-import { site } from "@/constants/site";
-import { auth } from "@/lib/auth";
-import { generateMetadataTitle } from "@/lib/metadata";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+import imageLogo from "#src/assets/images/logo/portrait.svg?url";
+import OpenDoodlesReadingSide from "#src/assets/images/open-doodles/reading-side.svg";
+import OpenDoodlesSittingReading from "#src/assets/images/open-doodles/sitting-reading.svg";
+import { site } from "#src/constants/site";
+import { auth } from "#src/lib/auth";
+import { generateMetadataTitle } from "#src/lib/metadata";
+import BudouX from "../components/BudouX";
+import Footer from "../components/Footer";
 import LoginButtons from "./_components/LoginButton";
 import SlideIn from "./_components/SlideIn";
 

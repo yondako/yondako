@@ -1,18 +1,18 @@
-import { Loading } from "@/components/Loading";
-import { readingStatusMetadata } from "@/constants/status";
-import { auth } from "@/lib/auth";
-import { generateMetadataTitle } from "@/lib/metadata";
-import { createSignInPath } from "@/lib/path";
-import { type Order, orderSchema } from "@/types/order";
-import { pageIndexSchema } from "@/types/page";
-import {
-  type ReadingStatus,
-  readingStatusSchemaWithoutNone,
-} from "@/types/readingStatus";
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
 import { is, safeParse } from "valibot";
+import { Loading } from "#src/components/Loading/index";
+import { readingStatusMetadata } from "#src/constants/status";
+import { auth } from "#src/lib/auth";
+import { generateMetadataTitle } from "#src/lib/metadata";
+import { createSignInPath } from "#src/lib/path";
+import { type Order, orderSchema } from "#src/types/order";
+import { pageIndexSchema } from "#src/types/page";
+import {
+  type ReadingStatus,
+  readingStatusSchemaWithoutNone,
+} from "#src/types/readingStatus";
 import { LibraryBookList } from "./_components/LibraryBookList";
 import Tab from "./_components/Tab";
 

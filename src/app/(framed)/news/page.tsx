@@ -1,4 +1,4 @@
-import { generateMetadataTitle } from "@/lib/metadata";
+import { generateMetadataTitle } from "#src/lib/metadata";
 import NewsCard from "./_components/NewsCard";
 import UpdateLastNewsCheckedAt from "./_components/UpdateLastNewsCheckedAt";
 import { fetchRecentNews } from "./_lib/fetchRecentNews";

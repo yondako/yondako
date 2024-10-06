@@ -1,8 +1,8 @@
 "use client";
 
-import IconDotsVertical from "@/assets/icons/dots-vertical.svg";
-import type { BookType } from "@/types/book";
 import { useOptimistic, useState } from "react";
+import IconDotsVertical from "#src/assets/icons/dots-vertical.svg";
+import type { BookType } from "#src/types/book";
 import BookDetail from "../BookDetail";
 import BookReadingStatusForm, {
   type BookReadingStatusFormProps,

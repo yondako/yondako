@@ -1,6 +1,6 @@
 "use client";
 
-import MessageTako from "@/components/MessageTako";
+import MessageTako from "#src/components/MessageTako/index";
 
 export default function NewsError() {
   return (
