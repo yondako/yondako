@@ -77,10 +77,6 @@
     "string-width": "4.2.3"
   },
   "imports": {
-    "#db": {
-      "storybook": "./src/db/index.mock.ts",
-      "default": "./src/db/index.ts"
-    },
     "#actions/updateReadingStatus": {
       "storybook": "./src/actions/updateReadingStatus.mock.ts",
       "default": "./src/actions/updateReadingStatus.ts"
