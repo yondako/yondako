@@ -1,15 +1,15 @@
+import IconHelp from "@/assets/icons/help.svg";
+import ExternalLink from "@/components/ExternalLink";
+import { Loading } from "@/components/Loading";
+import SayTako from "@/components/SayTako";
+import { auth } from "@/lib/auth";
+import { generateMetadataTitle } from "@/lib/metadata";
+import { createSignInPath } from "@/lib/path";
+import { pageIndexSchema } from "@/types/page";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { safeParse } from "valibot";
-import IconHelp from "#src/assets/icons/help.svg";
-import ExternalLink from "#src/components/ExternalLink/index";
-import { Loading } from "#src/components/Loading/index";
-import SayTako from "#src/components/SayTako/index";
-import { auth } from "#src/lib/auth";
-import { generateMetadataTitle } from "#src/lib/metadata";
-import { createSignInPath } from "#src/lib/path";
-import { pageIndexSchema } from "#src/types/page";
 import SearchForm from "./_components/SearchForm";
 import { SearchResult } from "./_components/SearchResult";
 

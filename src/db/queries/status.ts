@@ -1,5 +1,8 @@
 import "server-only";
 
+import type { BookDetail, BookType } from "@/types/book";
+import type { Order } from "@/types/order";
+import type { ReadingStatus } from "@/types/readingStatus";
 import {
   and,
   asc,
@@ -10,9 +13,6 @@ import {
   inArray,
   sql,
 } from "drizzle-orm";
-import type { BookDetail, BookType } from "#src/types/book";
-import type { Order } from "#src/types/order";
-import type { ReadingStatus } from "#src/types/readingStatus";
 import db from "..";
 import * as dbSchema from "../schema/book";
 

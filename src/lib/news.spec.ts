@@ -1,5 +1,5 @@
 import { describe, expect, mock, test } from "bun:test";
-import { site } from "#src/constants/site";
+import { site } from "@/constants/site";
 import { checkLatestNews } from "./news";
 
 describe("checkLatestNews", () => {

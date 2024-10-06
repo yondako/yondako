@@ -1,6 +1,6 @@
+import type { newsSchema } from "@/app/(framed)/news/_lib/fetchRecentNews";
+import { site } from "@/constants/site";
 import type { InferInput } from "valibot";
-import type { newsSchema } from "#src/app/(framed)/news/_lib/fetchRecentNews";
-import { site } from "#src/constants/site";
 import Tag from "./Tag";
 
 type Props = InferInput<typeof newsSchema.item>;

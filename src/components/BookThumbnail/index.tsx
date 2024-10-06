@@ -1,7 +1,7 @@
+import imageNoImage from "@/assets/images/noimage.webp";
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
-import imageNoImage from "#src/assets/images/noimage.webp";
 import { createThumbnailUrl } from "./createThumbnailUrl";
 
 type Props = {

@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { site } from "#src/constants/site";
+import { site } from "@/constants/site";
 import { generateMetadataTitle } from "./metadata";
 
 test("タイトルが設定できる", () => {

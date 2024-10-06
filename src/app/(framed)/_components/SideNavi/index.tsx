@@ -1,15 +1,15 @@
 "use client";
 
+import logoUrl from "@/assets/images/logo/portrait.svg?url";
+import Footer from "@/components/Footer";
+import { naviItems } from "@/constants/navi-items";
+import { site } from "@/constants/site";
+import { useCheckLatestNews } from "@/hooks/useCheckLatestNews";
+import type { NaviProps } from "@/types/navi";
 import Image from "next/image";
 import Link from "next/link";
 import { useSelectedLayoutSegments } from "next/navigation";
 import { twMerge } from "tailwind-merge";
-import logoUrl from "#src/assets/images/logo/portrait.svg?url";
-import Footer from "#src/components/Footer/index";
-import { naviItems } from "#src/constants/navi-items";
-import { site } from "#src/constants/site";
-import { useCheckLatestNews } from "#src/hooks/useCheckLatestNews";
-import type { NaviProps } from "#src/types/navi";
 import Item from "./Item";
 
 export default function SideNavi({

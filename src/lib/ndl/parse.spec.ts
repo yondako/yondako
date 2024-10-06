@@ -3,7 +3,7 @@ import {
   createDummyBookDetail,
   createDummyItem,
   createDummyXml,
-} from "#src/_mocks/book";
+} from "@/_mocks/book";
 import { parseOpenSearchXml } from "./parse";
 
 test("レスポンスの形式が異なる場合、エラーが投げられる", () => {

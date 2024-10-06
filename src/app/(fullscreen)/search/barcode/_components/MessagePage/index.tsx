@@ -1,7 +1,5 @@
-import MessageTako, {
-  type MessageTakoProps,
-} from "#src/components/MessageTako/index";
-import MobileHeader from "#src/components/MobileHeader/index";
+import MessageTako, { type MessageTakoProps } from "@/components/MessageTako";
+import MobileHeader from "@/components/MobileHeader";
 
 export default function MessagePage(props: MessageTakoProps) {
   return (

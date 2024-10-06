@@ -1,11 +1,11 @@
 "use client";
 
+import { naviItems } from "@/constants/navi-items";
+import { useCheckLatestNews } from "@/hooks/useCheckLatestNews";
+import type { NaviProps } from "@/types/navi";
 import Link from "next/link";
 import { useSelectedLayoutSegments } from "next/navigation";
 import { twMerge } from "tailwind-merge";
-import { naviItems } from "#src/constants/navi-items";
-import { useCheckLatestNews } from "#src/hooks/useCheckLatestNews";
-import type { NaviProps } from "#src/types/navi";
 
 export default function MobileBottomNavi({
   latestNewsTimestamp,

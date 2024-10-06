@@ -1,8 +1,8 @@
+import { auth } from "@/lib/auth";
+import { generateMetadataTitle } from "@/lib/metadata";
+import { createSignInPath } from "@/lib/path";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { auth } from "#src/lib/auth";
-import { generateMetadataTitle } from "#src/lib/metadata";
-import { createSignInPath } from "#src/lib/path";
 import ScannerStartPage from "./_components/ScannerStartPage";
 
 export const runtime = "edge";

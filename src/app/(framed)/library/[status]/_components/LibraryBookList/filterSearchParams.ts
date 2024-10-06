@@ -1,5 +1,5 @@
+import type { Order } from "@/types/order";
 import type { ReadonlyURLSearchParams } from "next/navigation";
-import type { Order } from "#src/types/order";
 
 /**
  * 絞り込み条件のクエリパラメータを作成

@@ -1,6 +1,6 @@
+import IconBellFilled from "@/assets/icons/bell-filled.svg";
+import IconBell from "@/assets/icons/bell.svg";
 import type { Meta, StoryObj } from "@storybook/react";
-import IconBellFilled from "#src/assets/icons/bell-filled.svg";
-import IconBell from "#src/assets/icons/bell.svg";
 import Item from "./Item";
 
 const meta: Meta<typeof Item> = {

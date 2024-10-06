@@ -1,6 +1,6 @@
+import { links } from "@/constants/site";
 import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
-import { links } from "#src/constants/site";
 import ExternalLink from "../ExternalLink";
 
 export type FooterProps = {

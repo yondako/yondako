@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test } from "bun:test";
+import { useCheckLatestNews } from "@/hooks/useCheckLatestNews";
 import { renderHook } from "@testing-library/react-hooks";
-import { useCheckLatestNews } from "#src/hooks/useCheckLatestNews";
 
 describe("useCheckLatestNews", () => {
   const lastNewsCheckedKey = "lastNewsChecked";

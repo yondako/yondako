@@ -1,12 +1,12 @@
+import IconBellFilled from "@/assets/icons/bell-filled.svg";
+import IconBell from "@/assets/icons/bell.svg";
+import IconBookmarksFilled from "@/assets/icons/bookmarks-filled.svg";
+import IconBookmarks from "@/assets/icons/bookmarks.svg";
+import IconScan from "@/assets/icons/scan.svg";
+import IconSearch from "@/assets/icons/search.svg";
+import IconSettingsFilled from "@/assets/icons/settings-filled.svg";
+import IconSettings from "@/assets/icons/settings.svg";
 import type { FunctionComponent, SVGProps } from "react";
-import IconBellFilled from "#src/assets/icons/bell-filled.svg";
-import IconBell from "#src/assets/icons/bell.svg";
-import IconBookmarksFilled from "#src/assets/icons/bookmarks-filled.svg";
-import IconBookmarks from "#src/assets/icons/bookmarks.svg";
-import IconScan from "#src/assets/icons/scan.svg";
-import IconSearch from "#src/assets/icons/search.svg";
-import IconSettingsFilled from "#src/assets/icons/settings-filled.svg";
-import IconSettings from "#src/assets/icons/settings.svg";
 
 export type NavItem = {
   /** ページタイトル */

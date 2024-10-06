@@ -1,6 +1,6 @@
+import type { ReadingStatusMetadataItem } from "@/constants/status";
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
-import type { ReadingStatusMetadataItem } from "#src/constants/status";
 
 type TabItemProps = {
   id: string;

@@ -1,10 +1,10 @@
+import Button from "@/components/Button";
+import Footer from "@/components/Footer";
+import { auth } from "@/lib/auth";
+import { generateMetadataTitle } from "@/lib/metadata";
+import { createSignInPath } from "@/lib/path";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import Button from "#src/components/Button/index";
-import Footer from "#src/components/Footer/index";
-import { auth } from "#src/lib/auth";
-import { generateMetadataTitle } from "#src/lib/metadata";
-import { createSignInPath } from "#src/lib/path";
 import LogoutButton from "./_components/LogoutButton";
 import SettingProperty from "./_components/SettingProperty";
 

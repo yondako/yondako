@@ -1,4 +1,4 @@
-import type { BookDetail } from "#src/types/book";
+import type { BookDetail } from "@/types/book";
 
 export const createDummyItem = (id: string) => `
 <item>

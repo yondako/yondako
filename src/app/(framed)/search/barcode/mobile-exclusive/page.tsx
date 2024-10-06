@@ -1,10 +1,10 @@
+import ImageQrCode from "@/assets/images/qr-search-barcode.svg";
+import MessageTako from "@/components/MessageTako";
+import { auth } from "@/lib/auth";
+import { generateMetadataTitle } from "@/lib/metadata";
+import { createSignInPath } from "@/lib/path";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import ImageQrCode from "#src/assets/images/qr-search-barcode.svg";
-import MessageTako from "#src/components/MessageTako/index";
-import { auth } from "#src/lib/auth";
-import { generateMetadataTitle } from "#src/lib/metadata";
-import { createSignInPath } from "#src/lib/path";
 
 export const runtime = "edge";
 

@@ -1,12 +1,12 @@
-import BookList from "#src/components/BookList/index";
-import Pagination from "#src/components/Pagination/index";
-import SayTako from "#src/components/SayTako/index";
+import BookList from "@/components/BookList";
+import Pagination from "@/components/Pagination";
+import SayTako from "@/components/SayTako";
 import {
   searchBooksFromLibrary,
   type searchBooksFromLibraryOptions,
-} from "#src/db/queries/status";
-import { auth } from "#src/lib/auth";
-import type { ReadingStatus } from "#src/types/readingStatus";
+} from "@/db/queries/status";
+import { auth } from "@/lib/auth";
+import type { ReadingStatus } from "@/types/readingStatus";
 import Filter from "./Filter";
 
 const pageSize = 24;

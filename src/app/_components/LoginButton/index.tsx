@@ -1,11 +1,11 @@
+import IconBrandGitHub from "@/assets/brands/brand-github.svg";
+import IconBrandGoogle from "@/assets/brands/brand-google.svg";
+import Button from "@/components/Button";
+import ExternalLink from "@/components/ExternalLink";
+import { links } from "@/constants/site";
+import { signIn } from "@/lib/auth";
 import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
-import IconBrandGitHub from "#src/assets/brands/brand-github.svg";
-import IconBrandGoogle from "#src/assets/brands/brand-google.svg";
-import Button from "#src/components/Button/index";
-import ExternalLink from "#src/components/ExternalLink/index";
-import { links } from "#src/constants/site";
-import { signIn } from "#src/lib/auth";
 
 type Props = {
   className?: string;

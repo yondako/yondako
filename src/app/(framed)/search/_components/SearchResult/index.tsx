@@ -1,9 +1,9 @@
-import BookList from "#src/components/BookList/index";
-import MessageTako from "#src/components/MessageTako/index";
-import Pagination from "#src/components/Pagination/index";
-import { getStatusesByBookIds } from "#src/db/queries/status";
-import { auth } from "#src/lib/auth";
-import { searchBooksFromNDL } from "#src/lib/ndl/index";
+import BookList from "@/components/BookList";
+import MessageTako from "@/components/MessageTako";
+import Pagination from "@/components/Pagination";
+import { getStatusesByBookIds } from "@/db/queries/status";
+import { auth } from "@/lib/auth";
+import { searchBooksFromNDL } from "@/lib/ndl";
 
 const minLimit = 1;
 const limit = 48;

@@ -1,6 +1,6 @@
+import type { NavItem } from "@/constants/navi-items";
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
-import type { NavItem } from "#src/constants/navi-items";
 
 type Props = {
   current?: boolean;

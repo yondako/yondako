@@ -1,7 +1,7 @@
+import IconBookmarksFilled from "@/assets/icons/bookmarks-filled.svg";
+import IconBookmarks from "@/assets/icons/bookmarks.svg";
+import type { ReadingStatusMetadataItem } from "@/constants/status";
 import type { Meta, StoryObj } from "@storybook/react";
-import IconBookmarksFilled from "#src/assets/icons/bookmarks-filled.svg";
-import IconBookmarks from "#src/assets/icons/bookmarks.svg";
-import type { ReadingStatusMetadataItem } from "#src/constants/status";
 import BookReadingStatusButton from "./ReadingStatusButton";
 
 const meta: Meta<typeof BookReadingStatusButton> = {

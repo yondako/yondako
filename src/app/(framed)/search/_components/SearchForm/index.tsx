@@ -1,8 +1,8 @@
 "use client";
 
+import Input from "@/components/Input";
 import { useRouter, useSearchParams } from "next/navigation";
 import { type FormEventHandler, useRef } from "react";
-import Input from "#src/components/Input/index";
 
 export default function SearchForm() {
   const searchBoxRef = useRef<HTMLInputElement>(null);

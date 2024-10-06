@@ -1,4 +1,4 @@
-import IconExternalLink from "#src/assets/icons/external-link.svg";
+import IconExternalLink from "@/assets/icons/external-link.svg";
 import Button from "../Button";
 import { toIsbn10 } from "./toIsbn10";
 

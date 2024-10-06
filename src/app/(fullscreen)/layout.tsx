@@ -1,7 +1,7 @@
+import MobileBottomNavi from "@/components/MobileBottomNavi";
+import Toaster from "@/components/Toaster";
+import { checkLatestNews } from "@/lib/news";
 import type { ReactNode } from "react";
-import MobileBottomNavi from "#src/components/MobileBottomNavi/index";
-import Toaster from "#src/components/Toaster/index";
-import { checkLatestNews } from "#src/lib/news";
 
 type Props = {
   children: ReactNode;

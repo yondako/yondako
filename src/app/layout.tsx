@@ -1,8 +1,8 @@
 import { twMerge } from "tailwind-merge";
 import "./globals.css";
+import { site } from "@/constants/site";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { site } from "#src/constants/site";
 
 const lineSeedJp = localFont({
   src: [

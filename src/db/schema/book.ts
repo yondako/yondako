@@ -1,3 +1,4 @@
+import { readingStatusValues } from "@/types/readingStatus";
 import { relations, sql } from "drizzle-orm";
 import {
   integer,
@@ -5,7 +6,6 @@ import {
   sqliteTable,
   text,
 } from "drizzle-orm/sqlite-core";
-import { readingStatusValues } from "#src/types/readingStatus";
 import { users } from "./user";
 
 /**

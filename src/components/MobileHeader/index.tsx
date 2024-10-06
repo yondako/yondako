@@ -1,8 +1,8 @@
+import ImageLogo from "@/assets/images/logo/landscape.svg";
+import { site } from "@/constants/site";
 import Link from "next/link";
 import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
-import ImageLogo from "#src/assets/images/logo/landscape.svg";
-import { site } from "#src/constants/site";
 
 export default function MobileHeader(props: ComponentPropsWithoutRef<"div">) {
   const style = "p-8 pb-0 text-center";

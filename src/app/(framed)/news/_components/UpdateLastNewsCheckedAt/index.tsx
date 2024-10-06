@@ -1,7 +1,7 @@
 "use client";
 
+import { lastNewsCheckedKey } from "@/hooks/useCheckLatestNews";
 import { useEffect } from "react";
-import { lastNewsCheckedKey } from "#src/hooks/useCheckLatestNews";
 
 export default function UpdateLastNewsCheckedAt() {
   // お知らせページを開いた時刻を保存

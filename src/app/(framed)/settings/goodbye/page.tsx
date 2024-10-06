@@ -1,6 +1,6 @@
+import { auth } from "@/lib/auth";
+import { createSignInPath } from "@/lib/path";
 import { redirect } from "next/navigation";
-import { auth } from "#src/lib/auth";
-import { createSignInPath } from "#src/lib/path";
 import ConfirmInput from "./_components/ConformInput";
 
 export const runtime = "edge";

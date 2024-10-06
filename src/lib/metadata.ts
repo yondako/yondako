@@ -1,5 +1,5 @@
+import { site } from "@/constants/site";
 import type { Metadata } from "next";
-import { site } from "#src/constants/site";
 
 export const generateMetadataTitle = (pageTitle?: string): Metadata => {
   const title = pageTitle
