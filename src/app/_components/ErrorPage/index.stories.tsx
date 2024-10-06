@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import ErrorPage from ".";
 
 const meta: Meta<typeof ErrorPage> = {
-  title: "Layout/ErrorPage",
+  title: "App/ErrorPage",
   component: ErrorPage,
 };
 
