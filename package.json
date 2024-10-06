@@ -16,6 +16,7 @@
     "drizzle:studio": "bun --env-file=.env.local  run drizzle-kit studio",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "test-storybook": "test-storybook",
     "chromatic": "chromatic --exit-zero-on-changes"
   },
   "dependencies": {
