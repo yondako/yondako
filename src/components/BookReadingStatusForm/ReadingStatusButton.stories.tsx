@@ -8,16 +8,16 @@ const meta: Meta<typeof BookReadingStatusButton> = {
   title: "Common/BookReadingStatusForm/BookReadingStatusButton",
   component: (props) => {
     return (
-      <div className="flex space-x-4">
-        <div className="space-y-2 text-center">
-          <p>Normal</p>
+      <>
+        <div className="flex gap-4">
           <BookReadingStatusButton {...props} />
-        </div>
-        <div className="space-y-2 text-center">
-          <p>Selected</p>
           <BookReadingStatusButton {...props} selected />
         </div>
-      </div>
+        <div className="mt-8 flex gap-4">
+          <BookReadingStatusButton {...props} compact />
+          <BookReadingStatusButton {...props} selected compact />
+        </div>
+      </>
     );
   },
 };
@@ -31,19 +31,9 @@ const sampleMeta: ReadingStatusMetadataItem = {
   IconFilled: IconBookmarksFilled,
 };
 
-export const Default: Story = {
+export const All: Story = {
   args: {
     status: "reading",
     meta: sampleMeta,
-    selected: false,
-  },
-};
-
-export const Compact: Story = {
-  args: {
-    status: "reading",
-    meta: sampleMeta,
-    selected: false,
-    compact: true,
   },
 };
