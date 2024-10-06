@@ -55,7 +55,7 @@
     "@storybook/blocks": "^8.2.8",
     "@storybook/nextjs": "^8.2.8",
     "@storybook/react": "^8.2.8",
-    "@storybook/test": "^8.2.8",
+    "@storybook/test": "^8.3.5",
     "@svgr/webpack": "^8.1.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.0.0",
@@ -75,5 +75,16 @@
   },
   "overrides": {
     "string-width": "4.2.3"
+  },
+  "imports": {
+    "#db": {
+      "storybook": "./src/db/index.mock.ts",
+      "default": "./src/db/index.ts"
+    },
+    "#actions/updateReadingStatus": {
+      "storybook": "./src/actions/updateReadingStatus.mock.ts",
+      "default": "./src/actions/updateReadingStatus.ts"
+    },
+    "#*": ["./*", "./*.ts", "./*.tsx"]
   }
 }

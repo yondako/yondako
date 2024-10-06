@@ -13,7 +13,7 @@ const config: StorybookConfig = {
     options: {},
   },
   features: {
-    experimentalRSC: false,
+    experimentalRSC: true,
   },
   staticDirs: ["../public"],
   webpackFinal: async (config) => {
