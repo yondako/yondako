@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "biome lint --write",
-    "fmt": "biome format",
+    "fmt": "biome format --write",
     "pages:build": "bunx @cloudflare/next-on-pages",
     "preview": "bun pages:build && wrangler pages dev",
     "deploy": "bun pages:build && wrangler pages deploy",
@@ -70,6 +70,7 @@
     "lefthook": "^1.7.11",
     "postcss": "^8.4.40",
     "storybook": "^8.3.4",
+    "storybook-addon-pseudo-states": "^4.0.2",
     "tailwindcss": "^3.4.7",
     "typescript": "^5.5.4",
     "wrangler": "^3.68.0"
