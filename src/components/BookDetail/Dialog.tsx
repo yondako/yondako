@@ -6,7 +6,7 @@ import {
   useTransition,
 } from "@react-spring/web";
 import { useRef, useState } from "react";
-import { BookThumbnail } from "../BookThumbnail";
+import BookThumbnail from "../BookThumbnail";
 import BookDetailContent from "./Content";
 import type { BookDetailProps } from "./props";
 
@@ -104,7 +104,10 @@ export default function BookDetailDialog({
                   translateY: "-50%",
                 }}
               >
-                <Dialog.Close className="absolute top-4 right-4 text-secondary-foreground transition-colors hover:text-primary-foreground">
+                <Dialog.Close
+                  className="absolute top-4 right-4 text-secondary-foreground transition-colors hover:text-primary-foreground"
+                  data-testid="button-close"
+                >
                   <IconClose className="h-4 w-4" />
                 </Dialog.Close>
                 <BookThumbnail

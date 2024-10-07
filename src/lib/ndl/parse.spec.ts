@@ -1,9 +1,9 @@
 import { describe, expect, test } from "bun:test";
 import {
+  createDummyBookDetail,
   createDummyItem,
-  createTestXml,
-  createWantBookDetail,
-} from "./_mockdata";
+  createDummyXml,
+} from "@/_mocks/book";
 import { parseOpenSearchXml } from "./parse";
 
 test("レスポンスの形式が異なる場合、エラーが投げられる", () => {
@@ -15,7 +15,7 @@ test("レスポンスの形式が異なる場合、エラーが投げられる",
 });
 
 test("検索結果がない場合、空のレスポンスが返る", () => {
-  const xml = createTestXml(0);
+  const xml = createDummyXml(0);
 
   expect(parseOpenSearchXml(xml)).toEqual({
     meta: {
@@ -29,7 +29,7 @@ test("検索結果がない場合、空のレスポンスが返る", () => {
 
 describe("パースできる", () => {
   test("itemが1つの場合", () => {
-    const xml = createTestXml(1, createDummyItem("000000000"));
+    const xml = createDummyXml(1, createDummyItem("000000000"));
     const got = parseOpenSearchXml(xml);
 
     expect(got).toEqual({
@@ -38,12 +38,12 @@ describe("パースできる", () => {
         startIndex: 1,
         itemsPerPage: 10,
       },
-      books: [createWantBookDetail("000000000")],
+      books: [createDummyBookDetail("000000000")],
     });
   });
 
   test("itemが複数の場合", () => {
-    const xml = createTestXml(
+    const xml = createDummyXml(
       3,
       [
         createDummyItem("000000000"),
@@ -60,15 +60,15 @@ describe("パースできる", () => {
         itemsPerPage: 10,
       },
       books: [
-        createWantBookDetail("000000000"),
-        createWantBookDetail("000000001"),
-        createWantBookDetail("000000002"),
+        createDummyBookDetail("000000000"),
+        createDummyBookDetail("000000001"),
+        createDummyBookDetail("000000002"),
       ],
     });
   });
 
   test("identifierが1つの場合", () => {
-    const xml = createTestXml(
+    const xml = createDummyXml(
       1,
       `
       <item>
@@ -115,7 +115,7 @@ describe("パースできる", () => {
       },
       books: [
         {
-          ...createWantBookDetail("000000000"),
+          ...createDummyBookDetail("000000000"),
           title: "ダミータイトル",
           isbn: undefined,
           jpNo: undefined,
@@ -126,7 +126,7 @@ describe("パースできる", () => {
 });
 
 test("NDLBibIDが無いものは除外される", () => {
-  const xml = createTestXml(
+  const xml = createDummyXml(
     2,
     `
       <item>
@@ -171,12 +171,12 @@ test("NDLBibIDが無いものは除外される", () => {
       startIndex: 1,
       itemsPerPage: 10,
     },
-    books: [createWantBookDetail("000000000")],
+    books: [createDummyBookDetail("000000000")],
   });
 });
 
 test("巻数がある場合はタイトルに含まれる", () => {
-  const xml = createTestXml(
+  const xml = createDummyXml(
     1,
     `
     <item>
@@ -227,7 +227,7 @@ test("巻数がある場合はタイトルに含まれる", () => {
     },
     books: [
       {
-        ...createWantBookDetail("000000000"),
+        ...createDummyBookDetail("000000000"),
         title: "ダミータイトル (05)",
       },
     ],
@@ -235,7 +235,7 @@ test("巻数がある場合はタイトルに含まれる", () => {
 });
 
 test("totalResultsが500件以上なら丸められる", () => {
-  const xml = createTestXml(1000, createDummyItem("000000000"));
+  const xml = createDummyXml(1000, createDummyItem("000000000"));
 
   expect(parseOpenSearchXml(xml)).toEqual({
     meta: {
@@ -243,6 +243,6 @@ test("totalResultsが500件以上なら丸められる", () => {
       startIndex: 1,
       itemsPerPage: 10,
     },
-    books: [createWantBookDetail("000000000")],
+    books: [createDummyBookDetail("000000000")],
   });
 });

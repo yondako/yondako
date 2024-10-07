@@ -28,6 +28,7 @@ export default function BookReadingStatusButton({
       type="submit"
       name="status"
       value={selected ? "none" : status}
+      data-testid={`button-status-${status}`}
     >
       <Icon className={twMerge("mx-auto", compact ? "h-5 w-5" : "h-6 w-6")} />
       {!compact && <p className="text-xxs">{meta.label}</p>}

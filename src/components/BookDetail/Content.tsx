@@ -38,7 +38,12 @@ export default function BookDetailContent({
 
   return (
     <div className={twMerge("mx-auto", className)}>
-      <Title className="palt line-clamp-3 text-center font-bold">{title}</Title>
+      <Title
+        className="palt line-clamp-3 text-center font-bold"
+        data-testid="book-title"
+      >
+        {title}
+      </Title>
 
       {(authors || publishers) && (
         <Description asChild>

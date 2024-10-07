@@ -10,7 +10,7 @@ type Props = {
   jpeCode?: string | null;
 };
 
-export function BookThumbnail({ className, isbn, jpeCode }: Props) {
+export default function BookThumbnail({ className, isbn, jpeCode }: Props) {
   const imageBgStyle = "w-full object-contain";
 
   // 両方ある場合は ISBN -> JP-eコード の順に取得
