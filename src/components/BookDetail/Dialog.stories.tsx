@@ -36,7 +36,7 @@ export const Default: Story = {
     open: true,
   },
   parameters: {
-    chromatic: { delay: 500 },
+    chromatic: { delay: 1000 },
   },
 };
 
