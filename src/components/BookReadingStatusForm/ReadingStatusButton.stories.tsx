@@ -6,19 +6,32 @@ import BookReadingStatusButton from "./ReadingStatusButton";
 
 const meta: Meta<typeof BookReadingStatusButton> = {
   title: "Common/BookReadingStatusForm/BookReadingStatusButton",
-  component: (props) => {
+  component: BookReadingStatusButton,
+  render: (args) => {
     return (
       <>
         <div className="flex gap-4">
-          <BookReadingStatusButton {...props} />
-          <BookReadingStatusButton {...props} selected />
+          <BookReadingStatusButton {...args} />
+          <BookReadingStatusButton {...args} selected />
         </div>
         <div className="mt-8 flex gap-4">
-          <BookReadingStatusButton {...props} compact />
-          <BookReadingStatusButton {...props} selected compact />
+          <BookReadingStatusButton {...args} compact />
+          <BookReadingStatusButton {...args} compact status="want_read" />
+          <BookReadingStatusButton {...args} selected compact />
+          <BookReadingStatusButton
+            {...args}
+            selected
+            compact
+            status="want_read"
+          />
         </div>
       </>
     );
+  },
+  parameters: {
+    pseudo: {
+      hover: ["[data-testid=button-status-want_read]"],
+    },
   },
 };
 

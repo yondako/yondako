@@ -9,15 +9,25 @@ const meta: Meta<typeof Button> = {
 export default meta;
 type Story = StoryObj<typeof Button>;
 
-export const Default: Story = {
+export const All: Story = {
   args: {
     children: "ボタンテキスト",
   },
-};
-
-export const Link: Story = {
-  args: {
-    asChild: true,
-    children: <a href="https://example.com/">リンクテキスト</a>,
+  parameters: {
+    pseudo: {
+      hover: ["#hover"],
+    },
   },
+  render: (args) => (
+    <div className="space-y-4">
+      <div className="space-x-4">
+        <Button {...args} />
+        <Button {...args} id="hover" />
+      </div>
+      <div className="space-x-4">
+        <Button {...args} noBorder />
+        <Button {...args} noBorder id="hover" />
+      </div>
+    </div>
+  ),
 };

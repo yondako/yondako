@@ -10,8 +10,14 @@ const meta: Meta<typeof Input> = {
         <Input {...args} />
         <Input {...args} placeholder="プレースホルダー" />
         <Input {...args} value="テキスト" />
+        <Input {...args} value="テキスト" id="focus" />
       </div>
     );
+  },
+  parameters: {
+    pseudo: {
+      focus: ["#focus"],
+    },
   },
 };
 

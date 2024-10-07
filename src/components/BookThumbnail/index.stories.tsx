@@ -19,6 +19,7 @@ export const Default: Story = {
 };
 
 export const WithBoth: Story = {
+  name: "ISBNとJP-eコード両方ある",
   args: {
     isbn: "9784253142366",
     jpeCode: "25314236004733001000",
@@ -26,5 +27,6 @@ export const WithBoth: Story = {
 };
 
 export const NoImage: Story = {
+  name: "画像がない",
   args: {},
 };
