@@ -2,6 +2,7 @@ import IconHelp from "@/assets/icons/help.svg";
 import ExternalLink from "@/components/ExternalLink";
 import { Loading } from "@/components/Loading";
 import SayTako from "@/components/SayTako";
+import { site } from "@/constants/site";
 import { auth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
@@ -30,6 +31,8 @@ export function generateMetadata({ searchParams }: Props): Metadata {
   );
 }
 
+const dataSourceUrl = new URL("/docs/data-source", site.infoUrl).toString();
+
 export default async function Search({ searchParams }: Props) {
   const session = await auth();
 
@@ -53,7 +56,7 @@ export default async function Search({ searchParams }: Props) {
         <SearchForm />
         <ExternalLink
           className="mt-4 flex shrink-0 items-center space-x-1 text-xs lg:mt-0 lg:ml-4"
-          href="https://docs.yondako.com/data-source"
+          href={dataSourceUrl}
         >
           <IconHelp className="h-4 w-4" />
           <span>使用しているデータについて</span>
