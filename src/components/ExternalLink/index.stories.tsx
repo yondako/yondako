@@ -9,9 +9,22 @@ const meta: Meta<typeof ExternalLink> = {
 export default meta;
 type Story = StoryObj<typeof ExternalLink>;
 
-export const Default: Story = {
+export const All: Story = {
   args: {
     href: "https://example.com/",
     children: "リンクテキスト",
+  },
+  parameters: {
+    pseudo: {
+      hover: ["#hover"],
+    },
+  },
+  render: (args) => {
+    return (
+      <>
+        <ExternalLink {...args} />
+        <ExternalLink {...args} id="hover" />
+      </>
+    );
   },
 };

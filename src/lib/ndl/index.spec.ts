@@ -1,16 +1,16 @@
 import { describe, expect, mock, test } from "bun:test";
 import {
+  createDummyBookDetail,
   createDummyItem,
-  createTestXml,
-  createWantBookDetail,
-} from "./_mockdata";
+  createDummyXml,
+} from "@/_mocks/book";
 import { searchBooksFromNDL } from "./index";
 
 describe("searchBooksFromNDL", () => {
   test("正常に書籍を検索できること", async () => {
     const mockFetch = mock().mockResolvedValue({
       text: mock().mockResolvedValue(
-        createTestXml(10, createDummyItem("000000000")),
+        createDummyXml(10, createDummyItem("000000000")),
       ),
     });
 
@@ -23,7 +23,7 @@ describe("searchBooksFromNDL", () => {
         startIndex: 1,
         itemsPerPage: 10,
       },
-      books: [createWantBookDetail("000000000")],
+      books: [createDummyBookDetail("000000000")],
     });
   });
 

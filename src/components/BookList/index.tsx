@@ -1,19 +1,13 @@
 import type { BookType } from "@/types/book";
 import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
-import type { BookCardProps } from "../BookCard";
 import BookCard from "../BookCard";
 
 type Props = {
   items: BookType[];
-} & Pick<BookCardProps, "hideReadingStatusBadge"> &
-  ComponentPropsWithoutRef<"div">;
+} & ComponentPropsWithoutRef<"div">;
 
-export default function BookList({
-  items,
-  hideReadingStatusBadge,
-  ...props
-}: Props) {
+export default function BookList({ items, ...props }: Props) {
   return (
     <div
       className={twMerge(
@@ -22,11 +16,7 @@ export default function BookList({
       )}
     >
       {items.map((book) => (
-        <BookCard
-          data={book}
-          hideReadingStatusBadge={hideReadingStatusBadge}
-          key={book.detail.link}
-        />
+        <BookCard data={book} key={book.detail.link} />
       ))}
     </div>
   );

@@ -1,5 +1,5 @@
 import { Drawer } from "vaul";
-import { BookThumbnail } from "../BookThumbnail";
+import BookThumbnail from "../BookThumbnail";
 import BookDetailContent from "./Content";
 import type { BookDetailProps } from "./props";
 
