@@ -3,7 +3,7 @@ name: Build Check
 on: push
 
 jobs:
-  test:
+  build-check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
