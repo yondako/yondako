@@ -51,11 +51,6 @@ export const All: Story = {
 
 export const SubmitSuccess: Story = {
   name: "ステータスの送信に成功",
-  parameters: {
-    chromatic: {
-      disableSnapshot: true,
-    },
-  },
   play: async ({ canvasElement, args, step }) => {
     const canvas = within(canvasElement);
 
@@ -77,11 +72,6 @@ export const SubmitSuccess: Story = {
 
 export const SubmitError: Story = {
   name: "ステータスの送信に失敗",
-  parameters: {
-    chromatic: {
-      disableSnapshot: true,
-    },
-  },
   beforeEach: async () => {
     updateReadingStatus.mockResolvedValue({
       error: "error",

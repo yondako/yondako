@@ -27,8 +27,7 @@ for (const [id, { tags }] of Object.entries(json.entries)) {
     url.searchParams.set("id", id);
 
     await page.goto(url.toString());
-
-    await page.waitForTimeout(250);
+    await page.waitForTimeout(500);
 
     await expect(page).toHaveScreenshot(`${id}.png`, {
       fullPage: true,
