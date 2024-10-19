@@ -11,12 +11,22 @@ const config: StorybookConfig = {
   ],
   framework: {
     name: "@storybook/nextjs",
-    options: {},
+    options: {
+      bundler: {
+        useSWC: true,
+      },
+    },
   },
   features: {
     experimentalRSC: true,
   },
-  staticDirs: ["../public", "../src/assets/fonts"],
+  staticDirs: [
+    "../public",
+    {
+      from: "../src/assets/fonts",
+      to: "src/assets/fonts",
+    },
+  ],
   webpackFinal: async (config) => {
     const fileLoaderRule = config.module?.rules?.find(
       (rule) => (rule as { test?: RegExp })?.test?.test(".svg"),

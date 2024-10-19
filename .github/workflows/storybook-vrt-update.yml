@@ -1,17 +1,14 @@
-name: Storybook Tests
+name: Storybook VRT Update
 
 on:
+  workflow_dispatch:
   push:
-    branches:
-      - main
-      - develop
-  pull_request:
     branches:
       - main
       - develop
 
 jobs:
-  storybook-test:
+  storybook-vrt-update:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -55,4 +52,12 @@ jobs:
         run: |
           bunx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
             "bun preview-storybook" \
-            "bunx wait-on tcp:127.0.0.1:6006 && bun test-storybook"
+            "bunx wait-on tcp:127.0.0.1:6006 && bun vrt:storybook:update"
+
+      - name: Update Cache VRT snapshots
+        if: success()
+        uses: actions/cache/save@v4
+        id: storybook-vrt-cache
+        with:
+          path: __snapshots__
+          key: storybook-vrt-snapshots

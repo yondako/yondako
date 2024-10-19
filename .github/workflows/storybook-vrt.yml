@@ -1,17 +1,13 @@
-name: Storybook Tests
+name: Storybook VRT
 
 on:
-  push:
-    branches:
-      - main
-      - develop
   pull_request:
     branches:
       - main
       - develop
 
 jobs:
-  storybook-test:
+  storybook-vrt:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -51,8 +47,23 @@ jobs:
         if: steps.cache-playwright-browsers.outputs.cache-hit != 'true'
         run: bunx playwright install --with-deps
 
+      - name: Restore Cache VRT snapshots
+        uses: actions/cache/restore@v4
+        id: storybook-vrt-cache
+        with:
+          path: __snapshots__
+          key: storybook-vrt-snapshots
+
       - name: Serve Storybook and run tests
         run: |
           bunx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
             "bun preview-storybook" \
-            "bunx wait-on tcp:127.0.0.1:6006 && bun test-storybook"
+            "bunx wait-on tcp:127.0.0.1:6006 && bun vrt:storybook"
+
+      - name: Store Artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vrt-report
+          path: playwright-report/
+          retention-days: 7
