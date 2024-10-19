@@ -69,9 +69,4 @@ export const OpenClose: Story = {
       );
     });
   },
-  parameters: {
-    chromatic: {
-      disableSnapshot: true,
-    },
-  },
 };
