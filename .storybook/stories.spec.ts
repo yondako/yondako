@@ -30,6 +30,8 @@ for (const [id, { tags }] of Object.entries(json.entries)) {
 
     await page.waitForTimeout(250);
 
-    await expect(page).toHaveScreenshot(`${id}.png`);
+    await expect(page).toHaveScreenshot(`${id}.png`, {
+      fullPage: true,
+    });
   });
 }
