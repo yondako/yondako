@@ -19,6 +19,14 @@ const preview: Preview = {
     (Story) => (
       <div className={LINESeedJP.className}>
         <Story />
+        {/* Portal内にフォントを適用するため */}
+        <style>
+          {`
+            body {
+              font-family: ${LINESeedJP.style.fontFamily};
+            }
+          `}
+        </style>
       </div>
     ),
   ],
