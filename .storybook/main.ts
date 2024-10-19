@@ -11,7 +11,11 @@ const config: StorybookConfig = {
   ],
   framework: {
     name: "@storybook/nextjs",
-    options: {},
+    options: {
+      bundler: {
+        useSWC: true,
+      },
+    },
   },
   features: {
     experimentalRSC: true,

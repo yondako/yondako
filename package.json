@@ -17,7 +17,11 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test-storybook": "test-storybook",
-    "chromatic": "chromatic --exit-zero-on-changes"
+    "preview-storybook": "bunx http-server storybook-static --port 6006 --silent",
+    "prepreview-storybook": "storybook build",
+    "chromatic": "chromatic --exit-zero-on-changes",
+    "vrt:storybook": "playwright test -c .storybook/playwright.config.ts .storybook/",
+    "vrt:storybook:update": "playwright test -c .storybook/playwright.config.ts .storybook/ --update-snapshots"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.7.1",
@@ -50,6 +54,7 @@
     "@cloudflare/workers-types": "^4.20241018.0",
     "@happy-dom/global-registrator": "^15.7.4",
     "@libsql/client": "^0.14.0",
+    "@playwright/test": "^1.48.1",
     "@storybook/addon-essentials": "^8.3.6",
     "@storybook/addon-interactions": "^8.3.6",
     "@storybook/addon-links": "^8.3.6",
@@ -57,6 +62,8 @@
     "@storybook/nextjs": "^8.3.6",
     "@storybook/react": "^8.3.6",
     "@storybook/test": "^8.3.6",
+    "@storybook/test-runner": "^0.19.1",
+    "@storybook/types": "^8.3.6",
     "@svgr/webpack": "^8.1.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.0.1",
@@ -66,6 +73,7 @@
     "@types/react-dom": "^18.3.1",
     "autoprefixer": "^10.4.20",
     "drizzle-kit": "^0.26.2",
+    "http-server": "^14.1.1",
     "lefthook": "^1.7.22",
     "postcss": "^8.4.47",
     "storybook": "^8.3.6",
