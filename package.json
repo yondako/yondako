@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "biome lint --write",
-    "fmt": "biome format",
+    "fmt": "biome format --write",
     "pages:build": "bunx @cloudflare/next-on-pages",
     "preview": "bun pages:build && wrangler pages dev",
     "deploy": "bun pages:build && wrangler pages deploy",
@@ -16,6 +16,7 @@
     "drizzle:studio": "bun --env-file=.env.local  run drizzle-kit studio",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "test-storybook": "test-storybook",
     "chromatic": "chromatic --exit-zero-on-changes"
   },
   "dependencies": {
@@ -55,7 +56,7 @@
     "@storybook/blocks": "^8.2.8",
     "@storybook/nextjs": "^8.2.8",
     "@storybook/react": "^8.2.8",
-    "@storybook/test": "^8.2.8",
+    "@storybook/test": "^8.3.5",
     "@svgr/webpack": "^8.1.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.0.0",
@@ -69,11 +70,19 @@
     "lefthook": "^1.7.11",
     "postcss": "^8.4.40",
     "storybook": "^8.3.4",
+    "storybook-addon-pseudo-states": "^4.0.2",
     "tailwindcss": "^3.4.7",
     "typescript": "^5.5.4",
     "wrangler": "^3.68.0"
   },
   "overrides": {
     "string-width": "4.2.3"
+  },
+  "imports": {
+    "#actions/updateReadingStatus": {
+      "storybook": "./src/actions/updateReadingStatus.mock.ts",
+      "default": "./src/actions/updateReadingStatus.ts"
+    },
+    "#*": ["./*", "./*.ts", "./*.tsx"]
   }
 }

@@ -2,8 +2,15 @@ import type { Meta, StoryObj } from "@storybook/react";
 import Pagination from ".";
 
 const meta: Meta<typeof Pagination> = {
-  title: "Navigation/Pagination",
-  component: () => {
+  title: "Common/Pagination",
+  component: Pagination,
+};
+
+export default meta;
+type Story = StoryObj<typeof Pagination>;
+
+export const All: Story = {
+  render: () => {
     return (
       <>
         <h2>currentPage = 1, totalPage = 1</h2>
@@ -17,12 +24,6 @@ const meta: Meta<typeof Pagination> = {
       </>
     );
   },
-};
-
-export default meta;
-type Story = StoryObj<typeof Pagination>;
-
-export const All: Story = {
   parameters: {
     nextjs: {
       appDirectory: true,

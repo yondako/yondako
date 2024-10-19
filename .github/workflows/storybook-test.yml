@@ -1,0 +1,33 @@
+name: Storybook Tests
+on: deployment_status
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    if: github.event.deployment_status.state == 'success'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup mise
+        uses: jdx/mise-action@v2
+        with:
+          install: true
+          cache: true
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-${{ matrix.bun }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.bun }}-bun-
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
+      - name: Run Storybook tests
+        run: bun test-storybook
+        env:
+          TARGET_URL: '${{ github.event.deployment_status.target_url }}'

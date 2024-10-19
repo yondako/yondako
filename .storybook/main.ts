@@ -7,15 +7,16 @@ const config: StorybookConfig = {
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
     "@chromatic-com/storybook",
+    "storybook-addon-pseudo-states",
   ],
   framework: {
     name: "@storybook/nextjs",
     options: {},
   },
   features: {
-    experimentalRSC: false,
+    experimentalRSC: true,
   },
-  staticDirs: ["../public"],
+  staticDirs: ["../public", "../src/assets/fonts"],
   webpackFinal: async (config) => {
     const fileLoaderRule = config.module?.rules?.find(
       (rule) => (rule as { test?: RegExp })?.test?.test(".svg"),

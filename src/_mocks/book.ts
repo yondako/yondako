@@ -37,7 +37,7 @@ export const createDummyItem = (id: string) => `
 </item>
 `;
 
-export const createTestXml = (total: number, children = "") => {
+export const createDummyXml = (total: number, children = "") => {
   return `
   <rss version="2.0">
     <channel>
@@ -54,7 +54,7 @@ export const createTestXml = (total: number, children = "") => {
   `;
 };
 
-export const createWantBookDetail = (id: string): BookDetail => {
+export const createDummyBookDetail = (id: string): BookDetail => {
   return {
     authors: ["ダミー著者"],
     isbn: "978-4-04-000000-0",
