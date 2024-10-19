@@ -2,7 +2,7 @@
 
 🐙 よんだことをわすれないための読書記録サービス
 
-https://github.com/user-attachments/assets/fe16cc33-49db-4da1-b16d-2b659d244094
+https://github.com/user-attachments/assets/73717f15-a8a9-46b6-94bd-3b3643a8094c
 
 ## 環境構築
 
