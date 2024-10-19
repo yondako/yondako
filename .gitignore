@@ -48,5 +48,6 @@ certificates
 /storybook-static
 
 # playwright
+/__snapshots__
 /test-results
 /playwright-report

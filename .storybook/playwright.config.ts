@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-  snapshotPathTemplate: "{testFilePath}-snapshots/{arg}{ext}",
+  snapshotPathTemplate: "../__snapshots__/{testFilePath}/{arg}{ext}",
   reporter: "html",
   timeout: 30 * 1000,
   retries: 2,
