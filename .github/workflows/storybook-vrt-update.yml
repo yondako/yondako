@@ -60,4 +60,4 @@ jobs:
         id: storybook-vrt-cache
         with:
           path: __snapshots__
-          key: storybook-vrt-snapshots
+          key: storybook-vrt-snapshots-${{ github.sha }}
