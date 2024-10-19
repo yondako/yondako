@@ -21,11 +21,6 @@ const meta: Meta<typeof BookDetailDialog> = {
       onChangeOptimisticStatus: fn(),
     },
   },
-  render: (args) => (
-    <BookDetailDialog {...args}>
-      <button>Open Dialog</button>
-    </BookDetailDialog>
-  ),
 };
 
 export default meta;
@@ -35,9 +30,7 @@ export const Default: Story = {
   args: {
     open: true,
   },
-  parameters: {
-    chromatic: { delay: 500 },
-  },
+  render: (args) => <BookDetailDialog {...args} />,
 };
 
 export const OpenClose: Story = {
@@ -45,6 +38,11 @@ export const OpenClose: Story = {
   args: {
     open: false,
   },
+  render: (args) => (
+    <BookDetailDialog {...args}>
+      <button>Open Dialog</button>
+    </BookDetailDialog>
+  ),
   play: async ({ canvasElement, step, args }) => {
     // NOTE: canvasElement内にcreatePortalで作った要素がない問題のワークアラウンド
     // https://github.com/storybookjs/storybook/issues/16971
