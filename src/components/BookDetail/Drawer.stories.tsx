@@ -27,8 +27,4 @@ const meta: Meta<typeof BookDetailDrawer> = {
 export default meta;
 type Story = StoryObj<typeof BookDetailDrawer>;
 
-export const Default: Story = {
-  parameters: {
-    chromatic: { delay: 500 },
-  },
-};
+export const Default: Story = {};
