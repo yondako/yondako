@@ -1,4 +1,4 @@
-name: Storybook Tests
+name: Storybook VRT
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
       - develop
 
 jobs:
-  storybook-test:
+  storybook-vrt:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -55,4 +55,12 @@ jobs:
         run: |
           bunx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
             "bun preview-storybook" \
-            "bunx wait-on tcp:127.0.0.1:6006 && bun test-storybook"
+            "bunx wait-on tcp:127.0.0.1:6006 && bun vrt:storybook"
+
+      - name: Store Artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vrt-report
+          path: playwright-report/
+          retention-days: 7
