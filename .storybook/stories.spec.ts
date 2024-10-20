@@ -30,7 +30,8 @@ for (const [id, { tags }] of Object.entries(json.entries)) {
 
     // 画像の読み込みを待つ
     // https://github.com/microsoft/playwright/issues/6046#issuecomment-1803609118
-    for (const img of await page.getByRole("img").all()) {
+    // NOTE: getByRole ではなく locator を使っているのは、SVG 画像を拾ってほしくないため
+    for (const img of await page.locator("img").all()) {
       await expect(img).toHaveJSProperty("complete", true);
       await expect(img).not.toHaveJSProperty("naturalWidth", 0);
     }
