@@ -138,7 +138,8 @@ jobs:
         {
           echo "COMMENT_BODY<<EOF"
           echo "## 🚨 VRTが失敗しました"
-          echo "[テストレポート](https://yondako.github.io/yondako/$HTML_REPORT_URL_PATH)を確認してください！ "
+          echo "テストレポートを確認してください！"
+          echo "> https://yondako.github.io/yondako/$HTML_REPORT_URL_PATH"
           echo EOF
         } >> "$GITHUB_ENV"
 
