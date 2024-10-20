@@ -72,6 +72,9 @@ jobs:
   # https://ysfaran.github.io/blog/2022/09/02/playwright-gh-action-gh-pages/#publish-html-report-to-github-pages
   deploy-report:
     name: Deploy VRT Report
+    permissions:
+      contents: write
+      pull-requests: write
     # テスト失敗時のみ
     if: failure()
     needs: storybook-vrt
