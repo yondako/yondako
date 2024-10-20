@@ -11,6 +11,8 @@ concurrency:
 jobs:
   delete-storybook-vrt-report:
     name: Delete Storybook VRT Report
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     env:
       BRANCH_REPORTS_DIR: reports/${{ github.event.ref }}
@@ -44,14 +46,24 @@ jobs:
           git add .
           git commit -m "🔥 レポートを削除 ${{ github.event.ref }}"
 
-          while true; do
-            if ! git pull --rebase; then
+          max_attempts=5
+          attempt=100
+
+          while [ $attempt -le $max_attempts ]; do
+            if git pull --rebase; then
+              if git push; then
+                echo "デプロイに成功"
+                exit 0
+              else
+                echo "pushに失敗"
+              fi
+            else
               echo "rebaseに失敗"
-              exit 1
             fi
 
-            if git push; then
-              echo "削除に成功"
-              exit 0
-            fi
+            attempt=$((attempt + 1))
+            echo "再試行: $attempt / $max_attempts"
           done
+
+          echo "最大試行回数（$max_attempts）に達しました"
+          exit 1

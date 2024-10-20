@@ -80,7 +80,6 @@ jobs:
     needs: storybook-vrt
     runs-on: ubuntu-latest
     continue-on-error: true
-    timeout-minutes: 60
     concurrency:
       group: ${{ github.ref_name }}
       cancel-in-progress: true
@@ -112,7 +111,10 @@ jobs:
         git add .
         git commit -m "🍱 テストレポートを追加 ${{ github.run_id }} (attempt:  ${{ github.run_attempt }})"
 
-        while true; do
+        max_attempts=5
+        attempt=100
+
+        while [ $attempt -le $max_attempts ]; do
           if git pull --rebase; then
             if git push; then
               echo "デプロイに成功"
@@ -123,7 +125,13 @@ jobs:
           else
             echo "rebaseに失敗"
           fi
+
+          attempt=$((attempt + 1))
+          echo "再試行: $attempt / $max_attempts"
         done
+
+        echo "最大試行回数（$max_attempts）に達しました"
+        exit 1
 
     # TODO: PRにコメントを残すようにしたい
     - name: Output Report URL as Workflow Annotation
