@@ -132,10 +132,19 @@ jobs:
 
         echo "最大試行回数（$max_attempts）に達しました"
         exit 1
-
-    # TODO: PRにコメントを残すようにしたい
-    - name: Output Report URL as Workflow Annotation
+    
+    - name: Create comment
       run: |
-        FULL_HTML_REPORT_URL=https://yondako.github.io/yondako/$HTML_REPORT_URL_PATH
+        {
+          echo "COMMENT_BODY<<EOF"
+          echo "## 🚨 VRTが失敗しました"
+          echo "[テストレポート](https://yondako.github.io/yondako/$HTML_REPORT_URL_PATH)を確認してください！ "
+          echo EOF
+        } >> "$GITHUB_ENV"
 
-        echo "::notice title=📋 Published Playwright Test Report::$FULL_HTML_REPORT_URL"
+    - name: Comment to PR
+      # コメントが無い場合 --edit-last が失敗するので、失敗したらコメントを追加する
+      # 参考: https://blog.omuomugin.com/posts/2024-06-03/
+      run: gh pr comment ${{ github.ref_name }} --body "${{ env.COMMENT_BODY }}" --edit-last || gh pr comment ${{ github.ref_name }} --body "${{ env.COMMENT_BODY }}"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
