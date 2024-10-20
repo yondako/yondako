@@ -1,9 +1,9 @@
-import { updateReadingStatus } from "@/actions/updateReadingStatus";
 import { readingStatusMetadata } from "@/constants/status";
 import type { BookType } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
+import { updateReadingStatus } from "#actions/updateReadingStatus";
 import BookReadingStatusButton, {
   type BookReadingStatusButtonProps,
 } from "./ReadingStatusButton";

@@ -40,6 +40,14 @@ next-env.d.ts
 .dev.vars
 wrangler.toml
 
+# certificates
 certificates
 
+# storybook
 *storybook.log
+/storybook-static
+
+# playwright
+/__snapshots__
+/test-results
+/playwright-report

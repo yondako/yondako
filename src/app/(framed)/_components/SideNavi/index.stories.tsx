@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import SideNavi from ".";
 
 const meta: Meta<typeof SideNavi> = {
-  title: "Navigation/SideNavi",
+  title: "App/Framed/SideNavi",
   component: SideNavi,
 };
 

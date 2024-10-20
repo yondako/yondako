@@ -1,0 +1,62 @@
+name: Storybook VRT Update
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - develop
+
+jobs:
+  storybook-vrt-update:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup mise
+        uses: jdx/mise-action@v2
+        with:
+          install: true
+          cache: true
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+
+      - name: Install dependencies
+        run: bun install
+
+      # https://github.com/microsoft/playwright/issues/7249#issuecomment-1385567519
+      - name: Get Playwright Version
+        run: |
+          PLAYWRIGHT_VERSION=$(bun pm ls | grep @playwright | sed 's/.*@//')
+          echo "Playwright v$PLAYWRIGHT_VERSION"
+          echo "PLAYWRIGHT_VERSION=$PLAYWRIGHT_VERSION" >> $GITHUB_ENV
+
+      - name: Cache Playwright Browsers
+        id: cache-playwright-browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-browsers-${{ env.PLAYWRIGHT_VERSION }}
+
+      - name: Install Playwright
+        if: steps.cache-playwright-browsers.outputs.cache-hit != 'true'
+        run: bunx playwright install --with-deps
+
+      - name: Serve Storybook and run tests
+        run: |
+          bunx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "bun preview-storybook" \
+            "bunx wait-on tcp:127.0.0.1:6006 && bun vrt:storybook:update"
+
+      - name: Update Cache VRT snapshots
+        if: success()
+        uses: actions/cache/save@v4
+        id: storybook-vrt-cache
+        with:
+          path: __snapshots__
+          key: storybook-vrt-snapshots-${{ github.sha }}-${{ github.run_id }}

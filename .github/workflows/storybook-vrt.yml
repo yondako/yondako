@@ -1,0 +1,151 @@
+name: Storybook VRT
+
+on:
+  push:
+    branches-ignore: [main, develop, gh-pages]
+
+jobs:
+  storybook-vrt:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup mise
+        uses: jdx/mise-action@v2
+        with:
+          install: true
+          cache: true
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+
+      - name: Install dependencies
+        run: bun install
+
+      # https://github.com/microsoft/playwright/issues/7249#issuecomment-1385567519
+      - name: Get Playwright Version
+        run: |
+          PLAYWRIGHT_VERSION=$(bun pm ls | grep @playwright | sed 's/.*@//')
+          echo "Playwright v$PLAYWRIGHT_VERSION"
+          echo "PLAYWRIGHT_VERSION=$PLAYWRIGHT_VERSION" >> $GITHUB_ENV
+
+      - name: Cache Playwright Browsers
+        id: cache-playwright-browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-browsers-${{ env.PLAYWRIGHT_VERSION }}
+
+      - name: Install Playwright
+        if: steps.cache-playwright-browsers.outputs.cache-hit != 'true'
+        run: bunx playwright install --with-deps
+
+      - name: Restore Cache VRT snapshots
+        uses: actions/cache/restore@v4
+        id: storybook-vrt-cache
+        with:
+          path: __snapshots__
+          key: storybook-vrt-snapshots-${{ github.sha }}-${{ github.run_id }}
+          restore-keys: |
+            storybook-vrt-snapshots-
+
+      - name: Serve Storybook and run tests
+        run: |
+          bunx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "bun preview-storybook" \
+            "bunx wait-on tcp:127.0.0.1:6006 && bun vrt:storybook"
+
+      - name: Store Artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vrt-report
+          path: playwright-report/
+          retention-days: 7
+
+  # レポートを GitHub Pages にデプロイ
+  # https://ysfaran.github.io/blog/2022/09/02/playwright-gh-action-gh-pages/#publish-html-report-to-github-pages
+  deploy-report:
+    name: Deploy VRT Report
+    permissions:
+      contents: write
+      pull-requests: write
+    # テスト失敗時のみ
+    if: failure()
+    needs: storybook-vrt
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    concurrency:
+      group: ${{ github.ref_name }}
+      cancel-in-progress: true
+    env:
+      HTML_REPORT_URL_PATH: reports/${{ github.ref_name }}/${{ github.run_id }}/${{ github.run_attempt }}
+    steps:
+    - name: Checkout GitHub Pages Branch
+      uses: actions/checkout@v4
+      with:
+        ref: gh-pages
+
+    - name: Set Git User
+      # see: https://github.com/actions/checkout/issues/13#issuecomment-724415212
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+    - name: Download zipped HTML report
+      uses: actions/download-artifact@v4
+      with:
+        name: vrt-report
+        path: ${{ env.HTML_REPORT_URL_PATH }}
+
+    - name: Push HTML Report
+      timeout-minutes: 3
+      # commit report, then try push-rebase-loop until it's able to merge the HTML report to the gh-pages branch
+      # this is necessary when this job is running at least twice at the same time (e.g. through two pushes at the same time)
+      run: |
+        git add .
+        git commit -m "🍱 VRTのレポートを追加 (${{ github.run_id }} / attempt: ${{ github.run_attempt }})"
+
+        max_attempts=100
+        attempt=1
+
+        while [ $attempt -le $max_attempts ]; do
+          if git pull --rebase; then
+            if git push; then
+              echo "デプロイに成功"
+              exit 0
+            else
+              echo "pushに失敗"
+            fi
+          else
+            echo "rebaseに失敗"
+          fi
+
+          attempt=$((attempt + 1))
+          echo "再試行: $attempt / $max_attempts"
+        done
+
+        echo "最大試行回数（$max_attempts）に達しました"
+        exit 1
+
+    - name: Create comment
+      run: |
+        {
+          echo "COMMENT_BODY<<EOF"
+          echo "## 🚨 VRTが失敗しました"
+          echo "テストレポートを確認してください！"
+          echo "> https://yondako.github.io/yondako/$HTML_REPORT_URL_PATH"
+          echo EOF
+        } >> "$GITHUB_ENV"
+
+    - name: Comment to PR
+      # コメントが無い場合 --edit-last が失敗するので、失敗したらコメントを追加する
+      # 参考: https://blog.omuomugin.com/posts/2024-06-03/
+      run: gh pr comment ${{ github.ref_name }} --body "${{ env.COMMENT_BODY }}" --edit-last || gh pr comment ${{ github.ref_name }} --body "${{ env.COMMENT_BODY }}"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
