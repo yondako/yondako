@@ -1,10 +1,8 @@
 name: Storybook VRT
 
 on:
-  pull_request:
-    branches:
-      - main
-      - develop
+  push:
+    branches-ignore: [main, develop, gh-pages]
 
 jobs:
   storybook-vrt:
@@ -69,3 +67,64 @@ jobs:
           name: vrt-report
           path: playwright-report/
           retention-days: 7
+
+  # レポートを GitHub Pages にデプロイ
+  # https://ysfaran.github.io/blog/2022/09/02/playwright-gh-action-gh-pages/#publish-html-report-to-github-pages
+  deploy-report:
+    name: Deploy VRT Report
+    # テスト失敗時のみ
+    if: needs.storybook-vrt.result == 'failure'
+    needs: storybook-vrt
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    concurrency:
+      group: ${{ github.ref_name }}
+      cancel-in-progress: true
+    env:
+      HTML_REPORT_URL_PATH: reports/${{ github.ref_name }}/${{ github.run_id }}/${{ github.run_attempt }}
+    steps:
+    - name: Checkout GitHub Pages Branch
+      uses: actions/checkout@v4
+      with:
+        ref: gh-pages
+
+    - name: Set Git User
+      # see: https://github.com/actions/checkout/issues/13#issuecomment-724415212
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+    - name: Download zipped HTML report
+      uses: actions/download-artifact@v4
+      with:
+        name: playwright-report
+        path: ${{ env.HTML_REPORT_URL_PATH }}
+
+    - name: Push HTML Report
+      timeout-minutes: 3
+      # commit report, then try push-rebase-loop until it's able to merge the HTML report to the gh-pages branch
+      # this is necessary when this job is running at least twice at the same time (e.g. through two pushes at the same time)
+      run: |
+        git add .
+        git commit -m "🍱 テストレポートを追加 ${{ github.run_id }} (attempt:  ${{ github.run_attempt }})"
+
+        while true; do
+          git pull --rebase
+          if [ $? -ne 0 ]; then
+            echo "rebaseに失敗"
+            exit 1
+          fi
+
+          git push
+          if [ $? -eq 0 ]; then
+            echo "デプロイに成功"
+            exit 0
+          fi
+        done
+
+    # TODO: PRにコメントを残すようにしたい
+    - name: Output Report URL as Workflow Annotation
+      run: |
+        FULL_HTML_REPORT_URL=https://yondako.github.io/yondako/$HTML_REPORT_URL_PATH
+
+        echo "::notice title=📋 Published Playwright Test Report::$FULL_HTML_REPORT_URL"
