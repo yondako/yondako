@@ -73,7 +73,7 @@ jobs:
   deploy-report:
     name: Deploy VRT Report
     # テスト失敗時のみ
-    if: needs.storybook-vrt.result == 'failure'
+    if: failure()
     needs: storybook-vrt
     runs-on: ubuntu-latest
     continue-on-error: true
