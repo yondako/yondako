@@ -109,7 +109,7 @@ jobs:
       # this is necessary when this job is running at least twice at the same time (e.g. through two pushes at the same time)
       run: |
         git add .
-        git commit -m "🍱 ${{ github.event.ref }}のVRTのレポートを追加\n\nrun_id: ${{ github.run_id }}\nattempt: ${{ github.run_attempt }}"
+        git commit -m "🍱 VRTのレポートを追加 (${{ github.run_id }} / attempt: ${{ github.run_attempt }})"
 
         max_attempts=100
         attempt=1
