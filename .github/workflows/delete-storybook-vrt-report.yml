@@ -44,7 +44,7 @@ jobs:
 
           rm -rf ${{ github.event.ref }}
           git add .
-          git commit -m "🔥 レポートを削除 ${{ github.event.ref }}"
+          git commit -m "🔥 ${{ github.event.ref }}のVRTのレポートを削除"
 
           max_attempts=100
           attempt=1
