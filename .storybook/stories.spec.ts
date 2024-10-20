@@ -27,7 +27,18 @@ for (const [id, { tags }] of Object.entries(json.entries)) {
     url.searchParams.set("id", id);
 
     await page.goto(url.toString());
-    await page.waitForTimeout(500);
+
+    // 画像の読み込みを待つ
+    // https://github.com/microsoft/playwright/issues/6046#issuecomment-1803609118
+    try {
+      // NOTE: getByRole ではなく locator を使っているのは、SVG 画像を拾ってほしくないため
+      for (const img of await page.locator("img").all()) {
+        await expect(img).toHaveJSProperty("complete", true);
+        await expect(img).not.toHaveJSProperty("naturalWidth", 0);
+      }
+    } catch (e) {
+      // 失敗しても大丈夫なので無視
+    }
 
     await expect(page).toHaveScreenshot(`${id}.png`, {
       fullPage: true,
