@@ -42,7 +42,7 @@ jobs:
 
           rm -rf ${{ github.event.ref }}
           git add .
-          git commit -m 🔥 レポートを削除 ${{ github.event.ref }}"
+          git commit -m "🔥 レポートを削除 ${{ github.event.ref }}"
 
           while true; do
             if ! git pull --rebase; then
