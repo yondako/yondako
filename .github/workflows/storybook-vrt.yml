@@ -97,7 +97,7 @@ jobs:
     - name: Download zipped HTML report
       uses: actions/download-artifact@v4
       with:
-        name: playwright-report
+        name: vrt-report
         path: ${{ env.HTML_REPORT_URL_PATH }}
 
     - name: Push HTML Report
