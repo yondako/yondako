@@ -1,6 +1,8 @@
 name: Build Check
 
-on: push
+on:
+  push:
+    branches-ignore: [main, gh-pages]
 
 jobs:
   build-check:
