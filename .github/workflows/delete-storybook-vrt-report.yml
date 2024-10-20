@@ -45,14 +45,12 @@ jobs:
           git commit -m 🔥 レポートを削除 ${{ github.event.ref }}"
 
           while true; do
-            git pull --rebase
-            if [ $? -ne 0 ]; then
+            if ! git pull --rebase; then
               echo "rebaseに失敗"
               exit 1
             fi
 
-            git push
-            if [ $? -eq 0 ]; then
+            if git push; then
               echo "削除に成功"
               exit 0
             fi

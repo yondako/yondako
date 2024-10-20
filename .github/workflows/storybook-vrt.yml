@@ -80,6 +80,7 @@ jobs:
     needs: storybook-vrt
     runs-on: ubuntu-latest
     continue-on-error: true
+    timeout-minutes: 60
     concurrency:
       group: ${{ github.ref_name }}
       cancel-in-progress: true
@@ -112,16 +113,15 @@ jobs:
         git commit -m "🍱 テストレポートを追加 ${{ github.run_id }} (attempt:  ${{ github.run_attempt }})"
 
         while true; do
-          git pull --rebase
-          if [ $? -ne 0 ]; then
+          if git pull --rebase; then
+            if git push; then
+              echo "デプロイに成功"
+              exit 0
+            else
+              echo "pushに失敗"
+            fi
+          else
             echo "rebaseに失敗"
-            exit 1
-          fi
-
-          git push
-          if [ $? -eq 0 ]; then
-            echo "デプロイに成功"
-            exit 0
           fi
         done
 
