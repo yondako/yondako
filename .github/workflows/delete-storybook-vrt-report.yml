@@ -46,8 +46,8 @@ jobs:
           git add .
           git commit -m "🔥 レポートを削除 ${{ github.event.ref }}"
 
-          max_attempts=5
-          attempt=100
+          max_attempts=100
+          attempt=1
 
           while [ $attempt -le $max_attempts ]; do
             if git pull --rebase; then

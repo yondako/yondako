@@ -111,8 +111,8 @@ jobs:
         git add .
         git commit -m "🍱 テストレポートを追加 ${{ github.run_id }} (attempt:  ${{ github.run_attempt }})"
 
-        max_attempts=5
-        attempt=100
+        max_attempts=100
+        attempt=1
 
         while [ $attempt -le $max_attempts ]; do
           if git pull --rebase; then
