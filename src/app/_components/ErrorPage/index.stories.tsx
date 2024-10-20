@@ -12,6 +12,6 @@ type Story = StoryObj<typeof ErrorPage>;
 export const Default: Story = {
   args: {
     title: "エラータイトル",
-    children: <p>ここにエラの説明などを入れる</p>,
+    children: <p>ここにエラーの説明を入れる</p>,
   },
 };
