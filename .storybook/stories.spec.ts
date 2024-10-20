@@ -27,7 +27,13 @@ for (const [id, { tags }] of Object.entries(json.entries)) {
     url.searchParams.set("id", id);
 
     await page.goto(url.toString());
-    await page.waitForTimeout(500);
+
+    // 画像の読み込みを待つ
+    // https://github.com/microsoft/playwright/issues/6046#issuecomment-1803609118
+    for (const img of await page.getByRole("img").all()) {
+      await expect(img).toHaveJSProperty("complete", true);
+      await expect(img).not.toHaveJSProperty("naturalWidth", 0);
+    }
 
     await expect(page).toHaveScreenshot(`${id}.png`, {
       fullPage: true,
