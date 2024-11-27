@@ -17,7 +17,7 @@ export default async function MobileExclusive() {
     redirect(createSignInPath("/search/barcode/mobile-exclusive"));
   }
 
-  const isMobile = headers().get("X-IS-DESKTOP") === null;
+  const isMobile = (await headers()).get("X-IS-DESKTOP") === null;
 
   // モバイルであれば利用可能なのでリダイレクト
   if (isMobile) {

@@ -19,17 +19,18 @@ import Tab from "./_components/Tab";
 export const runtime = "edge";
 
 type Props = {
-  params: {
+  params: Promise<{
     status: ReadingStatus;
-  };
-  searchParams: {
+  }>;
+  searchParams: Promise<{
     page?: string;
     q?: string;
     order?: Order;
-  };
+  }>;
 };
 
-export function generateMetadata({ params }: Props): Metadata {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   const readingStatus = readingStatusMetadata.get(params.status);
 
   if (!readingStatus || !is(readingStatusSchemaWithoutNone, params.status)) {
@@ -39,7 +40,9 @@ export function generateMetadata({ params }: Props): Metadata {
   return generateMetadataTitle(readingStatus.label);
 }
 
-export default async function Library({ params, searchParams }: Props) {
+export default async function Library(props: Props) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const session = await auth();
 
   if (!session?.user?.id) {
