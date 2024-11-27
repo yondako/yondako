@@ -2,22 +2,39 @@
 
 🐙 よんだことをわすれないための読書記録サービス
 
-https://github.com/user-attachments/assets/fe16cc33-49db-4da1-b16d-2b659d244094
+https://github.com/user-attachments/assets/73717f15-a8a9-46b6-94bd-3b3643a8094c
 
 ## 環境構築
 
-### 準備
+### 依存関係のインストール
 
 ```sh
-# 依存関係をインストール
 bun install
+```
 
-# DB
-bun run wrangler d1 create yondako
+### DBのセットアップ
+
+```sh
+bun run wrangler d1 create yondako_dev
 bun run generate:schema ./src/db/schema/*
 bun run wrangler d1 migrations apply yondako --local
+```
 
-# 開発サーバーを起動
+### `wrangler.toml` の設定
+
+```toml
+name = "yondako"
+pages_build_output_dir = ".vercel/output/static"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "yondako_dev"
+database_id = "<database_idを指定>"
+```
+
+### 起動
+
+```sh
 bun dev
 ```
 
@@ -30,7 +47,7 @@ bun run preview
 
 ### Dizzle Studio
 
-```
+```sh
 DATABASE_PATH=".wrangler/state/v3/d1/miniflare-D1DatabaseObject/<id>.sqlite"
 bun run drizzle:studio
 ```

@@ -17,7 +17,10 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test-storybook": "test-storybook",
-    "chromatic": "chromatic --exit-zero-on-changes"
+    "preview-storybook": "bunx http-server storybook-static --port 6006 --silent",
+    "prepreview-storybook": "storybook build",
+    "vrt:storybook": "playwright test -c .storybook/playwright.config.ts .storybook/",
+    "vrt:storybook:update": "playwright test -c .storybook/playwright.config.ts .storybook/ --update-snapshots"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.7.1",
@@ -28,12 +31,12 @@
     "@react-spring/web": "^9.7.5",
     "budoux": "^0.6.2",
     "cloudflare": "^3.5.0",
-    "drizzle-orm": "^0.35.0",
+    "drizzle-orm": "^0.36.0",
     "fast-xml-parser": "^4.5.0",
-    "next": "14.2.13",
-    "next-auth": "^5.0.0-beta.23",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "next": "15.0.3",
+    "next-auth": "^5.0.0-beta.25",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
     "react-use": "^17.5.1",
     "server-only": "^0.0.1",
     "sharp": "^0.33.5",
@@ -45,11 +48,11 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@chromatic-com/storybook": "^2.0.2",
     "@cloudflare/next-on-pages": "^1.13.5",
     "@cloudflare/workers-types": "^4.20241018.0",
     "@happy-dom/global-registrator": "^15.7.4",
     "@libsql/client": "^0.14.0",
+    "@playwright/test": "^1.48.1",
     "@storybook/addon-essentials": "^8.3.6",
     "@storybook/addon-interactions": "^8.3.6",
     "@storybook/addon-links": "^8.3.6",
@@ -57,25 +60,29 @@
     "@storybook/nextjs": "^8.3.6",
     "@storybook/react": "^8.3.6",
     "@storybook/test": "^8.3.6",
+    "@storybook/test-runner": "^0.19.1",
+    "@storybook/types": "^8.3.6",
     "@svgr/webpack": "^8.1.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.0.1",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/bun": "^1.1.11",
-    "@types/react": "^18.3.11",
-    "@types/react-dom": "^18.3.1",
+    "@types/react": "18",
+    "@types/react-dom": "18",
     "autoprefixer": "^10.4.20",
-    "drizzle-kit": "^0.26.2",
+    "drizzle-kit": "^0.28.0",
     "lefthook": "^1.7.22",
     "postcss": "^8.4.47",
     "storybook": "^8.3.6",
     "storybook-addon-pseudo-states": "^4.0.2",
     "tailwindcss": "^3.4.14",
     "typescript": "^5.6.3",
-    "wrangler": "^3.81.0"
+    "wrangler": "^3.81.0",
+    "vercel": "39.1.1"
   },
   "overrides": {
-    "string-width": "4.2.3"
+    "string-width": "4.2.3",
+    "vercel": "$vercel"
   },
   "imports": {
     "#actions/updateReadingStatus": {

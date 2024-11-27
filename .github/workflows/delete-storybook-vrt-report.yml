@@ -1,0 +1,69 @@
+name: Delete Storybook VRT Report
+
+on:
+  delete:
+    branches-ignore: [main, develop, gh-pages]
+
+concurrency:
+  group: ${{ github.event.ref }}
+  cancel-in-progress: true
+
+jobs:
+  delete-storybook-vrt-report:
+    name: Delete Storybook VRT Report
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    env:
+      BRANCH_REPORTS_DIR: reports/${{ github.event.ref }}
+    steps:
+      - name: Checkout GitHub Pages Branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+
+      - name: Set Git User
+        # see: https://github.com/actions/checkout/issues/13#issuecomment-724415212
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Check for workflow reports
+        run: |
+          if [ -z "$(ls -A $BRANCH_REPORTS_DIR)" ]; then
+            echo "BRANCH_REPORTS_EXIST="false"" >> $GITHUB_ENV
+          else
+            echo "BRANCH_REPORTS_EXIST="true"" >> $GITHUB_ENV
+          fi
+
+      - name: Delete reports from repo for branch
+        if: ${{ env.BRANCH_REPORTS_EXIST == 'true' }}
+        timeout-minutes: 3
+        run: |
+          cd $BRANCH_REPORTS_DIR/..
+
+          rm -rf ${{ github.event.ref }}
+          git add .
+          git commit -m "🔥 ${{ github.event.ref }}のVRTのレポートを削除"
+
+          max_attempts=100
+          attempt=1
+
+          while [ $attempt -le $max_attempts ]; do
+            if git pull --rebase; then
+              if git push; then
+                echo "デプロイに成功"
+                exit 0
+              else
+                echo "pushに失敗"
+              fi
+            else
+              echo "rebaseに失敗"
+            fi
+
+            attempt=$((attempt + 1))
+            echo "再試行: $attempt / $max_attempts"
+          done
+
+          echo "最大試行回数（$max_attempts）に達しました"
+          exit 1

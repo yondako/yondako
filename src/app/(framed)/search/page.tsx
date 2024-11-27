@@ -17,13 +17,14 @@ import { SearchResult } from "./_components/SearchResult";
 export const runtime = "edge";
 
 type Props = {
-  searchParams: {
+  searchParams: Promise<{
     q?: string;
     page?: string;
-  };
+  }>;
 };
 
-export function generateMetadata({ searchParams }: Props): Metadata {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const searchParams = await props.searchParams;
   const query = searchParams.q;
 
   return generateMetadataTitle(
@@ -33,7 +34,8 @@ export function generateMetadata({ searchParams }: Props): Metadata {
 
 const dataSourceUrl = new URL("/docs/data-source", site.infoUrl).toString();
 
-export default async function Search({ searchParams }: Props) {
+export default async function Search(props: Props) {
+  const searchParams = await props.searchParams;
   const session = await auth();
 
   if (!session?.user?.id) {

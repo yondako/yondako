@@ -16,7 +16,7 @@ export default async function SearchBarcode() {
     redirect(createSignInPath("/search/barcode"));
   }
 
-  const isDesktop = headers().get("X-IS-DESKTOP") !== null;
+  const isDesktop = (await headers()).get("X-IS-DESKTOP") !== null;
 
   // デスクトップでは利用できないので、モバイルへの誘導ページへリダイレクト
   if (isDesktop) {
