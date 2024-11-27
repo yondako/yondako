@@ -35,8 +35,8 @@
     "fast-xml-parser": "^4.5.0",
     "next": "15.0.3",
     "next-auth": "^5.0.0-beta.25",
-    "react": "19.0.0-rc-66855b96-20241106",
-    "react-dom": "19.0.0-rc-66855b96-20241106",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
     "react-use": "^17.5.1",
     "server-only": "^0.0.1",
     "sharp": "^0.33.5",
@@ -67,8 +67,8 @@
     "@testing-library/react": "^16.0.1",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/bun": "^1.1.11",
-    "@types/react": "npm:types-react@19.0.0-rc.1",
-    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
+    "@types/react": "18",
+    "@types/react-dom": "18",
     "autoprefixer": "^10.4.20",
     "drizzle-kit": "^0.28.0",
     "lefthook": "^1.7.22",
@@ -80,9 +80,7 @@
     "wrangler": "^3.81.0"
   },
   "overrides": {
-    "string-width": "4.2.3",
-    "@types/react": "npm:types-react@19.0.0-rc.1",
-    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
+    "string-width": "4.2.3"
   },
   "imports": {
     "#actions/updateReadingStatus": {
