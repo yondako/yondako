@@ -31,12 +31,12 @@
     "@react-spring/web": "^9.7.5",
     "budoux": "^0.6.2",
     "cloudflare": "^3.5.0",
-    "drizzle-orm": "^0.33.0",
+    "drizzle-orm": "^0.36.0",
     "fast-xml-parser": "^4.5.0",
-    "next": "14.2.15",
-    "next-auth": "^5.0.0-beta.23",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "next": "15.0.3",
+    "next-auth": "^5.0.0-beta.25",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
     "react-use": "^17.5.1",
     "server-only": "^0.0.1",
     "sharp": "^0.33.5",
@@ -48,7 +48,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@chromatic-com/storybook": "^2.0.2",
     "@cloudflare/next-on-pages": "^1.13.5",
     "@cloudflare/workers-types": "^4.20241018.0",
     "@happy-dom/global-registrator": "^15.7.4",
@@ -68,20 +67,22 @@
     "@testing-library/react": "^16.0.1",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/bun": "^1.1.11",
-    "@types/react": "^18.3.11",
-    "@types/react-dom": "^18.3.1",
+    "@types/react": "18",
+    "@types/react-dom": "18",
     "autoprefixer": "^10.4.20",
-    "drizzle-kit": "^0.26.2",
+    "drizzle-kit": "^0.28.0",
     "lefthook": "^1.7.22",
     "postcss": "^8.4.47",
     "storybook": "^8.3.6",
     "storybook-addon-pseudo-states": "^4.0.2",
     "tailwindcss": "^3.4.14",
     "typescript": "^5.6.3",
-    "wrangler": "^3.81.0"
+    "wrangler": "^3.81.0",
+    "vercel": "39.1.1"
   },
   "overrides": {
-    "string-width": "4.2.3"
+    "string-width": "4.2.3",
+    "vercel": "$vercel"
   },
   "imports": {
     "#actions/updateReadingStatus": {
