@@ -7,7 +7,7 @@ import {
 import { searchBooksFromNDL } from "./index";
 
 describe("searchBooksFromNDL", () => {
-  test("正常に書籍を検索できること", async () => {
+  test("書籍を検索できる", async () => {
     const mockFetch = mock().mockResolvedValue({
       text: mock().mockResolvedValue(
         createDummyXml(10, createDummyItem("000000000")),

@@ -97,9 +97,8 @@ describe("パースできる", () => {
         <dc:subject xsi:type="dcndl:NDLC">Y00</dc:subject>
         <dc:subject xsi:type="dcndl:NDC10">000.0</dc:subject>
         <dc:description>ダミー出版</dc:description>
-        <rdfs:seeAlso rdf:resource="https://example.com/books/dummy-link"/>
-        <rdfs:seeAlso rdf:resource="https://example.com/books/dummy-link2"/>
-        <rdfs:seeAlso rdf:resource="https://example.com/books/dummy-link3"/>
+        <rdfs:seeAlso rdf:resource="https://www.books.or.jp/book-details/00000000A11111111111" />
+        <rdfs:seeAlso rdf:resource="https://www.books.or.jp/book-details/9784040000000" />
         <dc:description>2024</dc:description>
       </item>
       `,
@@ -154,9 +153,6 @@ test("NDLBibIDが無いものは除外される", () => {
         <dc:subject xsi:type="dcndl:NDLC">Y00</dc:subject>
         <dc:subject xsi:type="dcndl:NDC10">000.0</dc:subject>
         <dc:description>ダミー出版</dc:description>
-        <rdfs:seeAlso rdf:resource="https://example.com/books/dummy-link"/>
-        <rdfs:seeAlso rdf:resource="https://example.com/books/dummy-link2"/>
-        <rdfs:seeAlso rdf:resource="https://example.com/books/dummy-link3"/>
         <dc:description>2024</dc:description>
       </item>
       ${createDummyItem("000000000")}
@@ -209,9 +205,8 @@ test("巻数がある場合はタイトルに含まれる", () => {
       <dc:subject xsi:type="dcndl:NDLC">Y00</dc:subject>
       <dc:subject xsi:type="dcndl:NDC10">000.0</dc:subject>
       <dc:description>ダミー出版</dc:description>
-      <rdfs:seeAlso rdf:resource="https://example.com/books/dummy-link"/>
-      <rdfs:seeAlso rdf:resource="https://example.com/books/dummy-link2"/>
-      <rdfs:seeAlso rdf:resource="https://example.com/books/dummy-link3"/>
+      <rdfs:seeAlso rdf:resource="https://www.books.or.jp/book-details/00000000A11111111111" />
+      <rdfs:seeAlso rdf:resource="https://www.books.or.jp/book-details/9784040000000" />
       <dc:description>2024</dc:description>
     </item>
       `,
