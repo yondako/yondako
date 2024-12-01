@@ -12,7 +12,7 @@ export type BookType = {
  * DBに記録されている書籍データ
  */
 export type BookDetail = {
-  /** 内部ID */
+  /** 書籍ID */
   id: string;
   /** タイトル */
   title: string;
@@ -33,12 +33,12 @@ export type BookDetail = {
 };
 
 /**
- * 内部IDを除いた書籍データ
+ * 書籍IDを除いた書籍データ
  * NOTE: NDLサーチから取得した書籍データなどで使用
  */
 export type BookDetailWithoutId = Omit<BookDetail, "id">;
 
 /**
- * 書籍の識別子
+ * 書籍識別子
  */
 export type BookIdentifiers = Pick<BookDetail, "ndlBibId" | "isbn">;

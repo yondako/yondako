@@ -62,7 +62,10 @@ export default function BookDetailContent({
       <div className="mt-8">
         <BookReadingStatusForm
           className="mx-auto w-fit space-x-10"
-          bookId={data.detail.ndlBibId}
+          identifiers={{
+            ndlBibId: data.detail.ndlBibId,
+            isbn: data.detail.isbn,
+          }}
           bookTitle={data.detail.title}
           status={status}
           optimisticStatus={optimisticStatus}

@@ -56,6 +56,7 @@ export const createDummyXml = (total: number, children = "") => {
 
 export const createDummyBookDetail = (id: string): BookDetail => {
   return {
+    id: "dummy",
     authors: ["ダミー著者"],
     isbn: "978-4-04-000000-0",
     jpNo: "00000000",

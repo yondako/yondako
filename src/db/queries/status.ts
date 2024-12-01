@@ -198,6 +198,7 @@ export async function getStatusesByBookIds(
       .map((b) => b.isbn)
       .filter((id) => typeof id === "string");
 
+    // NDL書誌IDかISBNで書籍を検索
     const bookIds = db.$with("book_ids").as(
       db
         .select({

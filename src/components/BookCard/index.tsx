@@ -17,6 +17,7 @@ export default function BookCard({ data }: Props) {
   const [displayReadingStatus, setDisplayReadingStatus] = useState(
     data.readingStatus,
   );
+
   const [optimisticStatus, addOptimisticStatus] =
     useOptimistic(displayReadingStatus);
 
@@ -48,7 +49,10 @@ export default function BookCard({ data }: Props) {
       <BookReadingStatusForm
         className="absolute bottom-4 left-36"
         compact
-        bookId={data.detail.ndlBibId}
+        identifiers={{
+          ndlBibId: data.detail.ndlBibId,
+          isbn: data.detail.isbn,
+        }}
         bookTitle={data.detail.title}
         {...formProps}
       />

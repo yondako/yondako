@@ -1,8 +1,9 @@
-import type { BookDetail } from "@/types/book";
+import type { BookDetailWithoutId } from "@/types/book";
 import { XMLParser } from "fast-xml-parser";
 import {
   createAuthors,
   createPublishers,
+  getIsbnFromSeeAlso,
   getJpeCode,
   toStringOrUndefined,
 } from "./utils";
@@ -13,7 +14,7 @@ type OpenSearchResponse = {
     startIndex: number;
     itemsPerPage: number;
   };
-  books: BookDetail[];
+  books: BookDetailWithoutId[];
 };
 
 type OpenSearchDcIdentifier = {
@@ -92,46 +93,51 @@ export function parseOpenSearchXml(xml: string): OpenSearchResponse {
 
   let totalResults = parsed.rss.channel["openSearch:totalResults"] ?? 0;
 
-  const rawBooks: (BookDetail | undefined)[] = items.map((item) => {
-    if (!item["dc:identifier"]) {
-      console.error(`dc:identifier がありません: ${item.title}`);
-      totalResults--;
-      return;
-    }
+  const rawBooks: (BookDetailWithoutId | undefined)[] = items.map((item) => {
+    // 配列にする
+    const identifier = item["dc:identifier"]
+      ? Array.isArray(item["dc:identifier"])
+        ? item["dc:identifier"]
+        : [item["dc:identifier"]]
+      : undefined;
 
-    const identifier = Array.isArray(item["dc:identifier"])
-      ? item["dc:identifier"]
-      : [item["dc:identifier"]];
+    const seeAlsoUrls = item["rdfs:seeAlso"]
+      ? Array.isArray(item["rdfs:seeAlso"])
+        ? item["rdfs:seeAlso"].map((e) => e["@_rdf:resource"])
+        : [item["rdfs:seeAlso"]?.["@_rdf:resource"]]
+      : undefined;
 
+    // NDL書誌ID
     const ndlBibId = toStringOrUndefined(
-      identifier.find((id) => id["@_xsi:type"] === "dcndl:NDLBibID")?.["#text"],
+      identifier?.find((id) => id["@_xsi:type"] === "dcndl:NDLBibID")?.[
+        "#text"
+      ],
     );
 
-    // NDLBibID がない場合はDBに追加できないのでスキップ
-    if (!ndlBibId) {
-      console.error(`NDLBibIDがありません: ${item.title}`);
+    // ISBN
+    const isbn = identifier
+      ? identifier.find((id) => id["@_xsi:type"] === "dcndl:ISBN")?.["#text"]
+      : getIsbnFromSeeAlso(seeAlsoUrls);
+
+    // NDL書誌ID と ISBN がない場合は一意のIDが存在しないためスキップ
+    if (!ndlBibId && !isbn) {
+      console.warn(`ndlBibId と ISBN がありません: ${item.title}`);
       totalResults--;
       return;
     }
+
+    // 全国書誌番号
+    const jpNo = identifier?.find((id) => id["@_xsi:type"] === "dcndl:JPNO")?.[
+      "#text"
+    ];
+
+    // JP-eコード
+    const jpeCode = getJpeCode(seeAlsoUrls);
 
     // 巻数があればタイトルに追加
     const title = item["dcndl:volume"]
       ? `${item.title} (${item["dcndl:volume"]})`
       : item.title;
-
-    const isbn = identifier.find((id) => id["@_xsi:type"] === "dcndl:ISBN")?.[
-      "#text"
-    ];
-
-    const jpNo = identifier.find((id) => id["@_xsi:type"] === "dcndl:JPNO")?.[
-      "#text"
-    ];
-
-    const seeAlsoUrls = Array.isArray(item["rdfs:seeAlso"])
-      ? item["rdfs:seeAlso"].map((e) => e["@_rdf:resource"])
-      : [item["rdfs:seeAlso"]?.["@_rdf:resource"]];
-
-    const jpeCode = getJpeCode(seeAlsoUrls);
 
     return {
       title,

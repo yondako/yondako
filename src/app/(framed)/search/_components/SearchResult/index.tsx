@@ -59,21 +59,7 @@ export async function SearchResult({ query, currentPage }: Props) {
     );
   }
 
-  const readingStatuses = await getStatusesByBookIds(
-    session.user.id,
-    result.books,
-  );
-
-  const items = result.books.map((detail) => {
-    const readingStatus =
-      readingStatuses.find((s) => s.bookId === detail.ndlBibId)?.status ??
-      "none";
-
-    return {
-      detail,
-      readingStatus,
-    };
-  });
+  const items = await getStatusesByBookIds(session.user.id, result.books);
 
   const totalPage = Math.ceil(result.meta.totalResults / limit);
 
