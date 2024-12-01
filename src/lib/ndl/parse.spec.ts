@@ -124,7 +124,49 @@ describe("パースできる", () => {
   });
 });
 
-test("NDLBibIDが無いものは除外される", () => {
+test("NDL書誌IDがなくidentifierが無い場合、seeAlsoからISBNを取得する", () => {
+  const xml = createDummyXml(
+    1,
+    `
+    <item>
+      <title>ダミータイトル</title>
+      <link>https://example.com/books/dummy-link</link>
+      <author>ダミー著者</author>
+      <category>ダミーカテゴリ</category>
+      <category>ダミーカテゴリ2</category>
+      <guid isPermaLink="true">https://example.com/books/dummy-link</guid>
+      <pubDate>Tue, 5 Mar 2024 17:39:55 +0900</pubDate>
+      <dc:title>ダミータイトル</dc:title>
+      <dc:creator>ダミー著者</dc:creator>
+      <dcndl:creatorTranscription>ダミー チョシャ</dcndl:creatorTranscription>
+      <rdfs:seeAlso rdf:resource="https://www.books.or.jp/book-details/00000000A11111111111" />
+      <rdfs:seeAlso rdf:resource="https://www.books.or.jp/book-details/9784040000000" />
+    </item>
+      `,
+  );
+
+  const want = parseOpenSearchXml(xml);
+
+  expect(want).toEqual({
+    meta: {
+      totalResults: 1,
+      startIndex: 1,
+      itemsPerPage: 10,
+    },
+    books: [
+      {
+        ...createDummyBookDetail("000000000"),
+        isbn: "9784040000000",
+        jpNo: undefined,
+        ndlBibId: undefined,
+        publishers: undefined,
+        title: "ダミータイトル",
+      },
+    ],
+  });
+});
+
+test("NDL書誌IDとISBNが無いものは除外される", () => {
   const xml = createDummyXml(
     2,
     `

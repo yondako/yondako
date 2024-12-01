@@ -108,6 +108,11 @@ describe("createAuthors", () => {
       ],
       want: ["白菊ほたる", "鷹富士茄子"],
     },
+    {
+      title: "全角英数字が半角に変換される",
+      value: ["あいうえおｈｏｇｅ", "abcd１２３４５６７８９０"],
+      want: ["あいうえおhoge", "abcd1234567890"],
+    },
   ];
 
   for (const { title, value, want } of testList) {
@@ -164,6 +169,11 @@ describe("createPublishers", () => {
         "ほげほげ",
       ],
       want: ["ほげほげ", "ふがふが"],
+    },
+    {
+      title: "全角英数字が半角に変換される",
+      value: ["あいうえおｈｏｇｅ", "abcd１２３４５６７８９０"],
+      want: ["あいうえおhoge", "abcd1234567890"],
     },
   ];
 
