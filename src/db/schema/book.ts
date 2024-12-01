@@ -6,15 +6,20 @@ import {
   sqliteTable,
   text,
 } from "drizzle-orm/sqlite-core";
+import { v7 as uuidv7 } from "uuid";
 import { users } from "./user";
 
 /**
  * 書籍データ
  */
 export const books = sqliteTable("books", {
-  ndlBibId: text("id").primaryKey().notNull(),
+  id: text("id")
+    .primaryKey()
+    .notNull()
+    .$defaultFn(() => uuidv7()),
   title: text("title").notNull(),
   link: text("link").notNull(),
+  ndlBibId: text("ndlBibId").unique(),
   isbn: text("isbn"),
   jpNo: text("jpNo"),
   jpeCode: text("jpeCode"),
@@ -54,7 +59,7 @@ export const publishersRelations = relations(publishers, ({ many }) => ({
  * 書籍と著者
  */
 export const bookAuthors = sqliteTable("bookAuthors", {
-  bookId: text("bookId").references(() => books.ndlBibId, {
+  bookId: text("bookId").references(() => books.id, {
     onDelete: "cascade",
   }),
   authorId: integer("authorId").references(() => authors.id, {
@@ -65,7 +70,7 @@ export const bookAuthors = sqliteTable("bookAuthors", {
 export const bookAuthorsRelations = relations(bookAuthors, ({ one }) => ({
   book: one(books, {
     fields: [bookAuthors.bookId],
-    references: [books.ndlBibId],
+    references: [books.id],
   }),
   author: one(authors, {
     fields: [bookAuthors.authorId],
@@ -77,7 +82,7 @@ export const bookAuthorsRelations = relations(bookAuthors, ({ one }) => ({
  * 書籍と出版社
  */
 export const bookPublishers = sqliteTable("bookPublishers", {
-  bookId: text("bookId").references(() => books.ndlBibId, {
+  bookId: text("bookId").references(() => books.id, {
     onDelete: "cascade",
   }),
   publisherId: integer("publisherId").references(() => publishers.id, {
@@ -88,7 +93,7 @@ export const bookPublishers = sqliteTable("bookPublishers", {
 export const bookPublishersRelations = relations(bookPublishers, ({ one }) => ({
   book: one(books, {
     fields: [bookPublishers.bookId],
-    references: [books.ndlBibId],
+    references: [books.id],
   }),
   publisher: one(publishers, {
     fields: [bookPublishers.publisherId],
@@ -109,7 +114,7 @@ export const readingStatuses = sqliteTable(
       }),
     bookId: text("bookId")
       .notNull()
-      .references(() => books.ndlBibId),
+      .references(() => books.id),
     status: text("status", {
       enum: readingStatusValues,
     }).notNull(),
@@ -135,7 +140,7 @@ export const readingStatusesRelations = relations(
     }),
     book: one(books, {
       fields: [readingStatuses.bookId],
-      references: [books.ndlBibId],
+      references: [books.id],
     }),
   }),
 );
