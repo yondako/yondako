@@ -5,13 +5,16 @@ import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
 import { updateReadingStatus } from "#src/actions/updateReadingStatus.mock";
 import BookReadingStatusForm from ".";
 
-const mockBookId = "1234567890";
+const mockNdlBibId = "1234567890";
 
 const meta: Meta<typeof BookReadingStatusForm> = {
   title: "Common/BookReadingStatusForm",
   component: BookReadingStatusForm,
   args: {
-    bookId: mockBookId,
+    identifiers: {
+      ndlBibId: mockNdlBibId,
+      isbn: "9784047133450",
+    },
     bookTitle: "title",
     status: "want_read" as ReadingStatus,
     optimisticStatus: "want_read" as ReadingStatus,
@@ -21,7 +24,7 @@ const meta: Meta<typeof BookReadingStatusForm> = {
   beforeEach: async () => {
     updateReadingStatus.mockResolvedValue({
       book: {
-        detail: createDummyBookDetail(mockBookId),
+        detail: createDummyBookDetail(mockNdlBibId),
         readingStatus: "reading",
       },
     });
