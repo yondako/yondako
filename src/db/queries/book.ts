@@ -33,8 +33,8 @@ export async function getBook({
         and(isNull(dbSchema.books.ndlBibId), eq(dbSchema.books.isbn, isbn))
       : // それ以外はNDL書誌IDかISBNで検索
         or(
-          eq(dbSchema.books.ndlBibId, ndlBibId ?? ""),
-          eq(dbSchema.books.isbn, isbn ?? ""),
+          ndlBibId ? eq(dbSchema.books.ndlBibId, ndlBibId) : undefined,
+          isbn ? eq(dbSchema.books.isbn, isbn) : undefined,
         ),
     with: {
       bookAuthors: {
