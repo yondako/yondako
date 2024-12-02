@@ -91,9 +91,10 @@ export function parseOpenSearchXml(xml: string): OpenSearchResponse {
     ? parsed.rss.channel.item
     : [parsed.rss.channel.item];
 
+  const rawBooks: (BookDetailWithoutId | undefined)[] = [];
   let totalResults = parsed.rss.channel["openSearch:totalResults"] ?? 0;
 
-  const rawBooks: (BookDetailWithoutId | undefined)[] = items.map((item) => {
+  for (const item of items) {
     // 配列にする
     const identifier = item["dc:identifier"]
       ? Array.isArray(item["dc:identifier"])
@@ -123,7 +124,7 @@ export function parseOpenSearchXml(xml: string): OpenSearchResponse {
     if (!ndlBibId && !isbn) {
       console.warn(`ndlBibId と ISBN がありません: ${item.title}`);
       totalResults--;
-      return;
+      continue;
     }
 
     // 全国書誌番号
@@ -139,7 +140,7 @@ export function parseOpenSearchXml(xml: string): OpenSearchResponse {
       ? `${item.title} (${item["dcndl:volume"]})`
       : item.title;
 
-    return {
+    rawBooks.push({
       title,
       link: item.link,
       authors: createAuthors(item["dc:creator"]),
@@ -148,8 +149,8 @@ export function parseOpenSearchXml(xml: string): OpenSearchResponse {
       ndlBibId,
       jpNo: toStringOrUndefined(jpNo),
       jpeCode,
-    };
-  });
+    });
+  }
 
   return {
     meta: {
