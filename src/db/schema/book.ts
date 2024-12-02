@@ -114,7 +114,9 @@ export const readingStatuses = sqliteTable(
       }),
     bookId: text("bookId")
       .notNull()
-      .references(() => books.id),
+      .references(() => books.id, {
+        onDelete: "cascade",
+      }),
     status: text("status", {
       enum: readingStatusValues,
     }).notNull(),
