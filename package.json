@@ -70,7 +70,7 @@
     "@types/react": "18",
     "@types/react-dom": "18",
     "autoprefixer": "^10.4.20",
-    "drizzle-kit": "^0.28.0",
+    "drizzle-kit": "^0.29.0",
     "lefthook": "^1.7.22",
     "postcss": "^8.4.47",
     "storybook": "^8.3.6",
