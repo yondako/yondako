@@ -5,7 +5,7 @@ import type {
   BookDetailWithoutId,
   BookIdentifiers,
 } from "@/types/book";
-import { and, eq, isNull, or } from "drizzle-orm";
+import { and, eq, isNotNull, isNull, or } from "drizzle-orm";
 import db from "..";
 import * as dbSchema from "../schema/book";
 import { createAuthor } from "./author";
@@ -97,25 +97,69 @@ export async function createBook(
     .returning()
     .get();
 
+  // 著者情報と出版社情報を登録
+  await insertAuthorsAndPublishers(
+    insertedBook.id,
+    book.authors,
+    book.publishers,
+  );
+
+  return insertedBook;
+}
+
+/**
+ * NDL書誌IDのない書籍データを更新
+ * @param isbn ISBN
+ * @param book 書籍データ
+ */
+export async function updateBooksMissingNdlBibId(
+  isbn: string,
+  book: BookDetailWithoutId,
+): Promise<void> {
+  const { id } = await db
+    .update(dbSchema.books)
+    .set(book)
+    .where(and(isNull(dbSchema.books.ndlBibId), eq(dbSchema.books.isbn, isbn)))
+    .returning()
+    .get();
+
+  // 著者情報と出版社情報を登録
+  await insertAuthorsAndPublishers(id, book.authors, book.publishers);
+}
+
+/**
+ * NDL書誌IDを持たない書籍データを取得
+ */
+export async function getBooksWithoutNdlBibId(): Promise<BookDetail[]> {
+  return db.query.books.findMany({
+    where: and(isNull(dbSchema.books.ndlBibId), isNotNull(dbSchema.books.isbn)),
+  });
+}
+
+/**
+ * 著者情報と出版社情報を登録
+ * @param bookId 書籍ID
+ * @param authors 著者名
+ * @param publishers 出版社名
+ */
+async function insertAuthorsAndPublishers(
+  bookId: string,
+  authors: string[] | undefined,
+  publishers: string[] | undefined,
+): Promise<void> {
   // 著者情報を登録
-  if (book.authors) {
-    for (const name of book.authors) {
+  if (authors) {
+    for (const name of authors) {
       const authorId = await createAuthor(name);
-      await db
-        .insert(dbSchema.bookAuthors)
-        .values({ bookId: insertedBook.id, authorId });
+      await db.insert(dbSchema.bookAuthors).values({ bookId, authorId });
     }
   }
 
   // 出版社情報を登録
-  if (book.publishers) {
-    for (const name of book.publishers) {
+  if (publishers) {
+    for (const name of publishers) {
       const publisherId = await createPublisher(name);
-      await db
-        .insert(dbSchema.bookPublishers)
-        .values({ bookId: insertedBook.id, publisherId });
+      await db.insert(dbSchema.bookPublishers).values({ bookId, publisherId });
     }
   }
-
-  return insertedBook;
 }
