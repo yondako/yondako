@@ -45,7 +45,7 @@ export async function upsertReadingStatus(
   return result.status;
 }
 
-export type searchBooksFromLibraryOptions = {
+export type SearchBooksFromLibraryOptions = {
   userId: string;
   status: ReadingStatus;
   order: Order;
@@ -74,7 +74,7 @@ export async function searchBooksFromLibrary({
   page,
   pageSize,
   titleKeyword,
-}: searchBooksFromLibraryOptions): Promise<BookReadimgStatusResult> {
+}: SearchBooksFromLibraryOptions): Promise<BookReadimgStatusResult> {
   const escapedTitleKeyword = titleKeyword
     ? `%${titleKeyword?.replaceAll("%", "\\%").replaceAll("_", "//_")}%`
     : undefined;
