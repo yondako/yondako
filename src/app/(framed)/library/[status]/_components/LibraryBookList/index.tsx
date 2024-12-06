@@ -2,8 +2,8 @@ import BookList from "@/components/BookList";
 import Pagination from "@/components/Pagination";
 import SayTako from "@/components/SayTako";
 import {
+  type SearchBooksFromLibraryOptions,
   searchBooksFromLibrary,
-  type searchBooksFromLibraryOptions,
 } from "@/db/queries/status";
 import { auth } from "@/lib/auth";
 import type { ReadingStatus } from "@/types/readingStatus";
@@ -12,7 +12,7 @@ import Filter from "./Filter";
 const pageSize = 24;
 
 export async function LibraryBookList(
-  props: Omit<searchBooksFromLibraryOptions, "userId" | "pageSize">,
+  props: Omit<SearchBooksFromLibraryOptions, "userId" | "pageSize">,
 ) {
   const session = await auth();
 

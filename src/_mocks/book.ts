@@ -1,4 +1,4 @@
-import type { BookDetail } from "@/types/book";
+import type { BookDetailWithoutId } from "@/types/book";
 
 export const createDummyItem = (id: string) => `
 <item>
@@ -30,9 +30,8 @@ export const createDummyItem = (id: string) => `
   <dc:subject xsi:type="dcndl:NDLC">Y00</dc:subject>
   <dc:subject xsi:type="dcndl:NDC10">000.0</dc:subject>
   <dc:description>ダミー出版</dc:description>
-  <rdfs:seeAlso rdf:resource="https://example.com/books/dummy-link"/>
-  <rdfs:seeAlso rdf:resource="https://example.com/books/dummy-link2"/>
-  <rdfs:seeAlso rdf:resource="https://example.com/books/dummy-link3"/>
+  <rdfs:seeAlso rdf:resource="https://www.books.or.jp/book-details/00000000A11111111111" />
+  <rdfs:seeAlso rdf:resource="https://www.books.or.jp/book-details/9784040000000" />
   <dc:description>2024</dc:description>
 </item>
 `;
@@ -54,14 +53,17 @@ export const createDummyXml = (total: number, children = "") => {
   `;
 };
 
-export const createDummyBookDetail = (id: string): BookDetail => {
+export const createDummyBookDetail = (
+  ndlBibId: string,
+): BookDetailWithoutId => {
   return {
     authors: ["ダミー著者"],
     isbn: "978-4-04-000000-0",
     jpNo: "00000000",
+    jpeCode: "00000000A11111111111",
     link: "https://example.com/books/dummy-link",
-    ndlBibId: id,
+    ndlBibId,
     publishers: ["ダミー出版社"],
-    title: `ダミータイトル ${id}`,
+    title: `ダミータイトル ${ndlBibId}`,
   };
 };

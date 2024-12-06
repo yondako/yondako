@@ -2,7 +2,7 @@ import { parseOpenSearchXml } from "./parse";
 
 const apiBaseUrl = "https://iss.ndl.go.jp/api/opensearch";
 
-type SearchOptions = {
+export type SearchOptions = {
   /* 取得件数 */
   cnt: number;
   /* すべての項目を対象に検索 */
@@ -35,11 +35,11 @@ export async function searchBooksFromNDL(
     );
   }
 
-  // データプロバイダ:
-  // 国立国会図書館蔵書 + 国立国会図書館新着書誌情報 + 国立国会図書館全国書誌情報
+  // データプロバイダの指定
+  // (国立国会図書館蔵書, 国立国会図書館新着書誌情報, 国立国会図書館全国書誌情報, JPRO)
   endpoint.searchParams.append(
     "dpid",
-    "iss-ndl-opac iss-ndl-opac-inprocess iss-ndl-opac-national",
+    "iss-ndl-opac iss-ndl-opac-inprocess iss-ndl-opac-national jpro",
   );
 
   // 対象を図書に絞る

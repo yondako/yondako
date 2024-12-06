@@ -29,7 +29,7 @@ export async function searchFromIsbn(
 
   // 自分の読書ステータス
   const readingStatus: ReadingStatus =
-    libraryBook.length > 0 ? libraryBook[0].status : "none";
+    libraryBook.at(0)?.readingStatus ?? "none";
 
   return {
     detail: result.books[0],

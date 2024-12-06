@@ -1,10 +1,26 @@
 import { describe, expect, test } from "bun:test";
 import {
+  convertFullWidthToHalfWidth,
   createAuthors,
   createPublishers,
+  getIsbnFromSeeAlso,
   getJpeCode,
   toStringOrUndefined,
 } from "./utils";
+
+describe("convertFullWidthToHalfWidth", () => {
+  test("全角文字を半角文字に変換できる", () => {
+    const text = "１２３４５６７８９０";
+    const result = convertFullWidthToHalfWidth(text);
+    expect(result).toBe("1234567890");
+  });
+
+  test("全角文字以外は変換されない", () => {
+    const text = "abcde";
+    const result = convertFullWidthToHalfWidth(text);
+    expect(result).toBe("abcde");
+  });
+});
 
 describe("toStringOrUndefined", () => {
   test("numberがstringに変換できる", () => {
@@ -40,15 +56,27 @@ describe("getJpeCode", () => {
     const result = getJpeCode(urls);
     expect(result).toBeUndefined();
   });
+});
 
-  test("undefinedが含まれている場合でもJP-eコードを正常に取得できること", () => {
+describe("getIsbnFromSeeAlso", () => {
+  test("ISBNを正常に取得できること", () => {
     const urls = [
-      undefined,
-      "https://www.books.or.jp/book-details/09876543210987654321",
+      "https://www.books.or.jp/book-details/9781234567890",
+      "https://example.com/other-url",
     ];
 
-    const result = getJpeCode(urls);
-    expect(result).toBe("09876543210987654321");
+    const result = getIsbnFromSeeAlso(urls);
+    expect(result).toBe("9781234567890");
+  });
+
+  test("ISBNが含まれていない場合はundefinedを返すこと", () => {
+    const urls = [
+      "https://example.com/other-url",
+      "https://another-example.com/another-url",
+    ];
+
+    const result = getIsbnFromSeeAlso(urls);
+    expect(result).toBeUndefined();
   });
 });
 
@@ -79,6 +107,11 @@ describe("createAuthors", () => {
         "白菊ほたる",
       ],
       want: ["白菊ほたる", "鷹富士茄子"],
+    },
+    {
+      title: "全角英数字が半角に変換される",
+      value: ["あいうえおｈｏｇｅ", "abcd１２３４５６７８９０"],
+      want: ["あいうえおhoge", "abcd1234567890"],
     },
   ];
 
@@ -136,6 +169,11 @@ describe("createPublishers", () => {
         "ほげほげ",
       ],
       want: ["ほげほげ", "ふがふが"],
+    },
+    {
+      title: "全角英数字が半角に変換される",
+      value: ["あいうえおｈｏｇｅ", "abcd１２３４５６７８９０"],
+      want: ["あいうえおhoge", "abcd1234567890"],
     },
   ];
 

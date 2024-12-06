@@ -4,16 +4,16 @@ import type { ReadingStatus } from "./readingStatus";
  * 書籍
  */
 export type BookType = {
-  detail: BookDetail;
+  detail: BookDetailWithoutId;
   readingStatus: ReadingStatus;
 };
 
 /**
- * 書籍データ
+ * DBに記録されている書籍データ
  */
 export type BookDetail = {
-  /** 書誌ID */
-  ndlBibId: string;
+  /** 書籍ID */
+  id: string;
   /** タイトル */
   title: string;
   /** NDL Search のページURL */
@@ -22,6 +22,8 @@ export type BookDetail = {
   authors?: string[];
   /** 出版社 */
   publishers?: string[];
+  /** NDL書誌ID */
+  ndlBibId?: string | null;
   /** ISBN */
   isbn?: string | null;
   /** 全国書誌番号 */
@@ -29,3 +31,14 @@ export type BookDetail = {
   /** JP-eコード */
   jpeCode?: string | null;
 };
+
+/**
+ * 書籍IDを除いた書籍データ
+ * NOTE: NDLサーチから取得した書籍データなどで使用
+ */
+export type BookDetailWithoutId = Omit<BookDetail, "id">;
+
+/**
+ * 書籍識別子
+ */
+export type BookIdentifiers = Pick<BookDetail, "ndlBibId" | "isbn">;

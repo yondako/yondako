@@ -1,5 +1,5 @@
 import { readingStatusMetadata } from "@/constants/status";
-import type { BookType } from "@/types/book";
+import type { BookIdentifiers, BookType } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
@@ -18,14 +18,14 @@ export type BookReadingStatusFormProps = {
 };
 
 type Props = {
-  bookId: string;
+  identifiers: BookIdentifiers;
   bookTitle: string;
   className?: string;
 } & BookReadingStatusFormProps &
   Pick<BookReadingStatusButtonProps, "compact">;
 
 export default function BookReadingStatusForm({
-  bookId,
+  identifiers,
   bookTitle,
   status,
   optimisticStatus,
@@ -41,7 +41,7 @@ export default function BookReadingStatusForm({
 
     onChangeOptimisticStatus(newStatus);
 
-    const result = await updateReadingStatus(bookId, newStatus);
+    const result = await updateReadingStatus(identifiers, newStatus);
 
     // 記録に失敗
     if (result.error || !result.book) {
