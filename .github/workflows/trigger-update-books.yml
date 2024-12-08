@@ -1,0 +1,15 @@
+name: Trigger Update Books
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 日本時間 24時
+    - cron: "0 15 * * *"
+
+jobs:
+  trigger-update-books:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Update API
+        run: |
+          curl -X POST -H "X-API-SECRET-KEY: ${{ secrets.PROD_API_SECRET_KEY }}" https://yondako.com/api/books/update-missing-ndlbibid
