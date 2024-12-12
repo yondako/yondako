@@ -6,7 +6,11 @@ const meta: Meta<typeof BookCard> = {
   title: "Common/BookCard",
   component: BookCard,
   render: (args) => {
-    return <BookCard {...args} />;
+    return (
+      <div className="w-96">
+        <BookCard {...args} />
+      </div>
+    );
   },
 };
 
