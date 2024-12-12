@@ -6,6 +6,7 @@ export const site = {
   },
   url: "https://yondako.com",
   infoUrl: "https://info.yondako.com",
+  github: "https://github.com/yondako/yondako",
 };
 
 export const links = [
@@ -15,7 +16,7 @@ export const links = [
   },
   {
     title: "GitHub",
-    href: "https://github.com/yondako/yondako",
+    href: site.github,
   },
   {
     title: "利用規約",
