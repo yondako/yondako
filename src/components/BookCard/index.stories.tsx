@@ -7,8 +7,7 @@ const meta: Meta<typeof BookCard> = {
   component: BookCard,
   render: (args) => {
     return (
-      // TODO: 書影に位置が justify-items-center に依存してるっぽいので直したい
-      <div className="grid w-96 grid-cols-1 justify-items-center">
+      <div className="w-96">
         <BookCard {...args} />
       </div>
     );
