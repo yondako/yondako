@@ -9,7 +9,7 @@ type Props = {
 
 export default function AccountSection({ userId }: Props) {
   return (
-    <>
+    <section>
       <h2 className="font-bold text-xl">アカウント</h2>
       <div className="mt-4 w-full space-y-6 rounded-2xl bg-tertiary-background p-8">
         <SettingProperty
@@ -38,6 +38,6 @@ export default function AccountSection({ userId }: Props) {
           </Button>
         </SettingProperty>
       </div>
-    </>
+    </section>
   );
 }
