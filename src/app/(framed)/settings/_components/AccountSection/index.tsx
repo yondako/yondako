@@ -1,3 +1,4 @@
+import IconUserFiled from "@/assets/icons/user-filed.svg";
 import Button from "@/components/Button";
 import Link from "next/link";
 import LogoutButton from "./LogoutButton";
@@ -10,8 +11,11 @@ type Props = {
 export default function AccountSection({ userId }: Props) {
   return (
     <section>
-      <h2 className="font-bold text-xl">アカウント</h2>
-      <div className="mt-4 w-full space-y-6 rounded-2xl bg-tertiary-background p-8">
+      <h2 className="flex items-center font-bold text-xl">
+        <IconUserFiled className="mr-2 inline-block h-6 w-6" />
+        <span>アカウント</span>
+      </h2>
+      <div className="mt-6 w-full space-y-6 rounded-2xl bg-tertiary-background p-8">
         <SettingProperty
           title="ユーザーID"
           description="サポート時などに使用します"
