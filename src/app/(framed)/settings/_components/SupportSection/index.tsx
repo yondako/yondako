@@ -1,3 +1,4 @@
+import IconHelp from "@/assets/icons/help-filed.svg";
 import { site } from "@/constants/site";
 import FormLink from "./FormLink";
 
@@ -23,9 +24,12 @@ export default function SupportSection({ userId }: Props) {
   issueUrl.pathname += "/issues";
 
   return (
-    <section className="mt-8">
-      <h2 className="font-bold text-xl">サポート</h2>
-      <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+    <section className="mt-10">
+      <h2 className="flex items-center font-bold text-xl">
+        <IconHelp className="mr-2 inline-block h-6 w-6" />
+        <span>サポート</span>
+      </h2>
+      <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
         <FormLink
           title="バグ報告"
           description="サービスのバグや不具合を見つけた場合はこちら"
