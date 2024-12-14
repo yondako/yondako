@@ -39,8 +39,8 @@ export default function SupportSection({ userId }: Props) {
           href={contactUrl}
         />
         <FormLink
-          title="もしかして、開発者の方ですか？"
-          description="GitHubでのIssue・PRをお待ちしております！"
+          title="開発者の方ですか？"
+          description="GitHubでのIssue・PRもお待ちしています！"
           href={issueUrl.toString()}
         />
       </div>
