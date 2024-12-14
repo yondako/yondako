@@ -8,16 +8,14 @@ type Props = {
 
 export default function SupportSection({ userId }: Props) {
   const bugReportUrl = process.env.FORM_BUG_REPORT_URL;
-  const bugReportUrlEntryKey = process.env.FORM_BUG_REPORT_URL_ENTRY_KEY;
   const contactUrl = process.env.FORM_CONTACT_URL;
 
-  if (!bugReportUrl || !bugReportUrlEntryKey || !contactUrl) {
+  if (!bugReportUrl || !contactUrl) {
     return;
   }
 
-  // ユーザーIDを入力済のバグ報告フォームのURLを生成
-  const bugReportUrlWithUserId = new URL(bugReportUrl);
-  bugReportUrlWithUserId.searchParams.append(bugReportUrlEntryKey, userId);
+  // ユーザーIDを入力済に
+  const bugReportUrlWithUserId = bugReportUrl.replace("{{userId}}", userId);
 
   // GitHubのIssue
   const issueUrl = new URL(site.github);
