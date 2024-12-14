@@ -11,7 +11,7 @@ type Props = {
 export default function AccountSection({ userId }: Props) {
   return (
     <section>
-      <h2 className="flex items-center font-bold text-xl">
+      <h2 className="flex items-center font-bold text-lg md:text-xl">
         <IconUserFiled className="mr-2 inline-block h-6 w-6" />
         <span>アカウント</span>
       </h2>

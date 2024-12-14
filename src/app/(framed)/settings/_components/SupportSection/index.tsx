@@ -23,7 +23,7 @@ export default function SupportSection({ userId }: Props) {
 
   return (
     <section className="mt-10">
-      <h2 className="flex items-center font-bold text-xl">
+      <h2 className="flex items-center font-bold text-lg md:text-xl">
         <IconHelp className="mr-2 inline-block h-6 w-6" />
         <span>サポート</span>
       </h2>
