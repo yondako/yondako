@@ -12,6 +12,10 @@ https://github.com/user-attachments/assets/73717f15-a8a9-46b6-94bd-3b3643a8094c
 bun install
 ```
 
+### .env
+
+`.env.example` をコピーして `.env.local` を作成。
+
 ### DBのセットアップ
 
 ```sh
