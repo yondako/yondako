@@ -3,8 +3,8 @@
 import { createBook, getBook } from "@/db/queries/book";
 import { upsertReadingStatus } from "@/db/queries/status";
 import { auth } from "@/lib/auth";
-import { searchBooksFromNDL } from "@/lib/ndl";
-import type { BookType } from "@/types/book";
+import { type SearchOptions, searchBooksFromNDL } from "@/lib/ndl";
+import type { BookIdentifiers, BookType } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
 
 type UpdateReadingStatusResult = {
@@ -14,12 +14,12 @@ type UpdateReadingStatusResult = {
 
 /**
  * 読書ステータスを更新
- * @param bookId 書籍ID
+ * @param bookIdentifiers 書籍識別子
  * @param status 読書ステータス
  * @returns 更新結果
  */
 export async function updateReadingStatus(
-  bookId: string,
+  bookIdentifiers: BookIdentifiers,
   status: ReadingStatus,
 ): Promise<UpdateReadingStatusResult> {
   const session = await auth();
@@ -31,35 +31,45 @@ export async function updateReadingStatus(
   }
 
   // Dbに登録されているか確認
-  let bookDetail = await getBook(bookId);
+  let bookDetail = await getBook(bookIdentifiers);
 
-  // DBに登録
+  // DBに無い場合登録する
   if (!bookDetail) {
-    // NDLから書籍データを取得
-    const results = await searchBooksFromNDL({
-      any: bookId,
+    const opts: SearchOptions = {
       cnt: 1,
-    });
+    };
 
+    if (bookIdentifiers.ndlBibId) {
+      // NDL書誌IDがある場合はそれを優先
+      opts.any = bookIdentifiers.ndlBibId;
+    } else if (bookIdentifiers.isbn) {
+      // NDL書誌IDが無い場合はISBNで検索
+      opts.isbn = bookIdentifiers.isbn;
+    }
+
+    const results = await searchBooksFromNDL(opts);
+    const book = results?.books.at(0);
+
+    // データが無いもしくは書籍識別子が一致しない場合はエラー
     if (
       !results ||
-      results.books.length <= 0 ||
-      results.books[0].ndlBibId !== bookId
+      !book ||
+      (bookIdentifiers.ndlBibId &&
+        book.ndlBibId !== bookIdentifiers.ndlBibId) ||
+      (bookIdentifiers.isbn && book.isbn !== bookIdentifiers.isbn)
     ) {
       return {
         error: "対象の書籍データを取得できませんでした",
       };
     }
 
-    bookDetail = results.books[0];
-
-    await createBook(bookDetail);
+    bookDetail = await createBook(book);
   }
 
-  // ステータスの変更をDBに反映
+  // 読書ステータスの変更をDBに反映
   const resultReadingStatus = await upsertReadingStatus(
     session.user.id,
-    bookDetail.ndlBibId,
+    bookDetail.id,
     status,
   );
 

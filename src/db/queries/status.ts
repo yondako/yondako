@@ -1,6 +1,6 @@
 import "server-only";
 
-import type { BookDetail, BookType } from "@/types/book";
+import type { BookDetailWithoutId, BookType } from "@/types/book";
 import type { Order } from "@/types/order";
 import type { ReadingStatus } from "@/types/readingStatus";
 import {
@@ -11,13 +11,14 @@ import {
   eq,
   getTableColumns,
   inArray,
+  or,
   sql,
 } from "drizzle-orm";
 import db from "..";
 import * as dbSchema from "../schema/book";
 
 /**
- * 読書ステータスを追加
+ * 読書ステータスを追加または更新
  * @param userId ユーザーID
  * @param bookId 書籍ID
  * @returns ステータス
@@ -44,7 +45,7 @@ export async function upsertReadingStatus(
   return result.status;
 }
 
-export type searchBooksFromLibraryOptions = {
+export type SearchBooksFromLibraryOptions = {
   userId: string;
   status: ReadingStatus;
   order: Order;
@@ -73,7 +74,7 @@ export async function searchBooksFromLibrary({
   page,
   pageSize,
   titleKeyword,
-}: searchBooksFromLibraryOptions): Promise<BookReadimgStatusResult> {
+}: SearchBooksFromLibraryOptions): Promise<BookReadimgStatusResult> {
   const escapedTitleKeyword = titleKeyword
     ? `%${titleKeyword?.replaceAll("%", "\\%").replaceAll("_", "//_")}%`
     : undefined;
@@ -99,7 +100,7 @@ export async function searchBooksFromLibrary({
         .innerJoin(
           dbSchema.books,
           and(
-            eq(dbSchema.readingStatuses.bookId, dbSchema.books.ndlBibId),
+            eq(dbSchema.readingStatuses.bookId, dbSchema.books.id),
             escapedTitleKeyword
               ? sql`${dbSchema.books.title} LIKE ${escapedTitleKeyword} ESCAPE '\\'`
               : undefined,
@@ -128,7 +129,7 @@ export async function searchBooksFromLibrary({
         .from(results)
         .leftJoin(
           dbSchema.bookAuthors,
-          eq(results.book.ndlBibId, dbSchema.bookAuthors.bookId),
+          eq(results.book.id, dbSchema.bookAuthors.bookId),
         )
         .leftJoin(
           dbSchema.authors,
@@ -136,13 +137,13 @@ export async function searchBooksFromLibrary({
         )
         .leftJoin(
           dbSchema.bookPublishers,
-          eq(results.book.ndlBibId, dbSchema.bookPublishers.bookId),
+          eq(results.book.id, dbSchema.bookPublishers.bookId),
         )
         .leftJoin(
           dbSchema.publishers,
           eq(dbSchema.bookPublishers.publisherId, dbSchema.publishers.id),
         )
-        .groupBy(results.book.ndlBibId)
+        .groupBy(results.book.id)
         .orderBy(
           order === "asc"
             ? asc(results.readingStatus.updatedAt)
@@ -176,27 +177,78 @@ export async function searchBooksFromLibrary({
 }
 
 /**
- * BookDetailのリストから該当する書籍のステータスを取得
+ * 該当する書籍のステータスを取得
  * @param userId ユーザーID
- * @param bookDetails 書籍詳細のリスト
+ * @param bookIdentifiers 書籍識別子のリスト
  * @returns 該当する書籍のステータスの配列
  */
 export async function getStatusesByBookIds(
   userId: string,
-  bookDetails: BookDetail[],
-) {
-  const bookIds = bookDetails.map((b) => b.ndlBibId);
+  bookIdentifiers: BookDetailWithoutId[],
+): Promise<BookType[]> {
+  try {
+    // NDL書誌ID
+    const ndlBibIds = bookIdentifiers
+      .map((b) => b.ndlBibId)
+      .filter((id) => typeof id === "string");
 
-  const raw = await db.query.readingStatuses.findMany({
-    where: and(
-      eq(dbSchema.readingStatuses.userId, userId),
-      inArray(dbSchema.readingStatuses.bookId, bookIds),
-    ),
-    columns: {
-      bookId: true,
-      status: true,
-    },
-  });
+    // ISBN
+    const isbns = bookIdentifiers
+      .filter((id) => !id.ndlBibId && id.isbn)
+      .map((b) => b.isbn)
+      .filter((id) => typeof id === "string");
 
-  return raw;
+    // NDL書誌IDかISBNで書籍を検索
+    const bookIds = db.$with("book_ids").as(
+      db
+        .select({
+          id: dbSchema.books.id,
+          ndlBibId: dbSchema.books.ndlBibId,
+          isbn: dbSchema.books.isbn,
+        })
+        .from(dbSchema.books)
+        .where(
+          or(
+            inArray(dbSchema.books.ndlBibId, ndlBibIds),
+            inArray(dbSchema.books.isbn, isbns),
+          ),
+        ),
+    );
+
+    const raw = await db
+      .with(bookIds)
+      .select({
+        bookId: dbSchema.readingStatuses.bookId,
+        ndlBibId: bookIds.ndlBibId,
+        isbn: bookIds.isbn,
+        status: dbSchema.readingStatuses.status,
+      })
+      .from(dbSchema.readingStatuses)
+      .leftJoin(bookIds, eq(dbSchema.readingStatuses.bookId, bookIds.id))
+      .where(
+        and(
+          eq(dbSchema.readingStatuses.userId, userId),
+          or(
+            inArray(bookIds.ndlBibId, ndlBibIds),
+            inArray(bookIds.isbn, isbns),
+          ),
+        ),
+      );
+
+    const results = bookIdentifiers.map((b) => {
+      const readingStatus: ReadingStatus =
+        raw.find((r) => b.ndlBibId === r.ndlBibId || b.isbn === r.isbn)
+          ?.status ?? "none";
+
+      return {
+        detail: b,
+        readingStatus,
+      };
+    });
+
+    return results;
+  } catch (e) {
+    console.error("getStatusesByBookIds", e);
+    return [];
+  }
 }
