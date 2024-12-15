@@ -30,6 +30,7 @@ export function middleware(request: NextRequest) {
       "'self'",
       `'nonce-${nonce}'`,
       site.url,
+      process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL,
       isDev && "'unsafe-eval'",
       isDev && "'unsafe-inline'",
     ],
