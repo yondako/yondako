@@ -13,15 +13,27 @@ type Story = StoryObj<typeof BookList>;
 
 const sampleBooks: BookType[] = [
   {
-    detail: createDummyBookDetail("0"),
+    detail: {
+      ...createDummyBookDetail("0"),
+      jpeCode: undefined,
+      isbn: undefined,
+    },
     readingStatus: "want_read",
   },
   {
-    detail: createDummyBookDetail("1"),
+    detail: {
+      ...createDummyBookDetail("1"),
+      jpeCode: undefined,
+      isbn: undefined,
+    },
     readingStatus: "reading",
   },
   {
-    detail: createDummyBookDetail("2"),
+    detail: {
+      ...createDummyBookDetail("2"),
+      jpeCode: undefined,
+      isbn: undefined,
+    },
     readingStatus: "read",
   },
 ];
