@@ -11,8 +11,9 @@ jobs:
   rerun:
     runs-on: ubuntu-latest
     permissions:
-      actions: write
-      contents: read
+      contents: write
+      pull-requests: write
+      repository-projects: write
     steps:
       - name: rerun ${{ inputs.run_id }}
         env:
