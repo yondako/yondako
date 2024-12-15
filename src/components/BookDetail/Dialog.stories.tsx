@@ -12,7 +12,11 @@ const meta: Meta<typeof BookDetailDialog> = {
   args: {
     bookDetailProps: {
       data: {
-        detail: createDummyBookDetail("1234567890"),
+        detail: {
+          ...createDummyBookDetail("1234567890"),
+          jpeCode: undefined,
+          isbn: undefined,
+        },
         readingStatus: "reading",
       },
       status: "reading",
