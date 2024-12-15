@@ -56,3 +56,16 @@ jobs:
           bunx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
             "bun preview-storybook" \
             "bunx wait-on tcp:127.0.0.1:6006 && bun test-storybook"
+
+  # ジョブの再試行
+  # https://blog.logto.io/ja/automatic-github-workflow-rerun
+  rerun-on-failure:
+    needs: storybook-test
+    if: failure() && fromJSON(github.run_attempt) < 3
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          GH_REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ github.token }}
+          GH_DEBUG: api
+        run: gh workflow run rerun.yml -F run_id=${{ github.run_id }}
