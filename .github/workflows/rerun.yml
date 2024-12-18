@@ -10,12 +10,11 @@ on:
 jobs:
   rerun:
     runs-on: ubuntu-latest
-    permissions: write-all
     steps:
       - name: rerun ${{ inputs.run_id }}
         env:
           GH_REPO: ${{ github.repository }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN_GHA_RERUN }}
         run: |
           gh run watch ${{ inputs.run_id }} > /dev/null 2>&1
           gh run rerun ${{ inputs.run_id }} --failed
