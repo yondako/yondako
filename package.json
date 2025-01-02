@@ -83,8 +83,7 @@
     "vercel": "39.2.2"
   },
   "overrides": {
-    "string-width": "4.2.3",
-    "vercel": "$vercel"
+    "string-width": "4.2.3"
   },
   "imports": {
     "#actions/updateReadingStatus": {
