@@ -42,8 +42,9 @@ export async function searchBooksFromNDL(
     "iss-ndl-opac iss-ndl-opac-inprocess iss-ndl-opac-national jpro-book jpro-online",
   );
 
-  // 対象を図書に絞る
-  endpoint.searchParams.append("mediatype", "books");
+  // メディアタイプの指定
+  // (資料形態: 紙)
+  endpoint.searchParams.append("mediatype", "booklet");
 
   try {
     const res = await fetch(endpoint);
