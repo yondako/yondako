@@ -66,6 +66,5 @@ jobs:
     steps:
       - env:
           GH_REPO: ${{ github.repository }}
-          GH_TOKEN: ${{ github.token }}
-          GH_DEBUG: api
+          GH_TOKEN: ${{ secrets.GH_TOKEN_GHA_RERUN }}
         run: gh workflow run rerun.yml -F run_id=${{ github.run_id }}

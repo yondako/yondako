@@ -45,6 +45,11 @@ export async function updateReadingStatus(
     } else if (bookIdentifiers.isbn) {
       // NDL書誌IDが無い場合はISBNで検索
       opts.isbn = bookIdentifiers.isbn;
+    } else {
+      // どちらも無い場合はエラー
+      return {
+        error: "この書籍は未対応のため登録できません",
+      };
     }
 
     const results = await searchBooksFromNDL(opts);
