@@ -59,7 +59,7 @@
         "storybook-addon-pseudo-states": "^4.0.2",
         "tailwindcss": "^3.4.17",
         "typescript": "^5.7.2",
-        "vercel": "39.2.6",
+        "vercel": "39.3.0",
         "wrangler": "^3.96.0",
       },
     },
@@ -890,7 +890,7 @@
 
     "@vercel/node": ["@vercel/node@5.0.2", "", { "dependencies": { "@edge-runtime/node-utils": "2.3.0", "@edge-runtime/primitives": "4.1.0", "@edge-runtime/vm": "3.2.0", "@types/node": "16.18.11", "@vercel/build-utils": "9.0.1", "@vercel/error-utils": "2.0.3", "@vercel/nft": "0.27.10", "@vercel/static-config": "3.0.0", "async-listen": "3.0.0", "cjs-module-lexer": "1.2.3", "edge-runtime": "2.5.9", "es-module-lexer": "1.4.1", "esbuild": "0.14.47", "etag": "1.8.1", "node-fetch": "2.6.9", "path-to-regexp": "6.2.1", "ts-morph": "12.0.0", "ts-node": "10.9.1", "typescript": "4.9.5", "undici": "5.28.4" } }, "sha512-UcUVBC6i4j3WPxLA5GYnSvRd/E1fpqJ5dnMZMLromGCTzIXaw+Uzj7bsSSQ2Y9yPtwnWWrcEDmF3IumSTcdr/w=="],
 
-    "@vercel/python": ["@vercel/python@4.6.0", "", {}, "sha512-43bpxcas3d3ep+F5zdziva6gW1LBc71YGQiG/XmajGlDv4cCNO312Vf8BE5SYafb5ft6rwl69+WOoFwGkI26qA=="],
+    "@vercel/python": ["@vercel/python@4.7.0", "", {}, "sha512-mkHmzYYZBLFLdvSdgrnBl1Qc1+LI5YIafSNJOj8oW4YU8vvALLMbwgZp42pZnyXW0e/3uHcesiRp4P0jSB0wyg=="],
 
     "@vercel/redwood": ["@vercel/redwood@2.1.12", "", { "dependencies": { "@vercel/nft": "0.27.10", "@vercel/routing-utils": "5.0.0", "@vercel/static-config": "3.0.0", "semver": "6.3.1", "ts-morph": "12.0.0" } }, "sha512-9CLwF8QKmxWlt1CMxoVD5gxTfwnojo1UlFONRSoUfjpNC+nTHEMCADVyawmDkANXs7Olx4QQSwJqsaWT8A9Jgg=="],
 
@@ -2580,7 +2580,7 @@
 
     "vaul": ["vaul@1.1.2", "", { "dependencies": { "@radix-ui/react-dialog": "^1.1.1" }, "peerDependencies": { "react": "^16.8 || ^17.0 || ^18.0 || ^19.0.0 || ^19.0.0-rc", "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0.0 || ^19.0.0-rc" } }, "sha512-ZFkClGpWyI2WUQjdLJ/BaGuV6AVQiJ3uELGk3OYtP+B6yCO7Cmn9vPFXVJkRaGkOJu3m8bQMgtyzNHixULceQA=="],
 
-    "vercel": ["vercel@39.2.6", "", { "dependencies": { "@vercel/build-utils": "9.0.1", "@vercel/fun": "1.1.2", "@vercel/go": "3.2.1", "@vercel/hydrogen": "1.0.11", "@vercel/next": "4.4.2", "@vercel/node": "5.0.2", "@vercel/python": "4.6.0", "@vercel/redwood": "2.1.12", "@vercel/remix-builder": "5.0.2", "@vercel/ruby": "2.1.0", "@vercel/static-build": "2.5.41", "chokidar": "4.0.0" }, "bin": { "vc": "dist/index.js", "vercel": "dist/index.js" } }, "sha512-s3T8eEXeNcMcgU+NsHS2/1B7Pj1aWip+dy0IQqbDwy1ArFFI0S4IzpN2+XxfG8Y6fPJnLGUyywTe/nbFU7SWPg=="],
+    "vercel": ["vercel@39.3.0", "", { "dependencies": { "@vercel/build-utils": "9.0.1", "@vercel/fun": "1.1.2", "@vercel/go": "3.2.1", "@vercel/hydrogen": "1.0.11", "@vercel/next": "4.4.2", "@vercel/node": "5.0.2", "@vercel/python": "4.7.0", "@vercel/redwood": "2.1.12", "@vercel/remix-builder": "5.0.2", "@vercel/ruby": "2.1.0", "@vercel/static-build": "2.5.41", "chokidar": "4.0.0" }, "bin": { "vc": "dist/vc.js", "vercel": "dist/vc.js" } }, "sha512-VyGaH5tnVVsgACcbU4PCRyQBDg/SST7/HQBaIXNnmOW7Ngjcn04wamjPgYAdFUGroiTm+ZpmNbCO1DQXzNeTjQ=="],
 
     "verror": ["verror@1.10.0", "", { "dependencies": { "assert-plus": "^1.0.0", "core-util-is": "1.0.2", "extsprintf": "^1.2.0" } }, "sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw=="],
 
