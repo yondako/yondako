@@ -24,11 +24,12 @@ SOFTWARE.
 repo: https://github.com/ericblade/quagga2-react-example
 */
 
-import type { QuaggaJSResultCallbackFunction } from "@ericblade/quagga2";
-import Quagga from "@ericblade/quagga2";
-import { useCallback, useLayoutEffect, useRef } from "react";
+import Quagga, { type QuaggaJSResultObject } from "@ericblade/quagga2";
+import { type RefObject, useCallback, useLayoutEffect, useRef } from "react";
 
 type Props = {
+  scannerRef: RefObject<HTMLDivElement>;
+
   /**
    * バーコードを検出した
    * @param code 検出したコード
@@ -58,12 +59,20 @@ function getMedian(arr: number[]): number {
   return (newArr[half - 1] + newArr[half]) / 2;
 }
 
-export const useScanner = ({ onDetected, onInitError }: Props) => {
+/**
+ * NOTE:
+ * Custom Hooks にしたらなんかトーチの制御がうまくいかなくなったので、サンプル通りコンポーネントにしてる
+ * 具体的には1回目のトーチのON時に Operation Error: The associated Track is in an invalid state. が発生する
+ */
+export default function ScannerCore({
+  scannerRef,
+  onDetected,
+  onInitError,
+}: Props) {
   const prevScanCode = useRef("");
-  const scannerRef = useRef<HTMLDivElement>(null);
 
-  const checkError = useCallback<QuaggaJSResultCallbackFunction>(
-    (result) => {
+  const checkError = useCallback(
+    (result: QuaggaJSResultObject) => {
       const { code, decodedCodes } = result.codeResult;
 
       const errors = decodedCodes
@@ -87,12 +96,13 @@ export const useScanner = ({ onDetected, onInitError }: Props) => {
     [onDetected],
   );
 
-  // 初期化
   useLayoutEffect(() => {
     let ignoreStart = false;
 
     const init = async () => {
-      // HACK: initが連続して複数回呼ばれないようにするため
+      // HACK:
+      // コンポーネントがアンマウントされるかを確認するために、1ms待つ
+      // (アンマウントされた場合、クリーンアップ関数が実行されて ignoreStart が true になる)
       await new Promise((resolve) => setTimeout(resolve, 1));
 
       if (ignoreStart) {
@@ -103,7 +113,7 @@ export const useScanner = ({ onDetected, onInitError }: Props) => {
         screen.orientation.type === "landscape-primary" ||
         screen.orientation.type === "landscape-secondary";
 
-      // getUserMedia API で取得できるサイズは横向きの場合の値らしいので入れ替える
+      // getUserMedia API で取得できるサイズは常に横向きなので、縦向きの場合は入れ替える
       const constraintsWidth = isLandscape
         ? window.innerWidth
         : window.innerHeight;
@@ -111,53 +121,57 @@ export const useScanner = ({ onDetected, onInitError }: Props) => {
         ? window.innerHeight
         : window.innerWidth;
 
-      await Quagga.init(
-        {
-          inputStream: {
-            type: "LiveStream",
-            constraints: {
-              facingMode: {
-                exact: "environment",
+      try {
+        await Quagga.init(
+          {
+            inputStream: {
+              type: "LiveStream",
+              constraints: {
+                facingMode: {
+                  exact: "environment",
+                },
+                width: constraintsWidth,
+                height: constraintsHeight,
               },
-              width: constraintsWidth,
-              height: constraintsHeight,
+              area: {
+                top: "40%",
+                right: "0%",
+                left: "0%",
+                bottom: "40%",
+              },
+              target: scannerRef.current ?? undefined,
+              willReadFrequently: true,
             },
-            area: {
-              top: "40%",
-              right: "0%",
-              left: "0%",
-              bottom: "40%",
+            locator: {
+              patchSize: "large",
+              halfSample: true,
+              willReadFrequently: true,
             },
-            target: scannerRef.current ?? undefined,
-            willReadFrequently: true,
+            decoder: {
+              readers: ["ean_reader"],
+              multiple: false,
+            },
+            locate: false,
           },
-          locator: {
-            patchSize: "large",
-            halfSample: true,
-            willReadFrequently: true,
-          },
-          decoder: {
-            readers: ["ean_reader"],
-            multiple: false,
-          },
-          locate: false,
-        },
-        async (err) => {
-          // 初期化失敗
-          if (err) {
-            onInitError(err);
-            return;
-          }
+          async (err) => {
+            if (err) {
+              onInitError(err);
+              return;
+            }
 
-          if (scannerRef.current) {
-            Quagga.start();
-          }
-        },
-      );
+            if (scannerRef.current) {
+              Quagga.start();
+            }
+          },
+        );
 
-      Quagga.onDetected(checkError);
+        Quagga.onDetected(checkError);
+      } catch (err) {
+        onInitError(err);
+      }
     };
 
+    console.log("Quagga Init");
     init();
 
     return () => {
@@ -165,7 +179,7 @@ export const useScanner = ({ onDetected, onInitError }: Props) => {
       Quagga.stop();
       Quagga.offDetected(checkError);
     };
-  }, [checkError, onInitError]);
+  }, [checkError, scannerRef, onInitError]);
 
-  return scannerRef;
-};
+  return null;
+}

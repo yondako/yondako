@@ -9,7 +9,6 @@ import type { ReadingStatus } from "@/types/readingStatus";
 import Quagga from "@ericblade/quagga2";
 import {
   useCallback,
-  useEffect,
   useOptimistic,
   useReducer,
   useRef,
@@ -18,7 +17,7 @@ import {
 import { toast } from "sonner";
 import { searchFromIsbn } from "../../_actions/searchFromIsbn";
 import MessagePage from "../MessagePage";
-import { useScanner } from "./useScanner";
+import ScannerCore from "./Core";
 
 export default function Scanner() {
   const [isCameraError, setIsCameraError] = useState(false);
@@ -28,6 +27,7 @@ export default function Scanner() {
   const [optimisticStatus, addOptimisticStatus] =
     useOptimistic(displayReadingStatus);
   const [torchOn, toggleTorchOn] = useReducer((v) => !v, false);
+  const scannerRef = useRef<HTMLDivElement>(null);
   const isSearched = useRef(false);
 
   const handleDetected = useCallback(async (code: string) => {
@@ -60,34 +60,6 @@ export default function Scanner() {
   const handleInitError = useCallback((err: unknown) => {
     console.error("InitError", err);
     setIsCameraError(true);
-  }, []);
-
-  const scannerRef = useScanner({
-    onDetected: handleDetected,
-    onInitError: handleInitError,
-  });
-
-  // 権限を取得
-  useEffect(() => {
-    const enableCamera = async () => {
-      await Quagga.CameraAccess.request(null, {});
-    };
-
-    const disableCamera = async () => {
-      await Quagga.CameraAccess.release();
-    };
-
-    enableCamera()
-      .then(disableCamera)
-      .then(() => Quagga.CameraAccess.disableTorch())
-      .catch((err) => {
-        console.error("CameraError", err);
-        setIsCameraError(true);
-      });
-
-    return () => {
-      disableCamera();
-    };
   }, []);
 
   // ライトのオン・オフ
@@ -147,6 +119,11 @@ export default function Scanner() {
         <canvas
           className="drawingBuffer" // これがないと Quagga に認識されない
           style={{ position: "absolute" }}
+        />
+        <ScannerCore
+          scannerRef={scannerRef}
+          onDetected={handleDetected}
+          onInitError={handleInitError}
         />
       </div>
 
