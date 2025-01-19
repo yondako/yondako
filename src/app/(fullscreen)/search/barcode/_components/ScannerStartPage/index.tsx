@@ -2,6 +2,7 @@
 
 import IconScan from "@/assets/icons/scan.svg";
 import Button from "@/components/Button";
+import Quagga from "@ericblade/quagga2";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { useOrientation } from "react-use";
@@ -18,6 +19,29 @@ const Scanner = dynamic(() => import("../Scanner"), {
 export default function ScannerStartPage() {
   const [scanning, setScanning] = useState(false);
   const { type } = useOrientation();
+
+  // 権限許可のポップアップをトリガーする
+  // NOTE: Quaggaに初期化前のこの段階で権限を取得しておかないと、トーチの制御時にエラーが発生する
+  useEffect(() => {
+    const enableCamera = async () => {
+      await Quagga.CameraAccess.request(null, {});
+    };
+
+    const disableCamera = async () => {
+      await Quagga.CameraAccess.release();
+    };
+
+    enableCamera()
+      .then(disableCamera)
+      .then(() => Quagga.CameraAccess.disableTorch())
+      .catch((err) => {
+        console.error("CameraError", err);
+      });
+
+    return () => {
+      disableCamera();
+    };
+  }, []);
 
   // 画面が回転したらカメラのサイズを変更する必要があるので、最初からやり直す
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
