@@ -11,7 +11,6 @@ export default function MobileHeader(props: ComponentPropsWithoutRef<"div">) {
     <div className={twMerge(style, props.className)}>
       <Link className="m-auto block w-fit" href="/">
         <ImageLogo className="w-48" aria-description={site.name} />
-        <p className="text-right text-xs leading-3">ver.beta</p>
       </Link>
     </div>
   );
