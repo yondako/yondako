@@ -7,6 +7,15 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: site.name,
     description: site.description.long,
     start_url: "/",
+    share_target: {
+      action: "/search/",
+      method: "GET",
+      params: {
+        title: "q",
+        // text: "description",
+        // url: "link",
+      },
+    },
     display: "standalone",
     background_color: "#FFFAF6",
     theme_color: "#A17171",
