@@ -12,10 +12,6 @@ const Scanner = dynamic(() => import("../Scanner"), {
   ssr: false,
 });
 
-// NOTE:
-// ページ表示と同時にスキャナーを起動するようにすると Safari でランダムにカメラの初期化に失敗することがあるので
-// ワンクッション挟むことで緩和しています
-
 export default function ScannerStartPage() {
   const [scanning, setScanning] = useState(false);
   const { type } = useOrientation();
@@ -64,7 +60,7 @@ export default function ScannerStartPage() {
           }
         >
           <p className="mt-1 text-secondary-foreground">
-            ※ iOSでは動作が不安定かもしれません！
+            紙の書籍を簡単に追加できます！
           </p>
           <Button
             className="mt-6 flex w-full items-center justify-center space-x-2 text-sm"
