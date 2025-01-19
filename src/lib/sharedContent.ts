@@ -26,15 +26,26 @@ export async function fetchSiteTitle(url: string): Promise<string | null> {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 5000);
 
+  // URLが不正ならnullを返す
+  if (!URL.canParse(url)) {
+    return null;
+  }
+
   try {
     const htmlResponse = await fetch(url, {
       headers: {
         "User-Agent": "bot",
+        Accept: "text/html",
+        "Accept-Language": "ja",
       },
       signal: controller.signal,
     });
 
     clearTimeout(timeoutId);
+
+    if (!htmlResponse.ok) {
+      throw new Error(`${htmlResponse.status} ${htmlResponse.statusText}`);
+    }
 
     const html = await htmlResponse.text();
 
