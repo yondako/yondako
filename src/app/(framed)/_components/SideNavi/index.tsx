@@ -33,7 +33,7 @@ export default function SideNavi({
           <Image src={logoUrl} alt={site.name} priority />
         </Link>
 
-        <div className="mt-6 space-y-2">
+        <div className="mt-7 space-y-2">
           {naviItems.map(({ matchSegmentsRegExp, ...item }) => {
             const badge = item.title === "お知らせ" && hasNewNews;
 
