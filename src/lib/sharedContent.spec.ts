@@ -2,33 +2,41 @@ import { beforeEach, describe, expect, jest, test } from "bun:test";
 import { extractBookTitle, fetchSiteTitle } from "./sharedContent";
 
 describe("extractBookTitle", () => {
-  test("テキストがnullの場合はnullを返す", () => {
-    const result = extractBookTitle(null);
+  test("書籍のタイトルを抽出できる", () => {
+    const text = "書籍のタイトル (出版社) https://example.com";
+    const result = extractBookTitle(text);
+    expect(result).toBe("書籍のタイトル");
+  });
+
+  test("URLが含まれていない場合はテキストをそのまま返す", () => {
+    const text = "書籍のタイトル (出版社)";
+    const result = extractBookTitle(text);
+    expect(result).toBe("書籍のタイトル");
+  });
+
+  test("テキストが空の場合はnullを返す", () => {
+    const text = "";
+    const result = extractBookTitle(text);
     expect(result).toBeNull();
   });
 
-  test("書籍タイトルを正しく抽出する", () => {
-    const text = "書籍タイトル (出版社)";
+  test("テキストがnullの場合はnullを返す", () => {
+    const text = null;
     const result = extractBookTitle(text);
-    expect(result).toBe("書籍タイトル");
+    expect(result).toBeNull();
   });
 
-  test("書籍タイトルを正しく抽出する（ハイフン）", () => {
-    const text = "書籍タイトル - 出版社";
+  test("書籍タイトルの形式が合わない場合はそのまま返す", () => {
+    const text = "これは書籍のタイトルではありません";
     const result = extractBookTitle(text);
-    expect(result).toBe("書籍タイトル");
+    expect(result).toBe("これは書籍のタイトルではありません");
   });
 
-  test("書籍タイトルを正しく抽出する（括弧）", () => {
-    const text = "書籍タイトル（出版社）";
+  test("URLが削除される", () => {
+    const text =
+      "書籍のタイトル (出版社) https://example.com そして http://example.org";
     const result = extractBookTitle(text);
-    expect(result).toBe("書籍タイトル");
-  });
-
-  test("分割できなかった場合はそのまま返す", () => {
-    const text = "単なるテキスト";
-    const result = extractBookTitle(text);
-    expect(result).toBe("単なるテキスト");
+    expect(result).toBe("書籍のタイトル");
   });
 });
 
