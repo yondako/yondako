@@ -2,7 +2,7 @@
 
 import IconScan from "@/assets/icons/scan.svg";
 import Button from "@/components/Button";
-import Quagga from "@ericblade/quagga2";
+import type { QuaggaJSStatic } from "@ericblade/quagga2";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { useOrientation } from "react-use";
@@ -19,23 +19,29 @@ export default function ScannerStartPage() {
   // 権限許可のポップアップをトリガーする
   // NOTE: Quaggaに初期化前のこの段階で権限を取得しておかないと、トーチの制御時にエラーが発生する
   useEffect(() => {
-    const enableCamera = async () => {
-      await Quagga.CameraAccess.request(null, {});
-    };
+    if (typeof window === "undefined") {
+      return;
+    }
 
-    const disableCamera = async () => {
-      await Quagga.CameraAccess.release();
-    };
+    let QuaggaObj: QuaggaJSStatic | null = null;
 
-    enableCamera()
-      .then(disableCamera)
-      .then(() => Quagga.CameraAccess.disableTorch())
-      .catch((err) => {
-        console.error("CameraError", err);
-      });
+    import("@ericblade/quagga2").then(({ default: Quagga }) => {
+      QuaggaObj = Quagga;
+
+      const enableCamera = async () => {
+        await Quagga.CameraAccess.request(null, {});
+      };
+
+      enableCamera()
+        .then(() => Quagga.CameraAccess.release())
+        .then(() => Quagga.CameraAccess.disableTorch())
+        .catch((err) => {
+          console.error("CameraError", err);
+        });
+    });
 
     return () => {
-      disableCamera();
+      QuaggaObj?.CameraAccess.release();
     };
   }, []);
 
