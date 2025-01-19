@@ -1,12 +1,16 @@
 /**
  * 共有されたテキストから書籍のタイトルっぽいものを抽出する
- * @param text 共有されたテキスト
+ * @param rawText 共有されたテキスト
  * @returns 書籍のタイトル
  */
-export function extractBookTitle(text: string | null): string | null {
-  if (!text) {
+export function extractBookTitle(rawText: string | null): string | null {
+  if (!rawText) {
     return null;
   }
+
+  // URLを除去
+  const urlRegex = /https?:\/\/[^\s/$.?#].[^\s]*/g;
+  const text = rawText.replace(urlRegex, "").trim();
 
   // 書籍タイトル (出版社) の形式ではじまることを想定
   // (Amazonの共有リンクなど)
@@ -14,7 +18,7 @@ export function extractBookTitle(text: string | null): string | null {
   const match = text.match(regex);
 
   // 分割できなかった場合はそのまま返す
-  return match ? match[1].replace(/\s/, " ").trim() : text;
+  return match?.at(1)?.replace(/\s/, " ").trim() ?? text;
 }
 
 /**
