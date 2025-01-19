@@ -14,8 +14,6 @@ export default function manifest(): MetadataRoute.Manifest {
       method: "GET",
       params: {
         title: "q",
-        // text: "description",
-        // url: "link",
       },
     },
     display: "standalone",
