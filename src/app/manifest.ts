@@ -15,7 +15,6 @@ export default function manifest(): MetadataRoute.Manifest {
       params: {
         title: "title",
         text: "text",
-        url: "url",
       },
     },
     display: "standalone",
