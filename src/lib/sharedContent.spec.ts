@@ -42,6 +42,7 @@ describe("fetchSiteTitle", () => {
       "<html><head><title>テストタイトル</title></head><body></body></html>";
     global.fetch = jest.fn(() =>
       Promise.resolve({
+        ok: true,
         text: () => Promise.resolve(mockHtml),
       } as Response),
     );
@@ -54,6 +55,7 @@ describe("fetchSiteTitle", () => {
     const mockHtml = "<html><head></head><body></body></html>";
     global.fetch = jest.fn(() =>
       Promise.resolve({
+        ok: true,
         text: () => Promise.resolve(mockHtml),
       } as Response),
     );
