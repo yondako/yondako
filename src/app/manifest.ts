@@ -10,10 +10,12 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: "/",
     scope: "/",
     share_target: {
-      action: "/search/",
+      action: "/api/search/shared-content-receiver/",
       method: "GET",
       params: {
-        title: "q",
+        title: "title",
+        text: "text",
+        url: "url",
       },
     },
     display: "standalone",
