@@ -1,11 +1,12 @@
 import "server-only";
 
+import { MAX_UPDATE_CHECK_COUNT } from "@/constants/db";
 import type {
   BookDetail,
   BookDetailWithoutId,
   BookIdentifiers,
 } from "@/types/book";
-import { and, eq, isNotNull, isNull, or } from "drizzle-orm";
+import { and, eq, inArray, isNotNull, isNull, lt, or, sql } from "drizzle-orm";
 import db from "..";
 import * as dbSchema from "../schema/book";
 import { createAuthor } from "./author";
@@ -108,6 +109,22 @@ export async function createBook(
 }
 
 /**
+ * 更新確認のカウントを加算
+ * @param bookIds 書籍IDの配列
+ */
+export async function incrementBooksUpdateCheckCount(
+  bookIds: string[],
+): Promise<void> {
+  await db
+    .update(dbSchema.books)
+    .set({
+      updateCheckCount: sql`${dbSchema.books.updateCheckCount} + 1`,
+    })
+    .where(inArray(dbSchema.books.id, bookIds))
+    .execute();
+}
+
+/**
  * NDL書誌IDのない書籍データを更新
  * @param isbn ISBN
  * @param book 書籍データ
@@ -128,11 +145,17 @@ export async function updateBooksMissingNdlBibId(
 }
 
 /**
- * NDL書誌IDを持たない書籍データを取得
+ * 新刊っぽい書籍データを取得
+ * @returns 書籍データ
  */
-export async function getBooksWithoutNdlBibId(): Promise<BookDetail[]> {
+export async function getBooksPossiblyNewReleases(): Promise<BookDetail[]> {
   return db.query.books.findMany({
-    where: and(isNull(dbSchema.books.ndlBibId), isNotNull(dbSchema.books.isbn)),
+    // NDL書誌IDがない && ISBNがある && データの更新確認がしきい値未満のものを新刊とみなす
+    where: and(
+      isNull(dbSchema.books.ndlBibId),
+      isNotNull(dbSchema.books.isbn),
+      lt(dbSchema.books.updateCheckCount, MAX_UPDATE_CHECK_COUNT),
+    ),
   });
 }
 
