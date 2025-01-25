@@ -30,6 +30,8 @@ export type BookDetail = {
   jpNo?: string | null;
   /** JP-eコード */
   jpeCode?: string | null;
+  /** データに更新があるかチェックした回数 */
+  updateCheckCount: number;
 };
 
 /**

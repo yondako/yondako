@@ -65,5 +65,6 @@ export const createDummyBookDetail = (
     ndlBibId,
     publishers: ["ダミー出版社"],
     title: `ダミータイトル ${ndlBibId}`,
+    updateCheckCount: 0,
   };
 };

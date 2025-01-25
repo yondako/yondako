@@ -149,6 +149,7 @@ export function parseOpenSearchXml(xml: string): OpenSearchResponse {
       ndlBibId,
       jpNo: toStringOrUndefined(jpNo),
       jpeCode,
+      updateCheckCount: 0,
     });
   }
 

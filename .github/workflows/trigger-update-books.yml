@@ -3,8 +3,8 @@ name: Trigger Update Books
 on:
   workflow_dispatch:
   schedule:
-    # 日本時間 24時
-    - cron: "0 15 * * *"
+    # 日本時間 金曜日の24時
+    - cron: "0 15 * * 5"
 
 jobs:
   trigger-update-books:

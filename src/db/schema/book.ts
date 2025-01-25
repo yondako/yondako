@@ -23,6 +23,7 @@ export const books = sqliteTable("books", {
   isbn: text("isbn"),
   jpNo: text("jpNo"),
   jpeCode: text("jpeCode"),
+  updateCheckCount: integer("updateCheckCount").notNull().default(0),
 });
 
 export const booksRelations = relations(books, ({ many }) => ({
@@ -126,11 +127,7 @@ export const readingStatuses = sqliteTable(
       .default(sql`(CURRENT_TIMESTAMP)`)
       .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`),
   },
-  (t) => ({
-    userBook: primaryKey({
-      columns: [t.userId, t.bookId],
-    }),
-  }),
+  (t) => [primaryKey({ columns: [t.userId, t.bookId] })],
 );
 
 export const readingStatusesRelations = relations(
