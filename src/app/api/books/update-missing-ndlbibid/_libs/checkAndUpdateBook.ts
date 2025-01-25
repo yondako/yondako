@@ -6,6 +6,7 @@ import {
 import { searchBooksFromNDL } from "@/lib/ndl";
 import type { BookDetail } from "@/types/book";
 import pLimit from "p-limit";
+import { notifyUpdateResult } from "./notify";
 
 /**
  * 新刊書籍の更新確認を行う
@@ -38,6 +39,13 @@ export async function updateNewReleaseBooks() {
 
   // 更新確認回数をインクリメント
   await incrementBooksUpdateCheckCount(unupdatedBookIds);
+
+  // Slackに通知
+  await notifyUpdateResult(
+    targetBooks.length - unupdatedBookIds.length,
+    unupdatedBookIds.length,
+    process.env.SLACK_WEBHOOK_URL || "",
+  );
 }
 
 /**
