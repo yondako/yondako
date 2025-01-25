@@ -1,0 +1,1 @@
+ALTER TABLE `books` ADD `updateCheckCount` integer DEFAULT 0 NOT NULL;
