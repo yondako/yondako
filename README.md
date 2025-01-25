@@ -20,8 +20,8 @@ bun install
 
 ```sh
 bun run wrangler d1 create yondako_dev
-bun run generate:schema ./src/db/schema/*
-bun run wrangler d1 migrations apply yondako --local
+bun run generate:schema "./src/db/schema/*"
+bun run wrangler d1 migrations apply yondako_dev --local
 ```
 
 ### `wrangler.toml` の設定
@@ -34,6 +34,7 @@ pages_build_output_dir = ".vercel/output/static"
 binding = "DB"
 database_name = "yondako_dev"
 database_id = "<database_idを指定>"
+migrations_dir = "src/db/migrations"
 ```
 
 ### 起動
