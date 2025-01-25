@@ -1,13 +1,19 @@
+type NotifyUpdateResultOpts = {
+  updatedBooksCount: number;
+  unupdatedBooksCount: number;
+  webhookUrl: string;
+};
+
 /**
  * 更新結果をSlackに通知する
  * @param updatedBooksCount 更新書籍数
  * @param unupdatedBooksCount 未更新書籍数
  */
-export async function notifyUpdateResult(
-  updatedBooksCount: number,
-  unupdatedBooksCount: number,
-  webhookUrl: string,
-) {
+export async function notifyUpdateResult({
+  updatedBooksCount,
+  unupdatedBooksCount,
+  webhookUrl,
+}: NotifyUpdateResultOpts) {
   const text = `新刊書誌データの更新確認が完了しました
 
 - 更新済み: ${updatedBooksCount} 件

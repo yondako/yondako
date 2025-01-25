@@ -41,11 +41,16 @@ export async function updateNewReleaseBooks() {
   await incrementBooksUpdateCheckCount(unupdatedBookIds);
 
   // Slackに通知
-  await notifyUpdateResult(
-    targetBooks.length - unupdatedBookIds.length,
-    unupdatedBookIds.length,
-    process.env.SLACK_WEBHOOK_URL || "",
-  );
+  if (!process.env.SLACK_WEBHOOK_URL) {
+    console.warn("SLACK_WEBHOOK_URLが設定されていないため通知をスキップ");
+    return;
+  }
+
+  await notifyUpdateResult({
+    updatedBooksCount: targetBooks.length - unupdatedBookIds.length,
+    unupdatedBooksCount: unupdatedBookIds.length,
+    webhookUrl: process.env.SLACK_WEBHOOK_URL || "",
+  });
 }
 
 /**
