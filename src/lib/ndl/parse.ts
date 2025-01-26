@@ -1,3 +1,4 @@
+import { MAX_UPDATE_CHECK_COUNT } from "@/constants/db";
 import type { BookDetailWithoutId } from "@/types/book";
 import { XMLParser } from "fast-xml-parser";
 import {
@@ -17,7 +18,7 @@ type OpenSearchResponse = {
   books: BookDetailWithoutId[];
 };
 
-type OpenSearchDcIdentifier = {
+type OpenSearchText = {
   "#text": string | number;
   "@_xsi:type": string;
 };
@@ -29,11 +30,15 @@ type OpenSearchRdfSeeAlso = {
 type OpenSearchItem = {
   title: string;
   link: string;
+  /** たぶん書誌データの登録日 **/
+  pubDate?: string;
+  /** 発売前の書籍の場合、ここに発売日の日付が入ってる **/
+  "dc:date"?: OpenSearchText;
   "dc:title"?: string;
   "dc:creator"?: string | string[];
   "dcndl:volume"?: string | number;
   "dc:publisher"?: string | string[];
-  "dc:identifier"?: OpenSearchDcIdentifier | OpenSearchDcIdentifier[];
+  "dc:identifier"?: OpenSearchText | OpenSearchText[];
   "rdfs:seeAlso"?: OpenSearchRdfSeeAlso | OpenSearchRdfSeeAlso[];
 };
 
@@ -140,6 +145,20 @@ export function parseOpenSearchXml(xml: string): OpenSearchResponse {
       ? `${item.title} (${item["dcndl:volume"]})`
       : item.title;
 
+    // NDL書誌IDがなく、ISBNがある場合は新刊かも
+    const isPotentialNewRelease = !ndlBibId && typeof isbn !== "undefined";
+
+    // 出版日時
+    const publishedDate = isPotentialNewRelease
+      ? item["dc:date"]?.["#text"].toString()
+      : item.pubDate;
+
+    // 新刊フラグが立っているかつ、出版日が半年以上前の場合は更新チェック回数を最大にして新刊として扱わないように
+    const updateCheckCount =
+      isPotentialNewRelease && isOlderThanHalfYear(publishedDate)
+        ? MAX_UPDATE_CHECK_COUNT
+        : 0;
+
     rawBooks.push({
       title,
       link: item.link,
@@ -149,6 +168,7 @@ export function parseOpenSearchXml(xml: string): OpenSearchResponse {
       ndlBibId,
       jpNo: toStringOrUndefined(jpNo),
       jpeCode,
+      updateCheckCount,
     });
   }
 
@@ -161,4 +181,34 @@ export function parseOpenSearchXml(xml: string): OpenSearchResponse {
     },
     books: rawBooks.filter((book) => book !== undefined),
   };
+}
+
+/**
+ * 出版日が半年以上かどうか
+ * @param publishedDate 出版日
+ * @returns 半年以上ならtrue
+ */
+export function isOlderThanHalfYear(
+  publishedDateStr: string | undefined,
+): boolean {
+  if (!publishedDateStr) {
+    return false;
+  }
+
+  try {
+    const publishedDate = new Date(publishedDateStr);
+
+    // 無効な日付の場合
+    if (Number.isNaN(publishedDate.getTime())) {
+      return false;
+    }
+
+    const now = new Date();
+    const halfYearAgo = new Date(now);
+    halfYearAgo.setMonth(now.getMonth() - 6);
+
+    return publishedDate < halfYearAgo;
+  } catch {
+    return false;
+  }
 }
