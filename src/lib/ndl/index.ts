@@ -39,7 +39,7 @@ export async function searchBooksFromNDL(
   // (国立国会図書館蔵書, 国立国会図書館新着書誌情報, 国立国会図書館全国書誌情報, JPRO)
   endpoint.searchParams.append(
     "dpid",
-    "iss-ndl-opac iss-ndl-opac-inprocess iss-ndl-opac-national jpro-book jpro-online",
+    "iss-ndl-opac iss-ndl-opac-inprocess iss-ndl-opac-national jpro-book",
   );
 
   // メディアタイプの指定
