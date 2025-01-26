@@ -4,7 +4,8 @@ import {
   createDummyItem,
   createDummyXml,
 } from "@/_mocks/book";
-import { parseOpenSearchXml } from "./parse";
+import { MAX_UPDATE_CHECK_COUNT } from "@/constants/db";
+import { isOlderThanHalfYear, parseOpenSearchXml } from "./parse";
 
 test("レスポンスの形式が異なる場合、エラーが投げられる", () => {
   const xml = `<rss version="2.0"></rss>`;
@@ -281,5 +282,47 @@ test("totalResultsが500件以上なら丸められる", () => {
       itemsPerPage: 10,
     },
     books: [createDummyBookDetail("000000000")],
+  });
+
+  test("新刊が6ヶ月以上前の場合、updateCheckCountがMAX_UPDATE_CHECK_COUNTになる", () => {
+    const xml = `
+      <rss>
+        <channel>
+          <item>
+            <title>Old Test Book</title>
+            <link>http://example.com/oldbook</link>
+            <dc:creator>Old Author</dc:creator>
+            <dc:publisher>Old Publisher</dc:publisher>
+            <dc:identifier xsi:type="dcndl:ISBN">0987654321</dc:identifier>
+            <dc:date>2022-01-01</dc:date>
+          </item>
+          <openSearch:totalResults>1</openSearch:totalResults>
+          <openSearch:startIndex>1</openSearch:startIndex>
+          <openSearch:itemsPerPage>1</openSearch:itemsPerPage>
+        </channel>
+      </rss>
+    `;
+
+    const result = parseOpenSearchXml(xml);
+    expect(result.books[0].updateCheckCount).toBe(MAX_UPDATE_CHECK_COUNT);
+  });
+});
+
+describe("isOlderThanHalfYear", () => {
+  test("半年以上前の日付ならTrue", () => {
+    const oldDate = "2022-01-01";
+    expect(isOlderThanHalfYear(oldDate)).toBeTrue();
+  });
+
+  test("最近の日付ならfalse", () => {
+    const recentDate = new Date();
+    recentDate.setMonth(recentDate.getMonth() - 5);
+    expect(
+      isOlderThanHalfYear(recentDate.toISOString().split("T")[0]),
+    ).toBeFalse();
+  });
+
+  test("undefinedならfalse", () => {
+    expect(isOlderThanHalfYear(undefined)).toBeFalse();
   });
 });
