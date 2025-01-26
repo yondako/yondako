@@ -191,26 +191,24 @@ export function parseOpenSearchXml(xml: string): OpenSearchResponse {
 export function isOlderThanHalfYear(
   publishedDateStr: string | undefined,
 ): boolean {
-  const publishedDate = publishedDateStr
-    ? new Date(publishedDateStr)
-    : undefined;
-
-  if (!publishedDate) {
+  if (!publishedDateStr) {
     return false;
   }
 
-  const now = new Date();
+  try {
+    const publishedDate = new Date(publishedDateStr);
 
-  // JSTに変換
-  const publishedDateUtc = new Date(
-    publishedDate.getTime() - 9 * 60 * 60 * 1000,
-  );
+    // 無効な日付の場合
+    if (Number.isNaN(publishedDate.getTime())) {
+      return false;
+    }
 
-  const halfYearAgo = new Date(
-    now.getFullYear(),
-    now.getMonth() - 6,
-    now.getDate(),
-  );
+    const now = new Date();
+    const halfYearAgo = new Date(now);
+    halfYearAgo.setMonth(now.getMonth() - 6);
 
-  return publishedDateUtc < halfYearAgo;
+    return publishedDate < halfYearAgo;
+  } catch {
+    return false;
+  }
 }
