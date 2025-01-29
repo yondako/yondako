@@ -1,6 +1,6 @@
 type NotifyUpdateResultOpts = {
-  updatedBooksCount: number;
-  unupdatedBooksCount: number;
+  updatedBookIds: string[];
+  unupdatedBookIds: string[];
   webhookUrl: string;
 };
 
@@ -10,14 +10,24 @@ type NotifyUpdateResultOpts = {
  * @param unupdatedBooksCount 未更新書籍数
  */
 export async function notifyUpdateResult({
-  updatedBooksCount,
-  unupdatedBooksCount,
+  updatedBookIds,
+  unupdatedBookIds,
   webhookUrl,
 }: NotifyUpdateResultOpts) {
-  const text = `新刊書誌データの更新確認が完了しました
+  const updatedStatus =
+    updatedBookIds.length > 0 ? `\`${updatedBookIds.join(", ")}\`` : "なし";
 
-- 更新済み: ${updatedBooksCount} 件
-- 未更新: ${unupdatedBooksCount} 件`;
+  const unupdatedStatus =
+    unupdatedBookIds.length > 0 ? `\`${unupdatedBookIds.join(", ")}\`` : "なし";
+
+  const text = `新刊書誌データの更新確認が完了
+
+*🆙 更新済み*
+${updatedStatus}
+
+*📚️ 未更新*
+${unupdatedStatus}
+`;
 
   const payload = {
     text,
