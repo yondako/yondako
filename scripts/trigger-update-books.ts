@@ -2,8 +2,12 @@ import { site } from "../src/constants/site";
 
 const baseUrl = site.url;
 
+if (!process.env.API_SECRET_KEY) {
+  throw new Error("API_SECRET_KEY environment variable is not set");
+}
+
 const headers: HeadersInit = {
-  "X-API-SECRET-KEY": process.env.API_SECRET_KEY || "",
+  "X-API-SECRET-KEY": process.env.API_SECRET_KEY,
 };
 
 // 更新確認が必要な書籍IDを取得
