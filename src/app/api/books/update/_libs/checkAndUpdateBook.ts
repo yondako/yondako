@@ -38,13 +38,20 @@ export async function updateNewReleaseBooks(bookIds: string[]) {
   // 更新確認回数をインクリメント
   await incrementBooksUpdateCheckCount(unupdatedBookIds);
 
+  const webhookUrl = process.env.SLACK_WEBHOOK_URL;
+
+  if (!webhookUrl) {
+    console.warn("SLACK_WEBHOOK_URL が未設定のためスキップ");
+    return;
+  }
+
   // Slackに通知
   await notifyUpdateResult({
     updatedBookIds: targetBooks
       .filter((book) => !unupdatedBookIds.includes(book.id))
       .map((book) => book.id),
     unupdatedBookIds,
-    webhookUrl: process.env.SLACK_WEBHOOK_URL || "",
+    webhookUrl,
   });
 }
 
