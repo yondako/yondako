@@ -1,5 +1,5 @@
 import {
-  getBooksPossiblyNewReleases,
+  fetchSimpleBooksByIds,
   incrementBooksUpdateCheckCount,
   updateBooksMissingNdlBibId,
 } from "@/db/queries/book";
@@ -11,14 +11,12 @@ import { notifyUpdateResult } from "./notify";
 /**
  * 新刊書籍の更新確認を行う
  */
-export async function updateNewReleaseBooks() {
+export async function updateNewReleaseBooks(bookIds: string[]) {
   // 並列処理数は5件まで
   const limit = pLimit(5);
 
-  // 登録済みの新刊の書誌データを取得
-  const targetBooks = await getBooksPossiblyNewReleases();
-
-  console.log(`Target books: ${targetBooks.length}`);
+  // 対象の書誌データを取得
+  const targetBooks = await fetchSimpleBooksByIds(bookIds);
 
   // 書籍の更新確認
   const tasks = targetBooks.map(({ id, isbn }) =>
@@ -41,14 +39,11 @@ export async function updateNewReleaseBooks() {
   await incrementBooksUpdateCheckCount(unupdatedBookIds);
 
   // Slackに通知
-  if (!process.env.SLACK_WEBHOOK_URL) {
-    console.warn("SLACK_WEBHOOK_URLが設定されていないため通知をスキップ");
-    return;
-  }
-
   await notifyUpdateResult({
-    updatedBooksCount: targetBooks.length - unupdatedBookIds.length,
-    unupdatedBooksCount: unupdatedBookIds.length,
+    updatedBookIds: targetBooks
+      .filter((book) => !unupdatedBookIds.includes(book.id))
+      .map((book) => book.id),
+    unupdatedBookIds,
     webhookUrl: process.env.SLACK_WEBHOOK_URL || "",
   });
 }

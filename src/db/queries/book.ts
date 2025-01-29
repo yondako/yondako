@@ -13,11 +13,11 @@ import { createAuthor } from "./author";
 import { createPublisher } from "./publisher";
 
 /**
- * 書籍データを取得
+ * 識別子から書籍データを取得
  * @param identifiers 書籍識別子
  * @returns 書籍データ
  */
-export async function getBook({
+export async function fetchBook({
   ndlBibId,
   isbn,
 }: BookIdentifiers): Promise<BookDetail | undefined> {
@@ -81,6 +81,19 @@ export async function getBook({
             .filter((x) => typeof x === "string")
         : undefined,
   };
+}
+
+/**
+ * 書籍IDから書籍データを取得 (著者・出版社情報を含まない)
+ * @param bookIds 書籍IDの配列
+ * @returns 書籍データ
+ */
+export async function fetchSimpleBooksByIds(
+  bookIds: string[],
+): Promise<Omit<BookDetail, "authors" | "publisher">[]> {
+  return db.query.books.findMany({
+    where: inArray(dbSchema.books.id, bookIds),
+  });
 }
 
 /**

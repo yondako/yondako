@@ -1,6 +1,6 @@
 "use server";
 
-import { createBook, getBook } from "@/db/queries/book";
+import { createBook, fetchBook } from "@/db/queries/book";
 import { upsertReadingStatus } from "@/db/queries/status";
 import { auth } from "@/lib/auth";
 import { type SearchOptions, searchBooksFromNDL } from "@/lib/ndl";
@@ -31,7 +31,7 @@ export async function updateReadingStatus(
   }
 
   // Dbに登録されているか確認
-  let bookDetail = await getBook(bookIdentifiers);
+  let bookDetail = await fetchBook(bookIdentifiers);
 
   // DBに無い場合登録する
   if (!bookDetail) {

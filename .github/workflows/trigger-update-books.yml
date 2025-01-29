@@ -10,6 +10,14 @@ jobs:
   trigger-update-books:
     runs-on: ubuntu-latest
     steps:
-      - name: Call Update API
-        run: |
-          curl -X POST -H "X-API-SECRET-KEY: ${{ secrets.PROD_API_SECRET_KEY }}" https://yondako.com/api/books/update-missing-ndlbibid
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup mise
+        uses: jdx/mise-action@v2
+        with:
+          install: true
+          cache: true
+
+      - name: Run script
+        run: bun ./scripts/trigger-update-books.ts
