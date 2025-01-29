@@ -13,11 +13,18 @@ const res = await fetch(new URL("/api/books/updates-needed", baseUrl), {
 
 const bookIds = (await res.json()) as string[];
 
-// 10件ずつループ
-for (let i = 0; i < bookIds.length; i += 10) {
-  const ids = bookIds.slice(i, i + 10);
+console.log(`更新対象の書籍: ${bookIds.length}件`);
 
-  await fetch(new URL("/api/books/update", baseUrl), {
+// 20件ずつループ
+const STEP = 20;
+
+for (let i = 0; i < bookIds.length; i += STEP) {
+  const ids = bookIds.slice(i, i + STEP);
+  console.log(
+    `更新をリクエスト: ${i / 10 + 1}/${Math.ceil(bookIds.length / 10)}`,
+  );
+
+  const updateRes = await fetch(new URL("/api/books/update", baseUrl), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -25,6 +32,10 @@ for (let i = 0; i < bookIds.length; i += 10) {
     },
     body: JSON.stringify({ ids }),
   });
+
+  if (!updateRes.ok) {
+    throw new Error(`HTTP error! status: ${updateRes.status}`);
+  }
 
   await new Promise((resolve) => setTimeout(resolve, 1000));
 }
