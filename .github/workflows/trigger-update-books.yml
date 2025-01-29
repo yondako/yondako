@@ -21,3 +21,5 @@ jobs:
 
       - name: Run script
         run: bun ./scripts/trigger-update-books.ts
+        env:
+          API_SECRET_KEY: ${{ secrets.PROD_API_SECRET_KEY }}
