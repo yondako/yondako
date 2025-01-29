@@ -23,8 +23,9 @@ console.log(`更新対象の書籍: ${bookIds.length}件`);
 
 for (let i = 0; i < bookIds.length; i += MAX_UPDATE_BOOKS_PER_REQUEST) {
   const ids = bookIds.slice(i, i + MAX_UPDATE_BOOKS_PER_REQUEST);
+
   console.log(
-    `更新をリクエスト: ${i / 10 + 1}/${Math.ceil(bookIds.length / 10)}`,
+    `更新をリクエスト: ${i + 1}/${Math.ceil(bookIds.length / MAX_UPDATE_BOOKS_PER_REQUEST)}`,
   );
 
   const updateRes = await fetch(new URL("/api/books/update", baseUrl), {
