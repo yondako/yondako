@@ -15,14 +15,16 @@ export async function notifyUpdateResult({
   webhookUrl,
 }: NotifyUpdateResultOpts) {
   const updatedStatus =
-    updatedBookIds.length > 0 ? `\`${updatedBookIds.join(", ")}\`` : "なし";
+    updatedBookIds.length > 0
+      ? `\`\`\`\n${updatedBookIds.join("\n")}\`\`\``
+      : "なし";
 
   const unupdatedStatus =
-    unupdatedBookIds.length > 0 ? `\`${unupdatedBookIds.join(", ")}\`` : "なし";
+    unupdatedBookIds.length > 0
+      ? `\`\`\`\n${unupdatedBookIds.join("\n")}\`\`\``
+      : "なし";
 
-  const text = `新刊書誌データの更新確認が完了
-
-*🆙 更新済み*
+  const text = `*🆙 更新済み*
 ${updatedStatus}
 
 *📚️ 未更新*
