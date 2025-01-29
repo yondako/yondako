@@ -91,6 +91,10 @@ export async function fetchBook({
 export async function fetchSimpleBooksByIds(
   bookIds: string[],
 ): Promise<Omit<BookDetail, "authors" | "publisher">[]> {
+  if (bookIds.length === 0) {
+    return [];
+  }
+
   return db.query.books.findMany({
     where: inArray(dbSchema.books.id, bookIds),
   });
