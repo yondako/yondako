@@ -19,7 +19,7 @@ export default function MobileBottomNavi({
     <nav
       {...props}
       className={twMerge(
-        "sm:-translate-x-1/2 fixed bottom-4 left-4 flex w-[calc(100%-2rem)] justify-center rounded-full border-2 border-primary-background bg-tertiary-background shadow-sm sm:left-1/2 sm:max-w-md",
+        "sm:-translate-x-1/2 fixed bottom-4 left-4 flex w-[calc(100%-2rem)] justify-center rounded-full border-2 border-primary-background bg-tertiary-background shadow-xs sm:left-1/2 sm:max-w-md",
         className,
       )}
     >
