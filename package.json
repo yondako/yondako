@@ -52,7 +52,7 @@
     "@biomejs/biome": "^1.9.4",
     "@cloudflare/next-on-pages": "^1.13.7",
     "@cloudflare/workers-types": "^4.20241218.0",
-    "@happy-dom/global-registrator": "^16.0.0",
+    "@happy-dom/global-registrator": "^17.0.0",
     "@libsql/client": "^0.14.0",
     "@playwright/test": "^1.49.1",
     "@storybook/addon-essentials": "^8.4.7",
