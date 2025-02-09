@@ -22,7 +22,7 @@ export default function NewsCard({
       rel="noopener noreferrer"
       aria-label={`${title}の詳細を見る`}
     >
-      <p className="h-fit text-5xl">{emoji}</p>
+      <p className="h-fit text-4xl lg:text-5xl">{emoji}</p>
 
       <div className="w-full">
         <p className="font-bold text-base">{title}</p>
