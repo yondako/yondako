@@ -15,14 +15,10 @@ export async function notifyUpdateResult({
   webhookUrl,
 }: NotifyUpdateResultOpts) {
   const updatedStatus =
-    updatedBookIds.length > 0
-      ? `\`\`\`\n${updatedBookIds.join("\n")}\`\`\``
-      : "なし";
+    updatedBookIds.length > 0 ? updatedBookIds.join("\n") : "なし";
 
   const unupdatedStatus =
-    unupdatedBookIds.length > 0
-      ? `\`\`\`\n${unupdatedBookIds.join("\n")}\`\`\``
-      : "なし";
+    unupdatedBookIds.length > 0 ? unupdatedBookIds.join("\n") : "なし";
 
   const text = `*🆙 更新済み*
 ${updatedStatus}

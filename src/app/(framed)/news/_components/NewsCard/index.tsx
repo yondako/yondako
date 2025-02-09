@@ -16,20 +16,23 @@ export default function NewsCard({
 
   return (
     <a
-      className="block space-y-3 rounded-2xl bg-tertiary-background p-6 transition hover:brightness-95 md:space-y-4 md:p-8"
+      className="flex items-center space-x-6 rounded-2xl bg-tertiary-background p-8 transition hover:brightness-95"
       href={href}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`${title}の詳細を見る`}
     >
-      <p className="text-4xl md:text-5xl">{emoji}</p>
-      <p className="font-bold text-base md:text-lg">{title}</p>
-      <div className="flex items-center justify-between text-xs">
-        <span className="text-secondary-foreground">{publishedAt}</span>
-        <div className="flex space-x-1">
-          {tags.map((tag) => (
-            <Tag key={tag} name={tag} />
-          ))}
+      <p className="h-fit text-5xl">{emoji}</p>
+
+      <div className="w-full">
+        <p className="font-bold text-base">{title}</p>
+        <div className="mt-2 flex items-center justify-between text-xs">
+          <span className="text-secondary-foreground ">{publishedAt}</span>
+          <div className="flex space-x-1">
+            {tags.map((tag) => (
+              <Tag key={tag} name={tag} />
+            ))}
+          </div>
         </div>
       </div>
     </a>
