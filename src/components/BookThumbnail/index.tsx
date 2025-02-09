@@ -60,7 +60,7 @@ function Wrapper({
   return (
     <div
       className={twMerge(
-        "flex aspect-64/91 items-center justify-center overflow-hidden rounded-2xl bg-secondary-background",
+        "flex aspect-[64/91] items-center justify-center overflow-hidden rounded-2xl bg-secondary-background",
         className,
       )}
     >
