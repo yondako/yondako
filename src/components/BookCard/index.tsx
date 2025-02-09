@@ -61,7 +61,7 @@ export default function BookCard({ data }: Props) {
       <IconDotsVertical className="pointer-events-none absolute right-5 bottom-6 block h-4 w-4 rounded-2xl" />
 
       <BookThumbnail
-        className="-top-4 pointer-events-none absolute left-4 w-28 border-4 border-tertiary-background shadow-xl"
+        className="-top-4 pointer-events-none absolute left-4 h-full w-28 border-4 border-tertiary-background shadow-xl"
         isbn={data.detail.isbn}
         jpeCode={data.detail.jpeCode}
       />
