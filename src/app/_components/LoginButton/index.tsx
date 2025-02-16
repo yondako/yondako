@@ -17,12 +17,14 @@ type Props = {
 };
 
 export default function LoginButtons({ className, redirectTo }: Props) {
-  const handleSubmit = async (formData: FormData) => {
+  const handleSubmit = async (redirectUrl: string, formData: FormData) => {
     "use server";
     const provider = formData.get("provider")?.toString();
 
     try {
-      await signIn(provider, { redirectTo });
+      await signIn(provider, {
+        redirectTo: redirectUrl,
+      });
     } catch (error) {
       // 認証のエラーならエラーページにリダイレクト
       if (error instanceof AuthError) {
@@ -34,9 +36,14 @@ export default function LoginButtons({ className, redirectTo }: Props) {
     }
   };
 
+  const handleSubmitWithRedirect = handleSubmit.bind(null, redirectTo);
+
   return (
     <div className={twMerge("w-full", className)}>
-      <form className="flex flex-col space-y-2" action={handleSubmit}>
+      <form
+        className="flex flex-col space-y-2"
+        action={handleSubmitWithRedirect}
+      >
         <LoginButton value="google">
           <IconBrandGoogle className="h-[20px] w-[20px]" />
           <span className="text-sm">Googleで続ける</span>
