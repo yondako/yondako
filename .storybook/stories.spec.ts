@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import test, { expect } from "@playwright/test";
 import type { StoryIndex } from "@storybook/types";
 
@@ -9,8 +9,13 @@ const skip = [
 ];
 
 const indexJson = readFileSync("storybook-static/index.json");
-
 const json = JSON.parse(indexJson.toString()) as StoryIndex;
+
+// __snapshots__/stories.spec.ts/ 以下のpngファイル名を配列に格納
+const snapshotDir = "__snapshots__/stories.spec.ts/";
+const pngFiles = readdirSync(snapshotDir).filter((file) =>
+  file.endsWith(".png"),
+);
 
 for (const [id, { tags }] of Object.entries(json.entries)) {
   // Play関数を持つストーリーはスクリーンショットを取得しない
@@ -18,7 +23,14 @@ for (const [id, { tags }] of Object.entries(json.entries)) {
     continue;
   }
 
+  // スキップ対象ならスキップ
   if (skip.includes(id)) {
+    continue;
+  }
+
+  // スナップショットが無い場合はスキップ
+  if (!pngFiles.includes(`${id}.png`)) {
+    console.warn(`Snapshot not found: ${id}`);
     continue;
   }
 
