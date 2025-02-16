@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import SettingProperty from "./SettingProperty";
+import SettingProperty from ".";
 
 const meta: Meta<typeof SettingProperty> = {
-  title: "App/Framed/Settings/AccountSection/SettingProperty",
+  title: "App/Framed/Settings/SettingProperty",
   component: SettingProperty,
 };
 

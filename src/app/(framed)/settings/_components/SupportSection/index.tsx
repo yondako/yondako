@@ -1,6 +1,6 @@
 import IconHelp from "@/assets/icons/help-filed.svg";
 import { site } from "@/constants/site";
-import FormLink from "./FormLink";
+import FormLink from "../FormLink";
 
 type Props = {
   userId: string;

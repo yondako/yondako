@@ -1,16 +1,10 @@
 import IconLogout from "@/assets/icons/logout.svg";
 import Button from "@/components/Button";
-import { signOut } from "@/lib/auth";
+import { signOutWithRedirect } from "#actions/signOutWithRedirect";
 
 export default function LogoutButton() {
-  const handleSubmit = async () => {
-    "use server";
-
-    await signOut({ redirectTo: "/" });
-  };
-
   return (
-    <form action={handleSubmit}>
+    <form action={signOutWithRedirect}>
       <Button
         className="flex w-full items-center justify-center space-x-2 text-sm sm:w-48"
         type="submit"

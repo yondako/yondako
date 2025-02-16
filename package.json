@@ -94,6 +94,10 @@
       "storybook": "./src/actions/signInWithRedirect.mock.ts",
       "default": "./src/actions/signInWithRedirect.ts"
     },
+    "#actions/signOutWithRedirect": {
+      "storybook": "./src/actions/signOutWithRedirect.mock.ts",
+      "default": "./src/actions/signOutWithRedirect.ts"
+    },
     "#*": ["./*", "./*.ts", "./*.tsx"]
   }
 }
