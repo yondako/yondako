@@ -5,7 +5,7 @@ import ExternalLink from "@/components/ExternalLink";
 import { links } from "@/constants/site";
 import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
-import { signInWithRedirect } from "#actions/signIn";
+import { signInWithRedirect } from "#actions/signInWithRedirect";
 
 type Props = {
   /** ログイン後のリダイレクト先 */

@@ -90,9 +90,9 @@
       "storybook": "./src/actions/updateReadingStatus.mock.ts",
       "default": "./src/actions/updateReadingStatus.ts"
     },
-    "#actions/signIn": {
-      "storybook": "./src/actions/signIn.mock.ts",
-      "default": "./src/actions/signIn.ts"
+    "#actions/signInWithRedirect": {
+      "storybook": "./src/actions/signInWithRedirect.mock.ts",
+      "default": "./src/actions/signInWithRedirect.ts"
     },
     "#*": ["./*", "./*.ts", "./*.tsx"]
   }
