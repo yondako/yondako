@@ -20,7 +20,7 @@
     "preview-storybook": "bunx http-server storybook-static --port 6006 --silent",
     "prepreview-storybook": "storybook build",
     "vrt:storybook": "playwright test -c .storybook/playwright.config.ts .storybook/",
-    "vrt:storybook:update": "playwright test -c .storybook/playwright.config.ts .storybook/ --update-snapshots"
+    "vrt:storybook:update": "UPDATE=1 playwright test -c .storybook/playwright.config.ts .storybook/ --update-snapshots"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.7.4",

@@ -2,6 +2,8 @@ import { readFileSync, readdirSync } from "node:fs";
 import test, { expect } from "@playwright/test";
 import type { StoryIndex } from "@storybook/types";
 
+const isUpdate = !!process.env.UPDATE;
+
 // スクリーンショットを取得しないストーリー
 const skip = [
   // GIFがメインなので
@@ -13,9 +15,9 @@ const json = JSON.parse(indexJson.toString()) as StoryIndex;
 
 // __snapshots__/stories.spec.ts/ 以下のpngファイル名を配列に格納
 const snapshotDir = "__snapshots__/stories.spec.ts/";
-const pngFiles = readdirSync(snapshotDir).filter((file) =>
-  file.endsWith(".png"),
-);
+const pngFiles = isUpdate
+  ? []
+  : readdirSync(snapshotDir).filter((file) => file.endsWith(".png"));
 
 for (const [id, { tags }] of Object.entries(json.entries)) {
   // Play関数を持つストーリーはスクリーンショットを取得しない
@@ -28,9 +30,11 @@ for (const [id, { tags }] of Object.entries(json.entries)) {
     continue;
   }
 
+  const snapshotFilename = `${id}.png`;
+
   // スナップショットが無い場合はスキップ
-  if (!pngFiles.includes(`${id}.png`)) {
-    console.warn(`Snapshot not found: ${id}`);
+  if (!isUpdate && !pngFiles.includes(snapshotFilename)) {
+    console.warn(`Snapshot not found: ${snapshotFilename}`);
     continue;
   }
 
@@ -52,7 +56,7 @@ for (const [id, { tags }] of Object.entries(json.entries)) {
       // 失敗しても大丈夫なので無視
     }
 
-    await expect(page).toHaveScreenshot(`${id}.png`, {
+    await expect(page).toHaveScreenshot(snapshotFilename, {
       fullPage: true,
     });
   });
