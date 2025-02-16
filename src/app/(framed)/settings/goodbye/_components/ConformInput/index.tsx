@@ -6,7 +6,7 @@ import Input from "@/components/Input";
 import { signOut } from "next-auth/react";
 import { useEffect } from "react";
 import { useFormState } from "react-dom";
-import { goodbyeUser } from "../../_actions/goodbye";
+import { goodbyeUser } from "#actions/goodbyeUser";
 
 export default function ConfirmInput() {
   const [result, dispatch] = useFormState(goodbyeUser, { success: false });
