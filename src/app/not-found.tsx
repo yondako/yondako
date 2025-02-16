@@ -1,7 +1,10 @@
+import ErrorPage from "@/components/ErrorPage";
 import { generateMetadataTitle } from "@/lib/metadata";
-import ErrorPage from "./_components/ErrorPage";
 
-export const metadata = generateMetadataTitle("NotFound");
+export const metadata = generateMetadataTitle({
+  pageTitle: "NotFound",
+  noindex: true,
+});
 
 export default function NotFound() {
   return (

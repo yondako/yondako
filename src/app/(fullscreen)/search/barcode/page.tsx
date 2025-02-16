@@ -7,7 +7,10 @@ import ScannerStartPage from "./_components/ScannerStartPage";
 
 export const runtime = "edge";
 
-export const metadata = generateMetadataTitle("バーコードで探す");
+export const metadata = generateMetadataTitle({
+  pageTitle: "バーコードで探す",
+  noindex: true,
+});
 
 export default async function SearchBarcode() {
   const session = await auth();

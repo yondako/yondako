@@ -8,7 +8,10 @@ import SupportSection from "./_components/SupportSection";
 
 export const runtime = "edge";
 
-export const metadata = generateMetadataTitle("設定");
+export const metadata = generateMetadataTitle({
+  pageTitle: "設定",
+  noindex: true,
+});
 
 export default async function Settings() {
   const session = await auth();
