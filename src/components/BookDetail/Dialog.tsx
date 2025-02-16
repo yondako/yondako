@@ -86,45 +86,44 @@ export default function BookDetailDialog({
         </Dialog.Trigger>
       )}
       <Dialog.Portal forceMount>
-        {transitions((style, isOpen) => (
-          <>
-            {isOpen && (
-              <Overlay
-                className="fixed inset-0 bg-black/40"
-                style={{ opacity: style.opacity }}
-              />
-            )}
-            {isOpen && (
-              <Content
-                className="fixed flex min-h-[17.5rem] items-center rounded-2xl bg-primary-background px-12 py-10 pl-[8.625rem]"
-                style={{
-                  ...style,
-                  transformOrigin: "top left",
-                  translateX: "-50%",
-                  translateY: "-50%",
-                }}
-              >
-                <Dialog.Close
-                  className="absolute top-4 right-4 text-secondary-foreground transition-colors hover:text-primary-foreground"
-                  data-testid="button-close"
+        {transitions(
+          (style, isOpen) =>
+            isOpen && (
+              <>
+                <Overlay
+                  className="fixed inset-0 bg-black/40"
+                  style={{ opacity: style.opacity }}
+                />
+                <Content
+                  className="fixed flex min-h-[17.5rem] items-center rounded-2xl bg-primary-background px-12 py-10 pl-[8.625rem]"
+                  style={{
+                    ...style,
+                    transformOrigin: "top left",
+                    translateX: "-50%",
+                    translateY: "-50%",
+                  }}
                 >
-                  <IconClose className="h-4 w-4" />
-                </Dialog.Close>
-                <BookThumbnail
-                  className="-left-10 absolute top-9 h-52 border-4 border-primary-background shadow-xl"
-                  isbn={data.detail.isbn}
-                  jpeCode={data.detail.jpeCode}
-                />
-                <BookDetailContent
-                  {...bookDetailProps}
-                  className="w-[28rem] text-left"
-                  Title={Dialog.Title}
-                  Description={Dialog.Description}
-                />
-              </Content>
-            )}
-          </>
-        ))}
+                  <Dialog.Close
+                    className="absolute top-4 right-4 text-secondary-foreground transition-colors hover:text-primary-foreground"
+                    data-testid="button-close"
+                  >
+                    <IconClose className="h-4 w-4" />
+                  </Dialog.Close>
+                  <BookThumbnail
+                    className="-left-10 absolute top-9 h-52 border-4 border-primary-background shadow-xl"
+                    isbn={data.detail.isbn}
+                    jpeCode={data.detail.jpeCode}
+                  />
+                  <BookDetailContent
+                    {...bookDetailProps}
+                    className="w-[28rem] text-left"
+                    Title={Dialog.Title}
+                    Description={Dialog.Description}
+                  />
+                </Content>
+              </>
+            ),
+        )}
       </Dialog.Portal>
     </Dialog.Root>
   );
