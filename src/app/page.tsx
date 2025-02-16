@@ -3,6 +3,7 @@ import OpenDoodlesReadingSide from "@/assets/images/open-doodles/reading-side.sv
 import OpenDoodlesSittingReading from "@/assets/images/open-doodles/sitting-reading.svg";
 import BudouX from "@/components/BudouX";
 import Footer from "@/components/Footer";
+import { REDIRECT_TO_LIBLARY } from "@/constants/redirect";
 import { site } from "@/constants/site";
 import { auth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
@@ -15,13 +16,22 @@ export const runtime = "edge";
 
 export const metadata = generateMetadataTitle();
 
-export default async function Home() {
+type Props = {
+  searchParams: Promise<{
+    callbackUrl?: string;
+  }>;
+};
+
+export default async function Home(props: Props) {
   const session = await auth();
 
-  // セッションがある場合はライブラリにリダイレクト
+  // セッションがある場合はリダイレクト
   if (session?.user) {
-    redirect("/library/want_read");
+    redirect(REDIRECT_TO_LIBLARY);
   }
+
+  const searchParams = await props.searchParams;
+  const redirectTo = searchParams.callbackUrl || REDIRECT_TO_LIBLARY;
 
   return (
     <>
@@ -42,7 +52,10 @@ export default async function Home() {
             <BudouX>{site.description.long}</BudouX>
           </p>
 
-          <LoginButtons className="mt-12 text-center md:max-w-64 md:text-left" />
+          <LoginButtons
+            className="mt-12 text-center md:max-w-64 md:text-left"
+            redirectTo={redirectTo}
+          />
         </div>
       </section>
 
@@ -118,7 +131,10 @@ export default async function Home() {
             <wbr />
             ずーっと無料です。
           </p>
-          <LoginButtons className="mt-12 text-center md:max-w-64 md:text-left" />
+          <LoginButtons
+            className="mt-12 text-center md:max-w-64 md:text-left"
+            redirectTo={redirectTo}
+          />
         </div>
         <SlideIn className="md:w-1/2">
           <OpenDoodlesReadingSide />
