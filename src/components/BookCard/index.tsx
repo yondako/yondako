@@ -31,7 +31,10 @@ export default function BookCard({ data }: Props) {
   return (
     <div className="relative mt-8 w-full text-left text-primary-foreground">
       <BookDetail bookDetailProps={{ data, ...formProps }}>
-        <button className="flex h-40 w-full flex-col justify-between overflow-hidden rounded-2xl bg-tertiary-background p-4 pl-36 text-left">
+        <button
+          className="flex h-40 w-full flex-col justify-between overflow-hidden rounded-2xl bg-tertiary-background p-4 pl-36 text-left"
+          data-testid="book-card"
+        >
           <div className="space-y-1">
             <h3 className="palt line-clamp-3 font-bold text-sm leading-5">
               {data.detail.title}
@@ -57,7 +60,7 @@ export default function BookCard({ data }: Props) {
         {...formProps}
       />
 
-      {/* ドロワーを開くボタンの名残り */}
+      {/* 書籍詳細を開くボタンの名残り */}
       <IconDotsVertical className="pointer-events-none absolute right-5 bottom-6 block h-4 w-4 rounded-2xl" />
 
       <BookThumbnail
