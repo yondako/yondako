@@ -2,17 +2,16 @@ import { site } from "@/constants/site";
 import type { Metadata } from "next";
 
 type MetadataOptions = {
-  pageTitle?: string;
+  pageTitle: string;
   noindex?: boolean;
 };
 
-export const generateMetadataTitle = ({
-  pageTitle,
-  noindex = false,
-}: MetadataOptions): Metadata => {
-  const title = pageTitle
-    ? `${pageTitle} | ${site.name}`
+export const generateMetadataTitle = (options?: MetadataOptions): Metadata => {
+  const title = options
+    ? `${options.pageTitle} | ${site.name}`
     : `${site.name} | ${site.description.short}`;
+
+  const index = options?.noindex ?? true;
 
   return {
     title,
@@ -23,7 +22,7 @@ export const generateMetadataTitle = ({
       title,
     },
     robots: {
-      index: !noindex,
+      index,
     },
   };
 };
