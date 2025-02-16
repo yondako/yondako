@@ -8,7 +8,10 @@ import { redirect } from "next/navigation";
 
 export const runtime = "edge";
 
-export const metadata = generateMetadataTitle("バーコードで探す");
+export const metadata = generateMetadataTitle({
+  pageTitle: "バーコードで探す",
+  noindex: true,
+});
 
 export default async function MobileExclusive() {
   const session = await auth();

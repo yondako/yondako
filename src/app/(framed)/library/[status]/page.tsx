@@ -37,7 +37,10 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     notFound();
   }
 
-  return generateMetadataTitle(readingStatus.label);
+  return generateMetadataTitle({
+    pageTitle: readingStatus.label,
+    noindex: true,
+  });
 }
 
 export default async function Library(props: Props) {

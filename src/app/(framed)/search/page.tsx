@@ -27,9 +27,10 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   const searchParams = await props.searchParams;
   const query = searchParams.q;
 
-  return generateMetadataTitle(
-    query ? `「${query}」の検索結果` : "キーワードで探す",
-  );
+  return generateMetadataTitle({
+    pageTitle: query ? `「${query}」の検索結果` : "キーワードで探す",
+    noindex: true,
+  });
 }
 
 const dataSourceUrl = new URL("/docs/data-source", site.infoUrl).toString();
