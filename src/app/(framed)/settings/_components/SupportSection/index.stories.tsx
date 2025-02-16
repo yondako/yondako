@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import SupportSection from ".";
 
 const meta: Meta<typeof SupportSection> = {
-  title: "Components/SupportSection",
+  title: "App/Framed/Settings/SupportSection",
   component: SupportSection,
 };
 
