@@ -18,7 +18,7 @@ type Props = {
 export default function LoginButtons({ className, redirectTo }: Props) {
   const handleSubmit = async (formData: FormData) => {
     "use server";
-    const provider = formData.get("provider") as string;
+    const provider = formData.get("provider")?.toString();
 
     try {
       await signIn(provider, { redirectTo });
