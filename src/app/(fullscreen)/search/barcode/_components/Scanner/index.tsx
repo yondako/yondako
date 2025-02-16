@@ -15,7 +15,7 @@ import {
   useState,
 } from "react";
 import { toast } from "sonner";
-import { searchFromIsbn } from "../../_actions/searchFromIsbn";
+import { searchFromIsbn } from "#actions/searchFromIsbn";
 import MessagePage from "../MessagePage";
 import ScannerCore from "./Core";
 
