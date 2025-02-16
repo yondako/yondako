@@ -11,7 +11,7 @@ export const generateMetadataTitle = (options?: MetadataOptions): Metadata => {
     ? `${options.pageTitle} | ${site.name}`
     : `${site.name} | ${site.description.short}`;
 
-  const index = options?.noindex ?? true;
+  const index = options?.noindex ? !options.noindex : true;
 
   return {
     title,
