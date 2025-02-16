@@ -5,6 +5,7 @@ import ExternalLink from "@/components/ExternalLink";
 import { REDIRECT_TO_AUTH_ERROR } from "@/constants/redirect";
 import { links } from "@/constants/site";
 import { signIn } from "@/lib/auth";
+import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
 import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
@@ -23,7 +24,13 @@ export default function LoginButtons({ className, redirectTo }: Props) {
     try {
       await signIn(provider, { redirectTo });
     } catch (error) {
-      return redirect(REDIRECT_TO_AUTH_ERROR);
+      // 認証のエラーならエラーページにリダイレクト
+      if (error instanceof AuthError) {
+        return redirect(REDIRECT_TO_AUTH_ERROR);
+      }
+
+      // それ以外のエラーはそのままthrow (Next.jsのリダイレクト等もここに流れる)
+      throw error;
     }
   };
 
