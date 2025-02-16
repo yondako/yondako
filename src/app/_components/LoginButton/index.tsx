@@ -5,7 +5,6 @@ import ExternalLink from "@/components/ExternalLink";
 import { REDIRECT_TO_AUTH_ERROR } from "@/constants/redirect";
 import { links } from "@/constants/site";
 import { signIn } from "@/lib/auth";
-import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
 import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
@@ -13,7 +12,6 @@ import { twMerge } from "tailwind-merge";
 type Props = {
   /** ログイン後のリダイレクト先 */
   redirectTo: string;
-
   className?: string;
 };
 
@@ -22,16 +20,10 @@ export default function LoginButtons({ className, redirectTo }: Props) {
     "use server";
     const provider = formData.get("provider") as string;
 
-    console.log("redirectTo", redirectTo);
-
     try {
       await signIn(provider, { redirectTo });
     } catch (error) {
-      if (error instanceof AuthError) {
-        return redirect(`${REDIRECT_TO_AUTH_ERROR}?error=${error.type}`);
-      }
-
-      throw error;
+      return redirect(REDIRECT_TO_AUTH_ERROR);
     }
   };
 
