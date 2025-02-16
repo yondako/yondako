@@ -1,7 +1,15 @@
 import { site } from "@/constants/site";
 import type { Metadata } from "next";
 
-export const generateMetadataTitle = (pageTitle?: string): Metadata => {
+type MetadataOptions = {
+  pageTitle?: string;
+  noindex?: boolean;
+};
+
+export const generateMetadataTitle = ({
+  pageTitle,
+  noindex = false,
+}: MetadataOptions): Metadata => {
   const title = pageTitle
     ? `${pageTitle} | ${site.name}`
     : `${site.name} | ${site.description.short}`;
@@ -13,6 +21,9 @@ export const generateMetadataTitle = (pageTitle?: string): Metadata => {
     },
     twitter: {
       title,
+    },
+    robots: {
+      index: !noindex,
     },
   };
 };
