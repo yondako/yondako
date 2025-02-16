@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import FormLink from "./FormLink";
+import FormLink from ".";
 
 const meta: Meta<typeof FormLink> = {
-  title: "App/Framed/Settings/SupportSection/FormLink",
+  title: "App/Framed/Settings/FormLink",
   component: FormLink,
 };
 

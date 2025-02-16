@@ -1,8 +1,8 @@
 import IconUserFiled from "@/assets/icons/user-filed.svg";
 import Button from "@/components/Button";
 import Link from "next/link";
-import LogoutButton from "./LogoutButton";
-import SettingProperty from "./SettingProperty";
+import LogoutButton from "../LogoutButton";
+import SettingProperty from "../SettingProperty";
 
 type Props = {
   userId: string;

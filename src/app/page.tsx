@@ -9,7 +9,7 @@ import { auth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import Image from "next/image";
 import { redirect } from "next/navigation";
-import LoginButtons from "./_components/LoginButton";
+import LoginButtons from "./_components/LoginButtons";
 import SlideIn from "./_components/SlideIn";
 
 export const runtime = "edge";

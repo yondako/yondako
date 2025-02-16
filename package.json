@@ -90,6 +90,22 @@
       "storybook": "./src/actions/updateReadingStatus.mock.ts",
       "default": "./src/actions/updateReadingStatus.ts"
     },
+    "#actions/signInWithRedirect": {
+      "storybook": "./src/actions/signInWithRedirect.mock.ts",
+      "default": "./src/actions/signInWithRedirect.ts"
+    },
+    "#actions/signOutWithRedirect": {
+      "storybook": "./src/actions/signOutWithRedirect.mock.ts",
+      "default": "./src/actions/signOutWithRedirect.ts"
+    },
+    "#actions/goodbyeUser": {
+      "storybook": "./src/actions/goodbyeUser.mock.ts",
+      "default": "./src/actions/goodbyeUser.ts"
+    },
+    "#actions/searchFromIsbn": {
+      "storybook": "./src/actions/searchFromIsbn.mock.ts",
+      "default": "./src/actions/searchFromIsbn.ts"
+    },
     "#*": ["./*", "./*.ts", "./*.tsx"]
   }
 }
