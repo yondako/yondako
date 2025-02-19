@@ -32,7 +32,7 @@
     "budoux": "^0.6.4",
     "cloudflare": "^4.1.0",
     "drizzle-orm": "^0.39.3",
-    "fast-xml-parser": "^4.5.1",
+    "fast-xml-parser": "^5.0.0",
     "next": "15.1.7",
     "next-auth": "^5.0.0-beta.25",
     "p-limit": "^6.2.0",
