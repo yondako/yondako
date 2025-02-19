@@ -41,7 +41,7 @@
     "react-use": "^17.6.0",
     "server-only": "^0.0.1",
     "sharp": "^0.33.5",
-    "sonner": "^1.7.4",
+    "sonner": "^2.0.0",
     "tailwind-merge": "^3.0.1",
     "use-debounce": "^10.0.4",
     "uuid": "^11.0.5",
