@@ -79,7 +79,7 @@
     "storybook-addon-pseudo-states": "^4.0.2",
     "tailwindcss": "^4.0.6",
     "typescript": "^5.7.3",
-    "vercel": "41.1.4",
+    "vercel": "41.2.0",
     "wrangler": "^3.109.1"
   },
   "overrides": {
