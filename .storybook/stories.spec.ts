@@ -8,6 +8,7 @@ const isUpdate = !!process.env.UPDATE;
 const skip = [
   // GIFがメインなので
   "common-loading--default",
+  "app-loadingloading--default",
 ];
 
 const indexJson = readFileSync("storybook-static/index.json");
@@ -47,6 +48,11 @@ for (const [id, { tags }] of Object.entries(json.entries)) {
     url.searchParams.set("id", id);
 
     await page.goto(url.toString());
+
+    // ローディングが消えるまで待つ
+    await page.locator(".sb-loader").first().waitFor({
+      state: "hidden",
+    });
 
     // 画像の読み込みを待つ
     // https://github.com/microsoft/playwright/issues/6046#issuecomment-1803609118
