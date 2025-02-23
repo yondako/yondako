@@ -1,7 +1,7 @@
 "use client";
 import { Loading } from "@/components/Loading";
 import { animated, useTransition } from "@react-spring/web";
-import { useEffect, useState } from "react";
+import { type ComponentPropsWithoutRef, useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
 
 export default function LoginLoading() {
@@ -33,18 +33,25 @@ export default function LoginLoading() {
     },
   });
 
+  const AnimatedLoginLoading = animated(LoginLoadingPresentational);
+
   return transitions(
-    (style, show) =>
-      show && (
-        <animated.div
-          className="fixed inset-0 flex h-svh w-screen items-center justify-center bg-black/40 opacity-0"
-          style={style}
-        >
-          <Loading
-            className="h-fit w-48 rounded-lg bg-primary-background p-8"
-            title="ログイン中です"
-          />
-        </animated.div>
-      ),
+    (style, show) => show && <AnimatedLoginLoading style={style} />,
+  );
+}
+
+export function LoginLoadingPresentational(
+  props: ComponentPropsWithoutRef<"div">,
+) {
+  return (
+    <div
+      className="fixed inset-0 flex h-svh w-screen items-center justify-center bg-black/40"
+      {...props}
+    >
+      <Loading
+        className="h-fit w-48 rounded-lg bg-primary-background p-8"
+        title="ログイン中です"
+      />
+    </div>
   );
 }
