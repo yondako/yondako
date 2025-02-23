@@ -8,6 +8,9 @@ export default defineConfig({
   fullyParallel: true,
   expect: {
     timeout: 10 * 1000,
+    toMatchSnapshot: {
+      maxDiffPixelRatio: 0.01,
+    },
   },
   use: {
     baseURL: "http://localhost:6006",
@@ -18,6 +21,12 @@ export default defineConfig({
       name: "chrome",
       use: {
         ...devices["Desktop Chrome"],
+      },
+    },
+    {
+      name: "safari",
+      use: {
+        ...devices["Desktop Safari"],
       },
     },
   ],

@@ -33,12 +33,16 @@ for (const [id, { tags }] of Object.entries(json.entries)) {
   const snapshotFilename = `${id}.png`;
 
   // スナップショットが無い場合はスキップ
-  if (!isUpdate && !pngFiles.includes(snapshotFilename)) {
+  // NOTE: ファイル名の形式は <ブラウザ名>-<ストーリーID>.png なので、末尾一致で探す
+  if (
+    !isUpdate &&
+    !pngFiles.some((filename) => filename.endsWith(snapshotFilename))
+  ) {
     console.warn(`Snapshot not found: ${snapshotFilename}`);
     continue;
   }
 
-  test(id, async ({ page }) => {
+  test(id, async ({ page, browserName }) => {
     const url = new URL("http://localhost:6006/iframe.html");
     url.searchParams.set("id", id);
 
@@ -56,7 +60,7 @@ for (const [id, { tags }] of Object.entries(json.entries)) {
       // 失敗しても大丈夫なので無視
     }
 
-    await expect(page).toHaveScreenshot(snapshotFilename, {
+    await expect(page).toHaveScreenshot(`${browserName}-${snapshotFilename}`, {
       fullPage: true,
     });
   });
