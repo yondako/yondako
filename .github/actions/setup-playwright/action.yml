@@ -1,0 +1,31 @@
+name: Setup Playwright
+description: キャッシュを利用しつつPlaywrightをセットアップ
+
+# https://github.com/microsoft/playwright/issues/7249#issuecomment-2334627973
+
+runs:
+  using: composite
+  steps:
+    - name: Get Playwright Version
+      shell: bash
+      run: |
+        PLAYWRIGHT_VERSION=$(bun pm ls | grep @playwright | sed 's/.*@//')
+        echo "Playwright v$PLAYWRIGHT_VERSION"
+        echo "PLAYWRIGHT_VERSION=$PLAYWRIGHT_VERSION" >> $GITHUB_ENV
+
+    - name: Cache Playwright Browsers
+      id: cache-playwright-browsers
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/ms-playwright
+        key: playwright-browsers-${{ env.PLAYWRIGHT_VERSION }}
+
+    - name: Install Playwright
+      shell: bash
+      if: steps.cache-playwright-browsers.outputs.cache-hit != 'true'
+      run: bunx playwright install chromium webkit --with-deps
+
+    - name: Install just Playwright's dependencies
+      shell: bash
+      if: steps.cache-playwright-browsers.outputs.cache-hit == 'true'
+      run: bunx playwright install-deps
