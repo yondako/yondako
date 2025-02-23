@@ -2,7 +2,7 @@ import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
   snapshotPathTemplate: "../__snapshots__/{testFilePath}/{arg}{ext}",
-  reporter: "html",
+  reporter: process.env.CI ? "blob" : "html",
   timeout: 30 * 1000,
   retries: 1,
   fullyParallel: true,
