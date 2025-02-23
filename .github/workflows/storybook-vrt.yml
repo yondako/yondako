@@ -8,11 +8,6 @@ jobs:
   storybook-vrt:
     timeout-minutes: 60
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        shardIndex: [1, 2]
-        shardTotal: [2]
     steps:
       - uses: actions/checkout@v4
 
@@ -47,15 +42,15 @@ jobs:
         run: |
           bunx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
             "bun preview-storybook" \
-            "bunx wait-on tcp:127.0.0.1:6006 && bun vrt:storybook --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}"
+            "bunx wait-on tcp:127.0.0.1:6006 && bun vrt:storybook"
 
       - name: Store Artifacts
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: sb-vrt-report-${{ matrix.shardIndex }}
+          name: vrt-report
           path: playwright-report/
-          retention-days: 1
+          retention-days: 7
 
   # レポートを GitHub Pages にデプロイ
   # https://ysfaran.github.io/blog/2022/09/02/playwright-gh-action-gh-pages/#publish-html-report-to-github-pages
@@ -89,15 +84,8 @@ jobs:
     - name: Download zipped HTML report
       uses: actions/download-artifact@v4
       with:
-        path: all-blob-reports
-        pattern: sb-vrt-report-*
-        merge-multiple: true
-
-    - name: Merge into HTML Report
-      run: |
-        bunx playwright merge-reports --reporter html ./all-blob-reports
-        mkdir -p ${{ env.HTML_REPORT_URL_PATH }}
-        cp -r ./playwright-report/* ${{ env.HTML_REPORT_URL_PATH }}
+        name: vrt-report
+        path: ${{ env.HTML_REPORT_URL_PATH }}
 
     - name: Push HTML Report
       timeout-minutes: 3
