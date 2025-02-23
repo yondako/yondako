@@ -6,6 +6,7 @@ import { links } from "@/constants/site";
 import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
 import { signInWithRedirect } from "#actions/signInWithRedirect";
+import LoginLoading from "../LoginLoading";
 
 type Props = {
   /** ログイン後のリダイレクト先 */
@@ -22,6 +23,7 @@ export default function LoginButtons({ className, redirectTo }: Props) {
         className="flex flex-col space-y-2"
         action={handleSubmitWithRedirect}
       >
+        <LoginLoading />
         <LoginButton value="google">
           <IconBrandGoogle className="h-[20px] w-[20px]" />
           <span className="text-sm">Googleで続ける</span>
