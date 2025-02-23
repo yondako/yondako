@@ -14,7 +14,7 @@ export default function Button({
   ...props
 }: Props) {
   const style = twMerge(
-    "px-6 py-3 rounded-full text-center transition hover:brightness-95",
+    "px-6 py-3 rounded-full text-center transition hover:brightness-95 cursor-pointer",
     noBorder
       ? "bg-tertiary-background"
       : "border border-primary-border bg-primary-background",
