@@ -28,7 +28,6 @@ jobs:
         run: bun install
 
       - name: Setup Playwright
-        id: setup-playwright
         uses: ./.github/actions/setup-playwright
 
       - name: Restore Cache VRT snapshots
