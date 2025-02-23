@@ -62,6 +62,7 @@ for (const [id, { tags }] of Object.entries(json.entries)) {
 
     await expect(page).toHaveScreenshot(`${browserName}-${snapshotFilename}`, {
       fullPage: true,
+      mask: [page.getByTestId("anim-tako")],
     });
   });
 }
