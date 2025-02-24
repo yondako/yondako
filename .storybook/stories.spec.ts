@@ -4,13 +4,6 @@ import type { StoryIndex } from "@storybook/types";
 
 const isUpdate = !!process.env.UPDATE;
 
-// スクリーンショットを取得しないストーリー
-const skip = [
-  // GIFがメインなので
-  "common-loading--default",
-  "app-loadingloading--default",
-];
-
 const indexJson = readFileSync("storybook-static/index.json");
 const json = JSON.parse(indexJson.toString()) as StoryIndex;
 
@@ -23,11 +16,6 @@ const pngFiles = isUpdate
 for (const [id, { tags }] of Object.entries(json.entries)) {
   // Play関数を持つストーリーはスクリーンショットを取得しない
   if (tags?.includes("play-fn")) {
-    continue;
-  }
-
-  // スキップ対象ならスキップ
-  if (skip.includes(id)) {
     continue;
   }
 
@@ -68,6 +56,7 @@ for (const [id, { tags }] of Object.entries(json.entries)) {
 
     await expect(page).toHaveScreenshot(`${browserName}-${snapshotFilename}`, {
       fullPage: true,
+      mask: [page.getByTestId("animation-tako")],
     });
   });
 }
