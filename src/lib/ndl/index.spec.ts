@@ -6,11 +6,6 @@ import {
 } from "@/_mocks/book";
 import { searchBooksFromNDL } from "./index";
 
-mock.module("next/cache", () => ({
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  unstable_cache: (fn: any) => fn,
-}));
-
 describe("searchBooksFromNDL", () => {
   test("書籍を検索できる", async () => {
     const mockFetch = mock().mockResolvedValue({
