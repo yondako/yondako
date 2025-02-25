@@ -7,7 +7,7 @@ const API_BASE_URL = "https://iss.ndl.go.jp/api/opensearch";
 
 export type SearchOptions = {
   count: number;
-  index?: number;
+  page?: number;
   params?: {
     /* すべての項目を対象に検索 */
     any?: string;
@@ -25,8 +25,6 @@ export type SearchOptions = {
 type OpenSearchResponse = {
   meta: {
     totalResults: number;
-    startIndex: number;
-    itemsPerPage: number;
   };
   books: BookDetailWithoutId[];
 };
@@ -74,7 +72,7 @@ export async function searchBooksFromNDL(
     const xml = await res.text();
     const rawBooks = parseOpenSearchXml(xml);
 
-    const { params, index = 0, count } = opts;
+    const { params, page = 0, count } = opts;
 
     // いい感じにソート
     const sortedBooks =
@@ -82,13 +80,12 @@ export async function searchBooksFromNDL(
         ? sortBooksByKeyword(rawBooks, params.any ?? "")
         : rawBooks;
 
+    const index = page * count;
     const books = sortedBooks.slice(index, index + count);
 
     return {
       meta: {
         totalResults: sortedBooks.length,
-        startIndex: index,
-        itemsPerPage: books.length,
       },
       books,
     };

@@ -17,7 +17,9 @@ export async function searchFromIsbn(
 
   const result = await searchBooksFromNDL({
     count: 1,
-    isbn,
+    params: {
+      isbn,
+    },
   });
 
   if (!result?.books || result.books.length <= 0) {
