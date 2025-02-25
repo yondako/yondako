@@ -8,7 +8,7 @@ const API_BASE_URL = "https://iss.ndl.go.jp/api/opensearch";
 export type SearchOptions = {
   count: number;
   index?: number;
-  params: {
+  params?: {
     /* すべての項目を対象に検索 */
     any?: string;
     /* NDC */
@@ -47,8 +47,10 @@ export async function searchBooksFromNDL(
   endpoint.searchParams.append("cnt", "500");
 
   // その他をクエリパラメータに追加
-  for (const [key, value] of Object.entries(opts.params)) {
-    endpoint.searchParams.append(key, value);
+  if (opts.params) {
+    for (const [key, value] of Object.entries(opts.params)) {
+      endpoint.searchParams.append(key, value);
+    }
   }
 
   // データプロバイダの指定
@@ -76,7 +78,7 @@ export async function searchBooksFromNDL(
 
     // いい感じにソート
     const sortedBooks =
-      params.any && rawBooks.length > 1
+      params?.any && rawBooks.length > 1
         ? sortBooksByKeyword(rawBooks, params.any ?? "")
         : rawBooks;
 
