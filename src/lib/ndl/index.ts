@@ -1,5 +1,6 @@
 import type { BookDetailWithoutId } from "@/types/book";
 import type { NDC } from "@/types/ndc";
+import { unstable_cache } from "next/cache";
 import { parseOpenSearchXml } from "./parse";
 import { sortBooksByKeyword } from "./sort";
 
@@ -62,23 +63,35 @@ export async function searchBooksFromNDL(
   endpoint.searchParams.append("mediatype", "books");
 
   try {
-    const res = await fetch(endpoint, {
-      next: {
-        // 10分間キャッシュ
-        revalidate: 10 * 60,
+    const sortedBooks = await unstable_cache(
+      async () => {
+        console.log("called: ndl!");
+
+        const res = await fetch(endpoint, {
+          next: {
+            // 10分間キャッシュ
+            revalidate: 10 * 60,
+          },
+        });
+
+        const xml = await res.text();
+        const rawBooks = parseOpenSearchXml(xml);
+
+        // いい感じにソート
+        const sortedBooks =
+          opts.params?.any && rawBooks.length > 1
+            ? sortBooksByKeyword(rawBooks, opts.params.any ?? "")
+            : rawBooks;
+
+        return sortedBooks;
       },
-    });
+      [endpoint.toString()],
+      {
+        revalidate: 1000 * 60 * 60,
+      },
+    )();
 
-    const xml = await res.text();
-    const rawBooks = parseOpenSearchXml(xml);
-
-    const { params, page = 0, count } = opts;
-
-    // いい感じにソート
-    const sortedBooks =
-      params?.any && rawBooks.length > 1
-        ? sortBooksByKeyword(rawBooks, params.any ?? "")
-        : rawBooks;
+    const { page = 0, count = 0 } = opts;
 
     const index = page * count;
     const books = sortedBooks.slice(index, index + count);
