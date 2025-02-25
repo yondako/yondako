@@ -36,7 +36,7 @@ export async function updateReadingStatus(
   // DBに無い場合登録する
   if (!bookDetail) {
     const opts: SearchOptions = {
-      cnt: 1,
+      count: 1,
     };
 
     if (bookIdentifiers.ndlBibId) {

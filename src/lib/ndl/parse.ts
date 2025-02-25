@@ -9,15 +9,6 @@ import {
   toStringOrUndefined,
 } from "./utils";
 
-type OpenSearchResponse = {
-  meta: {
-    totalResults: number;
-    startIndex: number;
-    itemsPerPage: number;
-  };
-  books: BookDetailWithoutId[];
-};
-
 type OpenSearchText = {
   "#text": string | number;
   "@_xsi:type": string;
@@ -53,17 +44,13 @@ type OpenSearchResult = {
   };
 };
 
-// NOTE:
-// 国立国会図書館が提供するAPIでは最大500件までしか取得できない
-// https://ndlsearch.ndl.go.jp/file/help/api/specifications/ndlsearch_api_20240712.pdf
-const totalResultsLimit = 500;
-
 /**
  * NDL API (OpenSearch) のレスポンスをパース
- * @param xml レスポンス (RSS)
+ * @param xml - レスポンス (RSS) のXML文字列
  * @returns Bookオブジェクトの配列
+ * @throws エラー - レスポンスの形式が異なる場合
  */
-export function parseOpenSearchXml(xml: string): OpenSearchResponse {
+export function parseOpenSearchXml(xml: string): BookDetailWithoutId[] {
   const parser = new XMLParser({
     ignoreAttributes: false,
     trimValues: true,
@@ -82,14 +69,7 @@ export function parseOpenSearchXml(xml: string): OpenSearchResponse {
 
   // 検索結果なし
   if (!parsed.rss.channel.item) {
-    return {
-      meta: {
-        totalResults: 0,
-        startIndex: 0,
-        itemsPerPage: 0,
-      },
-      books: [],
-    };
+    return [];
   }
 
   const items = Array.isArray(parsed.rss.channel.item)
@@ -172,21 +152,13 @@ export function parseOpenSearchXml(xml: string): OpenSearchResponse {
     });
   }
 
-  return {
-    meta: {
-      totalResults:
-        totalResults >= totalResultsLimit ? totalResultsLimit : totalResults,
-      startIndex: parsed.rss.channel["openSearch:startIndex"] ?? 0,
-      itemsPerPage: parsed.rss.channel["openSearch:itemsPerPage"] ?? 0,
-    },
-    books: rawBooks.filter((book) => book !== undefined),
-  };
+  return rawBooks.filter((book) => book !== undefined);
 }
 
 /**
- * 出版日が半年以上かどうか
- * @param publishedDate 出版日
- * @returns 半年以上ならtrue
+ * 出版日が半年以上かどうかを判定
+ * @param publishedDateStr - 出版日を表す文字列
+ * @returns 半年以上前ならtrue、そうでなければfalse
  */
 export function isOlderThanHalfYear(
   publishedDateStr: string | undefined,

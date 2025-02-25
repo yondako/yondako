@@ -70,7 +70,7 @@ async function checkAndUpdateBook(
   }
 
   const result = await searchBooksFromNDL({
-    cnt: 1,
+    count: 1,
     isbn,
   });
 
