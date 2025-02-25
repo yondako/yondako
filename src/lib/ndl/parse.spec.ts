@@ -18,14 +18,7 @@ test("レスポンスの形式が異なる場合、エラーが投げられる",
 test("検索結果がない場合、空のレスポンスが返る", () => {
   const xml = createDummyXml(0);
 
-  expect(parseOpenSearchXml(xml)).toEqual({
-    meta: {
-      totalResults: 0,
-      startIndex: 0,
-      itemsPerPage: 0,
-    },
-    books: [],
-  });
+  expect(parseOpenSearchXml(xml)).toEqual([]);
 });
 
 describe("パースできる", () => {
@@ -33,14 +26,7 @@ describe("パースできる", () => {
     const xml = createDummyXml(1, createDummyItem("000000000"));
     const got = parseOpenSearchXml(xml);
 
-    expect(got).toEqual({
-      meta: {
-        totalResults: 1,
-        startIndex: 1,
-        itemsPerPage: 10,
-      },
-      books: [createDummyBookDetail("000000000")],
-    });
+    expect(got).toEqual([createDummyBookDetail("000000000")]);
   });
 
   test("itemが複数の場合", () => {
@@ -54,18 +40,11 @@ describe("パースできる", () => {
     );
     const got = parseOpenSearchXml(xml);
 
-    expect(got).toEqual({
-      meta: {
-        totalResults: 3,
-        startIndex: 1,
-        itemsPerPage: 10,
-      },
-      books: [
-        createDummyBookDetail("000000000"),
-        createDummyBookDetail("000000001"),
-        createDummyBookDetail("000000002"),
-      ],
-    });
+    expect(got).toEqual([
+      createDummyBookDetail("000000000"),
+      createDummyBookDetail("000000001"),
+      createDummyBookDetail("000000002"),
+    ]);
   });
 
   test("identifierが1つの場合", () => {
@@ -107,21 +86,14 @@ describe("パースできる", () => {
 
     const want = parseOpenSearchXml(xml);
 
-    expect(want).toEqual({
-      meta: {
-        totalResults: 1,
-        startIndex: 1,
-        itemsPerPage: 10,
+    expect(want).toEqual([
+      {
+        ...createDummyBookDetail("000000000"),
+        title: "ダミータイトル",
+        isbn: undefined,
+        jpNo: undefined,
       },
-      books: [
-        {
-          ...createDummyBookDetail("000000000"),
-          title: "ダミータイトル",
-          isbn: undefined,
-          jpNo: undefined,
-        },
-      ],
-    });
+    ]);
   });
 });
 
@@ -148,23 +120,16 @@ test("NDL書誌IDがなくidentifierが無い場合、seeAlsoからISBNを取得
 
   const want = parseOpenSearchXml(xml);
 
-  expect(want).toEqual({
-    meta: {
-      totalResults: 1,
-      startIndex: 1,
-      itemsPerPage: 10,
+  expect(want).toEqual([
+    {
+      ...createDummyBookDetail("000000000"),
+      isbn: "9784040000000",
+      jpNo: undefined,
+      ndlBibId: undefined,
+      publishers: undefined,
+      title: "ダミータイトル",
     },
-    books: [
-      {
-        ...createDummyBookDetail("000000000"),
-        isbn: "9784040000000",
-        jpNo: undefined,
-        ndlBibId: undefined,
-        publishers: undefined,
-        title: "ダミータイトル",
-      },
-    ],
-  });
+  ]);
 });
 
 test("NDL書誌IDとISBNが無いものは除外される", () => {
@@ -204,14 +169,7 @@ test("NDL書誌IDとISBNが無いものは除外される", () => {
 
   const want = parseOpenSearchXml(xml);
 
-  expect(want).toEqual({
-    meta: {
-      totalResults: 1,
-      startIndex: 1,
-      itemsPerPage: 10,
-    },
-    books: [createDummyBookDetail("000000000")],
-  });
+  expect(want).toEqual([createDummyBookDetail("000000000")]);
 });
 
 test("巻数がある場合はタイトルに含まれる", () => {
@@ -257,32 +215,18 @@ test("巻数がある場合はタイトルに含まれる", () => {
 
   const want = parseOpenSearchXml(xml);
 
-  expect(want).toEqual({
-    meta: {
-      totalResults: 1,
-      startIndex: 1,
-      itemsPerPage: 10,
+  expect(want).toEqual([
+    {
+      ...createDummyBookDetail("000000000"),
+      title: "ダミータイトル (05)",
     },
-    books: [
-      {
-        ...createDummyBookDetail("000000000"),
-        title: "ダミータイトル (05)",
-      },
-    ],
-  });
+  ]);
 });
 
 test("totalResultsが500件以上なら丸められる", () => {
   const xml = createDummyXml(1000, createDummyItem("000000000"));
 
-  expect(parseOpenSearchXml(xml)).toEqual({
-    meta: {
-      totalResults: 500,
-      startIndex: 1,
-      itemsPerPage: 10,
-    },
-    books: [createDummyBookDetail("000000000")],
-  });
+  expect(parseOpenSearchXml(xml)).toEqual([createDummyBookDetail("000000000")]);
 
   test("新刊が6ヶ月以上前の場合、updateCheckCountがMAX_UPDATE_CHECK_COUNTになる", () => {
     const xml = `
@@ -304,7 +248,7 @@ test("totalResultsが500件以上なら丸められる", () => {
     `;
 
     const result = parseOpenSearchXml(xml);
-    expect(result.books[0].updateCheckCount).toBe(MAX_UPDATE_CHECK_COUNT);
+    expect(result[0].updateCheckCount).toBe(MAX_UPDATE_CHECK_COUNT);
   });
 });
 

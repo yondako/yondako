@@ -5,8 +5,7 @@ import { getStatusesByBookIds } from "@/db/queries/status";
 import { auth } from "@/lib/auth";
 import { searchBooksFromNDL } from "@/lib/ndl";
 
-const minLimit = 1;
-const limit = 48;
+const SEARCH_COUNT = 48;
 
 type Props = {
   query: string;
@@ -21,10 +20,11 @@ export async function SearchResult({ query, currentPage }: Props) {
   }
 
   const result = await searchBooksFromNDL({
-    any: query,
-    cnt: limit,
-    // NOTE: idx は 1 始まりなので計算結果に +1 する
-    idx: (currentPage - 1) * limit + 1 || minLimit,
+    count: SEARCH_COUNT,
+    page: currentPage - 1,
+    params: {
+      any: query,
+    },
   });
 
   // 検索エラー
@@ -60,8 +60,7 @@ export async function SearchResult({ query, currentPage }: Props) {
   }
 
   const items = await getStatusesByBookIds(session.user.id, result.books);
-
-  const totalPage = Math.ceil(result.meta.totalResults / limit);
+  const totalPage = Math.ceil(result.meta.totalResults / SEARCH_COUNT);
 
   return (
     <>

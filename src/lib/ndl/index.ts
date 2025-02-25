@@ -1,20 +1,33 @@
+import type { BookDetailWithoutId } from "@/types/book";
+import type { NDC } from "@/types/ndc";
+import { unstable_cache } from "next/cache";
 import { parseOpenSearchXml } from "./parse";
+import { sortBooksByKeyword } from "./sort";
 
-const apiBaseUrl = "https://iss.ndl.go.jp/api/opensearch";
+const API_BASE_URL = "https://iss.ndl.go.jp/api/opensearch";
 
 export type SearchOptions = {
-  /* 取得件数 */
-  cnt: number;
-  /* すべての項目を対象に検索 */
-  any?: string;
-  /* 開始出版年月日 */
-  from?: string;
-  /* 終了出版年月日 */
-  until?: string;
-  /* 取得開始位置 */
-  idx?: number;
-  /* ISBN */
-  isbn?: string;
+  count: number;
+  page?: number;
+  params?: {
+    /* すべての項目を対象に検索 */
+    any?: string;
+    /* NDC */
+    ndc?: NDC;
+    /* 開始出版年月日 */
+    from?: string;
+    /* 終了出版年月日 */
+    until?: string;
+    /* ISBN */
+    isbn?: string;
+  };
+};
+
+type OpenSearchResponse = {
+  meta: {
+    totalResults: number;
+  };
+  books: BookDetailWithoutId[];
 };
 
 /**
@@ -25,14 +38,18 @@ export type SearchOptions = {
 export async function searchBooksFromNDL(
   opts: SearchOptions,
   fetch = global.fetch,
-) {
-  const endpoint = new URL(apiBaseUrl);
+): Promise<OpenSearchResponse | undefined> {
+  const endpoint = new URL(API_BASE_URL);
 
-  for (const [key, value] of Object.entries(opts)) {
-    endpoint.searchParams.append(
-      key,
-      typeof value === "number" ? value.toString() : value,
-    );
+  // 取得件数の指定
+  // NOTE: NDLサーチAPIの最大取得件数は500
+  endpoint.searchParams.append("cnt", "500");
+
+  // その他をクエリパラメータに追加
+  if (opts.params) {
+    for (const [key, value] of Object.entries(opts.params)) {
+      endpoint.searchParams.append(key, value);
+    }
   }
 
   // データプロバイダの指定
@@ -43,14 +60,57 @@ export async function searchBooksFromNDL(
   );
 
   // メディアタイプの指定
-  // (資料形態: 紙)
-  endpoint.searchParams.append("mediatype", "booklet");
+  endpoint.searchParams.append("mediatype", "books");
+
+  const cacheKey = endpoint.toString();
+  const request = unstable_cache(
+    async (endpoint: URL, opts: SearchOptions) => {
+      const res = await fetch(endpoint);
+      const xml = await res.text();
+      const rawBooks = parseOpenSearchXml(xml);
+
+      const sortedBooks =
+        opts.params?.any && rawBooks.length > 1
+          ? sortBooksByKeyword(rawBooks, opts.params.any ?? "")
+          : rawBooks;
+
+      return sortedBooks;
+    },
+    [cacheKey],
+    {
+      revalidate: 10 * 60,
+    },
+  );
 
   try {
-    const res = await fetch(endpoint);
-    const xml = await res.text();
+    // const res = await fetch(endpoint, {
+    //   next: {
+    //     // 10分間キャッシュ
+    //     revalidate: 10 * 60,
+    //   },
+    // });
+    //
+    // const xml = await res.text();
+    // const rawBooks = parseOpenSearchXml(xml);
+    //
+    const { page = 0, count } = opts;
+    const sortedBooks = await request(endpoint, opts);
+    //
+    // // いい感じにソート
+    // const sortedBooks =
+    //   params?.any && rawBooks.length > 1
+    //     ? sortBooksByKeyword(rawBooks, params.any ?? "")
+    //     : rawBooks;
 
-    return parseOpenSearchXml(xml);
+    const index = page * count;
+    const books = sortedBooks.slice(index, index + count);
+
+    return {
+      meta: {
+        totalResults: sortedBooks.length,
+      },
+      books,
+    };
   } catch (e) {
     console.error("[NDL]", e);
   }
