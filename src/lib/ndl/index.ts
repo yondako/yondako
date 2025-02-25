@@ -1,6 +1,5 @@
 import type { BookDetailWithoutId } from "@/types/book";
 import type { NDC } from "@/types/ndc";
-import { unstable_cache } from "next/cache";
 import { parseOpenSearchXml } from "./parse";
 import { sortBooksByKeyword } from "./sort";
 
@@ -62,45 +61,24 @@ export async function searchBooksFromNDL(
   // メディアタイプの指定
   endpoint.searchParams.append("mediatype", "books");
 
-  const cacheKey = endpoint.toString();
-  const request = unstable_cache(
-    async (endpoint: URL, opts: SearchOptions) => {
-      const res = await fetch(endpoint);
-      const xml = await res.text();
-      const rawBooks = parseOpenSearchXml(xml);
-
-      const sortedBooks =
-        opts.params?.any && rawBooks.length > 1
-          ? sortBooksByKeyword(rawBooks, opts.params.any ?? "")
-          : rawBooks;
-
-      return sortedBooks;
-    },
-    [cacheKey],
-    {
-      revalidate: 10 * 60,
-    },
-  );
-
   try {
-    // const res = await fetch(endpoint, {
-    //   next: {
-    //     // 10分間キャッシュ
-    //     revalidate: 10 * 60,
-    //   },
-    // });
-    //
-    // const xml = await res.text();
-    // const rawBooks = parseOpenSearchXml(xml);
-    //
-    const { page = 0, count } = opts;
-    const sortedBooks = await request(endpoint, opts);
-    //
-    // // いい感じにソート
-    // const sortedBooks =
-    //   params?.any && rawBooks.length > 1
-    //     ? sortBooksByKeyword(rawBooks, params.any ?? "")
-    //     : rawBooks;
+    const res = await fetch(endpoint, {
+      next: {
+        // 10分間キャッシュ
+        revalidate: 10 * 60,
+      },
+    });
+
+    const xml = await res.text();
+    const rawBooks = parseOpenSearchXml(xml);
+
+    const { params, page = 0, count } = opts;
+
+    // いい感じにソート
+    const sortedBooks =
+      params?.any && rawBooks.length > 1
+        ? sortBooksByKeyword(rawBooks, params.any ?? "")
+        : rawBooks;
 
     const index = page * count;
     const books = sortedBooks.slice(index, index + count);
