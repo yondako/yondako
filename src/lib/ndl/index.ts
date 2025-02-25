@@ -76,7 +76,7 @@ export async function searchBooksFromNDL(
 
     // いい感じにソート
     const sortedBooks =
-      params.any && rawBooks.length > 0
+      params.any && rawBooks.length > 1
         ? sortBooksByKeyword(rawBooks, params.any ?? "")
         : rawBooks;
 
