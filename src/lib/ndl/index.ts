@@ -59,8 +59,7 @@ export async function searchBooksFromNDL(
   );
 
   // メディアタイプの指定
-  // (資料形態: 紙)
-  endpoint.searchParams.append("mediatype", "booklet");
+  endpoint.searchParams.append("mediatype", "books");
 
   try {
     const res = await fetch(endpoint, {
