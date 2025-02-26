@@ -63,25 +63,30 @@ export async function searchBooksFromNDL(
   endpoint.searchParams.append("mediatype", "books");
 
   try {
-    console.log("called: ndl!");
-
-    const res = await fetch(endpoint, {
-      next: {
-        // 10分間キャッシュ
-        revalidate: 10 * 60,
-      },
-    });
-
-    const xml = await res.text();
-    const rawBooks = parseOpenSearchXml(xml);
-
+    const cacheKey = endpoint.toString();
     const { params, page = 0, count = 0 } = opts;
 
-    // いい感じにソート
-    const sortedBooks =
-      params?.any && rawBooks.length > 1
-        ? sortBooksByKeyword(rawBooks, params.any ?? "")
-        : rawBooks;
+    const sortedBooks = await unstable_cache(
+      async () => {
+        console.log("[NDL fetching]", cacheKey);
+
+        const res = await fetch(endpoint);
+        const xml = await res.text();
+        const rawBooks = parseOpenSearchXml(xml);
+
+        // いい感じにソート
+        const results =
+          params?.any && rawBooks.length > 1
+            ? sortBooksByKeyword(rawBooks, params.any ?? "")
+            : rawBooks;
+
+        return results;
+      },
+      [cacheKey],
+      {
+        revalidate: 10 * 60,
+      },
+    )();
 
     const index = page * count;
     const books = sortedBooks.slice(index, index + count);
