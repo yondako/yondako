@@ -1,5 +1,3 @@
-import "server-only";
-
 import { MAX_UPDATE_CHECK_COUNT } from "@/constants/db";
 import type {
   BookDetail,
@@ -7,23 +5,26 @@ import type {
   BookIdentifiers,
 } from "@/types/book";
 import { and, eq, inArray, isNotNull, isNull, lt, or, sql } from "drizzle-orm";
-import db from "..";
+import { getDB } from "..";
 import * as dbSchema from "../schema/book";
 import { createAuthor } from "./author";
 import { createPublisher } from "./publisher";
 
 /**
  * 識別子から書籍データを取得
+ * @param dbInstance D1のインスタンス
  * @param identifiers 書籍識別子
  * @returns 書籍データ
  */
-export async function fetchBook({
-  ndlBibId,
-  isbn,
-}: BookIdentifiers): Promise<BookDetail | undefined> {
+export async function fetchBook(
+  dbInstance: D1Database,
+  { ndlBibId, isbn }: BookIdentifiers,
+): Promise<BookDetail | undefined> {
   if (!ndlBibId && !isbn) {
     return;
   }
+
+  const db = getDB(dbInstance);
 
   // 新刊かどうか (JPROのデータなのでNDL書誌IDがない)
   const isNewRelease = !ndlBibId && isbn;
@@ -85,15 +86,19 @@ export async function fetchBook({
 
 /**
  * 書籍IDから書籍データを取得 (著者・出版社情報を含まない)
+ * @param dbInstance D1のインスタンス
  * @param bookIds 書籍IDの配列
  * @returns 書籍データ
  */
 export async function fetchSimpleBooksByIds(
+  dbInstance: D1Database,
   bookIds: string[],
 ): Promise<Omit<BookDetail, "authors" | "publisher">[]> {
   if (bookIds.length === 0) {
     return [];
   }
+
+  const db = getDB(dbInstance);
 
   return db.query.books.findMany({
     where: inArray(dbSchema.books.id, bookIds),
@@ -102,12 +107,16 @@ export async function fetchSimpleBooksByIds(
 
 /**
  * 書籍データを登録
+ * @param dbInstance D1のインスタンス
  * @param book 書籍データ
  * @returns 登録した書籍データ
  */
 export async function createBook(
+  dbInstance: D1Database,
   book: BookDetailWithoutId,
 ): Promise<BookDetail> {
+  const db = getDB(dbInstance);
+
   // 書籍データを登録
   const insertedBook = await db
     .insert(dbSchema.books)
@@ -117,6 +126,7 @@ export async function createBook(
 
   // 著者情報と出版社情報を登録
   await insertAuthorsAndPublishers(
+    dbInstance,
     insertedBook.id,
     book.authors,
     book.publishers,
@@ -127,11 +137,15 @@ export async function createBook(
 
 /**
  * 更新確認のカウントを加算
+ * @param dbInstance D1のインスタンス
  * @param bookIds 書籍IDの配列
  */
 export async function incrementBooksUpdateCheckCount(
+  dbInstance: D1Database,
   bookIds: string[],
 ): Promise<void> {
+  const db = getDB(dbInstance);
+
   await db
     .update(dbSchema.books)
     .set({
@@ -143,13 +157,17 @@ export async function incrementBooksUpdateCheckCount(
 
 /**
  * NDL書誌IDのない書籍データを更新
+ * @param dbInstance D1のインスタンス
  * @param isbn ISBN
  * @param book 書籍データ
  */
 export async function updateBooksMissingNdlBibId(
+  dbInstance: D1Database,
   isbn: string,
   book: BookDetailWithoutId,
 ): Promise<void> {
+  const db = getDB(dbInstance);
+
   const { id } = await db
     .update(dbSchema.books)
     .set(book)
@@ -158,14 +176,24 @@ export async function updateBooksMissingNdlBibId(
     .get();
 
   // 著者情報と出版社情報を登録
-  await insertAuthorsAndPublishers(id, book.authors, book.publishers);
+  await insertAuthorsAndPublishers(
+    dbInstance,
+    id,
+    book.authors,
+    book.publishers,
+  );
 }
 
 /**
  * 新刊っぽい書籍データを取得
+ * @param dbInstance D1のインスタンス
  * @returns 書籍データ
  */
-export async function getBooksPossiblyNewReleases(): Promise<BookDetail[]> {
+export async function getBooksPossiblyNewReleases(
+  dbInstance: D1Database,
+): Promise<BookDetail[]> {
+  const db = getDB(dbInstance);
+
   return db.query.books.findMany({
     // NDL書誌IDがない && ISBNがある && データの更新確認がしきい値未満のものを新刊とみなす
     where: and(
@@ -178,19 +206,23 @@ export async function getBooksPossiblyNewReleases(): Promise<BookDetail[]> {
 
 /**
  * 著者情報と出版社情報を登録
+ * @param dbInstance D1のインスタンス
  * @param bookId 書籍ID
  * @param authors 著者名
  * @param publishers 出版社名
  */
 async function insertAuthorsAndPublishers(
+  dbInstance: D1Database,
   bookId: string,
   authors: string[] | undefined,
   publishers: string[] | undefined,
 ): Promise<void> {
+  const db = getDB(dbInstance);
+
   // 著者情報を登録
   if (authors) {
     for (const name of authors) {
-      const authorId = await createAuthor(name);
+      const authorId = await createAuthor(dbInstance, name);
       await db.insert(dbSchema.bookAuthors).values({ bookId, authorId });
     }
   }
@@ -198,7 +230,7 @@ async function insertAuthorsAndPublishers(
   // 出版社情報を登録
   if (publishers) {
     for (const name of publishers) {
-      const publisherId = await createPublisher(name);
+      const publisherId = await createPublisher(dbInstance, name);
       await db.insert(dbSchema.bookPublishers).values({ bookId, publisherId });
     }
   }

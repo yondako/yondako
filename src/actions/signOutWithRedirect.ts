@@ -1,6 +1,14 @@
 "use server";
-import { signOut } from "@/lib/auth";
+
+import { getAuth } from "@/lib/auth";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { headers } from "next/headers";
 
 export const signOutWithRedirect = async () => {
-  await signOut({ redirectTo: "/" });
+  const { env } = getCloudflareContext();
+  const auth = getAuth(env.DB);
+
+  await auth.api.signOut({
+    headers: await headers(),
+  });
 };

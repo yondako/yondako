@@ -5,8 +5,10 @@ import {
   type SearchBooksFromLibraryOptions,
   searchBooksFromLibrary,
 } from "@/db/queries/status";
-import { auth } from "@/lib/auth";
+import { getAuth } from "@/lib/auth";
 import type { ReadingStatus } from "@/types/readingStatus";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { headers } from "next/headers";
 import Filter from "./Filter";
 
 const pageSize = 24;
@@ -14,13 +16,18 @@ const pageSize = 24;
 export async function LibraryBookList(
   props: Omit<SearchBooksFromLibraryOptions, "userId" | "pageSize">,
 ) {
-  const session = await auth();
+  const { env } = getCloudflareContext();
+  const auth = getAuth(env.DB);
+
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (!session?.user?.id) {
     return null;
   }
 
-  const { books, total } = await searchBooksFromLibrary({
+  const { books, total } = await searchBooksFromLibrary(env.DB, {
     userId: session.user.id,
     pageSize,
     ...props,

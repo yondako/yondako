@@ -3,18 +3,18 @@ import ExternalLink from "@/components/ExternalLink";
 import { Loading } from "@/components/Loading";
 import SayTako from "@/components/SayTako";
 import { site } from "@/constants/site";
-import { auth } from "@/lib/auth";
+import { getAuth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
 import { pageIndexSchema } from "@/types/page";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { safeParse } from "valibot";
 import SearchForm from "./_components/SearchForm";
 import { SearchResult } from "./_components/SearchResult";
-
-export const runtime = "edge";
 
 type Props = {
   searchParams: Promise<{
@@ -36,12 +36,20 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 const dataSourceUrl = new URL("/docs/data-source", site.infoUrl).toString();
 
 export default async function Search(props: Props) {
-  const searchParams = await props.searchParams;
-  const session = await auth();
+  const { env } = await getCloudflareContext({
+    async: true,
+  });
+
+  const auth = getAuth(env.DB);
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (!session?.user?.id) {
     redirect(createSignInPath("/search"));
   }
+
+  const searchParams = await props.searchParams;
 
   // ページ数
   const pageParseResult = safeParse(

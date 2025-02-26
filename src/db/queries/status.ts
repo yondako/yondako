@@ -1,5 +1,3 @@
-import "server-only";
-
 import type { BookDetailWithoutId, BookType } from "@/types/book";
 import type { Order } from "@/types/order";
 import type { ReadingStatus } from "@/types/readingStatus";
@@ -14,20 +12,24 @@ import {
   or,
   sql,
 } from "drizzle-orm";
-import db from "..";
+import { getDB } from "..";
 import * as dbSchema from "../schema/book";
 
 /**
  * 読書ステータスを追加または更新
+ * @param dbInstance D1のインスタンス
  * @param userId ユーザーID
  * @param bookId 書籍ID
  * @returns ステータス
  */
 export async function upsertReadingStatus(
+  dbInstance: D1Database,
   userId: string,
   bookId: string,
   status: ReadingStatus,
 ): Promise<ReadingStatus> {
+  const db = getDB(dbInstance);
+
   // ステータスを作成。存在する場合は更新
   const result = await db
     .insert(dbSchema.readingStatuses)
@@ -67,14 +69,19 @@ type BookReadimgStatusResult = {
  * @params 検索条件
  * @returns 結果,総数
  */
-export async function searchBooksFromLibrary({
-  userId,
-  status,
-  order,
-  page,
-  pageSize,
-  titleKeyword,
-}: SearchBooksFromLibraryOptions): Promise<BookReadimgStatusResult> {
+export async function searchBooksFromLibrary(
+  dbInstance: D1Database,
+  {
+    userId,
+    status,
+    order,
+    page,
+    pageSize,
+    titleKeyword,
+  }: SearchBooksFromLibraryOptions,
+): Promise<BookReadimgStatusResult> {
+  const db = getDB(dbInstance);
+
   const escapedTitleKeyword = titleKeyword
     ? `%${titleKeyword?.replaceAll("%", "\\%").replaceAll("_", "//_")}%`
     : undefined;
@@ -183,9 +190,12 @@ export async function searchBooksFromLibrary({
  * @returns 該当する書籍のステータスの配列
  */
 export async function getStatusesByBookIds(
+  dbInstance: D1Database,
   userId: string,
   bookIdentifiers: BookDetailWithoutId[],
 ): Promise<BookType[]> {
+  const db = getDB(dbInstance);
+
   try {
     // NDL書誌ID
     const ndlBibIds = bookIdentifiers

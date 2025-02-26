@@ -4,4 +4,4 @@
  * @returns ログインページへのパス
  */
 export const createSignInPath = (callbackUrl: string) =>
-  `/api/auth/signin?callbackUrl=${encodeURIComponent(callbackUrl)}`;
+  `/?callbackUrl=${encodeURIComponent(callbackUrl)}`;

@@ -3,20 +3,29 @@
 import IconExclamationCircle from "@/assets/icons/exclamation-circle.svg";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
-import { signOut } from "next-auth/react";
+import { signOut } from "@/lib/auth-client";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useFormState } from "react-dom";
 import { goodbyeUser } from "#actions/goodbyeUser";
 
 export default function ConfirmInput() {
+  const router = useRouter();
   const [result, dispatch] = useFormState(goodbyeUser, { success: false });
 
   useEffect(() => {
     if (result.success) {
       window.alert("👋 アカウントを削除しました");
-      signOut({ callbackUrl: "/" });
+
+      signOut({
+        fetchOptions: {
+          onSuccess: () => {
+            router.push("/");
+          },
+        },
+      });
     }
-  }, [result.success]);
+  }, [result.success, router]);
 
   return (
     <form className="mt-6 text-sm" action={dispatch}>

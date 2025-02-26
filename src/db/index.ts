@@ -1,23 +1,8 @@
-import "server-only";
-
-import { getRequestContext } from "@cloudflare/next-on-pages";
 import { drizzle } from "drizzle-orm/d1";
-import * as dbSchema from "./schema/book";
+import * as schema from "./schema";
 
-function getDB() {
-  // 開発
-  if (process.env.NODE_ENV === "development") {
-    const { env } = getRequestContext();
-
-    return drizzle(env.DB, {
-      schema: dbSchema,
-    });
-  }
-
-  // 本番
-  return drizzle((process.env as unknown as { DB: D1Database }).DB, {
-    schema: dbSchema,
+export function getDB(db: D1Database) {
+  return drizzle(db, {
+    schema,
   });
 }
-
-export default getDB();

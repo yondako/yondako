@@ -1,12 +1,19 @@
-import { auth } from "@/lib/auth";
+import { getAuth } from "@/lib/auth";
 import { createSignInPath } from "@/lib/path";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import ConfirmInput from "./_components/ConformInput";
 
-export const runtime = "edge";
-
 export default async function Goodbye() {
-  const session = await auth();
+  const { env } = await getCloudflareContext({
+    async: true,
+  });
+
+  const auth = getAuth(env.DB);
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (!session?.user?.id) {
     redirect(createSignInPath("/settings/goodbye"));

@@ -16,9 +16,12 @@ export const users = sqliteTable("user", {
   image: text("image"),
 });
 
-export const accounts = sqliteTable(
+export const account = sqliteTable(
   "account",
   {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
     userId: text("userId")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
@@ -33,11 +36,11 @@ export const accounts = sqliteTable(
     id_token: text("id_token"),
     session_state: text("session_state"),
   },
-  (account) => ({
-    compoundKey: primaryKey({
-      columns: [account.provider, account.providerAccountId],
-    }),
-  }),
+  // (account) => ({
+  //   compoundKey: primaryKey({
+  //     columns: [account.provider, account.providerAccountId],
+  //   }),
+  // }),
 );
 
 export const sessions = sqliteTable("session", {
@@ -48,19 +51,14 @@ export const sessions = sqliteTable("session", {
   expires: integer("expires", { mode: "timestamp_ms" }).notNull(),
 });
 
-export const verificationTokens = sqliteTable(
-  "verificationToken",
-  {
-    identifier: text("identifier").notNull(),
-    token: text("token").notNull(),
-    expires: integer("expires", { mode: "timestamp_ms" }).notNull(),
-  },
-  (verificationToken) => ({
-    compositePk: primaryKey({
-      columns: [verificationToken.identifier, verificationToken.token],
-    }),
-  }),
-);
+export const verification = sqliteTable("verification", {
+  id: text("id").primaryKey(),
+  identifier: text("identifier").notNull(),
+  value: text("value").notNull(),
+  expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" }),
+  updatedAt: integer("updated_at", { mode: "timestamp" }),
+});
 
 export const authenticators = sqliteTable(
   "authenticator",

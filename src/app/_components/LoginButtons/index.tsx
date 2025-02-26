@@ -1,11 +1,14 @@
+"use client";
+
 import IconBrandGitHub from "@/assets/brands/brand-github.svg";
 import IconBrandGoogle from "@/assets/brands/brand-google.svg";
 import Button from "@/components/Button";
 import ExternalLink from "@/components/ExternalLink";
 import { links } from "@/constants/site";
+import { authClient } from "@/lib/auth-client";
 import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
-import { signInWithRedirect } from "#actions/signInWithRedirect";
+// import { signInWithRedirect } from "#actions/signInWithRedirect";
 import LoginLoading from "../LoginLoading";
 
 type Props = {
@@ -15,24 +18,29 @@ type Props = {
 };
 
 export default function LoginButtons({ className, redirectTo }: Props) {
-  const handleSubmitWithRedirect = signInWithRedirect.bind(null, redirectTo);
+  // const handleSubmitWithRedirect = signInWithRedirect.bind(null, redirectTo);
 
   return (
     <div className={twMerge("w-full", className)}>
-      <form
-        className="flex flex-col space-y-2"
-        action={handleSubmitWithRedirect}
-      >
+      <div className="flex flex-col space-y-2">
         <LoginLoading />
         <LoginButton value="google">
           <IconBrandGoogle className="h-[20px] w-[20px]" />
           <span className="text-sm">Googleで続ける</span>
         </LoginButton>
-        <LoginButton value="github">
+        <LoginButton
+          value="github"
+          onClick={async () => {
+            const res = await authClient.signIn.social({
+              provider: "github",
+            });
+            console.log("🔥️ signInWithRedirect", res);
+          }}
+        >
           <IconBrandGitHub className="h-[20px] w-[20px]" />
           <span className="text-sm">GitHubで続ける</span>
         </LoginButton>
-      </form>
+      </div>
       <p className="mt-4 break-keep text-xxs">
         アカウントを登録することにより、
         <wbr />

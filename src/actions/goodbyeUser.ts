@@ -1,6 +1,7 @@
 "use server";
 
 import { deleteUser } from "@/db/queries/user";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 
 export type GoodByeUserResult = {
   success: boolean;
@@ -20,7 +21,8 @@ export const goodbyeUser = async (
     };
   }
 
-  const error = await deleteUser();
+  const { env } = getCloudflareContext();
+  const error = await deleteUser(env.DB);
 
   return {
     success: typeof error !== "string",

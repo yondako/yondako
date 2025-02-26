@@ -2,8 +2,10 @@ import BookList from "@/components/BookList";
 import MessageTako from "@/components/MessageTako";
 import Pagination from "@/components/Pagination";
 import { getStatusesByBookIds } from "@/db/queries/status";
-import { auth } from "@/lib/auth";
+import { getAuth } from "@/lib/auth";
 import { searchBooksFromNDL } from "@/lib/ndl";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { headers } from "next/headers";
 
 const SEARCH_COUNT = 48;
 
@@ -13,7 +15,12 @@ type Props = {
 };
 
 export async function SearchResult({ query, currentPage }: Props) {
-  const session = await auth();
+  const { env } = getCloudflareContext();
+
+  const auth = getAuth(env.DB);
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (!session?.user?.id) {
     return <p className="mt-12 text-center">ログインが必要です</p>;
@@ -59,7 +66,12 @@ export async function SearchResult({ query, currentPage }: Props) {
     );
   }
 
-  const items = await getStatusesByBookIds(session.user.id, result.books);
+  const items = await getStatusesByBookIds(
+    env.DB,
+    session.user.id,
+    result.books,
+  );
+
   const totalPage = Math.ceil(result.meta.totalResults / SEARCH_COUNT);
 
   return (

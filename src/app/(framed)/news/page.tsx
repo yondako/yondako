@@ -3,8 +3,6 @@ import NewsCard from "./_components/NewsCard";
 import UpdateLastNewsCheckedAt from "./_components/UpdateLastNewsCheckedAt";
 import { fetchRecentNews } from "./_lib/fetchRecentNews";
 
-export const runtime = "edge";
-
 export const metadata = generateMetadataTitle({
   pageTitle: "お知らせ",
   noindex: true,
