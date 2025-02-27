@@ -14,44 +14,52 @@ export const user = sqliteTable("user", {
   email: text("email").notNull(),
   emailVerified: integer("emailVerified", { mode: "boolean" }),
   image: text("image"),
-  createdAt: integer("createdAt", { mode: "timestamp" }).notNull(),
-  updatedAt: integer("updatedAt", { mode: "timestamp" }).notNull(),
+  createdAt: integer("createdAt", { mode: "timestamp" })
+    .notNull()
+    .default(sql`(CAST(strftime('%s', 'now') AS INTEGER))`),
+  updatedAt: integer("updatedAt", { mode: "timestamp" })
+    .notNull()
+    .default(sql`(CAST(strftime('%s', 'now') AS INTEGER))`),
 });
 
 export const account = sqliteTable("account", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-  providerAccountId: text("providerAccountId").notNull().default(""),
-  provider: text("provider").notNull(),
+  accountId: text("accountId").notNull().default(""),
+  providerId: text("providerId").notNull(),
   userId: text("userId")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
-  access_token: text("accessToken"),
-  refresh_token: text("refreshToken"),
-  id_token: text("idToken"),
-  expires_at: integer("accessTokenExpiresAt"),
+  accessToken: text("accessToken"),
+  refreshToken: text("refreshToken"),
+  idToken: text("idToken"),
+  accessTokenExpiresAt: integer("accessTokenExpiresAt"),
   refreshTokenExpiresAt: integer("refreshTokenExpiresAt", {
     mode: "timestamp",
   }),
   scope: text("scope"),
   password: text("password"),
-  createdAt: integer("createdAt", { mode: "timestamp" }).notNull(),
-  updatedAt: integer("updatedAt", { mode: "timestamp" }).notNull(),
+  createdAt: integer("createdAt", { mode: "timestamp" })
+    .notNull()
+    .default(sql`(CAST(strftime('%s', 'now') AS INTEGER))`),
+  updatedAt: integer("updatedAt", { mode: "timestamp" })
+    .notNull()
+    .default(sql`(CAST(strftime('%s', 'now') AS INTEGER))`),
 });
 
 export const session = sqliteTable("session", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-  expires: integer("expires", { mode: "timestamp_ms" }).notNull(),
-  sessionToken: text("sessionToken"),
+  expiresAt: integer("expiresAt", { mode: "timestamp_ms" }).notNull(),
+  token: text("token"),
   createdAt: integer("createdAt", { mode: "timestamp" })
     .notNull()
-    .default(sql`(current_timestamp)`),
+    .default(sql`(CAST(strftime('%s', 'now') AS INTEGER))`),
   updatedAt: integer("updatedAt", { mode: "timestamp" })
     .notNull()
-    .default(sql`(current_timestamp)`),
+    .default(sql`(CAST(strftime('%s', 'now') AS INTEGER))`),
   ipAddress: text("ipAddress"),
   userAgent: text("userAgent"),
   userId: text("userId")
