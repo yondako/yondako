@@ -6,12 +6,9 @@ CREATE TABLE `verification` (
   `createdAt` integer,
   `updatedAt` integer
 );
---> statement-breakpoint
+-- --> statement-breakpoint
 DROP TABLE `verificationToken`;--> statement-breakpoint
-
-PRAGMA foreign_keys = OFF;
-
--- account テーブルの再作成
+PRAGMA foreign_keys = OFF;--> statement-breakpoint
 CREATE TABLE __new_account (
   id TEXT PRIMARY KEY NOT NULL,
   accountId TEXT DEFAULT '' NOT NULL,
@@ -29,8 +26,6 @@ CREATE TABLE __new_account (
   FOREIGN KEY (userId) REFERENCES user (id) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 --> statement-breakpoint
-
--- idは無いので生成する
 INSERT INTO
   __new_account (
     id,
@@ -62,14 +57,8 @@ SELECT
 FROM
   account;
 --> statement-breakpoint
-
 DROP TABLE account;--> statement-breakpoint
-
-ALTER TABLE __new_account
-RENAME TO account;
---> statement-breakpoint
-
--- session テーブルの再作成
+ALTER TABLE __new_account RENAME TO account;--> statement-breakpoint
 CREATE TABLE __new_session (
   id TEXT PRIMARY KEY NOT NULL,
   expiresAt INTEGER NOT NULL,
@@ -82,15 +71,8 @@ CREATE TABLE __new_session (
   FOREIGN KEY (userId) REFERENCES user (id) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 --> statement-breakpoint
-
--- sessionテーブルのデータ移行はしない
 DROP TABLE session;--> statement-breakpoint
-
-ALTER TABLE __new_session
-RENAME TO session;
---> statement-breakpoint
-
--- user テーブルの再作成（created_at, updated_at を追加）
+ALTER TABLE __new_session RENAME TO session;--> statement-breakpoint
 CREATE TABLE __new_user (
   id TEXT PRIMARY KEY NOT NULL,
   name TEXT,
@@ -101,7 +83,6 @@ CREATE TABLE __new_user (
   updated_at INTEGER DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)) NOT NULL
 );
 --> statement-breakpoint
-
 INSERT INTO
   __new_user (id, name, email, emailVerified, image)
 SELECT
@@ -113,11 +94,6 @@ SELECT
 FROM
   user;
 --> statement-breakpoint
-
 DROP TABLE user;--> statement-breakpoint
-
-ALTER TABLE __new_user
-RENAME TO user;
---> statement-breakpoint
-
-PRAGMA foreign_keys = ON;
+ALTER TABLE __new_user RENAME TO user;--> statement-breakpoint
+PRAGMA foreign_keys = ON;--> statement-breakpoint
