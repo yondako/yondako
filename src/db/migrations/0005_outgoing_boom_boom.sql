@@ -28,6 +28,7 @@ CREATE TABLE __new_account (
   updatedAt INTEGER DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)) NOT NULL,
   FOREIGN KEY (userId) REFERENCES user (id) ON UPDATE NO ACTION ON DELETE CASCADE
 );
+--> statement-breakpoint
 
 -- idは無いので生成する
 INSERT INTO
@@ -60,11 +61,13 @@ SELECT
   (CAST(strftime('%s', 'now') AS INTEGER))
 FROM
   account;
+--> statement-breakpoint
 
-DROP TABLE account;
+DROP TABLE account;--> statement-breakpoint
 
 ALTER TABLE __new_account
 RENAME TO account;
+--> statement-breakpoint
 
 -- session テーブルの再作成
 CREATE TABLE __new_session (
@@ -78,12 +81,14 @@ CREATE TABLE __new_session (
   userId TEXT NOT NULL,
   FOREIGN KEY (userId) REFERENCES user (id) ON UPDATE NO ACTION ON DELETE CASCADE
 );
+--> statement-breakpoint
 
 -- sessionテーブルのデータ移行はしない
-DROP TABLE session;
+DROP TABLE session;--> statement-breakpoint
 
 ALTER TABLE __new_session
 RENAME TO session;
+--> statement-breakpoint
 
 -- user テーブルの再作成（created_at, updated_at を追加）
 CREATE TABLE __new_user (
@@ -95,6 +100,7 @@ CREATE TABLE __new_user (
   created_at INTEGER DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)) NOT NULL,
   updated_at INTEGER DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)) NOT NULL
 );
+--> statement-breakpoint
 
 INSERT INTO
   __new_user (id, name, email, emailVerified, image)
@@ -106,10 +112,12 @@ SELECT
   image
 FROM
   user;
+--> statement-breakpoint
 
-DROP TABLE user;
+DROP TABLE user;--> statement-breakpoint
 
 ALTER TABLE __new_user
 RENAME TO user;
+--> statement-breakpoint
 
 PRAGMA foreign_keys = ON;
