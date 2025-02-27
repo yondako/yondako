@@ -18,22 +18,22 @@ export const getAuth = (dbInstance: D1Database) => {
         clientSecret: process.env.AUTH_GOOGLE_SECRET || "",
       },
     },
-    session: {
-      fields: {
-        expiresAt: "expires",
-        token: "sessionToken",
-      },
-    },
-    account: {
-      fields: {
-        accountId: "providerAccountId",
-        refreshToken: "refresh_token",
-        accessToken: "access_token",
-        accessTokenExpiresAt: "expires_at",
-        idToken: "id_token",
-        providerId: "provider",
-      },
-    },
+    // session: {
+    //   fields: {
+    //     expiresAt: "expires",
+    //     token: "sessionToken",
+    //   },
+    // },
+    // account: {
+    //   fields: {
+    // accountId: "providerAccountId",
+    // refreshToken: "refresh_token",
+    // accessToken: "access_token",
+    // accessTokenExpiresAt: "expires_at",
+    // idToken: "id_token",
+    // providerId: "provider",
+    //   },
+    // },
   });
 };
 

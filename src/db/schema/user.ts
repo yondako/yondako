@@ -14,8 +14,8 @@ export const user = sqliteTable("user", {
   email: text("email").notNull(),
   emailVerified: integer("emailVerified", { mode: "boolean" }),
   image: text("image"),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+  createdAt: integer("createdAt", { mode: "timestamp" }).notNull(),
+  updatedAt: integer("updatedAt", { mode: "timestamp" }).notNull(),
 });
 
 export const account = sqliteTable("account", {
@@ -27,17 +27,17 @@ export const account = sqliteTable("account", {
   userId: text("userId")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
-  access_token: text("access_token"),
-  refresh_token: text("refresh_token"),
-  id_token: text("id_token"),
-  expires_at: integer("expires_at"),
-  refreshTokenExpiresAt: integer("refresh_token_expires_at", {
+  access_token: text("accessToken"),
+  refresh_token: text("refreshToken"),
+  id_token: text("idToken"),
+  expires_at: integer("accessTokenExpiresAt"),
+  refreshTokenExpiresAt: integer("refreshTokenExpiresAt", {
     mode: "timestamp",
   }),
   scope: text("scope"),
   password: text("password"),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+  createdAt: integer("createdAt", { mode: "timestamp" }).notNull(),
+  updatedAt: integer("updatedAt", { mode: "timestamp" }).notNull(),
 });
 
 export const session = sqliteTable("session", {
@@ -46,14 +46,14 @@ export const session = sqliteTable("session", {
     .$defaultFn(() => crypto.randomUUID()),
   expires: integer("expires", { mode: "timestamp_ms" }).notNull(),
   sessionToken: text("sessionToken"),
-  createdAt: integer("created_at", { mode: "timestamp" })
+  createdAt: integer("createdAt", { mode: "timestamp" })
     .notNull()
     .default(sql`(current_timestamp)`),
-  updatedAt: integer("updated_at", { mode: "timestamp" })
+  updatedAt: integer("updatedAt", { mode: "timestamp" })
     .notNull()
     .default(sql`(current_timestamp)`),
-  ipAddress: text("ip_address"),
-  userAgent: text("user_agent"),
+  ipAddress: text("ipAddress"),
+  userAgent: text("userAgent"),
   userId: text("userId")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
@@ -63,9 +63,9 @@ export const verification = sqliteTable("verification", {
   id: text("id").primaryKey(),
   identifier: text("identifier").notNull(),
   value: text("value").notNull(),
-  expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" }),
-  updatedAt: integer("updated_at", { mode: "timestamp" }),
+  expiresAt: integer("expiresAt", { mode: "timestamp" }).notNull(),
+  createdAt: integer("createdAt", { mode: "timestamp" }),
+  updatedAt: integer("updatedAt", { mode: "timestamp" }),
 });
 
 export const authenticators = sqliteTable(
