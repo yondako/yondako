@@ -20,14 +20,13 @@ CREATE TABLE __new_account (
 
 -- idは無いので生成する
 INSERT INTO __new_account (
-  id, providerAccountId, provider, userId, access_token, refresh_token, id_token, expires_at, scope, created_at, updated_at
+  id, providerAccountId, provider, userId, access_token, refresh_token, id_token, expires_at, refresh_token_expires_at, scope, password, created_at, updated_at
 )
-SELECT lower(hex(randomblob(4)) || '-' || hex(randomblob(2)) || '-4' ||
-       substr(hex(randomblob(2)), 2) || '-' ||
-       substr('89ab', abs(random()) % 4 + 1, 1) ||
-       substr(hex(randomblob(2)), 2) || '-' || hex(randomblob(6))),
-       providerAccountId, provider, userId, access_token, refresh_token, id_token, expires_at, scope,
-       CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+SELECT 
+  lower(hex(randomblob(4)) || '-' || hex(randomblob(2)) || '-4' || substr(hex(randomblob(2)), 2) || '-' ||
+        substr('89ab', abs(random()) % 4 + 1, 1) || substr(hex(randomblob(2)), 2) || '-' || hex(randomblob(6))),
+  providerAccountId, provider, userId, access_token, refresh_token, id_token, expires_at, refresh_token_expires_at, scope, password,
+  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
 FROM account;
 
 DROP TABLE account;
@@ -48,13 +47,12 @@ CREATE TABLE __new_session (
 
 -- session テーブルのデータ移行（id は新たに生成）
 INSERT INTO __new_session (
-  id, expires, sessionToken, created_at, updated_at, userId
+  id, expires, sessionToken, created_at, updated_at, ip_address, user_agent, userId
 )
-SELECT lower(hex(randomblob(4)) || '-' || hex(randomblob(2)) || '-4' ||
-       substr(hex(randomblob(2)), 2) || '-' ||
-       substr('89ab', abs(random()) % 4 + 1, 1) ||
-       substr(hex(randomblob(2)), 2) || '-' || hex(randomblob(6))),
-       expires, sessionToken, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, userId
+SELECT 
+  lower(hex(randomblob(4)) || '-' || hex(randomblob(2)) || '-4' || substr(hex(randomblob(2)), 2) || '-' ||
+        substr('89ab', abs(random()) % 4 + 1, 1) || substr(hex(randomblob(2)), 2) || '-' || hex(randomblob(6))),
+  expires, sessionToken, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ip_address, user_agent, userId
 FROM session;
 
 DROP TABLE session;
