@@ -31,6 +31,7 @@ export const getAuth = (dbInstance: D1Database) => {
         accessToken: "access_token",
         accessTokenExpiresAt: "expires_at",
         idToken: "id_token",
+        providerId: "provider",
       },
     },
   });
