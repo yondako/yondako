@@ -28,8 +28,8 @@ export async function deleteUser(
 
   try {
     await userDB
-      .delete(userDBSchema.users)
-      .where(eq(userDBSchema.users.id, session.user.id));
+      .delete(userDBSchema.user)
+      .where(eq(userDBSchema.user.id, session.user.id));
   } catch (e) {
     return "アカウントの削除に失敗しました";
   }
