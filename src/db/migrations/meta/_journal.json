@@ -36,6 +36,13 @@
       "when": 1737787406819,
       "tag": "0004_unknown_nitro",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1740674888661,
+      "tag": "0005_outgoing_boom_boom",
+      "breakpoints": true
     }
   ]
 }
