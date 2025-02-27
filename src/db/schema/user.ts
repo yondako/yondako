@@ -25,7 +25,9 @@ export const user = sqliteTable("user", {
 export const account = sqliteTable(
   "account",
   {
-    id: text("id").primaryKey(),
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
     providerAccountId: text("providerAccountId").notNull().default(""),
     provider: text("provider").notNull(),
     userId: text("userId")
