@@ -79,28 +79,7 @@ CREATE TABLE __new_session (
   FOREIGN KEY (userId) REFERENCES user (id) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
--- session テーブルのデータ移行（id は新たに生成）
-INSERT INTO
-  __new_session (
-    id,
-    expiresAt,
-    token,
-    createdAt,
-    updatedAt,
-    userId
-  )
-SELECT
-  lower(
-    hex(randomblob(4)) || '-' || hex(randomblob(2)) || '-4' || substr(hex(randomblob(2)), 2) || '-' || substr('89ab', abs(random()) % 4 + 1, 1) || substr(hex(randomblob(2)), 2) || '-' || hex(randomblob(6))
-  ),
-  expires,
-  sessionToken,
-  (CAST(strftime('%s', 'now') AS INTEGER)),
-  (CAST(strftime('%s', 'now') AS INTEGER)),
-  userId
-FROM
-  session;
-
+-- sessionテーブルのデータ移行はしない
 DROP TABLE session;
 
 ALTER TABLE __new_session
