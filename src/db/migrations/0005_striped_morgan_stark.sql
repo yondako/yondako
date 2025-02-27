@@ -1,10 +1,10 @@
 CREATE TABLE `verification` (
-	`id` text PRIMARY KEY NOT NULL,
-	`identifier` text NOT NULL,
-	`value` text NOT NULL,
-	`expiresAt` integer NOT NULL,
-	`createdAt` integer,
-	`updatedAt` integer
+  `id` text PRIMARY KEY NOT NULL,
+  `identifier` text NOT NULL,
+  `value` text NOT NULL,
+  `expiresAt` integer NOT NULL,
+  `createdAt` integer,
+  `updatedAt` integer
 );
 --> statement-breakpoint
 DROP TABLE `verificationToken`;--> statement-breakpoint
@@ -26,22 +26,45 @@ CREATE TABLE __new_account (
   password TEXT,
   createdAt INTEGER DEFAULT CURRENT_TIMESTAMP NOT NULL,
   updatedAt INTEGER DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  FOREIGN KEY (userId) REFERENCES user(id) ON UPDATE NO ACTION ON DELETE CASCADE
+  FOREIGN KEY (userId) REFERENCES user (id) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
 -- idは無いので生成する
-INSERT INTO __new_account (
-  id, providerId, providerId, userId, accessToken, refreshToken, idToken, accessTokenExpiresAt, scope, createdAt, updatedAt
-)
-SELECT 
-  lower(hex(randomblob(4)) || '-' || hex(randomblob(2)) || '-4' || substr(hex(randomblob(2)), 2) || '-' ||
-        substr('89ab', abs(random()) % 4 + 1, 1) || substr(hex(randomblob(2)), 2) || '-' || hex(randomblob(6))),
-  providerAccountId, provider, userId, access_token, refresh_token, id_token, expires_at, scope,
-  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
-FROM account;
+INSERT INTO
+  __new_account (
+    id,
+    accountId,
+    providerId,
+    userId,
+    accessToken,
+    refreshToken,
+    idToken,
+    accessTokenExpiresAt,
+    scope,
+    createdAt,
+    updatedAt
+  )
+SELECT
+  lower(
+    hex(randomblob(4)) || '-' || hex(randomblob(2)) || '-4' || substr(hex(randomblob(2)), 2) || '-' || substr('89ab', abs(random()) % 4 + 1, 1) || substr(hex(randomblob(2)), 2) || '-' || hex(randomblob(6))
+  ),
+  providerAccountId,
+  provider,
+  userId,
+  access_token,
+  refresh_token,
+  id_token,
+  expires_at,
+  scope,
+  CURRENT_TIMESTAMP,
+  CURRENT_TIMESTAMP
+FROM
+  account;
 
 DROP TABLE account;
-ALTER TABLE __new_account RENAME TO account;
+
+ALTER TABLE __new_account
+RENAME TO account;
 
 -- session テーブルの再作成
 CREATE TABLE __new_session (
@@ -53,21 +76,35 @@ CREATE TABLE __new_session (
   ipAddress TEXT,
   userAgent TEXT,
   userId TEXT NOT NULL,
-  FOREIGN KEY (userId) REFERENCES user(id) ON UPDATE NO ACTION ON DELETE CASCADE
+  FOREIGN KEY (userId) REFERENCES user (id) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
 -- session テーブルのデータ移行（id は新たに生成）
-INSERT INTO __new_session (
-  id, expiresAt, token, createdAt, updatedAt, userId
-)
-SELECT 
-  lower(hex(randomblob(4)) || '-' || hex(randomblob(2)) || '-4' || substr(hex(randomblob(2)), 2) || '-' ||
-        substr('89ab', abs(random()) % 4 + 1, 1) || substr(hex(randomblob(2)), 2) || '-' || hex(randomblob(6))),
-  expires, sessionToken, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, userId
-FROM session;
+INSERT INTO
+  __new_session (
+    id,
+    expiresAt,
+    token,
+    createdAt,
+    updatedAt,
+    userId
+  )
+SELECT
+  lower(
+    hex(randomblob(4)) || '-' || hex(randomblob(2)) || '-4' || substr(hex(randomblob(2)), 2) || '-' || substr('89ab', abs(random()) % 4 + 1, 1) || substr(hex(randomblob(2)), 2) || '-' || hex(randomblob(6))
+  ),
+  expires,
+  sessionToken,
+  CURRENT_TIMESTAMP,
+  CURRENT_TIMESTAMP,
+  userId
+FROM
+  session;
 
 DROP TABLE session;
-ALTER TABLE __new_session RENAME TO session;
+
+ALTER TABLE __new_session
+RENAME TO session;
 
 -- user テーブルの再作成（created_at, updated_at を追加）
 CREATE TABLE __new_user (
@@ -80,11 +117,20 @@ CREATE TABLE __new_user (
   updated_at INTEGER DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
-INSERT INTO __new_user (id, name, email, emailVerified, image)
-SELECT id, name, email, emailVerified, image
-FROM user;
+INSERT INTO
+  __new_user (id, name, email, emailVerified, image)
+SELECT
+  id,
+  name,
+  email,
+  emailVerified,
+  image
+FROM
+  user;
 
 DROP TABLE user;
-ALTER TABLE __new_user RENAME TO user;
+
+ALTER TABLE __new_user
+RENAME TO user;
 
 PRAGMA foreign_keys = ON;
