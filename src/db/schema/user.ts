@@ -14,47 +14,31 @@ export const user = sqliteTable("user", {
   email: text("email").notNull(),
   emailVerified: integer("emailVerified", { mode: "boolean" }),
   image: text("image"),
-  createdAt: integer("created_at", { mode: "timestamp" })
-    .notNull()
-    .default(sql`(current_timestamp)`),
-  updatedAt: integer("updated_at", { mode: "timestamp" })
-    .notNull()
-    .default(sql`(current_timestamp)`),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
 });
 
-export const account = sqliteTable(
-  "account",
-  {
-    id: text("id")
-      .primaryKey()
-      .$defaultFn(() => crypto.randomUUID()),
-    providerAccountId: text("providerAccountId").notNull().default(""),
-    provider: text("provider").notNull(),
-    userId: text("userId")
-      .notNull()
-      .references(() => user.id, { onDelete: "cascade" }),
-    access_token: text("access_token"),
-    refresh_token: text("refresh_token"),
-    id_token: text("id_token"),
-    expires_at: integer("expires_at"),
-    refreshTokenExpiresAt: integer("refresh_token_expires_at", {
-      mode: "timestamp",
-    }),
-    scope: text("scope"),
-    password: text("password"),
-    createdAt: integer("created_at", { mode: "timestamp" })
-      .notNull()
-      .default(sql`(current_timestamp)`),
-    updatedAt: integer("updated_at", { mode: "timestamp" })
-      .notNull()
-      .default(sql`(current_timestamp)`),
-  },
-  // (account) => ({
-  //   compoundKey: primaryKey({
-  //     columns: [account.provider, account.providerAccountId],
-  //   }),
-  // }),
-);
+export const account = sqliteTable("account", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  providerAccountId: text("providerAccountId").notNull().default(""),
+  provider: text("provider").notNull(),
+  userId: text("userId")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  access_token: text("access_token"),
+  refresh_token: text("refresh_token"),
+  id_token: text("id_token"),
+  expires_at: integer("expires_at"),
+  refreshTokenExpiresAt: integer("refresh_token_expires_at", {
+    mode: "timestamp",
+  }),
+  scope: text("scope"),
+  password: text("password"),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+});
 
 export const session = sqliteTable("session", {
   id: text("id")
