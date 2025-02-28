@@ -1,3 +1,6 @@
+PRAGMA foreign_keys = OFF;
+
+-- verification テーブルの作成
 CREATE TABLE `verification` (
   `id` text PRIMARY KEY NOT NULL,
   `identifier` text NOT NULL,
@@ -6,10 +9,12 @@ CREATE TABLE `verification` (
   `createdAt` integer,
   `updatedAt` integer
 );
--- --> statement-breakpoint
-DROP TABLE `verificationToken`;--> statement-breakpoint
-PRAGMA foreign_keys = OFF;--> statement-breakpoint
-CREATE TABLE __new_account (
+
+-- verificationToken テーブルの削除
+DROP TABLE `verificationToken`;
+
+-- 1. account テーブルを一時テーブルに退避（外部キー制約なし）
+CREATE TABLE __temp_account (
   id TEXT PRIMARY KEY NOT NULL,
   accountId TEXT DEFAULT '' NOT NULL,
   providerId TEXT NOT NULL,
@@ -22,12 +27,11 @@ CREATE TABLE __new_account (
   scope TEXT,
   password TEXT,
   createdAt INTEGER DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)) NOT NULL,
-  updatedAt INTEGER DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)) NOT NULL,
-  FOREIGN KEY (userId) REFERENCES user (id) ON UPDATE NO ACTION ON DELETE CASCADE
+  updatedAt INTEGER DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)) NOT NULL
 );
---> statement-breakpoint
+
 INSERT INTO
-  __new_account (
+  __temp_account (
     id,
     accountId,
     providerId,
@@ -56,9 +60,102 @@ SELECT
   (CAST(strftime('%s', 'now') AS INTEGER))
 FROM
   account;
---> statement-breakpoint
-DROP TABLE account;--> statement-breakpoint
-ALTER TABLE __new_account RENAME TO account;--> statement-breakpoint
+
+-- 1. readingStatuses テーブルを一時テーブルに退避（外部キー制約なし）
+CREATE TABLE __temp_readingStatuses (
+  userId TEXT NOT NULL,
+  bookId TEXT NOT NULL,
+  status TEXT NOT NULL,
+  createdAt TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  updatedAt TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  PRIMARY KEY (userId, bookId)
+);
+
+INSERT INTO
+  __temp_readingStatuses (
+    userId,
+    bookId,
+    status,
+    createdAt,
+    updatedAt
+  )
+SELECT
+  userId,
+  bookId,
+  status,
+  createdAt,
+  updatedAt
+FROM
+  readingStatuses;
+
+-- 元のテーブルを削除
+DROP TABLE account;
+DROP TABLE readingStatuses;
+
+-- 2. user テーブルの移行
+CREATE TABLE __new_user (
+  id TEXT PRIMARY KEY NOT NULL,
+  name TEXT,
+  email TEXT NOT NULL,
+  emailVerified INTEGER,
+  image TEXT,
+  created_at INTEGER DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)) NOT NULL,
+  updated_at INTEGER DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)) NOT NULL
+);
+
+INSERT INTO
+  __new_user (id, name, email, emailVerified, image)
+SELECT
+  id,
+  name,
+  email,
+  emailVerified,
+  image
+FROM
+  user;
+
+DROP TABLE user;
+ALTER TABLE __new_user RENAME TO user;
+
+-- 3. account テーブルに外部キー制約を付けて再作成
+CREATE TABLE account (
+  id TEXT PRIMARY KEY NOT NULL,
+  accountId TEXT DEFAULT '' NOT NULL,
+  providerId TEXT NOT NULL,
+  userId TEXT NOT NULL,
+  accessToken TEXT,
+  refreshToken TEXT,
+  idToken TEXT,
+  accessTokenExpiresAt INTEGER,
+  refreshTokenExpiresAt INTEGER,
+  scope TEXT,
+  password TEXT,
+  createdAt INTEGER DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)) NOT NULL,
+  updatedAt INTEGER DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)) NOT NULL,
+  FOREIGN KEY (userId) REFERENCES user (id) ON UPDATE NO ACTION ON DELETE CASCADE
+);
+
+-- 一時テーブルからデータを移行
+INSERT INTO account SELECT * FROM __temp_account;
+DROP TABLE __temp_account;
+
+-- 3. readingStatuses テーブルに外部キー制約を付けて再作成
+CREATE TABLE readingStatuses (
+  userId TEXT NOT NULL,
+  bookId TEXT NOT NULL,
+  status TEXT NOT NULL,
+  createdAt TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  updatedAt TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  PRIMARY KEY (userId, bookId),
+  FOREIGN KEY (userId) REFERENCES user (id) ON DELETE CASCADE,
+  FOREIGN KEY (bookId) REFERENCES books (id) ON DELETE CASCADE
+);
+
+-- 一時テーブルからデータを移行
+INSERT INTO readingStatuses SELECT * FROM __temp_readingStatuses;
+DROP TABLE __temp_readingStatuses;
+
+-- 4. session テーブルの移行（通常の移行）
 CREATE TABLE __new_session (
   id TEXT PRIMARY KEY NOT NULL,
   expiresAt INTEGER NOT NULL,
@@ -70,30 +167,8 @@ CREATE TABLE __new_session (
   userId TEXT NOT NULL,
   FOREIGN KEY (userId) REFERENCES user (id) ON UPDATE NO ACTION ON DELETE CASCADE
 );
---> statement-breakpoint
-DROP TABLE session;--> statement-breakpoint
-ALTER TABLE __new_session RENAME TO session;--> statement-breakpoint
-CREATE TABLE __new_user (
-  id TEXT PRIMARY KEY NOT NULL,
-  name TEXT,
-  email TEXT NOT NULL,
-  emailVerified INTEGER,
-  image TEXT,
-  created_at INTEGER DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)) NOT NULL,
-  updated_at INTEGER DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)) NOT NULL
-);
---> statement-breakpoint
-INSERT INTO
-  __new_user (id, name, email, emailVerified, image)
-SELECT
-  id,
-  name,
-  email,
-  emailVerified,
-  image
-FROM
-  user;
---> statement-breakpoint
-DROP TABLE user;--> statement-breakpoint
-ALTER TABLE __new_user RENAME TO user;--> statement-breakpoint
-PRAGMA foreign_keys = ON;--> statement-breakpoint
+
+DROP TABLE session;
+ALTER TABLE __new_session RENAME TO session;
+
+PRAGMA foreign_keys = ON;
