@@ -34,7 +34,6 @@ export default function LoginButtons({ className, redirectTo }: Props) {
             const res = await authClient.signIn.social({
               provider: "github",
             });
-            console.log("🔥️ signInWithRedirect", res);
           }}
         >
           <IconBrandGitHub className="h-[20px] w-[20px]" />

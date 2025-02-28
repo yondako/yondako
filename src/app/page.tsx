@@ -37,8 +37,6 @@ export default async function Home(props: Props) {
     redirect(REDIRECT_TO_LIBLARY);
   }
 
-  console.log("❌️ session empty");
-
   const searchParams = await props.searchParams;
   const redirectTo = searchParams.callbackUrl || REDIRECT_TO_LIBLARY;
 

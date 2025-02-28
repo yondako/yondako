@@ -171,7 +171,6 @@ export default function ScannerCore({
       }
     };
 
-    console.log("Quagga Init");
     init();
 
     return () => {

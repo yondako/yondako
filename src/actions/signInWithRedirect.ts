@@ -24,8 +24,6 @@ export const signInWithRedirect = async (
       // redirectUrl,
     });
 
-    console.log("signInWithRedirect", a);
-
     redirect(redirectUrl);
   } catch (error) {
     // 認証のエラーならエラーページにリダイレクト
