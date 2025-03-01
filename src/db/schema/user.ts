@@ -14,12 +14,8 @@ export const user = sqliteTable("user", {
   email: text("email").notNull(),
   emailVerified: integer("emailVerified", { mode: "boolean" }),
   image: text("image"),
-  createdAt: integer("createdAt", { mode: "timestamp" })
-    .notNull()
-    .default(sql`(CAST(strftime('%s', 'now') AS INTEGER))`),
-  updatedAt: integer("updatedAt", { mode: "timestamp" })
-    .notNull()
-    .default(sql`(CAST(strftime('%s', 'now') AS INTEGER))`),
+  createdAt: text("createdAt").notNull().default(sql`(CURRENT_TIMESTAMP)`),
+  updatedAt: text("updatedAt").notNull().default(sql`(CURRENT_TIMESTAMP)`),
 });
 
 export const account = sqliteTable("account", {
@@ -40,12 +36,8 @@ export const account = sqliteTable("account", {
   }),
   scope: text("scope"),
   password: text("password"),
-  createdAt: integer("createdAt", { mode: "timestamp" })
-    .notNull()
-    .default(sql`(CAST(strftime('%s', 'now') AS INTEGER))`),
-  updatedAt: integer("updatedAt", { mode: "timestamp" })
-    .notNull()
-    .default(sql`(CAST(strftime('%s', 'now') AS INTEGER))`),
+  createdAt: text("createdAt").notNull().default(sql`(CURRENT_TIMESTAMP)`),
+  updatedAt: text("updatedAt").notNull().default(sql`(CURRENT_TIMESTAMP)`),
 });
 
 export const session = sqliteTable("session", {
@@ -54,12 +46,8 @@ export const session = sqliteTable("session", {
     .$defaultFn(() => crypto.randomUUID()),
   expiresAt: integer("expiresAt", { mode: "timestamp_ms" }).notNull(),
   token: text("token"),
-  createdAt: integer("createdAt", { mode: "timestamp" })
-    .notNull()
-    .default(sql`(CAST(strftime('%s', 'now') AS INTEGER))`),
-  updatedAt: integer("updatedAt", { mode: "timestamp" })
-    .notNull()
-    .default(sql`(CAST(strftime('%s', 'now') AS INTEGER))`),
+  createdAt: text("createdAt").notNull().default(sql`(CURRENT_TIMESTAMP)`),
+  updatedAt: text("updatedAt").notNull().default(sql`(CURRENT_TIMESTAMP)`),
   ipAddress: text("ipAddress"),
   userAgent: text("userAgent"),
   userId: text("userId")
@@ -71,9 +59,9 @@ export const verification = sqliteTable("verification", {
   id: text("id").primaryKey(),
   identifier: text("identifier").notNull(),
   value: text("value").notNull(),
-  expiresAt: integer("expiresAt", { mode: "timestamp" }).notNull(),
-  createdAt: integer("createdAt", { mode: "timestamp" }),
-  updatedAt: integer("updatedAt", { mode: "timestamp" }),
+  expiresAt: text("expiresAt").notNull(),
+  createdAt: text("createdAt"),
+  updatedAt: text("updatedAt"),
 });
 
 export const authenticators = sqliteTable(

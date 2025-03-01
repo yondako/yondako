@@ -5,9 +5,9 @@ CREATE TABLE `verification` (
   `id` text PRIMARY KEY NOT NULL,
   `identifier` text NOT NULL,
   `value` text NOT NULL,
-  `expiresAt` integer NOT NULL,
-  `createdAt` integer,
-  `updatedAt` integer
+  `expiresAt` text NOT NULL,
+  `createdAt` text,
+  `updatedAt` text
 );
 
 -- verificationToken テーブルの削除
@@ -22,12 +22,12 @@ CREATE TABLE __temp_account (
   accessToken TEXT,
   refreshToken TEXT,
   idToken TEXT,
-  accessTokenExpiresAt INTEGER,
-  refreshTokenExpiresAt INTEGER,
+  accessTokenExpiresAt TEXT,
+  refreshTokenExpiresAt TEXT,
   scope TEXT,
   password TEXT,
-  createdAt INTEGER DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)) NOT NULL,
-  updatedAt INTEGER DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)) NOT NULL
+  createdAt TEXT DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
+  updatedAt TEXT DEFAULT (CURRENT_TIMESTAMP) NOT NULL
 );
 
 INSERT INTO
@@ -56,8 +56,8 @@ SELECT
   id_token,
   expires_at,
   scope,
-  (CAST(strftime('%s', 'now') AS INTEGER)),
-  (CAST(strftime('%s', 'now') AS INTEGER))
+  CURRENT_TIMESTAMP,
+  CURRENT_TIMESTAMP
 FROM
   account;
 
@@ -99,8 +99,8 @@ CREATE TABLE __new_user (
   email TEXT NOT NULL,
   emailVerified INTEGER,
   image TEXT,
-  created_at INTEGER DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)) NOT NULL,
-  updated_at INTEGER DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)) NOT NULL
+  createdAt TEXT DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
+  updatedAt TEXT DEFAULT (CURRENT_TIMESTAMP) NOT NULL
 );
 
 INSERT INTO
@@ -130,8 +130,8 @@ CREATE TABLE account (
   refreshTokenExpiresAt INTEGER,
   scope TEXT,
   password TEXT,
-  createdAt INTEGER DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)) NOT NULL,
-  updatedAt INTEGER DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)) NOT NULL,
+  createdAt TEXT DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
+  updatedAt TEXT DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
   FOREIGN KEY (userId) REFERENCES user (id) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
@@ -160,8 +160,8 @@ CREATE TABLE __new_session (
   id TEXT PRIMARY KEY NOT NULL,
   expiresAt INTEGER NOT NULL,
   token TEXT,
-  createdAt INTEGER DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)) NOT NULL,
-  updatedAt INTEGER DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)) NOT NULL,
+  createdAt TEXT DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
+  updatedAt TEXT DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
   ipAddress TEXT,
   userAgent TEXT,
   userId TEXT NOT NULL,

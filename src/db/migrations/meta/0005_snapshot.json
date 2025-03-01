@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "579bac32-8f7f-4e0a-a1e2-0db93d90c53c",
+  "id": "545049a9-199d-45a7-8457-80346a9e0f72",
   "prevId": "6f8628a2-bb65-406a-aa8b-240d2f59f27e",
   "tables": {
     "authors": {
@@ -377,19 +377,19 @@
         },
         "createdAt": {
           "name": "createdAt",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "(CAST(strftime('%s', 'now') AS INTEGER))"
+          "default": "(CURRENT_TIMESTAMP)"
         },
         "updatedAt": {
           "name": "updatedAt",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "(CAST(strftime('%s', 'now') AS INTEGER))"
+          "default": "(CURRENT_TIMESTAMP)"
         }
       },
       "indexes": {},
@@ -521,19 +521,19 @@
         },
         "createdAt": {
           "name": "createdAt",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "(CAST(strftime('%s', 'now') AS INTEGER))"
+          "default": "(CURRENT_TIMESTAMP)"
         },
         "updatedAt": {
           "name": "updatedAt",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "(CAST(strftime('%s', 'now') AS INTEGER))"
+          "default": "(CURRENT_TIMESTAMP)"
         },
         "ipAddress": {
           "name": "ipAddress",
@@ -613,19 +613,19 @@
         },
         "createdAt": {
           "name": "createdAt",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "(CAST(strftime('%s', 'now') AS INTEGER))"
+          "default": "(CURRENT_TIMESTAMP)"
         },
         "updatedAt": {
           "name": "updatedAt",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "(CAST(strftime('%s', 'now') AS INTEGER))"
+          "default": "(CURRENT_TIMESTAMP)"
         }
       },
       "indexes": {},
@@ -660,21 +660,21 @@
         },
         "expiresAt": {
           "name": "expiresAt",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "createdAt": {
           "name": "createdAt",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
         "updatedAt": {
           "name": "updatedAt",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
