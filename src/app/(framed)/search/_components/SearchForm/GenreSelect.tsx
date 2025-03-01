@@ -16,7 +16,7 @@ export default function GenreSelect({ ndc, ...props }: Props) {
         onChange={(e) => e.target.form?.submit()}
         {...props}
       >
-        <option value="">すべて</option>
+        <option value="">すべてのジャンル</option>
         {NDCList.map(({ label, value }) => (
           <option key={value} value={value}>
             {label}
