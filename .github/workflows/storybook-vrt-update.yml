@@ -35,7 +35,7 @@ jobs:
       - name: Serve Storybook and run tests
         run: |
           bunx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-            "bun preview-storybook" \
+            "bun preview:storybook" \
             "bunx wait-on tcp:127.0.0.1:6006 && bun vrt:storybook:update"
 
       - name: Update Cache VRT snapshots
