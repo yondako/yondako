@@ -19,8 +19,8 @@ const meta: Meta<typeof Button> = {
         <Button {...args} id="hover" />
       </div>
       <div className="space-x-4">
-        <Button {...args} style="secondary" />
-        <Button {...args} style="secondary" id="hover" />
+        <Button {...args} style="accent" />
+        <Button {...args} style="accent" id="hover" />
       </div>
       <div className="space-x-4">
         <Button {...args} style="noBorder" />

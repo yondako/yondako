@@ -4,7 +4,7 @@ import { twMerge } from "tailwind-merge";
 
 type Props = {
   asChild?: boolean;
-  style?: "primary" | "secondary" | "noBorder";
+  style?: "accent" | "noBorder";
 } & Omit<ComponentPropsWithRef<"button">, "style">;
 
 export default function Button({ asChild, className, style, ...props }: Props) {
@@ -15,7 +15,7 @@ export default function Button({ asChild, className, style, ...props }: Props) {
     "border-2 text-primary border-primary-foreground bg-primary-background";
 
   switch (style) {
-    case "secondary":
+    case "accent":
       styleVariant = "border-2 text-accent border-accent bg-primary-background";
       break;
     case "noBorder":
