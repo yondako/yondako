@@ -36,7 +36,6 @@ type OpenSearchItem = {
 type OpenSearchResult = {
   rss?: {
     channel: Partial<{
-      "openSearch:totalResults": number;
       "openSearch:startIndex": number;
       "openSearch:itemsPerPage": number;
       item: OpenSearchItem | OpenSearchItem[];
@@ -47,10 +46,14 @@ type OpenSearchResult = {
 /**
  * NDL API (OpenSearch) のレスポンスをパース
  * @param xml - レスポンス (RSS) のXML文字列
+ * @param excludeNoIsbn - ISBNがない書籍を除外するかどうか
  * @returns Bookオブジェクトの配列
  * @throws エラー - レスポンスの形式が異なる場合
  */
-export function parseOpenSearchXml(xml: string): BookDetailWithoutId[] {
+export function parseOpenSearchXml(
+  xml: string,
+  excludeNoIsbn = false,
+): BookDetailWithoutId[] {
   const parser = new XMLParser({
     ignoreAttributes: false,
     trimValues: true,
@@ -77,7 +80,6 @@ export function parseOpenSearchXml(xml: string): BookDetailWithoutId[] {
     : [parsed.rss.channel.item];
 
   const rawBooks: (BookDetailWithoutId | undefined)[] = [];
-  let totalResults = parsed.rss.channel["openSearch:totalResults"] ?? 0;
 
   for (const item of items) {
     // 配列にする
@@ -105,10 +107,14 @@ export function parseOpenSearchXml(xml: string): BookDetailWithoutId[] {
       ? identifier.find((id) => id["@_xsi:type"] === "dcndl:ISBN")?.["#text"]
       : getIsbnFromSeeAlso(seeAlsoUrls);
 
+    // ISBNがない書籍を除外する場合はここでスキップ
+    if (excludeNoIsbn && !isbn) {
+      continue;
+    }
+
     // NDL書誌ID と ISBN がない場合は一意のIDが存在しないためスキップ
     if (!ndlBibId && !isbn) {
       console.warn(`ndlBibId と ISBN がありません: ${item.title}`);
-      totalResults--;
       continue;
     }
 

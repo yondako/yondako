@@ -7,18 +7,22 @@ import { sortBooksByKeyword } from "./sort";
 const API_BASE_URL = "https://iss.ndl.go.jp/api/opensearch";
 
 export type SearchOptions = {
+  /** 取得件数 */
   count: number;
+  /** ページ番号 */
   page?: number;
+  /** ISBNがない書籍を除外するか */
+  excludeNoIsbn?: boolean;
   params?: {
-    /* すべての項目を対象に検索 */
+    /** すべての項目を対象に検索 */
     any?: string;
-    /* NDC */
+    /** NDC */
     ndc?: NDC;
-    /* 開始出版年月日 */
+    /** 開始出版年月日 */
     from?: string;
-    /* 終了出版年月日 */
+    /** 終了出版年月日 */
     until?: string;
-    /* ISBN */
+    /** ISBN */
     isbn?: string;
   };
 };
@@ -66,13 +70,13 @@ export async function searchBooksFromNDL(
 
   try {
     const cacheKey = endpoint.toString();
-    const { params, page = 0, count = 0 } = opts;
+    const { params, page = 0, count = 0, excludeNoIsbn = false } = opts;
 
     const sortedBooks = await unstable_cache(
       async () => {
         const res = await fetch(endpoint);
         const xml = await res.text();
-        const rawBooks = parseOpenSearchXml(xml);
+        const rawBooks = parseOpenSearchXml(xml, excludeNoIsbn);
 
         // いい感じにソート
         const results =
