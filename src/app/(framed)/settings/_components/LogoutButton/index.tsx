@@ -1,17 +1,26 @@
+"use client";
+
 import IconLogout from "@/assets/icons/logout.svg";
 import Button from "@/components/Button";
-import { signOutWithRedirect } from "#actions/signOutWithRedirect";
+import { signOut } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function LogoutButton() {
+  const router = useRouter();
+
+  const handleClickLogout = async () => {
+    await signOut();
+    router.replace("/");
+  };
+
   return (
-    <form action={signOutWithRedirect}>
-      <Button
-        className="flex w-full items-center justify-center space-x-2 text-sm sm:w-48"
-        type="submit"
-      >
-        <IconLogout className="h-5 w-5" />
-        <span>ログアウト</span>
-      </Button>
-    </form>
+    <Button
+      className="flex w-full items-center justify-center space-x-2 text-sm sm:w-48"
+      type="button"
+      onClick={handleClickLogout}
+    >
+      <IconLogout className="h-5 w-5" />
+      <span>ログアウト</span>
+    </Button>
   );
 }
