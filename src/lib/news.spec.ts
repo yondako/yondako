@@ -17,7 +17,7 @@ describe("checkLatestNews", () => {
     expect(mockFetch).toHaveBeenCalledWith(
       new URL("/api/news/latest-timestamp.json", site.infoUrl).toString(),
       {
-        next: { revalidate: 0 },
+        next: { revalidate: 60 },
         signal: expect.any(AbortSignal),
       },
     );
@@ -32,7 +32,7 @@ describe("checkLatestNews", () => {
     expect(mockFetch).toHaveBeenCalledWith(
       new URL("/api/news/latest-timestamp.json", site.infoUrl).toString(),
       {
-        next: { revalidate: 0 },
+        next: { revalidate: 60 },
         signal: expect.any(AbortSignal),
       },
     );
@@ -50,7 +50,7 @@ describe("checkLatestNews", () => {
     expect(mockFetch).toHaveBeenCalledWith(
       new URL("/api/news/latest-timestamp.json", site.infoUrl).toString(),
       {
-        next: { revalidate: 0 },
+        next: { revalidate: 60 },
         signal: expect.any(AbortSignal),
       },
     );
