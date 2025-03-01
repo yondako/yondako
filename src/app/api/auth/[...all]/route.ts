@@ -13,7 +13,5 @@ export async function POST(req: NextRequest) {
   const { env } = getCloudflareContext();
   const auth = getAuth(env.DB);
 
-  console.log("POST /api/auth/[...all]", req);
-
   return auth.handler(req);
 }
