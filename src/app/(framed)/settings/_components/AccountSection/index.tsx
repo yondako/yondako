@@ -35,8 +35,9 @@ export default function AccountSection({ userId }: Props) {
           description="アカウントを削除して退会します"
         >
           <Button
-            className="block w-full border-0 bg-rose-700 text-primary-background text-sm sm:w-48"
+            className="block w-full bg-rose-700 text-primary-background text-sm sm:w-48"
             asChild
+            style="noBorder"
           >
             <Link href="/settings/goodbye">アカウントを削除</Link>
           </Button>

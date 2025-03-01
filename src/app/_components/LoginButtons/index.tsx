@@ -1,7 +1,7 @@
 "use client";
 
-import IconBrandGitHub from "@/assets/brands/brand-github.svg";
-import IconBrandGoogle from "@/assets/brands/brand-google.svg";
+import IconBrandGitHub from "@/assets/icons/brand-github.svg";
+import IconBrandGoogle from "@/assets/icons/brand-google.svg";
 import Button from "@/components/Button";
 import ExternalLink from "@/components/ExternalLink";
 import { links } from "@/constants/site";
@@ -65,12 +65,13 @@ export default function LoginButtons({ className, redirectTo }: Props) {
 function LoginButton({
   children,
   ...props
-}: Omit<ComponentPropsWithoutRef<"button">, "className" | "type">) {
+}: Omit<ComponentPropsWithoutRef<"button">, "className" | "type" | "style">) {
   return (
     <Button
       {...props}
       className="flex items-center justify-center space-x-[10px] bg-white tracking-wider"
       type="button"
+      style="accent"
     >
       {children}
     </Button>

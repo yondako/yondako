@@ -70,6 +70,7 @@ export default function ScannerStartPage() {
           </p>
           <Button
             className="mt-6 flex w-full items-center justify-center space-x-2 text-sm"
+            style="accent"
             onClick={() => {
               setScanning(true);
             }}

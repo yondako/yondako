@@ -61,7 +61,7 @@ export default function ECLinks({ isbn }: Props) {
       <h2 className="mt-8">通販で購入する</h2>
       <div className="mt-4 grid grid-cols-2 gap-2">
         {links.map(({ title, url }) => (
-          <Button noBorder asChild key={title}>
+          <Button style="noBorder" asChild key={title}>
             <a
               className="flex justify-center py-2 text-accent text-xs"
               href={url()}

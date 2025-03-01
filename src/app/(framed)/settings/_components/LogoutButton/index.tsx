@@ -17,6 +17,7 @@ export default function LogoutButton() {
     <Button
       className="flex w-full items-center justify-center space-x-2 text-sm sm:w-48"
       type="button"
+      style="accent"
       onClick={handleClickLogout}
     >
       <IconLogout className="h-5 w-5" />
