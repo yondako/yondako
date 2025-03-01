@@ -1,18 +1,18 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { LoginLoadingPresentational } from "./index";
+import LoginLoading from ".";
 
-const meta: Meta<typeof LoginLoadingPresentational> = {
+const meta: Meta<typeof LoginLoading> = {
   title: "App/LoginLoading",
-  component: LoginLoadingPresentational,
+  component: LoginLoading,
   parameters: {
     layout: "fullscreen",
+  },
+  args: {
+    show: true,
   },
 };
 
 export default meta;
-type Story = StoryObj<typeof LoginLoadingPresentational>;
+type Story = StoryObj<typeof LoginLoading>;
 
-export const Default: Story = {
-  beforeEach: () => {},
-  render: () => <LoginLoadingPresentational />,
-};
+export const Default: Story = {};
