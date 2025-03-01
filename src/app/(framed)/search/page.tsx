@@ -6,6 +6,7 @@ import { site } from "@/constants/site";
 import { getAuth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
+import { ndcSchema } from "@/types/ndc";
 import { pageIndexSchema } from "@/types/page";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Metadata } from "next";
@@ -18,6 +19,7 @@ import { SearchResult } from "./_components/SearchResult";
 
 type Props = {
   searchParams: Promise<{
+    ndc?: string;
     q?: string;
     page?: string;
   }>;
@@ -58,13 +60,17 @@ export default async function Search(props: Props) {
   );
   const page = pageParseResult.success ? pageParseResult.output : 1;
 
-  // キーワード
+  // NDC
+  const ndcParseResult = safeParse(ndcSchema, searchParams.ndc);
+  const ndc = ndcParseResult.success ? ndcParseResult.output : undefined;
+
+  // 検索クエリ
   const query = searchParams.q;
 
   return (
     <>
       <div className="flex flex-col items-end lg:flex-row lg:items-center">
-        <SearchForm />
+        <SearchForm ndc={ndc} query={query} />
         <ExternalLink
           className="mt-4 flex shrink-0 items-center space-x-1 text-xs lg:mt-0 lg:ml-4"
           href={dataSourceUrl}
@@ -84,7 +90,7 @@ export default async function Search(props: Props) {
           }
           key={`${query}_${page}`}
         >
-          <SearchResult query={query} currentPage={page} />
+          <SearchResult query={query} ndc={ndc} currentPage={page} />
         </Suspense>
       ) : (
         <SayTako message="ｹﾝｻｸｼﾃﾈ" />

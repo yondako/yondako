@@ -48,7 +48,9 @@ export async function searchBooksFromNDL(
   // その他をクエリパラメータに追加
   if (opts.params) {
     for (const [key, value] of Object.entries(opts.params)) {
-      endpoint.searchParams.append(key, value);
+      if (value) {
+        endpoint.searchParams.append(key, value);
+      }
     }
   }
 
@@ -68,8 +70,6 @@ export async function searchBooksFromNDL(
 
     const sortedBooks = await unstable_cache(
       async () => {
-        console.log("[NDL fetching]", cacheKey);
-
         const res = await fetch(endpoint);
         const xml = await res.text();
         const rawBooks = parseOpenSearchXml(xml);

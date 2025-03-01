@@ -4,17 +4,23 @@ import Pagination from "@/components/Pagination";
 import { getStatusesByBookIds } from "@/db/queries/status";
 import { getAuth } from "@/lib/auth";
 import { searchBooksFromNDL } from "@/lib/ndl";
+import type { NDC } from "@/types/ndc";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { headers } from "next/headers";
 
 const SEARCH_COUNT = 48;
 
-type Props = {
+export type SearchResultProps = {
   query: string;
   currentPage: number;
+  ndc?: NDC;
 };
 
-export async function SearchResult({ query, currentPage }: Props) {
+export async function SearchResult({
+  query,
+  currentPage,
+  ndc,
+}: SearchResultProps) {
   const { env } = getCloudflareContext();
 
   const auth = getAuth(env.DB);
@@ -31,6 +37,7 @@ export async function SearchResult({ query, currentPage }: Props) {
     page: currentPage - 1,
     params: {
       any: query,
+      ndc,
     },
   });
 
