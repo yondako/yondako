@@ -4,14 +4,13 @@ import IconExclamationCircle from "@/assets/icons/exclamation-circle.svg";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { signOut } from "@/lib/auth-client";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { useFormState } from "react-dom";
+import { useRouter } from "next/navigation";
+import { useActionState, useEffect } from "react";
 import { goodbyeUser } from "#actions/goodbyeUser";
 
 export default function ConfirmInput() {
   const router = useRouter();
-  const [result, dispatch] = useFormState(goodbyeUser, { success: false });
+  const [result, dispatch] = useActionState(goodbyeUser, { success: false });
 
   useEffect(() => {
     if (result.success) {
