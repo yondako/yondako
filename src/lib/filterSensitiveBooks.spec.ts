@@ -4,82 +4,125 @@ import { filterSensitiveBooks } from "./filterSensitiveBooks";
 
 describe("filterNGWords", () => {
   test("NGワードを含むタイトルが間引かれる", async () => {
-    const ngWords = ["ngword1", "ngword2"];
+    const ngWords = ["にゃーん", "ネコ"];
     const books = [
       {
         ...createDummyBookDetail("0"),
-        title: "This is a safe title",
+        title: "これはセーフ",
       },
       {
         ...createDummyBookDetail("1"),
-        title: "This title contains ngword1",
+        title: "にゃーんと鳴いた",
       },
       {
         ...createDummyBookDetail("2"),
-        title: "Another safe title",
+        title: "これも大丈夫",
       },
       {
         ...createDummyBookDetail("3"),
-        title: "ngword2 is here",
+        title: "ネコと和解せよ",
       },
     ];
 
     const result = filterSensitiveBooks(ngWords, books);
 
-    expect(result.filteredBooks.map(({ title }) => title)).toEqual([
-      "This is a safe title",
-      "Another safe title",
+    expect(result.safeBooks.map(({ title }) => title)).toEqual([
+      books[0].title,
+      books[2].title,
     ]);
 
     expect(result.filteredBooks.map(({ title }) => title)).toEqual([
-      "This title contains ngword1",
-      "ngword2 is here",
+      books[1].title,
+      books[3].title,
     ]);
   });
 
   test("NGワードが存在しない場合、すべてのタイトルがsafeに分類される", async () => {
-    const ngWords = ["ngword1", "ngword2"];
+    const ngWords = ["ネコ"];
     const books = [
       {
         ...createDummyBookDetail("0"),
-        title: "Completely safe title",
-      },
-      {
-        ...createDummyBookDetail("1"),
-        title: "Another safe title",
+        title: "セーフなタイトル",
       },
     ];
 
     const result = filterSensitiveBooks(ngWords, books);
 
-    expect(result.filteredBooks.map(({ title }) => title)).toEqual([
-      "Completely safe title",
-      "Another safe title",
+    expect(result.safeBooks.map(({ title }) => title)).toEqual([
+      books[0].title,
     ]);
 
     expect(result.filteredBooks.map(({ title }) => title)).toEqual([]);
   });
 
   test("すべてのタイトルがNGワードを含む場合、すべてfilteredに分類される", async () => {
-    const ngWords = ["ngword1", "ngword2"];
+    const ngWords = ["ダメ", "NG"];
     const books = [
       {
         ...createDummyBookDetail("0"),
-        title: "ngword1 in title",
+        title: "ダメなやつ",
       },
       {
         ...createDummyBookDetail("1"),
-        title: "ngword2 in title",
+        title: "NGなやつ",
       },
     ];
 
     const result = filterSensitiveBooks(ngWords, books);
 
-    expect(result.filteredBooks.map(({ title }) => title)).toEqual([]);
+    expect(result.safeBooks.map(({ title }) => title)).toHaveLength(0);
 
     expect(result.filteredBooks.map(({ title }) => title)).toEqual([
-      "ngword1 in title",
-      "ngword2 in title",
+      books[0].title,
+      books[1].title,
+    ]);
+  });
+
+  test("NGワードが部分一致する場合、filteredに分類される", async () => {
+    const ngWords = ["アイス"];
+    const books = [
+      {
+        ...createDummyBookDetail("0"),
+        title: "シンカンセンスゴイカタイアイスおいしい",
+      },
+      {
+        ...createDummyBookDetail("1"),
+        title: "ハーゲンダッツ",
+      },
+    ];
+
+    const result = filterSensitiveBooks(ngWords, books);
+
+    expect(result.filteredBooks.map(({ title }) => title)).toEqual([
+      books[0].title,
+    ]);
+
+    expect(result.safeBooks.map(({ title }) => title)).toEqual([
+      books[1].title,
+    ]);
+  });
+
+  test("大文字小文字の違いを無視してNGワードを検出する", async () => {
+    const ngWords = ["NgWord"];
+    const books = [
+      {
+        ...createDummyBookDetail("0"),
+        title: "This title contains ngword",
+      },
+      {
+        ...createDummyBookDetail("1"),
+        title: "Another safe title",
+      },
+    ];
+
+    const result = filterSensitiveBooks(ngWords, books);
+
+    expect(result.filteredBooks.map(({ title }) => title)).toEqual([
+      "This title contains ngword",
+    ]);
+
+    expect(result.safeBooks.map(({ title }) => title)).toEqual([
+      "Another safe title",
     ]);
   });
 });
