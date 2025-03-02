@@ -1,4 +1,9 @@
-import type { Description, DialogProps, Title } from "@radix-ui/react-dialog";
+import type {
+  Close,
+  Description,
+  DialogProps,
+  Title,
+} from "@radix-ui/react-dialog";
 import type { ReactNode } from "react";
 
 export type AdaptiveModalDrawerProps = {
@@ -6,6 +11,7 @@ export type AdaptiveModalDrawerProps = {
   children?: (components: {
     Title: typeof Title;
     Description: typeof Description;
+    Close: typeof Close;
   }) => ReactNode;
   triggerChildren?: ReactNode;
 } & Omit<DialogProps, "children">;

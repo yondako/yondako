@@ -19,8 +19,9 @@ import { SearchResult } from "./_components/SearchResult";
 
 type Props = {
   searchParams: Promise<{
-    ndc?: string;
     q?: string;
+    ndc?: string;
+    sensitive?: string;
     page?: string;
   }>;
 };
@@ -64,13 +65,16 @@ export default async function Search(props: Props) {
   const ndcParseResult = safeParse(ndcSchema, searchParams.ndc);
   const ndc = ndcParseResult.success ? ndcParseResult.output : undefined;
 
+  // センシティブな書籍を含めるか
+  const sensitive = !!searchParams.sensitive;
+
   // 検索クエリ
   const query = searchParams.q;
 
   return (
     <>
       <div className="flex flex-col items-end lg:flex-row lg:items-center">
-        <SearchForm ndc={ndc} query={query} />
+        <SearchForm query={query} ndc={ndc} sensitive={sensitive} />
         <ExternalLink
           className="mt-4 flex shrink-0 items-center space-x-1 text-xs lg:mt-0 lg:ml-4"
           href={dataSourceUrl}
@@ -88,9 +92,14 @@ export default async function Search(props: Props) {
               title="がんばって検索しています"
             />
           }
-          key={`${query}_${page}`}
+          key={Object.values(searchParams).join("_")}
         >
-          <SearchResult query={query} ndc={ndc} currentPage={page} />
+          <SearchResult
+            query={query}
+            ndc={ndc}
+            sensitive={sensitive}
+            currentPage={page}
+          />
         </Suspense>
       ) : (
         <SayTako message="ｹﾝｻｸｼﾃﾈ" />

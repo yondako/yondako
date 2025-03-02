@@ -14,12 +14,14 @@ export type SearchResultProps = {
   query: string;
   currentPage: number;
   ndc?: NDC;
+  sensitive?: boolean;
 };
 
 export async function SearchResult({
   query,
   currentPage,
   ndc,
+  sensitive,
 }: SearchResultProps) {
   const { env } = getCloudflareContext();
 
@@ -35,6 +37,7 @@ export async function SearchResult({
   const result = await searchBooksFromNDL({
     count: SEARCH_COUNT,
     page: currentPage - 1,
+    sensitive,
     params: {
       any: query,
       ndc,

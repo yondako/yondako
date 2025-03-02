@@ -116,6 +116,7 @@ export default function Modal({
                   {children?.({
                     Title: Dialog.Title,
                     Description: Dialog.Description,
+                    Close: Dialog.Close,
                   })}
                 </Content>
               </>

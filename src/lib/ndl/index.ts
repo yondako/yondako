@@ -11,8 +11,8 @@ export type SearchOptions = {
   count: number;
   /** ページ番号 */
   page?: number;
-  /** ISBNがない書籍を除外するか */
-  excludeNoIsbn?: boolean;
+  /** センシティブな書籍を除外するか */
+  sensitive?: boolean;
   params?: {
     /** すべての項目を対象に検索 */
     any?: string;
@@ -70,13 +70,15 @@ export async function searchBooksFromNDL(
 
   try {
     const cacheKey = endpoint.toString();
-    const { params, page = 0, count = 0, excludeNoIsbn = false } = opts;
+    const { params, page = 0, count = 0, sensitive = false } = opts;
 
     const sortedBooks = await unstable_cache(
       async () => {
         const res = await fetch(endpoint);
         const xml = await res.text();
-        const rawBooks = parseOpenSearchXml(xml, excludeNoIsbn);
+        const rawBooks = parseOpenSearchXml(xml);
+
+        // TODO: センシティブな書籍を除外する
 
         // いい感じにソート
         const results =

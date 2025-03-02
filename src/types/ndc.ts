@@ -2,6 +2,10 @@ import { picklist } from "valibot";
 
 export const NDCList = [
   {
+    label: "すべて",
+    value: "",
+  },
+  {
     label: "雑誌",
     value: "005",
   },

@@ -18,6 +18,7 @@ export default function Drawer({
           {children?.({
             Title: VaulDrawer.Title,
             Description: VaulDrawer.Description,
+            Close: VaulDrawer.Close,
           })}
         </VaulDrawer.Content>
       </VaulDrawer.Portal>

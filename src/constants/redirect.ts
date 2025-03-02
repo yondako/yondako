@@ -1,3 +1,6 @@
+/** 検索ページ */
+export const URL_SEARCH = "/search";
+
 /** ライブラリページ */
 export const REDIRECT_TO_LIBLARY = "/library/want_read";
 

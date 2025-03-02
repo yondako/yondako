@@ -46,14 +46,10 @@ type OpenSearchResult = {
 /**
  * NDL API (OpenSearch) のレスポンスをパース
  * @param xml - レスポンス (RSS) のXML文字列
- * @param excludeNoIsbn - ISBNがない書籍を除外するかどうか
  * @returns Bookオブジェクトの配列
  * @throws エラー - レスポンスの形式が異なる場合
  */
-export function parseOpenSearchXml(
-  xml: string,
-  excludeNoIsbn = false,
-): BookDetailWithoutId[] {
+export function parseOpenSearchXml(xml: string): BookDetailWithoutId[] {
   const parser = new XMLParser({
     ignoreAttributes: false,
     trimValues: true,
@@ -106,11 +102,6 @@ export function parseOpenSearchXml(
     const isbn = identifier
       ? identifier.find((id) => id["@_xsi:type"] === "dcndl:ISBN")?.["#text"]
       : getIsbnFromSeeAlso(seeAlsoUrls);
-
-    // ISBNがない書籍を除外する場合はここでスキップ
-    if (excludeNoIsbn && !isbn) {
-      continue;
-    }
 
     // NDL書誌ID と ISBN がない場合は一意のIDが存在しないためスキップ
     if (!ndlBibId && !isbn) {

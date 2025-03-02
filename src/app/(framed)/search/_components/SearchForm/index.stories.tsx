@@ -12,15 +12,19 @@ const meta: Meta<typeof SearchForm> = {
       </div>
     );
   },
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+    },
+  },
 };
 
 export default meta;
 type Story = StoryObj<typeof SearchForm>;
 
-export const Default: Story = {
-  parameters: {
-    nextjs: {
-      appDirectory: true,
-    },
+export const Default: Story = {};
+export const WithFiltered: Story = {
+  args: {
+    sensitive: true,
   },
 };
