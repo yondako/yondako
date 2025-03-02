@@ -56,8 +56,8 @@ export default function SearchFilter({
                 <input
                   type="radio"
                   name="ndc"
-                  defaultValue={value}
                   checked={value === selectedNDC}
+                  value={value}
                   onChange={() => setSelectedNDC(value)}
                   className="sr-only"
                 />
