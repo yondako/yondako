@@ -1,6 +1,6 @@
+import { createDummyBookDetail } from "@/_mocks/book";
 import type { BookType } from "@/types/book";
 import type { Meta, StoryObj } from "@storybook/react";
-import { createDummyBookDetail } from "#src/_mocks/book";
 import BookList from "./index";
 
 const meta: Meta<typeof BookList> = {

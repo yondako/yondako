@@ -1,6 +1,6 @@
+import { createDummyBookDetail } from "@/_mocks/book";
 import { Dialog, DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 import type { Meta, StoryObj } from "@storybook/react";
-import { createDummyBookDetail } from "#src/_mocks/book";
 import BookDetailContent from "./Content";
 
 const meta: Meta<typeof BookDetailContent> = {
