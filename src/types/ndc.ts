@@ -6,12 +6,12 @@ export const NDCList = [
     value: "",
   },
   {
-    label: "雑誌",
-    value: "005",
+    label: "マンガ",
+    value: "726.1",
   },
   {
-    label: "漫画",
-    value: "726.1",
+    label: "雑誌",
+    value: "005",
   },
   {
     label: "近代小説 (日本)",
