@@ -22,18 +22,20 @@ export default function SearchForm(props: Props) {
         inputMode="search"
         search
       />
-      <SearchFilter {...props}>
-        <Button
-          type="button"
-          className={twMerge(
-            "px-4 py-2",
-            isFiltered && "bg-accent text-primary-background",
-          )}
-          style="noBorder"
-        >
-          <IconAdjustments className="h-5.5 w-5.5" />
-        </Button>
-      </SearchFilter>
+      {props.query && (
+        <SearchFilter {...props}>
+          <Button
+            type="button"
+            className={twMerge(
+              "px-4 py-2",
+              isFiltered && "bg-accent text-primary-background",
+            )}
+            style="noBorder"
+          >
+            <IconAdjustments className="h-5.5 w-5.5" />
+          </Button>
+        </SearchFilter>
+      )}
     </form>
   );
 }
