@@ -6,16 +6,17 @@ import {
   useTransition,
 } from "@react-spring/web";
 import { useRef, useState } from "react";
-import BookThumbnail from "../BookThumbnail";
-import BookDetailContent from "./Content";
-import type { BookDetailProps } from "./props";
+import { twMerge } from "tailwind-merge";
+import type { AdaptiveModalDrawerProps } from "./props";
 
-export default function BookDetailDialog({
-  bookDetailProps,
+export default function Modal({
+  open = false,
+  onOpenChange,
+  contentClassName,
+  triggerChildren,
   children,
-  ...props
-}: BookDetailProps) {
-  const [isOpen, setIsOpen] = useState(props.open ?? false);
+}: AdaptiveModalDrawerProps) {
+  const [isOpen, setIsOpen] = useState(open);
   const ref = useRef<HTMLButtonElement>(null);
 
   const handleDialogChange = (isOpen: boolean) => {
@@ -26,7 +27,7 @@ export default function BookDetailDialog({
     from: () => {
       const rect = ref.current?.getBoundingClientRect();
 
-      // 書籍カードの中央座標を%で算出
+      // トリガー要素の中央座標を%で算出
       const top = rect?.top
         ? `${((rect.top + rect.height * 0.5) / window.innerHeight) * 100}%`
         : "50%";
@@ -67,8 +68,8 @@ export default function BookDetailDialog({
     },
     onRest: (result: AnimationResult) => {
       // ダイアログの閉じるアニメーションが再生完了した
-      if (result.finished && props.onOpenChange) {
-        props.onOpenChange(isOpen);
+      if (result.finished && onOpenChange) {
+        onOpenChange(isOpen);
       }
     },
   });
@@ -76,13 +77,11 @@ export default function BookDetailDialog({
   const Overlay = animated(Dialog.Overlay);
   const Content = animated(Dialog.Content);
 
-  const { data } = bookDetailProps;
-
   return (
     <Dialog.Root open={isOpen} onOpenChange={handleDialogChange}>
-      {children && (
+      {triggerChildren && (
         <Dialog.Trigger asChild ref={ref}>
-          {children}
+          {triggerChildren}
         </Dialog.Trigger>
       )}
       <Dialog.Portal forceMount>
@@ -95,7 +94,10 @@ export default function BookDetailDialog({
                   style={{ opacity: style.opacity }}
                 />
                 <Content
-                  className="fixed flex min-h-[17.5rem] items-center rounded-2xl bg-primary-background px-12 py-10 pl-[8.625rem]"
+                  className={twMerge(
+                    "fixed flex items-center rounded-2xl bg-primary-background p-10",
+                    contentClassName,
+                  )}
                   style={{
                     ...style,
                     transformOrigin: "top left",
@@ -104,22 +106,17 @@ export default function BookDetailDialog({
                   }}
                 >
                   <Dialog.Close
-                    className="absolute top-4 right-4 text-secondary-foreground transition-colors hover:text-primary-foreground"
+                    className={
+                      "absolute top-4 right-4 text-secondary-foreground transition-colors hover:text-primary-foreground"
+                    }
                     data-testid="button-close"
                   >
                     <IconClose className="h-4 w-4" />
                   </Dialog.Close>
-                  <BookThumbnail
-                    className="-left-10 absolute top-9 h-52 border-4 border-primary-background shadow-xl"
-                    isbn={data.detail.isbn}
-                    jpeCode={data.detail.jpeCode}
-                  />
-                  <BookDetailContent
-                    {...bookDetailProps}
-                    className="w-[28rem] text-left"
-                    Title={Dialog.Title}
-                    Description={Dialog.Description}
-                  />
+                  {children?.({
+                    Title: Dialog.Title,
+                    Description: Dialog.Description,
+                  })}
                 </Content>
               </>
             ),
