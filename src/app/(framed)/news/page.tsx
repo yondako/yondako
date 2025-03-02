@@ -1,4 +1,9 @@
+import { getAuth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
+import { createSignInPath } from "@/lib/path";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import NewsCard from "./_components/NewsCard";
 import UpdateLastNewsCheckedAt from "./_components/UpdateLastNewsCheckedAt";
 import { fetchRecentNews } from "./_lib/fetchRecentNews";
@@ -9,6 +14,18 @@ export const metadata = generateMetadataTitle({
 });
 
 export default async function News() {
+  const { env } = await getCloudflareContext({
+    async: true,
+  });
+
+  const auth = getAuth(env.DB);
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session?.user?.id) {
+    redirect(createSignInPath(`/library/${params.status}`));
+  }
   const recentNews = await fetchRecentNews();
 
   return (
