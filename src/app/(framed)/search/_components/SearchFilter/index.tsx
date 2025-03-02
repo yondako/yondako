@@ -2,7 +2,7 @@
 
 import AdaptiveModalDrawer from "@/components/AdaptiveModalDrawer";
 import Switch from "@/components/Switch";
-import { URL_SEARCH } from "@/constants/redirect";
+import { PATH_SEARCH } from "@/constants/path";
 import { type NDC, NDCList } from "@/types/ndc";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -31,7 +31,7 @@ export default function SearchFilter({
       ...(sensitive && { sensitive: "true" }),
     });
 
-    return `${URL_SEARCH}?${searchParams.toString()}`;
+    return `${PATH_SEARCH}?${searchParams.toString()}`;
   }, [query, selectedNDC, sensitive]);
 
   return (

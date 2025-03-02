@@ -1,4 +1,5 @@
 import Footer from "@/components/Footer";
+import { PATH_SETTING } from "@/constants/path";
 import { getAuth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
@@ -24,7 +25,7 @@ export default async function Settings() {
   });
 
   if (!session?.user?.id) {
-    redirect(createSignInPath("/settings"));
+    redirect(createSignInPath(PATH_SETTING));
   }
 
   return (

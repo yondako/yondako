@@ -1,5 +1,6 @@
 import ImageQrCode from "@/assets/images/qr-search-barcode.svg";
 import MessageTako from "@/components/MessageTako";
+import { PATH_SEARCH_BARCODE_MOBILE_EXCLUSIVE } from "@/constants/path";
 import { getAuth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
@@ -23,7 +24,7 @@ export default async function MobileExclusive() {
   });
 
   if (!session?.user?.id) {
-    redirect(createSignInPath("/search/barcode/mobile-exclusive"));
+    redirect(createSignInPath(PATH_SEARCH_BARCODE_MOBILE_EXCLUSIVE));
   }
 
   const isMobile = (await headers()).get("X-IS-DESKTOP") === null;

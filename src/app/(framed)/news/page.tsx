@@ -1,3 +1,4 @@
+import { PATH_NEWS } from "@/constants/path";
 import { getAuth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
@@ -24,7 +25,7 @@ export default async function News() {
   });
 
   if (!session?.user?.id) {
-    redirect(createSignInPath(`/library/${params.status}`));
+    redirect(createSignInPath(PATH_NEWS));
   }
   const recentNews = await fetchRecentNews();
 

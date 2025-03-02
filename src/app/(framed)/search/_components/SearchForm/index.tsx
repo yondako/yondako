@@ -1,7 +1,7 @@
 import IconAdjustments from "@/assets/icons/adjustments.svg";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
-import { URL_SEARCH } from "@/constants/redirect";
+import { PATH_SEARCH } from "@/constants/path";
 import { twMerge } from "tailwind-merge";
 import SearchFilter from "../SearchFilter";
 import type { SearchResultProps } from "../SearchResult";
@@ -12,7 +12,7 @@ export default function SearchForm(props: Props) {
   const isFiltered = !!props.ndc || !!props.sensitive;
 
   return (
-    <form className="m-0 flex w-full items-center gap-2" action={URL_SEARCH}>
+    <form className="m-0 flex w-full items-center gap-2" action={PATH_SEARCH}>
       <Input
         className="grow"
         name="q"

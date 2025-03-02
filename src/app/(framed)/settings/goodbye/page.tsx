@@ -1,3 +1,4 @@
+import { PATH_SETTING_GOODBYE } from "@/constants/path";
 import { getAuth } from "@/lib/auth";
 import { createSignInPath } from "@/lib/path";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
@@ -16,7 +17,7 @@ export default async function Goodbye() {
   });
 
   if (!session?.user?.id) {
-    redirect(createSignInPath("/settings/goodbye"));
+    redirect(createSignInPath(PATH_SETTING_GOODBYE));
   }
 
   return (

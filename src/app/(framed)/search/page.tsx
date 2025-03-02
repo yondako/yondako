@@ -2,6 +2,7 @@ import IconHelp from "@/assets/icons/help.svg";
 import ExternalLink from "@/components/ExternalLink";
 import { Loading } from "@/components/Loading";
 import SayTako from "@/components/SayTako";
+import { PATH_SEARCH } from "@/constants/path";
 import { site } from "@/constants/site";
 import { getAuth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
@@ -49,7 +50,7 @@ export default async function Search(props: Props) {
   });
 
   if (!session?.user?.id) {
-    redirect(createSignInPath("/search"));
+    redirect(createSignInPath(PATH_SEARCH));
   }
 
   const searchParams = await props.searchParams;

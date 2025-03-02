@@ -1,3 +1,4 @@
+import { PATH_SEARCH_BARCODE } from "@/constants/path";
 import { getAuth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
@@ -22,7 +23,7 @@ export default async function SearchBarcode() {
   });
 
   if (!session?.user?.id) {
-    redirect(createSignInPath("/search/barcode"));
+    redirect(createSignInPath(PATH_SEARCH_BARCODE));
   }
 
   const isDesktop = (await headers()).get("X-IS-DESKTOP") !== null;
