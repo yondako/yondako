@@ -143,3 +143,12 @@ export const readingStatusesRelations = relations(
     }),
   }),
 );
+
+/**
+ * センシティブな書籍の除外用のNGワード
+ */
+export const ngWords = sqliteTable("ngWords", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  word: text("word").unique().notNull(),
+  isActive: integer("isActive", { mode: "boolean" }).notNull().default(true),
+});

@@ -64,6 +64,7 @@ export const verification = sqliteTable("verification", {
   updatedAt: text("updatedAt"),
 });
 
+// TODO: 不要なので消してもいいかも
 export const authenticators = sqliteTable(
   "authenticator",
   {
