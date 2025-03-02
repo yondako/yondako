@@ -46,6 +46,14 @@ const nextConfig = {
 
     fileLoaderRule.exclude = /\.svg$/i;
 
+    config.ignoreWarnings = [
+      {
+        module: /kysely/,
+        message:
+          /Critical dependency: the request of a dependency is an expression/,
+      },
+    ];
+
     return config;
   },
 };
