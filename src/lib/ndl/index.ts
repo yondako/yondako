@@ -1,18 +1,21 @@
 import type { BookDetailWithoutId } from "@/types/book";
 import type { NDC } from "@/types/ndc";
 import { unstable_cache } from "next/cache";
+import { filterSensitiveBooks } from "../filterSensitiveBooks";
 import { parseOpenSearchXml } from "./parse";
 import { sortBooksByKeyword } from "./sort";
 
 const API_BASE_URL = "https://iss.ndl.go.jp/api/opensearch";
 
-export type SearchOptions = {
+type SearchOptions = {
   /** 取得件数 */
   count: number;
   /** ページ番号 */
   page?: number;
-  /** センシティブな書籍を除外するか */
-  sensitive?: boolean;
+  /** センシティブな書籍を除外する */
+  ignoreSensitive?: boolean;
+  /** NGワードリスト */
+  ngWords?: string[];
   params?: {
     /** すべての項目を対象に検索 */
     any?: string;
@@ -69,16 +72,29 @@ export async function searchBooksFromNDL(
   endpoint.searchParams.append("mediatype", "books");
 
   try {
-    const cacheKey = endpoint.toString();
-    const { params, page = 0, count = 0, sensitive = false } = opts;
+    const cacheKey = JSON.stringify(opts);
 
+    const {
+      params,
+      page = 0,
+      count = 0,
+      ignoreSensitive = false,
+      ngWords = [],
+    } = opts;
+
+    // 10分間キャッシュする
     const sortedBooks = await unstable_cache(
       async () => {
         const res = await fetch(endpoint);
         const xml = await res.text();
-        const rawBooks = parseOpenSearchXml(xml);
 
-        // TODO: センシティブな書籍を除外する
+        let rawBooks = parseOpenSearchXml(xml);
+
+        // センシティブな書籍を除外する
+        if (ignoreSensitive) {
+          const results = filterSensitiveBooks(ngWords, rawBooks);
+          rawBooks = results.safeBooks;
+        }
 
         // いい感じにソート
         const results =

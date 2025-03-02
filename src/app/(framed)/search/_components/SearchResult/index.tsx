@@ -1,6 +1,7 @@
 import BookList from "@/components/BookList";
 import MessageTako from "@/components/MessageTako";
 import Pagination from "@/components/Pagination";
+import { getAllNgWords } from "@/db/queries/ngWords";
 import { getStatusesByBookIds } from "@/db/queries/status";
 import { getAuth } from "@/lib/auth";
 import { searchBooksFromNDL } from "@/lib/ndl";
@@ -34,10 +35,13 @@ export async function SearchResult({
     return <p className="mt-12 text-center">ログインが必要です</p>;
   }
 
+  const ngWords = await getAllNgWords(env.DB);
+
   const result = await searchBooksFromNDL({
     count: SEARCH_COUNT,
     page: currentPage - 1,
-    sensitive,
+    ignoreSensitive: !sensitive,
+    ngWords,
     params: {
       any: query,
       ndc,
