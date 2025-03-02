@@ -4,9 +4,7 @@ import AdaptiveModalDrawer from "@/components/AdaptiveModalDrawer";
 import Switch from "@/components/Switch";
 import { PATH_SEARCH } from "@/constants/path";
 import { type NDC, NDCList } from "@/types/ndc";
-import Link from "next/link";
-import type { ReactNode } from "react";
-import { useMemo, useState } from "react";
+import { type ReactNode, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import type { SearchResultProps } from "../SearchResult";
 import Label from "./Label";
@@ -17,27 +15,27 @@ type Props = {
 
 export default function SearchFilter({
   children,
-  ndc: defaultNDC,
-  sensitive: defaultSensitive,
+  ndc,
+  sensitive,
   query,
 }: Props) {
-  const [selectedNDC, setSelectedNDC] = useState<NDC>(defaultNDC ?? "");
-  const [sensitive, setSensitive] = useState(defaultSensitive);
+  const [selectedNDC, setSelectedNDC] = useState<NDC>(ndc ?? "");
 
-  const filteredUrl = useMemo(() => {
-    const searchParams = new URLSearchParams({
-      ...(query && { q: query }),
-      ...(selectedNDC && { ndc: selectedNDC }),
-      ...(sensitive && { sensitive: "true" }),
-    });
-
-    return `${PATH_SEARCH}?${searchParams.toString()}`;
-  }, [query, selectedNDC, sensitive]);
+  // 閉じたらリセット
+  const handleOpenChange = (isOpen: boolean) => {
+    if (!isOpen) {
+      setSelectedNDC(ndc ?? "");
+    }
+  };
 
   return (
-    <AdaptiveModalDrawer triggerChildren={children}>
+    <AdaptiveModalDrawer
+      triggerChildren={children}
+      onOpenChange={handleOpenChange}
+    >
       {({ Title, Description, Close }) => (
-        <div className="pt-6 lg:pt-0">
+        <form className="pt-6 lg:pt-0" action={PATH_SEARCH}>
+          <input type="hidden" name="q" value={query} />
           <Label
             title="カテゴリー"
             description="お探しのジャンルを選択して、関連する書籍だけを表示します"
@@ -49,7 +47,7 @@ export default function SearchFilter({
               <label
                 className={twMerge(
                   "cursor-pointer rounded-full border border-accent px-5 py-1 text-xs transition hover:brightness-95",
-                  selectedNDC === value
+                  value === selectedNDC
                     ? "bg-accent text-primary-background"
                     : "text-accent",
                 )}
@@ -58,8 +56,8 @@ export default function SearchFilter({
                 <input
                   type="radio"
                   name="ndc"
-                  value={value}
-                  checked={selectedNDC === value}
+                  defaultValue={value}
+                  checked={value === selectedNDC}
                   onChange={() => setSelectedNDC(value)}
                   className="sr-only"
                 />
@@ -76,19 +74,15 @@ export default function SearchFilter({
                 Description={Description}
               />
             </div>
-            <Switch
-              name="sensitive"
-              checked={sensitive}
-              onCheckedChange={(checked) => setSensitive(checked)}
-            />
+            <Switch name="sensitive" defaultChecked={sensitive} />
           </div>
           <Close
             className="mt-6 block w-full cursor-pointer rounded-full bg-accent px-6 py-2 text-center text-primary-background text-sm transition hover:brightness-95"
-            asChild
+            type="submit"
           >
-            <Link href={filteredUrl}>絞り込む</Link>
+            絞り込む
           </Close>
-        </div>
+        </form>
       )}
     </AdaptiveModalDrawer>
   );
