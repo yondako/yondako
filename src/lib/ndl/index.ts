@@ -7,7 +7,7 @@ import { sortBooksByKeyword } from "./sort";
 
 const API_BASE_URL = "https://iss.ndl.go.jp/api/opensearch";
 
-type SearchOptions = {
+export type SearchOptions = {
   /** 取得件数 */
   count: number;
   /** ページ番号 */
