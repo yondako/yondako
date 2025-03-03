@@ -19,6 +19,14 @@ const meta: Meta<typeof SearchFilter> = {
     // モーダルを開く
     await userEvent.click(canvas.getByRole("button", { name: /open filter/i }));
   },
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+      navigation: {
+        pathname: "/search",
+      },
+    },
+  },
 };
 
 export default meta;
@@ -42,62 +50,49 @@ export const Mobile: Story = {
   },
 };
 
-export const WithInteraction: Story = {
-  name: "フィルターを適用できる",
-  play: async ({ canvasElement, step, args }) => {
+export const closeReset: Story = {
+  name: "キャンセルしたら状態がリセットされる",
+  play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
+    const openButton = canvas.getByRole("button", { name: /open filter/i });
 
-    // モーダルを開く
-    await userEvent.click(canvas.getByRole("button", { name: /open filter/i }));
+    await step("モーダルを開く", async () => {
+      await userEvent.click(openButton);
+    });
 
     // NOTE: canvasElement内にcreatePortalで作った要素がない問題のワークアラウンド
-    // https://github.com/storybookjs/storybook/issues/16971
     // biome-ignore lint/style/noNonNullAssertion: <explanation>
     const modalCanvas = within(canvasElement.parentElement!);
 
-    // カテゴリーを選択
-    const categoryRadio = modalCanvas.getByRole("radio", {
-      name: NDCList[1].label,
-    });
-    await userEvent.click(categoryRadio);
+    await step("カテゴリーを選択", async () => {
+      const categoryRadio = modalCanvas.getByRole("radio", {
+        name: NDCList[1].label,
+      });
 
-    // トグルを切り替える
-    const sensitiveSwitch = modalCanvas.getByRole("switch");
-    await userEvent.click(sensitiveSwitch);
-
-    const closeButton = modalCanvas.getByRole("link", { name: /絞り込む/i });
-
-    await step("選択内容がURLに反映されている", async () => {
-      await waitFor(() =>
-        expect(closeButton).toHaveAttribute(
-          "href",
-          expect.stringContaining(`q=${args.query}`),
-        ),
-      );
-
-      await waitFor(() =>
-        expect(closeButton).toHaveAttribute(
-          "href",
-          expect.stringContaining(`ndc=${NDCList[1].value}`),
-        ),
-      );
-
-      await waitFor(() =>
-        expect(closeButton).toHaveAttribute(
-          "href",
-          expect.stringContaining("sensitive=true"),
-        ),
-      );
+      await userEvent.click(categoryRadio);
     });
 
-    await step("絞り込むボタンでモーダルが閉じる", async () => {
-      await userEvent.click(closeButton);
+    await step("閉じる", async () => {
+      await userEvent.click(modalCanvas.getByTestId("button-close"));
 
-      await waitFor(() =>
+      // モーダルが閉じるのを待つ
+      await waitFor(() => {
         expect(
-          canvas.getByRole("button", { name: /open filter/i }),
-        ).toBeVisible(),
-      );
+          modalCanvas.queryByRole("radio", { name: NDCList[1].label }),
+        ).toBeNull();
+      });
+    });
+
+    await step("もう一度開く", async () => {
+      await userEvent.click(openButton);
+    });
+
+    await step("リセットされている", async () => {
+      const selectedCategory = modalCanvas.getByRole("radio", {
+        name: NDCList[0].label,
+      });
+
+      expect(selectedCategory).toBeChecked();
     });
   },
 };
