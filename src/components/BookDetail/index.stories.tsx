@@ -7,9 +7,6 @@ import BookDetail from ".";
 const meta: Meta<typeof BookDetail> = {
   title: "Common/BookDetail",
   component: BookDetail,
-  argTypes: {
-    onOpenChange: { action: "onOpenChange" },
-  },
   args: {
     open: true,
     bookDetailProps: {
