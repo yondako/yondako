@@ -10,7 +10,7 @@ export default function Switch({
   return (
     <RadixSwitch.Root
       className={twMerge(
-        "h-fit w-12 rounded-full bg-secondary-foreground p-1 outline-none data-[state=checked]:bg-accent",
+        "h-fit w-12 shrink-0 rounded-full bg-secondary-foreground p-1 outline-none data-[state=checked]:bg-accent",
         className,
       )}
       {...props}
