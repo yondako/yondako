@@ -7,14 +7,17 @@ type Props = {
 
 export default function CategoryButton({ label, ...props }: Props) {
   return (
-    <label
-      className={twMerge(
-        "cursor-pointer rounded-full border border-accent px-5 py-1.5 text-xs transition hover:brightness-95 md:py-1",
-        props.checked ? "bg-accent text-primary-background" : "text-accent",
-      )}
-    >
-      <input type="radio" name="ndc" className="sr-only" {...props} />
-      {label}
-    </label>
+    <div className="contents">
+      <input type="radio" name="ndc" className="peer sr-only" {...props} />
+      <label
+        className={twMerge(
+          "cursor-pointer rounded-full border border-accent px-5 py-1.5 text-xs transition hover:brightness-95 md:py-1",
+          "text-accent peer-checked:bg-accent peer-checked:text-primary-background",
+        )}
+        htmlFor={props.id}
+      >
+        {label}
+      </label>
+    </div>
   );
 }
