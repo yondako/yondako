@@ -5,7 +5,6 @@ import Switch from "@/components/Switch";
 import { PATH_SEARCH } from "@/constants/path";
 import { type NDC, NDCList } from "@/types/ndc";
 import { type ReactNode, useState } from "react";
-import { twMerge } from "tailwind-merge";
 import type { SearchResultProps } from "../SearchResult";
 import CategoryButton from "./CategoryButton";
 import Label from "./Label";
@@ -23,8 +22,8 @@ export default function SearchFilter({
   const [selectedNDC, setSelectedNDC] = useState<NDC>(ndc ?? "");
 
   // 閉じたらリセット
-  const handleOpenChange = (isOpen: boolean) => {
-    if (!isOpen) {
+  const handleAnimationEnd = (open: boolean) => {
+    if (!open) {
       setSelectedNDC(ndc ?? "");
     }
   };
@@ -32,7 +31,7 @@ export default function SearchFilter({
   return (
     <AdaptiveModalDrawer
       triggerChildren={children}
-      onOpenChange={handleOpenChange}
+      onAnimationEnd={handleAnimationEnd}
     >
       {({ Title, Description, Close }) => (
         <form className="pt-6 lg:pt-0" action={PATH_SEARCH}>

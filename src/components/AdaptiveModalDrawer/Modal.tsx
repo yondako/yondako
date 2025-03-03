@@ -12,6 +12,7 @@ import type { AdaptiveModalDrawerProps } from "./props";
 export default function Modal({
   open = false,
   onOpenChange,
+  onAnimationEnd,
   contentClassName,
   triggerChildren,
   children,
@@ -19,8 +20,12 @@ export default function Modal({
   const [isOpen, setIsOpen] = useState(open);
   const ref = useRef<HTMLButtonElement>(null);
 
-  const handleDialogChange = (isOpen: boolean) => {
-    setIsOpen(isOpen);
+  const handleDialogChange = (state: boolean) => {
+    if (onOpenChange) {
+      onOpenChange(state);
+    }
+
+    setIsOpen(state);
   };
 
   const transitions = useTransition(isOpen, {
@@ -65,12 +70,12 @@ export default function Modal({
         tension: 200,
         friction: 26,
       },
-    },
-    onRest: (result: AnimationResult) => {
-      // ダイアログの閉じるアニメーションが再生完了した
-      if (result.finished && onOpenChange) {
-        onOpenChange(isOpen);
-      }
+      onRest: (result: AnimationResult) => {
+        // アニメーションの再生が終了した
+        if (result.finished && onAnimationEnd) {
+          onAnimationEnd(isOpen);
+        }
+      },
     },
   });
 
