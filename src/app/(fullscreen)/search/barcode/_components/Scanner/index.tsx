@@ -130,7 +130,7 @@ export default function Scanner() {
       {searchResult && (
         <BookDetail
           open={true}
-          onAnimationEnd={(open) => {
+          onOpenChange={(open) => {
             if (!open) {
               setSearchResult(null);
               isSearched.current = false;
