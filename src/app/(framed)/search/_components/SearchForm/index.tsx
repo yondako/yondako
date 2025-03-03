@@ -22,6 +22,8 @@ export default function SearchForm(props: Props) {
         inputMode="search"
         search
       />
+      {props.ndc && <input type="hidden" name="ndc" value={props.ndc} />}
+      {props.sensitive && <input type="hidden" name="sensitive" value="true" />}
       {props.query && (
         <SearchFilter {...props}>
           <Button
