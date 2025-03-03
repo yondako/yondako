@@ -1,13 +1,15 @@
 import type { DialogProps } from "@radix-ui/react-dialog";
 import { twMerge } from "tailwind-merge";
 import AdaptiveModalDrawer from "../AdaptiveModalDrawer";
+import type { AdaptiveModalDrawerProps } from "../AdaptiveModalDrawer/props";
 import BookThumbnail from "../BookThumbnail";
 import type { BookDetailContentProps } from "./Content";
 import BookDetailContent from "./Content";
 
 type Props = {
   bookDetailProps: Omit<BookDetailContentProps, "Title" | "Description">;
-} & Omit<DialogProps, "defaultOpen" | "modal">;
+} & Pick<DialogProps, "children" | "open"> &
+  Pick<AdaptiveModalDrawerProps, "onAnimationEnd">;
 
 export default function BookDetail({
   bookDetailProps,
