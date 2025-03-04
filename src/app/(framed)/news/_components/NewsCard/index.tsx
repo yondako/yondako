@@ -26,13 +26,13 @@ export default function NewsCard({
 
       <div className="w-full">
         <p className="font-bold text-base">{title}</p>
-        <div className="mt-2 flex items-center justify-between text-xs">
-          <span className="text-secondary-foreground ">{publishedAt}</span>
+        <div className="mt-2 flex items-center space-x-2 text-xs">
           <div className="flex space-x-1">
             {tags.map((tag) => (
               <Tag key={tag} name={tag} />
             ))}
           </div>
+          <span className="text-secondary-foreground">{publishedAt}</span>
         </div>
       </div>
     </a>
