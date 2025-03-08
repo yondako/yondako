@@ -18,6 +18,8 @@ import { is, safeParse } from "valibot";
 import { LibraryBookList } from "./_components/LibraryBookList";
 import Tab from "./_components/Tab";
 
+export const dynamic = "force-dynamic";
+
 type Props = {
   params: Promise<{
     status: ReadingStatus;

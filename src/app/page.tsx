@@ -14,6 +14,8 @@ import { redirect } from "next/navigation";
 import LoginButtons from "./_components/LoginButtons";
 import SlideIn from "./_components/SlideIn";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = generateMetadataTitle();
 
 type Props = {
