@@ -7,6 +7,8 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import ScannerStartPage from "./_components/ScannerStartPage";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = generateMetadataTitle({
   pageTitle: "バーコードで探す",
   noindex: true,

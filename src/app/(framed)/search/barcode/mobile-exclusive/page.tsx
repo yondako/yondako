@@ -8,6 +8,8 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = generateMetadataTitle({
   pageTitle: "バーコードで探す",
   noindex: true,

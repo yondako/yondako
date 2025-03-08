@@ -9,6 +9,8 @@ import { redirect } from "next/navigation";
 import AccountSection from "./_components/AccountSection";
 import SupportSection from "./_components/SupportSection";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = generateMetadataTitle({
   pageTitle: "設定",
   noindex: true,
