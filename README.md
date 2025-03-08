@@ -41,8 +41,19 @@ bun run wrangler d1 migrations apply yondako_dev --local
 ### `wrangler.toml` の設定
 
 ```toml
+main = ".open-next/worker.js"
 name = "yondako"
-pages_build_output_dir = ".vercel/output/static"
+compatibility_date = "2024-12-30"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = ".open-next/assets"
+binding = "ASSETS"
+
+[[kv_namespaces]]
+binding = "NEXT_CACHE_WORKERS_KV"
+id = "<KVのIDを指定>"
+
 
 [[d1_databases]]
 binding = "DB"
