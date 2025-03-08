@@ -5,6 +5,7 @@ import {
 } from "@/db/queries/book";
 import { searchBooksFromNDL } from "@/lib/ndl";
 import type { BookDetail } from "@/types/book";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import pLimit from "p-limit";
 import { notifyUpdateResult } from "./notify";
 
@@ -12,16 +13,18 @@ import { notifyUpdateResult } from "./notify";
  * 新刊書籍の更新確認を行う
  */
 export async function updateNewReleaseBooks(bookIds: string[]) {
+  const { env } = getCloudflareContext();
+
   // 並列処理数は5件まで
   const limit = pLimit(5);
 
   // 対象の書誌データを取得
-  const targetBooks = await fetchSimpleBooksByIds(bookIds);
+  const targetBooks = await fetchSimpleBooksByIds(env.DB, bookIds);
 
   // 書籍の更新確認
   const tasks = targetBooks.map(({ id, isbn }) =>
     limit(async () => {
-      return await checkAndUpdateBook(id, isbn);
+      return await checkAndUpdateBook(env.DB, id, isbn);
     }),
   );
 
@@ -36,7 +39,7 @@ export async function updateNewReleaseBooks(bookIds: string[]) {
   console.log("[DONE]", `Unupdated books: ${unupdatedBookIds.length}`);
 
   // 更新確認回数をインクリメント
-  await incrementBooksUpdateCheckCount(unupdatedBookIds);
+  await incrementBooksUpdateCheckCount(env.DB, unupdatedBookIds);
 
   const webhookUrl = process.env.SLACK_WEBHOOK_URL;
 
@@ -57,11 +60,13 @@ export async function updateNewReleaseBooks(bookIds: string[]) {
 
 /**
  * 書籍の更新確認を行い、更新がなかった書籍のIDを返す
+ * @param dbInstance D1インスタンス
  * @param bookId 書籍ID
  * @param isbn ISBN
  * @returns 更新がなかったら書籍ID、あったらnull
  */
 async function checkAndUpdateBook(
+  dbInstance: D1Database,
   bookId: BookDetail["id"],
   isbn: BookDetail["isbn"],
 ): Promise<string | null> {
@@ -70,8 +75,10 @@ async function checkAndUpdateBook(
   }
 
   const result = await searchBooksFromNDL({
-    cnt: 1,
-    isbn,
+    count: 1,
+    params: {
+      isbn,
+    },
   });
 
   const resultBook = result?.books?.at(0);
@@ -81,7 +88,7 @@ async function checkAndUpdateBook(
     return bookId;
   }
 
-  await updateBooksMissingNdlBibId(isbn, resultBook);
+  await updateBooksMissingNdlBibId(dbInstance, isbn, resultBook);
 
   console.log(`Updated book: ${resultBook.title}`);
   return null;

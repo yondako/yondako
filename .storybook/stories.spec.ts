@@ -4,12 +4,6 @@ import type { StoryIndex } from "@storybook/types";
 
 const isUpdate = !!process.env.UPDATE;
 
-// スクリーンショットを取得しないストーリー
-const skip = [
-  // GIFがメインなので
-  "common-loading--default",
-];
-
 const indexJson = readFileSync("storybook-static/index.json");
 const json = JSON.parse(indexJson.toString()) as StoryIndex;
 
@@ -25,24 +19,28 @@ for (const [id, { tags }] of Object.entries(json.entries)) {
     continue;
   }
 
-  // スキップ対象ならスキップ
-  if (skip.includes(id)) {
-    continue;
-  }
-
   const snapshotFilename = `${id}.png`;
 
   // スナップショットが無い場合はスキップ
-  if (!isUpdate && !pngFiles.includes(snapshotFilename)) {
+  // NOTE: ファイル名の形式は <ブラウザ名>-<ストーリーID>.png なので、末尾一致で探す
+  if (
+    !isUpdate &&
+    !pngFiles.some((filename) => filename.endsWith(snapshotFilename))
+  ) {
     console.warn(`Snapshot not found: ${snapshotFilename}`);
     continue;
   }
 
-  test(id, async ({ page }) => {
+  test(id, async ({ page, browserName }) => {
     const url = new URL("http://localhost:6006/iframe.html");
     url.searchParams.set("id", id);
 
     await page.goto(url.toString());
+
+    // ローディングが消えるまで待つ
+    await page.locator(".sb-loader").first().waitFor({
+      state: "hidden",
+    });
 
     // 画像の読み込みを待つ
     // https://github.com/microsoft/playwright/issues/6046#issuecomment-1803609118
@@ -56,8 +54,9 @@ for (const [id, { tags }] of Object.entries(json.entries)) {
       // 失敗しても大丈夫なので無視
     }
 
-    await expect(page).toHaveScreenshot(snapshotFilename, {
+    await expect(page).toHaveScreenshot(`${browserName}-${snapshotFilename}`, {
       fullPage: true,
+      mask: [page.getByTestId("animation-tako")],
     });
   });
 }

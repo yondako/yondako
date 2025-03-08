@@ -14,7 +14,7 @@ export default forwardRef<HTMLInputElement, Props>(function Input(
   return (
     <div className={twMerge("relative text-primary-foreground", className)}>
       {search && (
-        <IconSearch className="-translate-y-1/2 absolute top-1/2 left-4 h-4 w-4 text-primary-foreground" />
+        <IconSearch className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-4 h-4 w-4 text-primary-foreground" />
       )}
       <input
         {...props}

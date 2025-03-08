@@ -44,8 +44,9 @@ export default function Filter({ isOrderAsc }: Props) {
       />
 
       <Button
-        className="flex w-40 items-center justify-center space-x-1 border-0 bg-tertiary-background p-0 text-xs"
+        className="flex w-40 items-center justify-center space-x-1 p-0 text-xs"
         asChild
+        style="noBorder"
       >
         <Link
           href={createFilterSearchParams(searchParams, undefined, nextOrder)}

@@ -1,47 +1,43 @@
-"use client";
-
+import IconAdjustments from "@/assets/icons/adjustments.svg";
+import Button from "@/components/Button";
 import Input from "@/components/Input";
-import { useRouter, useSearchParams } from "next/navigation";
-import { type FormEventHandler, useRef } from "react";
+import { PATH_SEARCH } from "@/constants/path";
+import { twMerge } from "tailwind-merge";
+import SearchFilter from "../SearchFilter";
+import type { SearchResultProps } from "../SearchResult";
 
-export default function SearchForm() {
-  const searchBoxRef = useRef<HTMLInputElement>(null);
+type Props = Partial<Pick<SearchResultProps, "ndc" | "sensitive" | "query">>;
 
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const query = searchParams.get("q");
-
-  // クエリパラメータを更新してページを更新
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.currentTarget);
-    const query = formData.get("q");
-
-    if (!query) {
-      return;
-    }
-
-    searchBoxRef.current?.blur();
-
-    const newSearchParams = new URLSearchParams();
-    newSearchParams.set("q", query?.toString());
-
-    router.push(`/search?${newSearchParams.toString()}`);
-  };
+export default function SearchForm(props: Props) {
+  const isFiltered = !!props.ndc || !!props.sensitive;
 
   return (
-    <form className="m-0 w-full" onSubmit={handleSubmit}>
+    <form className="m-0 flex w-full items-center gap-2" action={PATH_SEARCH}>
       <Input
+        className="grow"
         name="q"
-        defaultValue={query ?? ""}
+        defaultValue={props.query}
         placeholder="タイトル、著者名で検索"
-        autoFocus={!query}
+        autoFocus={!props.query}
         inputMode="search"
-        ref={searchBoxRef}
         search
       />
+      {props.ndc && <input type="hidden" name="ndc" value={props.ndc} />}
+      {props.sensitive && <input type="hidden" name="sensitive" value="true" />}
+      {props.query && (
+        <SearchFilter {...props}>
+          <Button
+            type="button"
+            className={twMerge(
+              "px-4 py-2",
+              isFiltered && "bg-accent text-primary-background",
+            )}
+            style="noBorder"
+          >
+            <IconAdjustments className="h-5.5 w-5.5" />
+          </Button>
+        </SearchFilter>
+      )}
     </form>
   );
 }

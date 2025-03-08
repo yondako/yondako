@@ -1,6 +1,6 @@
 import { Loading } from "@/components/Loading";
 import { readingStatusMetadata } from "@/constants/status";
-import { auth } from "@/lib/auth";
+import { getAuth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
 import { type Order, orderSchema } from "@/types/order";
@@ -9,14 +9,14 @@ import {
   type ReadingStatus,
   readingStatusSchemaWithoutNone,
 } from "@/types/readingStatus";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
 import { is, safeParse } from "valibot";
 import { LibraryBookList } from "./_components/LibraryBookList";
 import Tab from "./_components/Tab";
-
-export const runtime = "edge";
 
 type Props = {
   params: Promise<{
@@ -44,9 +44,16 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 }
 
 export default async function Library(props: Props) {
-  const searchParams = await props.searchParams;
   const params = await props.params;
-  const session = await auth();
+
+  const { env } = await getCloudflareContext({
+    async: true,
+  });
+
+  const auth = getAuth(env.DB);
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (!session?.user?.id) {
     redirect(createSignInPath(`/library/${params.status}`));
@@ -56,6 +63,8 @@ export default async function Library(props: Props) {
   if (!is(readingStatusSchemaWithoutNone, params.status)) {
     notFound();
   }
+
+  const searchParams = await props.searchParams;
 
   // ページ数
   const pageParseResult = safeParse(

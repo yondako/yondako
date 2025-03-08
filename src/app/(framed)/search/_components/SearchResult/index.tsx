@@ -1,30 +1,51 @@
 import BookList from "@/components/BookList";
 import MessageTako from "@/components/MessageTako";
 import Pagination from "@/components/Pagination";
+import { getAllNgWords } from "@/db/queries/ngWords";
 import { getStatusesByBookIds } from "@/db/queries/status";
-import { auth } from "@/lib/auth";
+import { getAuth } from "@/lib/auth";
 import { searchBooksFromNDL } from "@/lib/ndl";
+import type { NDC } from "@/types/ndc";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { headers } from "next/headers";
 
-const minLimit = 1;
-const limit = 48;
+const SEARCH_COUNT = 48;
 
-type Props = {
+export type SearchResultProps = {
   query: string;
   currentPage: number;
+  ndc?: NDC;
+  sensitive?: boolean;
 };
 
-export async function SearchResult({ query, currentPage }: Props) {
-  const session = await auth();
+export async function SearchResult({
+  query,
+  currentPage,
+  ndc,
+  sensitive,
+}: SearchResultProps) {
+  const { env } = getCloudflareContext();
+
+  const auth = getAuth(env.DB);
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (!session?.user?.id) {
     return <p className="mt-12 text-center">ログインが必要です</p>;
   }
 
+  const ngWords = await getAllNgWords(env.DB);
+
   const result = await searchBooksFromNDL({
-    any: query,
-    cnt: limit,
-    // NOTE: idx は 1 始まりなので計算結果に +1 する
-    idx: (currentPage - 1) * limit + 1 || minLimit,
+    count: SEARCH_COUNT,
+    page: currentPage - 1,
+    ignoreSensitive: !sensitive,
+    ngWords,
+    params: {
+      any: query,
+      ndc,
+    },
   });
 
   // 検索エラー
@@ -59,9 +80,13 @@ export async function SearchResult({ query, currentPage }: Props) {
     );
   }
 
-  const items = await getStatusesByBookIds(session.user.id, result.books);
+  const items = await getStatusesByBookIds(
+    env.DB,
+    session.user.id,
+    result.books,
+  );
 
-  const totalPage = Math.ceil(result.meta.totalResults / limit);
+  const totalPage = Math.ceil(result.meta.totalResults / SEARCH_COUNT);
 
   return (
     <>

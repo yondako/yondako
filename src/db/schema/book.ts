@@ -7,7 +7,7 @@ import {
   text,
 } from "drizzle-orm/sqlite-core";
 import { v7 as uuidv7 } from "uuid";
-import { users } from "./user";
+import { user } from "./user";
 
 /**
  * 書籍データ
@@ -110,7 +110,7 @@ export const readingStatuses = sqliteTable(
   {
     userId: text("userId")
       .notNull()
-      .references(() => users.id, {
+      .references(() => user.id, {
         onDelete: "cascade",
       }),
     bookId: text("bookId")
@@ -133,9 +133,9 @@ export const readingStatuses = sqliteTable(
 export const readingStatusesRelations = relations(
   readingStatuses,
   ({ one }) => ({
-    user: one(users, {
+    user: one(user, {
       fields: [readingStatuses.userId],
-      references: [users.id],
+      references: [user.id],
     }),
     book: one(books, {
       fields: [readingStatuses.bookId],
@@ -143,3 +143,12 @@ export const readingStatusesRelations = relations(
     }),
   }),
 );
+
+/**
+ * センシティブな書籍の除外用のNGワード
+ */
+export const ngWords = sqliteTable("ngWords", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  word: text("word").unique().notNull(),
+  isActive: integer("isActive", { mode: "boolean" }).notNull().default(true),
+});

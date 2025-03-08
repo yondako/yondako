@@ -1,4 +1,4 @@
-import type { AdapterAccountType } from "@auth/core/adapters";
+import { sql } from "drizzle-orm";
 import {
   integer,
   primaryKey,
@@ -6,69 +6,72 @@ import {
   text,
 } from "drizzle-orm/sqlite-core";
 
-export const users = sqliteTable("user", {
+export const user = sqliteTable("user", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   name: text("name"),
   email: text("email").notNull(),
-  emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),
+  emailVerified: integer("emailVerified", { mode: "boolean" }),
   image: text("image"),
+  createdAt: text("createdAt").notNull().default(sql`(CURRENT_TIMESTAMP)`),
+  updatedAt: text("updatedAt").notNull().default(sql`(CURRENT_TIMESTAMP)`),
 });
 
-export const accounts = sqliteTable(
-  "account",
-  {
-    userId: text("userId")
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
-    type: text("type").$type<AdapterAccountType>().notNull(),
-    provider: text("provider").notNull(),
-    providerAccountId: text("providerAccountId").notNull(),
-    refresh_token: text("refresh_token"),
-    access_token: text("access_token"),
-    expires_at: integer("expires_at"),
-    token_type: text("token_type"),
-    scope: text("scope"),
-    id_token: text("id_token"),
-    session_state: text("session_state"),
-  },
-  (account) => ({
-    compoundKey: primaryKey({
-      columns: [account.provider, account.providerAccountId],
-    }),
-  }),
-);
-
-export const sessions = sqliteTable("session", {
-  sessionToken: text("sessionToken").primaryKey(),
+export const account = sqliteTable("account", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  accountId: text("accountId").notNull().default(""),
+  providerId: text("providerId").notNull(),
   userId: text("userId")
     .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  expires: integer("expires", { mode: "timestamp_ms" }).notNull(),
+    .references(() => user.id, { onDelete: "cascade" }),
+  accessToken: text("accessToken"),
+  refreshToken: text("refreshToken"),
+  idToken: text("idToken"),
+  accessTokenExpiresAt: integer("accessTokenExpiresAt"),
+  refreshTokenExpiresAt: integer("refreshTokenExpiresAt", {
+    mode: "timestamp",
+  }),
+  scope: text("scope"),
+  password: text("password"),
+  createdAt: text("createdAt").notNull().default(sql`(CURRENT_TIMESTAMP)`),
+  updatedAt: text("updatedAt").notNull().default(sql`(CURRENT_TIMESTAMP)`),
 });
 
-export const verificationTokens = sqliteTable(
-  "verificationToken",
-  {
-    identifier: text("identifier").notNull(),
-    token: text("token").notNull(),
-    expires: integer("expires", { mode: "timestamp_ms" }).notNull(),
-  },
-  (verificationToken) => ({
-    compositePk: primaryKey({
-      columns: [verificationToken.identifier, verificationToken.token],
-    }),
-  }),
-);
+export const session = sqliteTable("session", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  expiresAt: integer("expiresAt", { mode: "timestamp_ms" }).notNull(),
+  token: text("token"),
+  createdAt: text("createdAt").notNull().default(sql`(CURRENT_TIMESTAMP)`),
+  updatedAt: text("updatedAt").notNull().default(sql`(CURRENT_TIMESTAMP)`),
+  ipAddress: text("ipAddress"),
+  userAgent: text("userAgent"),
+  userId: text("userId")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+});
 
+export const verification = sqliteTable("verification", {
+  id: text("id").primaryKey(),
+  identifier: text("identifier").notNull(),
+  value: text("value").notNull(),
+  expiresAt: text("expiresAt").notNull(),
+  createdAt: text("createdAt"),
+  updatedAt: text("updatedAt"),
+});
+
+// TODO: 不要なので消してもいいかも
 export const authenticators = sqliteTable(
   "authenticator",
   {
     credentialID: text("credentialID").notNull().unique(),
     userId: text("userId")
       .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
+      .references(() => user.id, { onDelete: "cascade" }),
     providerAccountId: text("providerAccountId").notNull(),
     credentialPublicKey: text("credentialPublicKey").notNull(),
     counter: integer("counter").notNull(),

@@ -3,20 +3,28 @@
 import IconExclamationCircle from "@/assets/icons/exclamation-circle.svg";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
-import { signOut } from "next-auth/react";
-import { useEffect } from "react";
-import { useFormState } from "react-dom";
-import { goodbyeUser } from "../../_actions/goodbye";
+import { signOut } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { useActionState, useEffect } from "react";
+import { goodbyeUser } from "#actions/goodbyeUser";
 
 export default function ConfirmInput() {
-  const [result, dispatch] = useFormState(goodbyeUser, { success: false });
+  const router = useRouter();
+  const [result, dispatch] = useActionState(goodbyeUser, { success: false });
 
   useEffect(() => {
     if (result.success) {
       window.alert("👋 アカウントを削除しました");
-      signOut({ callbackUrl: "/" });
+
+      signOut({
+        fetchOptions: {
+          onSuccess: () => {
+            router.push("/");
+          },
+        },
+      });
     }
-  }, [result.success]);
+  }, [result.success, router]);
 
   return (
     <form className="mt-6 text-sm" action={dispatch}>
@@ -31,7 +39,10 @@ export default function ConfirmInput() {
           <span>{result.error}</span>
         </p>
       )}
-      <Button className="mt-4 block w-full border-0 bg-rose-700 text-primary-background text-sm lg:w-fit">
+      <Button
+        className="mt-4 block w-full bg-rose-700 text-primary-background text-sm lg:w-fit"
+        style="noBorder"
+      >
         👋 アカウントの削除を実行する
       </Button>
     </form>

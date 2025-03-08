@@ -2,23 +2,27 @@ import IconHelp from "@/assets/icons/help.svg";
 import ExternalLink from "@/components/ExternalLink";
 import { Loading } from "@/components/Loading";
 import SayTako from "@/components/SayTako";
+import { PATH_SEARCH } from "@/constants/path";
 import { site } from "@/constants/site";
-import { auth } from "@/lib/auth";
+import { getAuth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
+import { ndcSchema } from "@/types/ndc";
 import { pageIndexSchema } from "@/types/page";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { safeParse } from "valibot";
 import SearchForm from "./_components/SearchForm";
 import { SearchResult } from "./_components/SearchResult";
 
-export const runtime = "edge";
-
 type Props = {
   searchParams: Promise<{
     q?: string;
+    ndc?: string;
+    sensitive?: string;
     page?: string;
   }>;
 };
@@ -36,12 +40,20 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 const dataSourceUrl = new URL("/docs/data-source", site.infoUrl).toString();
 
 export default async function Search(props: Props) {
-  const searchParams = await props.searchParams;
-  const session = await auth();
+  const { env } = await getCloudflareContext({
+    async: true,
+  });
+
+  const auth = getAuth(env.DB);
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (!session?.user?.id) {
-    redirect(createSignInPath("/search"));
+    redirect(createSignInPath(PATH_SEARCH));
   }
+
+  const searchParams = await props.searchParams;
 
   // ページ数
   const pageParseResult = safeParse(
@@ -50,13 +62,20 @@ export default async function Search(props: Props) {
   );
   const page = pageParseResult.success ? pageParseResult.output : 1;
 
-  // キーワード
+  // NDC
+  const ndcParseResult = safeParse(ndcSchema, searchParams.ndc);
+  const ndc = ndcParseResult.success ? ndcParseResult.output : undefined;
+
+  // センシティブな書籍を含めるか
+  const sensitive = !!searchParams.sensitive;
+
+  // 検索クエリ
   const query = searchParams.q;
 
   return (
     <>
       <div className="flex flex-col items-end lg:flex-row lg:items-center">
-        <SearchForm />
+        <SearchForm query={query} ndc={ndc} sensitive={sensitive} />
         <ExternalLink
           className="mt-4 flex shrink-0 items-center space-x-1 text-xs lg:mt-0 lg:ml-4"
           href={dataSourceUrl}
@@ -74,9 +93,14 @@ export default async function Search(props: Props) {
               title="がんばって検索しています"
             />
           }
-          key={`${query}_${page}`}
+          key={Object.values(searchParams).join("_")}
         >
-          <SearchResult query={query} currentPage={page} />
+          <SearchResult
+            query={query}
+            ndc={ndc}
+            sensitive={sensitive}
+            currentPage={page}
+          />
         </Suspense>
       ) : (
         <SayTako message="ｹﾝｻｸｼﾃﾈ" />

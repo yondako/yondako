@@ -3,6 +3,5 @@ import { createSignInPath } from "./path";
 
 test("コールバックURLがURIエンコードされている", () => {
   const got = createSignInPath("/hello");
-
-  expect(got).toBe("/api/auth/signin?callbackUrl=%2Fhello");
+  expect(got).toBe("/?callbackUrl=%2Fhello");
 });

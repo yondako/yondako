@@ -1,42 +1,35 @@
-import "server-only";
-
-import { auth } from "@/lib/auth";
-import { getRequestContext } from "@cloudflare/next-on-pages";
+import { getAuth } from "@/lib/auth";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { eq } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/d1";
+import { headers } from "next/headers";
+import { getDB } from "..";
 import * as userDBSchema from "../schema/user";
-
-const userDB = (() => {
-  // 開発
-  if (process.env.NODE_ENV === "development") {
-    const { env } = getRequestContext();
-
-    return drizzle(env.DB, {
-      schema: userDBSchema,
-    });
-  }
-
-  // 本番
-  return drizzle((process.env as unknown as { DB: D1Database }).DB, {
-    schema: userDBSchema,
-  });
-})();
 
 /**
  * ユーザーを削除
+ * @param dbInstance D1のインスタンス
  * @returns エラーメッセージ
  */
-export async function deleteUser(): Promise<string | undefined> {
-  const session = await auth();
+export async function deleteUser(
+  dbInstance: D1Database,
+): Promise<string | undefined> {
+  const { env } = getCloudflareContext();
+  const auth = getAuth(env.DB);
+
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (!session || !session.user?.id) {
     return "ログインしてください";
   }
 
+  const userDB = getDB(dbInstance);
+
   try {
     await userDB
-      .delete(userDBSchema.users)
-      .where(eq(userDBSchema.users.id, session.user.id));
+      .delete(userDBSchema.user)
+      .where(eq(userDBSchema.user.id, session.user.id));
   } catch (e) {
     return "アカウントの削除に失敗しました";
   }

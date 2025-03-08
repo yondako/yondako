@@ -36,6 +36,20 @@
       "when": 1737787406819,
       "tag": "0004_unknown_nitro",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1740835225999,
+      "tag": "0005_red_blindfold",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1740928664629,
+      "tag": "0006_breezy_caretaker",
+      "breakpoints": true
     }
   ]
 }

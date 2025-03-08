@@ -2,10 +2,12 @@
 
 import { createBook, fetchBook } from "@/db/queries/book";
 import { upsertReadingStatus } from "@/db/queries/status";
-import { auth } from "@/lib/auth";
+import { getAuth } from "@/lib/auth";
 import { type SearchOptions, searchBooksFromNDL } from "@/lib/ndl";
 import type { BookIdentifiers, BookType } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { headers } from "next/headers";
 
 type UpdateReadingStatusResult = {
   book?: BookType;
@@ -14,6 +16,7 @@ type UpdateReadingStatusResult = {
 
 /**
  * 読書ステータスを更新
+ * @param dbInstance D1のインスタンス
  * @param bookIdentifiers 書籍識別子
  * @param status 読書ステータス
  * @returns 更新結果
@@ -22,7 +25,12 @@ export async function updateReadingStatus(
   bookIdentifiers: BookIdentifiers,
   status: ReadingStatus,
 ): Promise<UpdateReadingStatusResult> {
-  const session = await auth();
+  const { env } = getCloudflareContext();
+  const auth = getAuth(env.DB);
+
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (!session || !session.user?.id) {
     return {
@@ -31,20 +39,24 @@ export async function updateReadingStatus(
   }
 
   // Dbに登録されているか確認
-  let bookDetail = await fetchBook(bookIdentifiers);
+  let bookDetail = await fetchBook(env.DB, bookIdentifiers);
 
   // DBに無い場合登録する
   if (!bookDetail) {
     const opts: SearchOptions = {
-      cnt: 1,
+      count: 1,
     };
 
     if (bookIdentifiers.ndlBibId) {
       // NDL書誌IDがある場合はそれを優先
-      opts.any = bookIdentifiers.ndlBibId;
+      opts.params = {
+        any: bookIdentifiers.ndlBibId,
+      };
     } else if (bookIdentifiers.isbn) {
       // NDL書誌IDが無い場合はISBNで検索
-      opts.isbn = bookIdentifiers.isbn;
+      opts.params = {
+        isbn: bookIdentifiers.isbn,
+      };
     } else {
       // どちらも無い場合はエラー
       return {
@@ -68,11 +80,12 @@ export async function updateReadingStatus(
       };
     }
 
-    bookDetail = await createBook(book);
+    bookDetail = await createBook(env.DB, book);
   }
 
   // 読書ステータスの変更をDBに反映
   const resultReadingStatus = await upsertReadingStatus(
+    env.DB,
     session.user.id,
     bookDetail.id,
     status,

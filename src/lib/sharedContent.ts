@@ -55,8 +55,6 @@ export async function fetchSiteTitle(url: string): Promise<string | null> {
 
     // タイトルを抽出
     const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
-    console.log("title:", titleMatch?.[1]);
-
     if (titleMatch?.[1]) {
       return titleMatch[1];
     }
