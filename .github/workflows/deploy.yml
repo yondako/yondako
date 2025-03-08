@@ -26,6 +26,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ matrix.bun }}-bun-
 
+      - name: Build
+        run: bun run build:worker
+
       - name: Create wrangler.toml from template
         run: |
           cp wrangler.example.toml wrangler.toml
@@ -46,12 +49,16 @@ jobs:
 
       - name: Deploy to development environment
         if: github.ref == 'refs/heads/develop'
-        run: bun run deploy
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
 
       - name: Deploy to production environment
         if: github.ref == 'refs/heads/main'
-        run: bun run deploy --env production
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --env production

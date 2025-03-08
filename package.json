@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "next dev --experimental-https -H local.yondako.com",
     "build": "next build",
+    "build:worker": "opennextjs-cloudflare",
     "start": "next start",
     "lint": "biome lint --write",
     "fmt": "biome format --write",
@@ -13,7 +14,6 @@
     "vrt:storybook:update": "UPDATE=1 playwright test -c .storybook/playwright.config.ts .storybook/ --update-snapshots",
     "generate:schema": "drizzle-kit generate --dialect sqlite --out ./src/db/migrations --schema",
     "generate:svg": "bunx svgo ./src/assets/**/*.svg",
-    "pages:build": "bunx @cloudflare/next-on-pages",
     "preview": "opennextjs-cloudflare && wrangler dev",
     "preview:storybook": "bunx http-server storybook-static --port 6006 --silent",
     "prepreview:storybook": "storybook build --test",
