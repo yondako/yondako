@@ -16,7 +16,6 @@ https://github.com/user-attachments/assets/a09637e9-d4da-4cb1-bd4f-055f167f12df
 
 - 人と人との交流、SNS的な要素
 - 感想の記録
-- 読書記録を元にした詳細な分析機能
 
 ## 環境構築
 

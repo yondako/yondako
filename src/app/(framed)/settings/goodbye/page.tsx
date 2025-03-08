@@ -6,6 +6,8 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import ConfirmInput from "./_components/ConformInput";
 
+export const dynamic = "force-dynamic";
+
 export default async function Goodbye() {
   const { env } = await getCloudflareContext({
     async: true,

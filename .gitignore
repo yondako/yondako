@@ -42,7 +42,7 @@ next-env.d.ts
 .wrangler
 .dev.vars
 wrangler.json
-wrangler*.toml
+wrangler.toml
 
 # certificates
 certificates

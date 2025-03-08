@@ -18,6 +18,8 @@ import { safeParse } from "valibot";
 import SearchForm from "./_components/SearchForm";
 import { SearchResult } from "./_components/SearchResult";
 
+export const dynamic = "force-dynamic";
+
 type Props = {
   searchParams: Promise<{
     q?: string;
