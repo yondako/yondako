@@ -13,6 +13,9 @@
 /.next/
 /out/
 
+# OpenNext
+/.open-next
+
 # production
 /build
 
@@ -38,7 +41,8 @@ next-env.d.ts
 # wrangler files
 .wrangler
 .dev.vars
-wrangler.toml
+wrangler.json
+wrangler*.toml
 
 # certificates
 certificates

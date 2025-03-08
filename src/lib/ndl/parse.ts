@@ -36,7 +36,6 @@ type OpenSearchItem = {
 type OpenSearchResult = {
   rss?: {
     channel: Partial<{
-      "openSearch:totalResults": number;
       "openSearch:startIndex": number;
       "openSearch:itemsPerPage": number;
       item: OpenSearchItem | OpenSearchItem[];
@@ -77,7 +76,6 @@ export function parseOpenSearchXml(xml: string): BookDetailWithoutId[] {
     : [parsed.rss.channel.item];
 
   const rawBooks: (BookDetailWithoutId | undefined)[] = [];
-  let totalResults = parsed.rss.channel["openSearch:totalResults"] ?? 0;
 
   for (const item of items) {
     // 配列にする
@@ -108,7 +106,6 @@ export function parseOpenSearchXml(xml: string): BookDetailWithoutId[] {
     // NDL書誌ID と ISBN がない場合は一意のIDが存在しないためスキップ
     if (!ndlBibId && !isbn) {
       console.warn(`ndlBibId と ISBN がありません: ${item.title}`);
-      totalResults--;
       continue;
     }
 

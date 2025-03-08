@@ -1,17 +1,38 @@
-import "server-only";
+import { betterAuth } from "better-auth";
+import { Kysely } from "kysely";
+import { D1Dialect } from "kysely-d1";
 
-import { REDIRECT_TO_AUTH_ERROR } from "@/constants/redirect";
-import db from "@/db";
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import NextAuth from "next-auth";
-import github from "next-auth/providers/github";
-import google from "next-auth/providers/google";
+export const getAuth = (dbInstance: D1Database) => {
+  const dbConnection = new D1Dialect({ database: dbInstance });
+  const db = new Kysely({
+    dialect: dbConnection,
+  });
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: DrizzleAdapter(db),
-  providers: [github, google],
-  pages: {
-    signIn: "/",
-    error: REDIRECT_TO_AUTH_ERROR,
-  },
-});
+  return betterAuth({
+    baseURL: process.env.BETTER_AUTH_URL,
+    // NOTE:
+    // 本当は以下のように drizzleAdapter を使いたい
+    // database: drizzleAdapter(getDB(dbInstance), { provider: "sqlite" })
+    //
+    // けど、D1だとこんなエラーが出る
+    // Error: D1_TYPE_ERROR: Type 'object' not supported for value '<日付>']
+    //
+    // 調査したところ、drizzleのアダプタがD1に対応できていないっぽかったのでKyseleyを使うようにしてる
+    // 問題の内容的には、多分これが近いと思う
+    // @see https://github.com/nextauthjs/next-auth/issues/8453
+    database: {
+      db,
+      type: "sqlite",
+    },
+    socialProviders: {
+      github: {
+        clientId: process.env.AUTH_GITHUB_ID || "",
+        clientSecret: process.env.AUTH_GITHUB_SECRET || "",
+      },
+      google: {
+        clientId: process.env.AUTH_GOOGLE_ID || "",
+        clientSecret: process.env.AUTH_GOOGLE_SECRET || "",
+      },
+    },
+  });
+};

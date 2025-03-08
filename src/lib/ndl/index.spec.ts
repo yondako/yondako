@@ -1,12 +1,24 @@
-import { describe, expect, mock, test } from "bun:test";
+import { afterEach, beforeEach, describe, expect, mock, test } from "bun:test";
 import {
   createDummyBookDetail,
   createDummyItem,
   createDummyXml,
 } from "@/_mocks/book";
-import { searchBooksFromNDL } from "./index";
+import { searchBooksFromNDL } from ".";
 
 describe("searchBooksFromNDL", () => {
+  beforeEach(() => {
+    mock.module("next/cache", () => {
+      return {
+        unstable_cache: (fn: () => void) => fn,
+      };
+    });
+  });
+
+  afterEach(() => {
+    mock.restore();
+  });
+
   test("書籍を検索できる", async () => {
     const mockFetch = mock().mockResolvedValue({
       text: mock().mockResolvedValue(

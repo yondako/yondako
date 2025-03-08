@@ -1,12 +1,13 @@
 import Footer from "@/components/Footer";
-import { auth } from "@/lib/auth";
+import { PATH_SETTING } from "@/constants/path";
+import { getAuth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import AccountSection from "./_components/AccountSection";
 import SupportSection from "./_components/SupportSection";
-
-export const runtime = "edge";
 
 export const metadata = generateMetadataTitle({
   pageTitle: "設定",
@@ -14,10 +15,17 @@ export const metadata = generateMetadataTitle({
 });
 
 export default async function Settings() {
-  const session = await auth();
+  const { env } = await getCloudflareContext({
+    async: true,
+  });
+
+  const auth = getAuth(env.DB);
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (!session?.user?.id) {
-    redirect(createSignInPath("/settings"));
+    redirect(createSignInPath(PATH_SETTING));
   }
 
   return (

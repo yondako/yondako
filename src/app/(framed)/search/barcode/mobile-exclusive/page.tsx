@@ -1,12 +1,12 @@
 import ImageQrCode from "@/assets/images/qr-search-barcode.svg";
 import MessageTako from "@/components/MessageTako";
-import { auth } from "@/lib/auth";
+import { PATH_SEARCH_BARCODE_MOBILE_EXCLUSIVE } from "@/constants/path";
+import { getAuth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-
-export const runtime = "edge";
 
 export const metadata = generateMetadataTitle({
   pageTitle: "バーコードで探す",
@@ -14,10 +14,17 @@ export const metadata = generateMetadataTitle({
 });
 
 export default async function MobileExclusive() {
-  const session = await auth();
+  const { env } = await getCloudflareContext({
+    async: true,
+  });
+
+  const auth = getAuth(env.DB);
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (!session?.user?.id) {
-    redirect(createSignInPath("/search/barcode/mobile-exclusive"));
+    redirect(createSignInPath(PATH_SEARCH_BARCODE_MOBILE_EXCLUSIVE));
   }
 
   const isMobile = (await headers()).get("X-IS-DESKTOP") === null;

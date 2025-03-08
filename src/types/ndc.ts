@@ -2,12 +2,16 @@ import { picklist } from "valibot";
 
 export const NDCList = [
   {
-    label: "雑誌",
-    value: "005",
+    label: "すべて",
+    value: "",
   },
   {
-    label: "漫画",
+    label: "マンガ",
     value: "726.1",
+  },
+  {
+    label: "雑誌",
+    value: "005",
   },
   {
     label: "近代小説 (日本)",

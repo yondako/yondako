@@ -1,24 +1,31 @@
 import type { BookDetailWithoutId } from "@/types/book";
 import type { NDC } from "@/types/ndc";
 import { unstable_cache } from "next/cache";
+import { filterSensitiveBooks } from "../filterSensitiveBooks";
 import { parseOpenSearchXml } from "./parse";
 import { sortBooksByKeyword } from "./sort";
 
 const API_BASE_URL = "https://iss.ndl.go.jp/api/opensearch";
 
 export type SearchOptions = {
+  /** 取得件数 */
   count: number;
+  /** ページ番号 */
   page?: number;
+  /** センシティブな書籍を除外する */
+  ignoreSensitive?: boolean;
+  /** NGワードリスト */
+  ngWords?: string[];
   params?: {
-    /* すべての項目を対象に検索 */
+    /** すべての項目を対象に検索 */
     any?: string;
-    /* NDC */
+    /** NDC */
     ndc?: NDC;
-    /* 開始出版年月日 */
+    /** 開始出版年月日 */
     from?: string;
-    /* 終了出版年月日 */
+    /** 終了出版年月日 */
     until?: string;
-    /* ISBN */
+    /** ISBN */
     isbn?: string;
   };
 };
@@ -48,7 +55,9 @@ export async function searchBooksFromNDL(
   // その他をクエリパラメータに追加
   if (opts.params) {
     for (const [key, value] of Object.entries(opts.params)) {
-      endpoint.searchParams.append(key, value);
+      if (value) {
+        endpoint.searchParams.append(key, value);
+      }
     }
   }
 
@@ -63,25 +72,43 @@ export async function searchBooksFromNDL(
   endpoint.searchParams.append("mediatype", "books");
 
   try {
-    console.log("called: ndl!");
+    const cacheKey = JSON.stringify(opts);
 
-    const res = await fetch(endpoint, {
-      next: {
-        // 10分間キャッシュ
+    const {
+      params,
+      page = 0,
+      count = 0,
+      ignoreSensitive = false,
+      ngWords = [],
+    } = opts;
+
+    // 10分間キャッシュする
+    const sortedBooks = await unstable_cache(
+      async () => {
+        const res = await fetch(endpoint);
+        const xml = await res.text();
+
+        let rawBooks = parseOpenSearchXml(xml);
+
+        // センシティブな書籍を除外する
+        if (ignoreSensitive) {
+          const results = filterSensitiveBooks(ngWords, rawBooks);
+          rawBooks = results.safeBooks;
+        }
+
+        // いい感じにソート
+        const results =
+          params?.any && rawBooks.length > 1
+            ? sortBooksByKeyword(rawBooks, params.any ?? "")
+            : rawBooks;
+
+        return results;
+      },
+      [cacheKey],
+      {
         revalidate: 10 * 60,
       },
-    });
-
-    const xml = await res.text();
-    const rawBooks = parseOpenSearchXml(xml);
-
-    const { params, page = 0, count = 0 } = opts;
-
-    // いい感じにソート
-    const sortedBooks =
-      params?.any && rawBooks.length > 1
-        ? sortBooksByKeyword(rawBooks, params.any ?? "")
-        : rawBooks;
+    )();
 
     const index = page * count;
     const books = sortedBooks.slice(index, index + count);

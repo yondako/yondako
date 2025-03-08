@@ -20,8 +20,8 @@ export async function checkLatestNews(fetch = global.fetch): Promise<number> {
     ).toString();
 
     const res = await fetch(endpoint, {
-      next: { revalidate: 0 },
       signal: ctrl.signal,
+      cache: "no-cache",
     });
 
     clearTimeout(timeoutId);

@@ -1,10 +1,8 @@
 import { MAX_UPDATE_BOOKS_PER_REQUEST } from "@/constants/update-books";
-import { getRequestContext } from "@cloudflare/next-on-pages";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { NextRequest } from "next/server";
 import { array, maxLength, object, pipe, safeParse, string } from "valibot";
 import { updateNewReleaseBooks } from "./_libs/checkAndUpdateBook";
-
-export const runtime = "edge";
 
 const requestBodySchema = object({
   ids: pipe(
@@ -43,7 +41,7 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  const { ctx } = getRequestContext();
+  const { ctx } = getCloudflareContext();
 
   ctx.waitUntil(updateNewReleaseBooks(output.ids));
 

@@ -3,16 +3,16 @@ import OpenDoodlesReadingSide from "@/assets/images/open-doodles/reading-side.sv
 import OpenDoodlesSittingReading from "@/assets/images/open-doodles/sitting-reading.svg";
 import BudouX from "@/components/BudouX";
 import Footer from "@/components/Footer";
-import { REDIRECT_TO_LIBLARY } from "@/constants/redirect";
+import { PATH_LIBLARY_WANT_READ } from "@/constants/path";
 import { site } from "@/constants/site";
-import { auth } from "@/lib/auth";
+import { getAuth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { headers } from "next/headers";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import LoginButtons from "./_components/LoginButtons";
 import SlideIn from "./_components/SlideIn";
-
-export const runtime = "edge";
 
 export const metadata = generateMetadataTitle();
 
@@ -23,15 +23,22 @@ type Props = {
 };
 
 export default async function Home(props: Props) {
-  const session = await auth();
+  const { env } = await getCloudflareContext({
+    async: true,
+  });
+
+  const auth = getAuth(env.DB);
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   // セッションがある場合はリダイレクト
   if (session?.user) {
-    redirect(REDIRECT_TO_LIBLARY);
+    redirect(PATH_LIBLARY_WANT_READ);
   }
 
   const searchParams = await props.searchParams;
-  const redirectTo = searchParams.callbackUrl || REDIRECT_TO_LIBLARY;
+  const redirectTo = searchParams.callbackUrl || PATH_LIBLARY_WANT_READ;
 
   return (
     <>

@@ -4,9 +4,21 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 import BookCard from "./index";
 
+const mockDetail: BookDetailWithoutId = {
+  ...createDummyBookDetail("1234567890"),
+  jpeCode: undefined,
+  isbn: undefined,
+};
+
 const meta: Meta<typeof BookCard> = {
   title: "Common/BookCard",
   component: BookCard,
+  args: {
+    data: {
+      detail: mockDetail,
+      readingStatus: "reading",
+    },
+  },
   render: (args) => {
     return (
       <div className="w-96">
@@ -19,21 +31,8 @@ const meta: Meta<typeof BookCard> = {
 export default meta;
 type Story = StoryObj<typeof BookCard>;
 
-const mockDetail: BookDetailWithoutId = {
-  ...createDummyBookDetail("1234567890"),
-  jpeCode: undefined,
-  isbn: undefined,
-};
-
 // デフォルト
-export const Default: Story = {
-  args: {
-    data: {
-      detail: mockDetail,
-      readingStatus: "reading",
-    },
-  },
-};
+export const Default: Story = {};
 
 // 著者が無い場合
 export const WithoutAuthor: Story = {
@@ -48,15 +47,20 @@ export const WithoutAuthor: Story = {
   },
 };
 
+// 幅が狭い場合はメニューアイコンが消える
+export const NarrowWidth: Story = {
+  render: (args) => {
+    return (
+      <div className="w-72">
+        <BookCard {...args} />
+      </div>
+    );
+  },
+};
+
 // クリックで書籍詳細が開くか
 export const OpenClose: Story = {
   name: "書籍詳細を開ける",
-  args: {
-    data: {
-      detail: mockDetail,
-      readingStatus: "reading",
-    },
-  },
   play: async ({ canvasElement, step, args }) => {
     // NOTE: canvasElement内にcreatePortalで作った要素がない問題のワークアラウンド
     // https://github.com/storybookjs/storybook/issues/16971

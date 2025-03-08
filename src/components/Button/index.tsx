@@ -4,27 +4,31 @@ import { twMerge } from "tailwind-merge";
 
 type Props = {
   asChild?: boolean;
-  noBorder?: boolean;
-} & ComponentPropsWithRef<"button">;
+  style?: "accent" | "noBorder";
+} & Omit<ComponentPropsWithRef<"button">, "style">;
 
-export default function Button({
-  asChild,
-  noBorder,
-  className,
-  ...props
-}: Props) {
-  const style = twMerge(
-    "px-6 py-3 rounded-full text-center transition hover:brightness-95 cursor-pointer",
-    noBorder
-      ? "bg-tertiary-background"
-      : "border border-primary-border bg-primary-background",
-    className,
-  );
+export default function Button({ asChild, className, style, ...props }: Props) {
+  const baseStyle =
+    "px-6 py-3 rounded-full text-center transition hover:brightness-95 cursor-pointer";
+
+  let styleVariant =
+    "border-2 text-primary border-primary-foreground bg-primary-background";
+
+  switch (style) {
+    case "accent":
+      styleVariant = "border-2 text-accent border-accent bg-primary-background";
+      break;
+    case "noBorder":
+      styleVariant = "bg-tertiary-background";
+      break;
+  }
+
+  const mergedClassname = twMerge(baseStyle, styleVariant, className);
 
   return asChild ? (
-    <Slot className={style}>{props.children}</Slot>
+    <Slot className={mergedClassname}>{props.children}</Slot>
   ) : (
-    <button {...props} className={style}>
+    <button {...props} className={mergedClassname}>
       {props.children}
     </button>
   );

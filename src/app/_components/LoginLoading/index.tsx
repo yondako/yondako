@@ -1,23 +1,13 @@
 "use client";
 import { Loading } from "@/components/Loading";
 import { animated, useTransition } from "@react-spring/web";
-import { type ComponentPropsWithoutRef, useEffect, useState } from "react";
-import { useFormStatus } from "react-dom";
 
-export default function LoginLoading() {
-  const [isShow, setIsShow] = useState(false);
-  const { pending } = useFormStatus();
+type Props = {
+  show: boolean;
+};
 
-  // NOTE:
-  // ログイン処理が始まったらページが遷移するまでローディングを表示したいので
-  // pending と別に状態を持っている
-  useEffect(() => {
-    if (pending) {
-      setIsShow(true);
-    }
-  });
-
-  const transitions = useTransition(isShow, {
+export default function LoginLoading({ show }: Props) {
+  const transitions = useTransition(show, {
     from: {
       opacity: 0,
       backdropFilter: "blur(0px)",
@@ -33,25 +23,18 @@ export default function LoginLoading() {
     },
   });
 
-  const AnimatedLoginLoading = animated(LoginLoadingPresentational);
-
   return transitions(
-    (style, show) => show && <AnimatedLoginLoading style={style} />,
-  );
-}
-
-export function LoginLoadingPresentational(
-  props: ComponentPropsWithoutRef<"div">,
-) {
-  return (
-    <div
-      className="fixed inset-0 flex h-svh w-screen items-center justify-center bg-black/40"
-      {...props}
-    >
-      <Loading
-        className="h-fit w-48 rounded-lg bg-primary-background p-8"
-        title="ログイン中です"
-      />
-    </div>
+    (style, show) =>
+      show && (
+        <animated.div
+          className="fixed inset-0 z-10 flex h-svh w-screen items-center justify-center bg-black/40"
+          style={style}
+        >
+          <Loading
+            className="h-fit w-48 rounded-lg bg-primary-background p-8"
+            title="ログイン中です"
+          />
+        </animated.div>
+      ),
   );
 }
