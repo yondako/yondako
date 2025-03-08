@@ -1,0 +1,53 @@
+# ------------------
+# 開発環境
+# ------------------
+
+main = ".open-next/worker.js"
+name = "yondako-dev"
+compatibility_date = "2024-12-30"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = false
+preview_urls = false
+
+[vars]
+BETTER_AUTH_URL = "<DEVELOPMENT_URL>"
+FORM_BUG_REPORT_URL = "<FORM_BUG_REPORT_URL>"
+FORM_CONTACT_URL = "<FORM_CONTACT_URL>"
+
+[assets]
+directory = ".open-next/assets"
+binding = "ASSETS"
+
+[[kv_namespaces]]
+binding = "NEXT_CACHE_WORKERS_KV"
+id = "<DEVELOPMENT_KV_ID>"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "yondako_dev"
+database_id = "<DEVELOPMENT_DATABASE_ID>"
+migrations_dir = "src/db/migrations"
+
+# ------------------
+# 本番環境
+# ------------------
+
+[env.production]
+name = "yondako"
+workers_dev = false
+preview_urls = false
+
+[env.production.vars]
+BETTER_AUTH_URL = "<PRODUCTION_URL>"
+FORM_BUG_REPORT_URL = "<FORM_BUG_REPORT_URL>"
+FORM_CONTACT_URL = "<FORM_CONTACT_URL>"
+
+[[env.production.kv_namespaces]]
+binding = "NEXT_CACHE_WORKERS_KV"
+id = "<PRODUCTION_KV_ID>"
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "yondako"
+database_id = "<PRODUCTION_DATABASE_ID>"
+migrations_dir = "src/db/migrations"
