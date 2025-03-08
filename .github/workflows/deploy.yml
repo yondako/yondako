@@ -1,0 +1,57 @@
+name: Deploy to Cloudflare Workers
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup mise
+        uses: jdx/mise-action@v2
+        with:
+          install: true
+          cache: true
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-${{ matrix.bun }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.bun }}-bun-
+
+      - name: Create wrangler.toml from template
+        run: |
+          cp wrangler.example.toml wrangler.toml
+
+          # 開発環境の値を置換
+          sed -i "s|<DEVELOPMENT_URL>|${{ secrets.DEVELOPMENT_URL }}|g" wrangler.toml
+          sed -i "s|<FORM_BUG_REPORT_URL>|${{ secrets.FORM_BUG_REPORT_URL }}|g" wrangler.toml
+          sed -i "s|<FORM_CONTACT_URL>|${{ secrets.FORM_CONTACT_URL }}|g" wrangler.toml
+          sed -i "s|<DEVELOPMENT_KV_ID>|${{ secrets.DEVELOPMENT_KV_ID }}|g" wrangler.toml
+          sed -i "s|<DEVELOPMENT_DATABASE_ID>|${{ secrets.DEVELOPMENT_DATABASE_ID }}|g" wrangler.toml
+
+          # 本番環境の値を置換
+          sed -i "s|<PRODUCTION_URL>|${{ secrets.PRODUCTION_URL }}|g" wrangler.toml
+          sed -i "s|<PRODUCTION_KV_ID>|${{ secrets.PRODUCTION_KV_ID }}|g" wrangler.toml
+          sed -i "s|<PRODUCTION_DATABASE_ID>|${{ secrets.PRODUCTION_DATABASE_ID }}|g" wrangler.toml
+
+          echo "wrangler.toml created successfully"
+
+      - name: Deploy to development environment
+        if: github.ref == 'refs/heads/develop'
+        run: bun run deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Deploy to production environment
+        if: github.ref == 'refs/heads/main'
+        run: bun run deploy --env production
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
