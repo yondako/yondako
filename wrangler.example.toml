@@ -6,7 +6,7 @@ main = ".open-next/worker.js"
 name = "yondako-dev"
 compatibility_date = "2024-12-30"
 compatibility_flags = ["nodejs_compat"]
-workers_dev = false
+workers_dev = true
 preview_urls = false
 
 [vars]
