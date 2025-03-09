@@ -1,0 +1,23 @@
+name: Setup Bun
+description: Bunと依存関係をインストール
+
+runs:
+  using: composite
+  steps:
+    - name: Setup mise
+      uses: jdx/mise-action@v2
+      with:
+        install: true
+        cache: true
+
+    - name: Cache bun install
+      uses: actions/cache@v4
+      with:
+        path: ~/.bun/install/cache
+        key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-bun-
+
+    - name: Install dependencies
+      shell: bash
+      run: bun install
