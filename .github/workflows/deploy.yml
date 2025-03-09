@@ -13,21 +13,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup mise
-        uses: jdx/mise-action@v2
-        with:
-          install: true
-          cache: true
-
-      - uses: actions/cache@v4
-        with:
-          path: ~/.bun/install/cache
-          key: ${{ runner.os }}-${{ matrix.bun }}-bun-${{ hashFiles('**/bun.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ matrix.bun }}-bun-
-
-      - name: Install dependencies
-        run: bun install
+      - name: Setup Bun
+        uses: ./.github/actions/setup-bun
 
       - name: Create wrangler.toml from template
         run: |
