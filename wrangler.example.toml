@@ -37,6 +37,10 @@ name = "yondako"
 workers_dev = false
 preview_urls = false
 
+[env.production.observability]
+enabled = true
+head_sampling_rate = 1
+
 [[env.production.routes]]
 pattern = "yondako.com"
 custom_domain = true
