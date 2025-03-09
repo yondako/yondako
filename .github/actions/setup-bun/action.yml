@@ -10,7 +10,8 @@ runs:
         install: true
         cache: true
 
-    - uses: actions/cache@v4
+    - name: Cache bun install
+      uses: actions/cache@v4
       with:
         path: ~/.bun/install/cache
         key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lock') }}
