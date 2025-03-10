@@ -13,6 +13,8 @@ preview_urls = false
 BETTER_AUTH_URL = "<DEVELOPMENT_URL>"
 FORM_BUG_REPORT_URL = "<FORM_BUG_REPORT_URL>"
 FORM_CONTACT_URL = "<FORM_CONTACT_URL>"
+NEXT_PUBLIC_UMAMI_SCRIPT_URL="<UMAMI_SCRIPT_URL>"
+NEXT_PUBLIC_UMAMI_WEBSITE_ID="<UMAMI_WEBSITE_ID>"
 
 [assets]
 directory = ".open-next/assets"
@@ -36,6 +38,10 @@ migrations_dir = "src/db/migrations"
 name = "yondako"
 workers_dev = false
 preview_urls = false
+
+[env.production.observability]
+enabled = true
+head_sampling_rate = 1
 
 [[env.production.routes]]
 pattern = "yondako.com"

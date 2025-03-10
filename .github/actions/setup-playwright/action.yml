@@ -28,4 +28,4 @@ runs:
     - name: Install just Playwright's dependencies
       shell: bash
       if: steps.cache-playwright-browsers.outputs.cache-hit == 'true'
-      run: bunx playwright install-deps
+      run: bunx playwright install-deps webkit

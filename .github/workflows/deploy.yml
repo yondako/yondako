@@ -13,21 +13,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup mise
-        uses: jdx/mise-action@v2
-        with:
-          install: true
-          cache: true
-
-      - uses: actions/cache@v4
-        with:
-          path: ~/.bun/install/cache
-          key: ${{ runner.os }}-${{ matrix.bun }}-bun-${{ hashFiles('**/bun.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ matrix.bun }}-bun-
-
-      - name: Install dependencies
-        run: bun install
+      - name: Setup Bun
+        uses: ./.github/actions/setup-bun
 
       - name: Create wrangler.toml from template
         run: |
@@ -44,8 +31,19 @@ jobs:
           sed -i "s|<PRODUCTION_URL>|${{ secrets.PRODUCTION_URL }}|g" wrangler.toml
           sed -i "s|<PRODUCTION_KV_ID>|${{ secrets.PRODUCTION_KV_ID }}|g" wrangler.toml
           sed -i "s|<PRODUCTION_DATABASE_ID>|${{ secrets.PRODUCTION_DATABASE_ID }}|g" wrangler.toml
+          sed -i "s|<UMAMI_SCRIPT_URL>|${{ secrets.UMAMI_SCRIPT_URL }}|g" wrangler.toml
+          sed -i "s|<UMAMI_WEBSITE_ID>|${{ secrets.UMAMI_WEBSITE_ID }}|g" wrangler.toml
 
           echo "wrangler.toml created successfully"
+
+      - name: Cache build
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/bun.lock') }}-
 
       - name: Build
         run: bun run build:worker
