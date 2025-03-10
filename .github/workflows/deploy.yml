@@ -31,6 +31,8 @@ jobs:
           sed -i "s|<PRODUCTION_URL>|${{ secrets.PRODUCTION_URL }}|g" wrangler.toml
           sed -i "s|<PRODUCTION_KV_ID>|${{ secrets.PRODUCTION_KV_ID }}|g" wrangler.toml
           sed -i "s|<PRODUCTION_DATABASE_ID>|${{ secrets.PRODUCTION_DATABASE_ID }}|g" wrangler.toml
+          sed -i "s|<UMAMI_SCRIPT_URL>|${{ secrets.UMAMI_SCRIPT_URL }}|g" wrangler.toml
+          sed -i "s|<UMAMI_WEBSITE_ID>|${{ secrets.UMAMI_WEBSITE_ID }}|g" wrangler.toml
 
           echo "wrangler.toml created successfully"
 
