@@ -36,7 +36,7 @@
         "@cloudflare/workers-types": "^4.20250224.0",
         "@happy-dom/global-registrator": "^17.1.8",
         "@libsql/client": "^0.14.0",
-        "@opennextjs/cloudflare": "^0.5.7",
+        "@opennextjs/cloudflare": "^0.5.9",
         "@playwright/test": "^1.50.1",
         "@storybook/addon-essentials": "^8.6.3",
         "@storybook/addon-interactions": "^8.6.3",
@@ -730,7 +730,7 @@
 
     "@opennextjs/aws": ["@opennextjs/aws@https://pkg.pr.new/@opennextjs/aws@756", { "dependencies": { "@aws-sdk/client-cloudfront": "3.398.0", "@aws-sdk/client-dynamodb": "^3.398.0", "@aws-sdk/client-lambda": "^3.398.0", "@aws-sdk/client-s3": "^3.398.0", "@aws-sdk/client-sqs": "^3.398.0", "@node-minify/core": "^8.0.6", "@node-minify/terser": "^8.0.6", "@tsconfig/node18": "^1.0.1", "aws4fetch": "^1.0.18", "chalk": "^5.3.0", "esbuild": "0.19.2", "express": "5.0.1", "path-to-regexp": "^6.3.0", "urlpattern-polyfill": "^10.0.0" }, "bin": { "open-next": "./dist/index.js" } }],
 
-    "@opennextjs/cloudflare": ["@opennextjs/cloudflare@0.5.7", "", { "dependencies": { "@ast-grep/napi": "^0.34.1", "@dotenvx/dotenvx": "1.31.0", "@opennextjs/aws": "https://pkg.pr.new/@opennextjs/aws@756", "enquirer": "^2.4.1", "glob": "^11.0.0", "yaml": "^2.7.0" }, "peerDependencies": { "wrangler": "^3.111.0" }, "bin": { "opennextjs-cloudflare": "dist/cli/index.js" } }, "sha512-X9cuCVunOe1l230nMQ+UZJyv66VDlqM9+jRA8o7T+CUT70LqojvNKP7+/mEJPKOIbaKjrjt69d0r60FRQcdzBw=="],
+    "@opennextjs/cloudflare": ["@opennextjs/cloudflare@0.5.9", "", { "dependencies": { "@ast-grep/napi": "^0.34.1", "@dotenvx/dotenvx": "1.31.0", "@opennextjs/aws": "https://pkg.pr.new/@opennextjs/aws@756", "enquirer": "^2.4.1", "glob": "^11.0.0", "yaml": "^2.7.0" }, "peerDependencies": { "wrangler": "^3.111.0" }, "bin": { "opennextjs-cloudflare": "dist/cli/index.js" } }, "sha512-1JHKLh6a5x1EtoBAm6u5uv6zje9YuFztRI/0Lr6n3xbEVQFrfxZ42e8gJzQLV6os/BTlryQa+ANSZH6srEiPlg=="],
 
     "@peculiar/asn1-android": ["@peculiar/asn1-android@2.3.15", "", { "dependencies": { "@peculiar/asn1-schema": "^2.3.15", "asn1js": "^3.0.5", "tslib": "^2.8.1" } }, "sha512-8U2TIj59cRlSXTX2d0mzUKP7whfWGFMzTeC3qPgAbccXFrPNZLaDhpNEdG5U2QZ/tBv/IHlCJ8s+KYXpJeop6w=="],
 

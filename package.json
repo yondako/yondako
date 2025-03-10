@@ -57,7 +57,7 @@
     "@cloudflare/workers-types": "^4.20250224.0",
     "@happy-dom/global-registrator": "^17.1.8",
     "@libsql/client": "^0.14.0",
-    "@opennextjs/cloudflare": "^0.5.7",
+    "@opennextjs/cloudflare": "^0.5.9",
     "@playwright/test": "^1.50.1",
     "@storybook/addon-essentials": "^8.6.3",
     "@storybook/addon-interactions": "^8.6.3",
