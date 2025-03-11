@@ -31,7 +31,7 @@
     "@radix-ui/react-switch": "^1.1.3",
     "@react-spring/web": "^9.7.5",
     "better-auth": "^1.1.21",
-    "budoux": "^0.6.4",
+    "budoux": "^0.7.0",
     "cloudflare": "^4.1.0",
     "drizzle-orm": "^0.40.0",
     "fast-xml-parser": "^5.0.8",
