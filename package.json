@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next dev --experimental-https -H local.yondako.com",
     "build": "next build",
-    "build:worker": "opennextjs-cloudflare",
+    "build:worker": "opennextjs-cloudflare build",
     "start": "next start",
     "lint": "biome lint --write",
     "fmt": "biome format --write",
@@ -57,7 +57,7 @@
     "@cloudflare/workers-types": "^4.20250224.0",
     "@happy-dom/global-registrator": "^17.1.8",
     "@libsql/client": "^0.15.0",
-    "@opennextjs/cloudflare": "^0.5.12",
+    "@opennextjs/cloudflare": "^0.6.0",
     "@playwright/test": "^1.50.1",
     "@storybook/addon-essentials": "^8.6.3",
     "@storybook/addon-interactions": "^8.6.3",
