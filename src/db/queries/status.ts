@@ -1,3 +1,4 @@
+import { normalizeIsbn } from "@/lib/isbn";
 import type { BookDetailWithoutId, BookType } from "@/types/book";
 import type { Order } from "@/types/order";
 import type { ReadingStatus } from "@/types/readingStatus";
@@ -14,18 +15,6 @@ import {
 } from "drizzle-orm";
 import { getDB } from "..";
 import * as dbSchema from "../schema/book";
-
-/**
- * ISBNからハイフンを削除する
- * @param isbn ISBN
- * @returns ハイフンを削除したISBN
- */
-function normalizeIsbn(
-  isbn: string | null | undefined,
-): string | null | undefined {
-  if (!isbn) return isbn;
-  return isbn.replace(/-/g, "");
-}
 
 /**
  * 読書ステータスを追加または更新
