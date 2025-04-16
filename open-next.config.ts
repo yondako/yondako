@@ -1,26 +1,10 @@
-import type { OpenNextConfig } from "@opennextjs/aws/types/open-next.js";
-import cache from "@opennextjs/cloudflare/kv-cache";
+import { defineCloudflareConfig } from "@opennextjs/cloudflare";
+import kvIncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/kv-incremental-cache";
+import doQueue from "@opennextjs/cloudflare/overrides/queue/do-queue";
+import d1NextTagCache from "@opennextjs/cloudflare/overrides/tag-cache/d1-next-tag-cache";
 
-const config: OpenNextConfig = {
-  default: {
-    override: {
-      wrapper: "cloudflare-node",
-      converter: "edge",
-      // set `incrementalCache` to "dummy" to disable KV cache
-      incrementalCache: async () => cache,
-      tagCache: "dummy",
-      queue: "dummy",
-    },
-  },
-
-  middleware: {
-    external: true,
-    override: {
-      wrapper: "cloudflare-edge",
-      converter: "edge",
-      proxyExternalRequest: "fetch",
-    },
-  },
-};
-
-export default config;
+export default defineCloudflareConfig({
+  incrementalCache: kvIncrementalCache,
+  queue: doQueue,
+  tagCache: d1NextTagCache,
+});
