@@ -1,3 +1,4 @@
+import { normalizeIsbn } from "@/lib/isbn";
 import type { BookDetailWithoutId, BookType } from "@/types/book";
 import type { Order } from "@/types/order";
 import type { ReadingStatus } from "@/types/readingStatus";
@@ -204,9 +205,10 @@ export async function getStatusesByBookIds(
 
     // ISBN
     const isbns = bookIdentifiers
-      .filter((id) => !id.ndlBibId && id.isbn)
-      .map((b) => b.isbn)
+      .map((b) => normalizeIsbn(b.isbn))
       .filter((id) => typeof id === "string");
+
+    console.log(ndlBibIds, isbns);
 
     // NDL書誌IDかISBNで書籍を検索
     const bookIds = db.$with("book_ids").as(
@@ -220,7 +222,8 @@ export async function getStatusesByBookIds(
         .where(
           or(
             inArray(dbSchema.books.ndlBibId, ndlBibIds),
-            inArray(dbSchema.books.isbn, isbns),
+            // NOTE: JPRO提供のデータはハイフンがないが、NDL提供のデータはハイフンがあるため
+            sql`replace(${dbSchema.books.isbn}, '-', '') IN ${isbns}`,
           ),
         ),
     );
@@ -240,15 +243,18 @@ export async function getStatusesByBookIds(
           eq(dbSchema.readingStatuses.userId, userId),
           or(
             inArray(bookIds.ndlBibId, ndlBibIds),
-            inArray(bookIds.isbn, isbns),
+            sql`replace(${bookIds.isbn}, '-', '') IN ${isbns}`,
           ),
         ),
       );
 
     const results = bookIdentifiers.map((b) => {
       const readingStatus: ReadingStatus =
-        raw.find((r) => b.ndlBibId === r.ndlBibId || b.isbn === r.isbn)
-          ?.status ?? "none";
+        raw.find(
+          (r) =>
+            b.ndlBibId === r.ndlBibId ||
+            normalizeIsbn(b.isbn) === normalizeIsbn(r.isbn),
+        )?.status ?? "none";
 
       return {
         detail: b,

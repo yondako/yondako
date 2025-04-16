@@ -1,4 +1,5 @@
 import { MAX_UPDATE_CHECK_COUNT } from "@/constants/db";
+import { normalizeIsbn } from "@/lib/isbn";
 import type {
   BookDetail,
   BookDetailWithoutId,
@@ -36,7 +37,13 @@ export async function fetchBook(
       : // それ以外はNDL書誌IDかISBNで検索
         or(
           ndlBibId ? eq(dbSchema.books.ndlBibId, ndlBibId) : undefined,
-          isbn ? eq(dbSchema.books.isbn, isbn) : undefined,
+          isbn
+            ? eq(
+                // NOTE: JPRO提供のデータはハイフンがないが、NDL提供のデータはハイフンがあるため
+                sql`replace(${dbSchema.books.isbn}, '-', '')`,
+                normalizeIsbn(isbn),
+              )
+            : undefined,
         ),
     with: {
       bookAuthors: {
