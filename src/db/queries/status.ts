@@ -16,6 +16,18 @@ import { getDB } from "..";
 import * as dbSchema from "../schema/book";
 
 /**
+ * ISBNからハイフンを削除する
+ * @param isbn ISBN
+ * @returns ハイフンを削除したISBN
+ */
+function normalizeIsbn(
+  isbn: string | null | undefined,
+): string | null | undefined {
+  if (!isbn) return isbn;
+  return isbn.replace(/-/g, "");
+}
+
+/**
  * 読書ステータスを追加または更新
  * @param dbInstance D1のインスタンス
  * @param userId ユーザーID
@@ -204,9 +216,10 @@ export async function getStatusesByBookIds(
 
     // ISBN
     const isbns = bookIdentifiers
-      .filter((id) => !id.ndlBibId && id.isbn)
-      .map((b) => b.isbn)
+      .map((b) => normalizeIsbn(b.isbn))
       .filter((id) => typeof id === "string");
+
+    console.log(ndlBibIds, isbns);
 
     // NDL書誌IDかISBNで書籍を検索
     const bookIds = db.$with("book_ids").as(
@@ -220,7 +233,8 @@ export async function getStatusesByBookIds(
         .where(
           or(
             inArray(dbSchema.books.ndlBibId, ndlBibIds),
-            inArray(dbSchema.books.isbn, isbns),
+            // NOTE: JPRO提供のデータはハイフンがないが、NDL提供のデータはハイフンがあるため
+            sql`replace(${dbSchema.books.isbn}, '-', '') IN ${isbns}`,
           ),
         ),
     );
@@ -240,15 +254,18 @@ export async function getStatusesByBookIds(
           eq(dbSchema.readingStatuses.userId, userId),
           or(
             inArray(bookIds.ndlBibId, ndlBibIds),
-            inArray(bookIds.isbn, isbns),
+            sql`replace(${bookIds.isbn}, '-', '') IN ${isbns}`,
           ),
         ),
       );
 
     const results = bookIdentifiers.map((b) => {
       const readingStatus: ReadingStatus =
-        raw.find((r) => b.ndlBibId === r.ndlBibId || b.isbn === r.isbn)
-          ?.status ?? "none";
+        raw.find(
+          (r) =>
+            b.ndlBibId === r.ndlBibId ||
+            normalizeIsbn(b.isbn) === normalizeIsbn(r.isbn),
+        )?.status ?? "none";
 
       return {
         detail: b,
