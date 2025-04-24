@@ -33,7 +33,7 @@
     "better-auth": "^1.1.21",
     "budoux": "^0.7.0",
     "cloudflare": "^4.1.0",
-    "drizzle-orm": "^0.42.0",
+    "drizzle-orm": "^0.43.0",
     "fast-xml-parser": "^5.0.8",
     "kysely": "^0.28.0",
     "kysely-d1": "^0.4.0",
