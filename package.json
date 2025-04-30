@@ -75,7 +75,7 @@
     "@testing-library/react-hooks": "^8.0.1",
     "@types/bun": "^1.2.4",
     "@types/react": "18.3.20",
-    "@types/react-dom": "18.3.6",
+    "@types/react-dom": "18.3.7",
     "@types/tiny-segmenter": "^0.2.0",
     "drizzle-kit": "^0.31.0",
     "lefthook": "^1.11.2",
