@@ -28,7 +28,7 @@ import Quagga, { type QuaggaJSResultObject } from "@ericblade/quagga2";
 import { type RefObject, useCallback, useLayoutEffect, useRef } from "react";
 
 type Props = {
-  scannerRef: RefObject<HTMLDivElement>;
+  scannerRef: RefObject<HTMLDivElement | null>;
 
   /**
    * バーコードを検出した
