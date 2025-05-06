@@ -208,8 +208,6 @@ export async function getStatusesByBookIds(
       .map((b) => normalizeIsbn(b.isbn))
       .filter((id) => typeof id === "string");
 
-    console.log(ndlBibIds, isbns);
-
     // NDL書誌IDかISBNで書籍を検索
     const bookIds = db.$with("book_ids").as(
       db
@@ -220,6 +218,7 @@ export async function getStatusesByBookIds(
         })
         .from(dbSchema.books)
         .where(
+          // FIXME: D1の制限であまり個数の多い配列を渡すと D1_ERROR: too many SQL variables が発生する
           or(
             inArray(dbSchema.books.ndlBibId, ndlBibIds),
             // NOTE: JPRO提供のデータはハイフンがないが、NDL提供のデータはハイフンがあるため
