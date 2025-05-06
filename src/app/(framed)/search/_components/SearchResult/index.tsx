@@ -9,7 +9,8 @@ import type { NDC } from "@/types/ndc";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { headers } from "next/headers";
 
-const SEARCH_COUNT = 48;
+// NOTE: あまり大きいと getStatusesByBookIds 内で D1_ERROR: too many SQL variables が発生する
+const SEARCH_COUNT = 24;
 
 export type SearchResultProps = {
   query: string;
@@ -71,7 +72,7 @@ export async function SearchResult({
         className="mt-16"
         title="見つかりませんでした"
         decoration={
-          <span className="-right-8 absolute top-0 text-5xl">❓️</span>
+          <span className="-right-8 absolute top-0 text-5xl">❓</span>
         }
       >
         <p className="mt-3">該当する書籍が見つかりませんでした。</p>
@@ -79,6 +80,8 @@ export async function SearchResult({
       </MessageTako>
     );
   }
+
+  console.log("search result", result.books.length);
 
   const items = await getStatusesByBookIds(
     env.DB,
