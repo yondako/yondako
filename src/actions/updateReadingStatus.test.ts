@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'bun:test';
+import { describe, it, expect, vi, mock, beforeEach, afterEach } from 'bun:test';
 import { updateReadingStatus } from './updateReadingStatus';
 import { createFreshTestDb } from '../db';
 import type { BookIdentifiers, Book as BookSchemaType } from '../db/schema'; // Assuming BookIdentifiers is from schema or a shared type
@@ -8,11 +8,15 @@ import type { BookNDL } from '../lib/ndl';
 import type { BookType } from '../types/book'; // For the expected return structure
 
 // --- Mocks ---
-vi.mock('@opennextjs/cloudflare', () => ({ getCloudflareContext: vi.fn() }));
-vi.mock('../lib/auth', () => ({ getAuth: vi.fn() }));
-vi.mock('../db/queries/book', () => ({ fetchBook: vi.fn(), createBook: vi.fn() }));
-vi.mock('../db/queries/status', () => ({ upsertReadingStatus: vi.fn() }));
-vi.mock('../lib/ndl', () => ({ searchBooksFromNDL: vi.fn() }));
+// Mock next/headers
+mock.module('next/headers', () => ({
+  headers: () => new Headers(),
+}));
+mock.module('@opennextjs/cloudflare', () => ({ getCloudflareContext: vi.fn() }));
+mock.module('../lib/auth', () => ({ getAuth: vi.fn() }));
+mock.module('../db/queries/book', () => ({ fetchBook: vi.fn(), createBook: vi.fn() }));
+mock.module('../db/queries/status', () => ({ upsertReadingStatus: vi.fn() }));
+mock.module('../lib/ndl', () => ({ searchBooksFromNDL: vi.fn() }));
 // --- End Mocks ---
 
 // Helper to import mocked functions for typing and control
@@ -75,7 +79,19 @@ describe('Action: updateReadingStatus', () => {
 
   afterEach(() => {
     mockSqlite.close();
-    vi.resetAllMocks();
+    // vi.resetAllMocks(); // Replaced with clearAllMocks or individual resets
+    vi.clearAllMocks();
+    // If vi.clearAllMocks() is not available or doesn't work, reset mocks individually:
+    // (getCloudflareContext as ReturnType<typeof vi.fn>).mockClear();
+    // (getAuth as ReturnType<typeof vi.fn>).mockClear();
+    // const authInstance = getAuth(null as any);
+    // if (authInstance && authInstance.api && typeof authInstance.api.getSession.mockClear === 'function') {
+    //   authInstance.api.getSession.mockClear();
+    // }
+    // (fetchBook as ReturnType<typeof vi.fn>).mockClear();
+    // (createBook as ReturnType<typeof vi.fn>).mockClear();
+    // (upsertReadingStatus as ReturnType<typeof vi.fn>).mockClear();
+    // (searchBooksFromNDL as ReturnType<typeof vi.fn>).mockClear();
   });
 
   // 1. Authentication - Unauthenticated

@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'bun:test';
+import { describe, it, expect, vi, mock, beforeEach, afterEach } from 'bun:test';
 import { searchFromIsbn } from './searchFromIsbn';
 import { createFreshTestDb } from '../db'; // Adjusted path
 import type { BookNDL } from '../lib/ndl'; // Adjusted path
@@ -7,23 +7,27 @@ import type { User } from '../db/schema/user'; // Adjusted path
 import type { BookType } from '@/types/book';
 
 // --- Mocks ---
+// Mock next/headers
+mock.module('next/headers', () => ({
+  headers: () => new Headers(),
+}));
 // Mock getCloudflareContext
-vi.mock('@opennextjs/cloudflare', () => ({
+mock.module('@opennextjs/cloudflare', () => ({
   getCloudflareContext: vi.fn(),
 }));
 
 // Mock getAuth and its session logic
-vi.mock('../lib/auth', () => ({
+mock.module('../lib/auth', () => ({
   getAuth: vi.fn(),
 }));
 
 // Mock NDL search function
-vi.mock('../lib/ndl', () => ({
+mock.module('../lib/ndl', () => ({
   searchBooksFromNDL: vi.fn(),
 }));
 
 // Mock DB query for statuses (alternative to seeding for this specific test)
-vi.mock('../db/queries/status', () => ({
+mock.module('../db/queries/status', () => ({
   getStatusesByBookIds: vi.fn(),
 }));
 // --- End Mocks ---
@@ -76,7 +80,7 @@ describe('Action: searchFromIsbn', () => {
     imageUrl: '',
   };
 
-  beforeEach(()_ => {
+  beforeEach(() => {
     const { db, sqlite } = createFreshTestDb();
     mockDb = db;
     mockSqlite = sqlite;
@@ -97,7 +101,18 @@ describe('Action: searchFromIsbn', () => {
 
   afterEach(() => {
     mockSqlite.close(); // Close the in-memory database after each test
-    vi.resetAllMocks(); // Reset all mocks
+    // vi.resetAllMocks(); // Replaced with clearAllMocks or individual resets
+    vi.clearAllMocks(); 
+    // If vi.clearAllMocks() is not available or doesn't work, reset mocks individually:
+    // (getCloudflareContext as ReturnType<typeof vi.fn>).mockClear();
+    // (getAuth as ReturnType<typeof vi.fn>).mockClear();
+    // // For functions returned by vi.fn() within other mocks, e.g., getAuth().api.getSession
+    // const authInstance = getAuth(null as any); // Get instance to reset its methods
+    // if (authInstance && authInstance.api && typeof authInstance.api.getSession.mockClear === 'function') {
+    //   authInstance.api.getSession.mockClear();
+    // }
+    // (searchBooksFromNDL as ReturnType<typeof vi.fn>).mockClear();
+    // (getStatusesByBookIds as ReturnType<typeof vi.fn>).mockClear();
   });
 
   it('should return undefined if user is not authenticated', async () => {

@@ -1,6 +1,6 @@
-import Database from 'better-sqlite3';
-import { drizzle } from 'drizzle-orm/better-sqlite3';
-import { migrate } from 'drizzle-orm/better-sqlite3/migrator';
+import { Database } from 'bun:sqlite'; // Import Database from bun:sqlite
+import { drizzle, BunSQLiteDatabase } from 'drizzle-orm/bun-sqlite'; // Import drizzle and BunSQLiteDatabase from bun-sqlite
+import { migrate } from 'drizzle-orm/bun-sqlite/migrator'; // Import migrate from bun-sqlite migrator
 import * as schema from '../db/schema';
 
 // Path to the migrations folder
@@ -16,10 +16,10 @@ export function createTestDb() {
   return { db, sqlite };
 }
 
-export function clearDatabase(db: ReturnType<typeof drizzle>, sqlite: Database.Database) {
+export function clearDatabase(currentDb: BunSQLiteDatabase<typeof schema>, currentSqlite: Database) {
   // This is a simple way to clear the in-memory database.
-  // For persistent databases, you might need to drop tables or truncate them.
-  sqlite.close(); // Close the current connection
+  // For bun:sqlite, closing and reopening a new in-memory DB is the most straightforward way.
+  currentSqlite.close(); // Close the current connection
   const newSqlite = new Database(':memory:'); // Create a new in-memory database
   const newDb = drizzle(newSqlite, { schema });
   migrate(newDb, { migrationsFolder }); // Re-apply migrations

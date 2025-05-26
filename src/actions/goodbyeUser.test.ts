@@ -1,16 +1,16 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'bun:test';
+import { describe, it, expect, vi, mock, beforeEach, afterEach } from 'bun:test';
 import { goodbyeUser, type GoodByeUserResult } from './goodbyeUser'; // Adjusted import
 import { createFreshTestDb } from '../db'; // Adjusted path for DB utils
 import type { D1Database } from '@cloudflare/workers-types';
 
 // --- Mocks ---
 // Mock getCloudflareContext from @opennextjs/cloudflare
-vi.mock('@opennextjs/cloudflare', () => ({
+mock.module('@opennextjs/cloudflare', () => ({
   getCloudflareContext: vi.fn(),
 }));
 
 // Mock deleteUser from src/db/queries/user.ts
-vi.mock('../db/queries/user', () => ({
+mock.module('../db/queries/user', () => ({
   deleteUser: vi.fn(),
 }));
 // --- End Mocks ---
@@ -41,7 +41,11 @@ describe('Action: goodbyeUser', () => {
 
   afterEach(() => {
     mockSqlite.close(); // Close the in-memory database after each test
-    vi.resetAllMocks(); // Reset all mocks
+    // vi.resetAllMocks(); // Replaced with clearAllMocks or individual resets
+    vi.clearAllMocks();
+    // If vi.clearAllMocks() is not available or doesn't work, reset mocks individually:
+    // (getCloudflareContext as ReturnType<typeof vi.fn>).mockClear();
+    // (deleteUser as ReturnType<typeof vi.fn>).mockClear();
   });
 
   describe('Normal case', () => {
