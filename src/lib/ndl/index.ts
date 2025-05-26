@@ -1,6 +1,6 @@
 import type { BookDetailWithoutId } from "@/types/book";
 import type { NDC } from "@/types/ndc";
-import { unstable_cache } from "next/cache";
+import { unstable_cache as defaultUnstableCache } from "next/cache"; // 元の関数をインポート
 import { filterSensitiveBooks } from "../filterSensitiveBooks";
 import { parseOpenSearchXml } from "./parse";
 import { sortBooksByKeyword } from "./sort";
@@ -45,6 +45,7 @@ type OpenSearchResponse = {
 export async function searchBooksFromNDL(
   opts: SearchOptions,
   fetch = global.fetch,
+  unstable_cache = defaultUnstableCache // ← 第3引数として追加
 ): Promise<OpenSearchResponse | undefined> {
   const endpoint = new URL(API_BASE_URL);
 
@@ -82,7 +83,7 @@ export async function searchBooksFromNDL(
       ngWords = [],
     } = opts;
 
-    // 10分間キャッシュする
+    // 引数で渡された unstable_cache を使用
     const sortedBooks = await unstable_cache(
       async () => {
         const res = await fetch(endpoint);
@@ -121,5 +122,6 @@ export async function searchBooksFromNDL(
     };
   } catch (e) {
     console.error("[NDL]", e);
+    return undefined; // この行を追加
   }
 }

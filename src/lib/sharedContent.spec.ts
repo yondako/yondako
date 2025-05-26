@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, jest, test } from "bun:test";
+import { beforeEach, describe, expect, jest, test, afterEach, vi } from "bun:test";
 import { extractBookTitle, fetchSiteTitle } from "./sharedContent";
 
 describe("extractBookTitle", () => {
@@ -41,19 +41,24 @@ describe("extractBookTitle", () => {
 });
 
 describe("fetchSiteTitle", () => {
+  const originalFetch = global.fetch; // 元の fetch を保存
+
   beforeEach(() => {
-    jest.clearAllMocks();
+    // jest.clearAllMocks(); // Replaced by vi.clearAllMocks() in afterEach
+  });
+
+  afterEach(() => {
+    global.fetch = originalFetch; // 各テスト後に元の fetch に戻す
+    vi.clearAllMocks(); // Using vi.clearAllMocks()
   });
 
   test("サイトのタイトルを正常に取得できる", async () => {
     const mockHtml =
       "<html><head><title>テストタイトル</title></head><body></body></html>";
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        ok: true,
-        text: () => Promise.resolve(mockHtml),
-      } as Response),
-    );
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      text: async () => mockHtml, // textメソッドをasyncに
+    } as Response);
 
     const title = await fetchSiteTitle("https://example.com");
     expect(title).toBe("テストタイトル");
@@ -61,19 +66,17 @@ describe("fetchSiteTitle", () => {
 
   test("タイトルが見つからない場合はnullを返す", async () => {
     const mockHtml = "<html><head></head><body></body></html>";
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        ok: true,
-        text: () => Promise.resolve(mockHtml),
-      } as Response),
-    );
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      text: async () => mockHtml, // textメソッドをasyncに
+    } as Response);
 
     const title = await fetchSiteTitle("https://example.com");
     expect(title).toBeNull();
   });
 
   test("フェッチ中にエラーが発生した場合はnullを返す", async () => {
-    global.fetch = jest.fn(() => Promise.reject(new Error("fetch error")));
+    global.fetch = jest.fn().mockRejectedValue(new Error("fetch error"));
 
     const title = await fetchSiteTitle("https://example.com");
     expect(title).toBeNull();
