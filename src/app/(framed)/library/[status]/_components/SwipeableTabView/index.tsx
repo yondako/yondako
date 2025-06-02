@@ -46,11 +46,19 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
           const initialX =
             direction === "Left" ? screenWidth * 0.2 : -screenWidth * 0.2;
 
-          // 初期位置を設定
+          // 初期位置を設定してからスライドイン
           api.set({ x: initialX, opacity: 0 });
 
           // 一度使用したら削除
           sessionStorage.removeItem(SWIPE_TRANSITION_KEY);
+
+          requestAnimationFrame(() => {
+            api.start({
+              x: 0,
+              opacity: 1,
+              config: { tension: 300, friction: 30 },
+            });
+          });
           return;
         }
       } catch {
