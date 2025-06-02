@@ -29,7 +29,7 @@ type Props = {
     q?: string;
     order?: Order;
     from?: string; // from を追加
-    to?: string;   // to を追加
+    to?: string; // to を追加
   }>;
 };
 
@@ -85,7 +85,6 @@ export default async function Library(props: Props) {
   const fromDateString = searchParams.from;
   const toDateString = searchParams.to;
 
-
   return (
     <>
       <Tab current={params.status} />
@@ -103,9 +102,9 @@ export default async function Library(props: Props) {
           order={orderType}
           titleKeyword={searchParams.q}
           fromQuery={fromDateString} // 修正：fromQuery を渡す
-          toQuery={toDateString}     // 修正：toQuery を渡す
+          toQuery={toDateString} // 修正：toQuery を渡す
         />
-      </Suspense
+      </Suspense>
     </>
   );
 }
