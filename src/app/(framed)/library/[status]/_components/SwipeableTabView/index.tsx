@@ -3,7 +3,7 @@
 import { readingStatusOrder } from "@/constants/status";
 import type { ReadingStatus } from "@/types/readingStatus";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { useSwipeable } from "react-swipeable";
 
@@ -23,33 +23,44 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
   const [showDummyNext, setShowDummyNext] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
   const [contentOpacity, setContentOpacity] = useState(1);
-  const [windowWidth, setWindowWidth] = useState(0);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const windowWidthRef = useRef(0);
+  const isDialogOpenRef = useRef(false);
+  const currentIndexRef = useRef(readingStatusOrder.indexOf(currentStatus));
+
+  useEffect(() => {
+    currentIndexRef.current = readingStatusOrder.indexOf(currentStatus);
+  }, [currentStatus]);
 
   // 画面幅を取得
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setWindowWidth(window.innerWidth);
-      const handleResize = () => setWindowWidth(window.innerWidth);
+      windowWidthRef.current = window.innerWidth;
+
+      const handleResize = () => {
+        windowWidthRef.current = window.innerWidth;
+      };
+
       window.addEventListener("resize", handleResize);
+
       return () => window.removeEventListener("resize", handleResize);
     }
   }, []);
 
-  // role=dialogの存在を監視
+  // スワイプを無効化するためにモーダルの存在を監視
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined") {
+      return;
+    }
 
     const checkDialogExists = () => {
       const dialogExists = document.querySelector('[role="dialog"]') !== null;
-      setIsDialogOpen(dialogExists);
+      isDialogOpenRef.current = dialogExists;
     };
 
-    // 初期チェック
     checkDialogExists();
 
-    // MutationObserverでDOMの変更を監視
     const observer = new MutationObserver(checkDialogExists);
+
     observer.observe(document.body, {
       childList: true,
       subtree: true,
@@ -60,14 +71,15 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
     return () => observer.disconnect();
   }, []);
 
-  // レスポンシブ対応のダミーページ幅を計算
-  const getDummyPageOffset = () => {
-    if (windowWidth >= 768) {
+  // ダミーページ幅を計算
+  const getDummyPageOffset = useCallback(() => {
+    if (windowWidthRef.current >= 768) {
       // md breakpoint
       return 320; // 320px (w-80)
     }
-    return windowWidth * 0.8; // 80vw
-  };
+
+    return windowWidthRef.current * 0.8; // 80vw
+  }, []);
 
   // ページ遷移完了時にフェードインを開始
   useEffect(() => {
@@ -85,12 +97,15 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
 
   const handlers = useSwipeable({
     onSwiping: (eventData) => {
-      if (isDialogOpen) return; // ダイアログが開いている場合はスワイプを無効化
+      // モーダルが開いている場合は無効
+      if (isDialogOpenRef.current) {
+        return;
+      }
 
       if (!isSwiping) setIsSwiping(true);
       setTranslateX(eventData.deltaX);
 
-      const currentIndex = readingStatusOrder.indexOf(currentStatus);
+      const currentIndex = currentIndexRef.current;
       if (
         eventData.deltaX < -SWIPE_ANIMATION_THRESHOLD &&
         currentIndex < readingStatusOrder.length - 1
@@ -109,14 +124,17 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
       }
     },
     onSwiped: (eventData) => {
-      if (isDialogOpen) return; // ダイアログが開いている場合はスワイプを無効化
+      // モーダルが開いている場合は無効
+      if (isDialogOpenRef.current) {
+        return;
+      }
 
       setIsSwiping(false);
       setShowDummyPrev(false);
       setShowDummyNext(false);
 
       if (Math.abs(eventData.deltaX) > SWIPE_ANIMATION_THRESHOLD) {
-        const currentIndex = readingStatusOrder.indexOf(currentStatus);
+        const currentIndex = currentIndexRef.current;
         let targetStatus: string | null = null;
 
         if (eventData.dir === "Left") {
@@ -145,15 +163,20 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
     delta: 10,
   });
 
-  const prevStatusIndex = readingStatusOrder.indexOf(currentStatus) - 1;
-  const nextStatusIndex = readingStatusOrder.indexOf(currentStatus) + 1;
+  const { prevStatusLabel, nextStatusLabel } = useMemo(() => {
+    const currentIndex = readingStatusOrder.indexOf(currentStatus);
+    const prevStatusIndex = currentIndex - 1;
+    const nextStatusIndex = currentIndex + 1;
 
-  const prevStatusLabel =
-    prevStatusIndex >= 0 ? readingStatusOrder[prevStatusIndex] : null;
-  const nextStatusLabel =
-    nextStatusIndex < readingStatusOrder.length
-      ? readingStatusOrder[nextStatusIndex]
-      : null;
+    return {
+      prevStatusLabel:
+        prevStatusIndex >= 0 ? readingStatusOrder[prevStatusIndex] : null,
+      nextStatusLabel:
+        nextStatusIndex < readingStatusOrder.length
+          ? readingStatusOrder[nextStatusIndex]
+          : null,
+    };
+  }, [currentStatus]);
 
   return (
     <div
