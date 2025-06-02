@@ -39,6 +39,7 @@ export default function Filter({ isOrderAsc }: Props) {
       <Input
         className="grow text-sm sm:max-w-64 lg:text-xs"
         placeholder="タイトルの一部"
+        defaultValue={searchParams.get("q") ?? ""}
         onChange={(e) => debounced(e.target.value)}
         search
       />
