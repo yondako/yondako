@@ -2,6 +2,7 @@ import { normalizeIsbn } from "@/lib/isbn";
 import type { BookDetailWithoutId, BookType } from "@/types/book";
 import type { Order } from "@/types/order";
 import type { ReadingStatus } from "@/types/readingStatus";
+import { formatISO } from "date-fns"; // formatISO をインポート
 import {
   and,
   asc,
@@ -104,13 +105,15 @@ export async function searchBooksFromLibrary(
 
     // 日付範囲の条件を追加
     if (dateRange?.from) {
-      conditions.push(gte(dbSchema.readingStatuses.updatedAt, dateRange.from));
+      // DateオブジェクトをISO文字列に変換
+      conditions.push(gte(dbSchema.readingStatuses.updatedAt, formatISO(dateRange.from)));
     }
     if (dateRange?.to) {
-      // 終了日はその日の終わりとして扱う
       const toDate = new Date(dateRange.to);
+      // 終了日はその日の終わりとして扱う
       toDate.setHours(23, 59, 59, 999);
-      conditions.push(lte(dbSchema.readingStatuses.updatedAt, toDate));
+      // DateオブジェクトをISO文字列に変換
+      conditions.push(lte(dbSchema.readingStatuses.updatedAt, formatISO(toDate)));
     }
 
     const results = db.$with("results").as(
