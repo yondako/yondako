@@ -88,20 +88,6 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
         return;
       }
 
-      // 縦スクロールを優先する判定
-      const absX = Math.abs(eventData.deltaX);
-      const absY = Math.abs(eventData.deltaY);
-
-      // 縦方向の動きが横方向より大きい場合は横スワイプを無効化
-      if (absY > absX) {
-        return;
-      }
-
-      // 横方向の動きが一定以上でない場合も無効化
-      if (absX < 10) {
-        return;
-      }
-
       if (!isSwiping) setIsSwiping(true);
 
       // スワイプの稼動域を画面幅の1/3に制限
@@ -121,21 +107,6 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
     onSwiped: (eventData) => {
       // モーダルが開いている場合は無効
       if (isDialogOpenRef.current) {
-        return;
-      }
-
-      // 縦スクロールを優先する判定
-      const absX = Math.abs(eventData.deltaX);
-      const absY = Math.abs(eventData.deltaY);
-
-      // 縦方向の動きが横方向より大きい場合は横スワイプを無効化
-      if (absY > absX) {
-        // スワイプ状態だけリセットして終了
-        setIsSwiping(false);
-        api.start({
-          x: 0,
-          config: { tension: 400, friction: 40 },
-        });
         return;
       }
 
@@ -183,15 +154,12 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
     trackMouse: true,
     preventScrollOnSwipe: false, // 縦スクロールを許可
     delta: 10,
-    trackTouch: true,
-    swipeDuration: 250,
-    touchEventOptions: { passive: false },
   });
 
   return (
     <div
       {...handlers}
-      style={{ touchAction: "pan-y" }} // 縦方向のパンを許可
+      style={{ touchAction: "pan-y" }}
       className="-mx-6 relative overflow-hidden"
     >
       {/* 現在のページ */}
