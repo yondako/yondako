@@ -23,11 +23,9 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
   const isDialogOpenRef = useRef(false);
   const currentIndexRef = useRef(readingStatusOrder.indexOf(currentStatus));
 
-  // react-springを使用したアニメーション
   const [springProps, api] = useSpring(() => ({
     x: 0,
     opacity: 1,
-    config: { tension: 280, friction: 40 }, // キビキビとした動き
   }));
 
   useEffect(() => {
@@ -98,10 +96,9 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
         Math.min(maxSwipeDistance, eventData.deltaX),
       );
 
-      // リアルタイムでスプリングアニメーションを更新
       api.start({
         x: clampedDeltaX,
-        immediate: true, // スワイプ中は即座に反映
+        immediate: true,
       });
     },
     onSwiped: (eventData) => {
@@ -148,11 +145,11 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
       // スワイプが不十分な場合は元の位置に戻る
       api.start({
         x: 0,
-        config: { tension: 400, friction: 40 }, // 弾力のある戻りアニメーション
+        config: { tension: 400, friction: 40 },
       });
     },
     trackMouse: true,
-    preventScrollOnSwipe: false, // 縦スクロールを許可
+    preventScrollOnSwipe: false,
     delta: 10,
   });
 
@@ -162,7 +159,6 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
       style={{ touchAction: "pan-y" }}
       className="-mx-6 relative overflow-hidden"
     >
-      {/* 現在のページ */}
       <animated.div
         className="w-full px-6"
         style={{
