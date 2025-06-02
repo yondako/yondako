@@ -14,7 +14,7 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
-import { is, safeParse } from "valibot";
+import { is, safeParse, string } from "valibot"; // string をインポート
 import { LibraryBookList } from "./_components/LibraryBookList";
 import Tab from "./_components/Tab";
 
@@ -28,6 +28,8 @@ type Props = {
     page?: string;
     q?: string;
     order?: Order;
+    from?: string; // from を追加
+    to?: string;   // to を追加
   }>;
 };
 
@@ -79,6 +81,11 @@ export default async function Library(props: Props) {
   const orderParseResult = safeParse(orderSchema, searchParams.order);
   const orderType = orderParseResult.success ? orderParseResult.output : "desc";
 
+  // 日付範囲 (バリデーションはLibraryBookListで行うのでここでは文字列として渡す)
+  const fromDateString = searchParams.from;
+  const toDateString = searchParams.to;
+
+
   return (
     <>
       <Tab current={params.status} />
@@ -95,8 +102,10 @@ export default async function Library(props: Props) {
           page={page}
           order={orderType}
           titleKeyword={searchParams.q}
+          fromQuery={fromDateString} // 修正：fromQuery を渡す
+          toQuery={toDateString}     // 修正：toQuery を渡す
         />
-      </Suspense>
+      </Suspense
     </>
   );
 }

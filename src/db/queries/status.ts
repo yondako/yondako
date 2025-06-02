@@ -9,7 +9,9 @@ import {
   desc,
   eq,
   getTableColumns,
+  gte, // gte をインポート
   inArray,
+  lte, // lte をインポート
   or,
   sql,
 } from "drizzle-orm";
@@ -58,6 +60,11 @@ export type SearchBooksFromLibraryOptions = {
   pageSize: number;
   /** 絞り込み用キーワード (書籍のタイトルに含まれる文字列) */
   titleKeyword?: string;
+  /** 記録日の絞り込み範囲 */
+  dateRange?: {
+    from?: Date;
+    to?: Date;
+  };
 };
 
 type BookReadimgStatusResult = {
@@ -79,6 +86,7 @@ export async function searchBooksFromLibrary(
     page,
     pageSize,
     titleKeyword,
+    dateRange, // dateRange を追加
   }: SearchBooksFromLibraryOptions,
 ): Promise<BookReadimgStatusResult> {
   const db = getDB(dbInstance);
@@ -88,6 +96,23 @@ export async function searchBooksFromLibrary(
     : undefined;
 
   try {
+    // where句の条件を格納する配列
+    const conditions = [
+      eq(dbSchema.readingStatuses.userId, userId),
+      eq(dbSchema.readingStatuses.status, status),
+    ];
+
+    // 日付範囲の条件を追加
+    if (dateRange?.from) {
+      conditions.push(gte(dbSchema.readingStatuses.updatedAt, dateRange.from));
+    }
+    if (dateRange?.to) {
+      // 終了日はその日の終わりとして扱う
+      const toDate = new Date(dateRange.to);
+      toDate.setHours(23, 59, 59, 999);
+      conditions.push(lte(dbSchema.readingStatuses.updatedAt, toDate));
+    }
+
     const results = db.$with("results").as(
       db
         .select({
@@ -100,10 +125,7 @@ export async function searchBooksFromLibrary(
         })
         .from(dbSchema.readingStatuses)
         .where(
-          and(
-            eq(dbSchema.readingStatuses.userId, userId),
-            eq(dbSchema.readingStatuses.status, status),
-          ),
+          and(...conditions), // 修正：andの引数を配列に変更
         )
         .innerJoin(
           dbSchema.books,

@@ -8,14 +8,24 @@ import {
 import { getAuth } from "@/lib/auth";
 import type { ReadingStatus } from "@/types/readingStatus";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { isValid, parseISO } from "date-fns"; // isValid と parseISO をインポート
 import { headers } from "next/headers";
 import Filter from "./Filter";
 
 const pageSize = 24;
 
-export async function LibraryBookList(
-  props: Omit<SearchBooksFromLibraryOptions, "userId" | "pageSize">,
-) {
+// LibraryBookListProps の型を更新
+export type LibraryBookListProps = Omit<
+  SearchBooksFromLibraryOptions,
+  "userId" | "pageSize" | "dateRange" // dateRangeを除外 (page.tsxから直接渡さないため)
+> & {
+  // page.tsx から渡されるクエリパラメータ
+  fromQuery?: string;
+  toQuery?: string;
+};
+
+
+export async function LibraryBookList(props: LibraryBookListProps) {
   const { env } = getCloudflareContext();
   const auth = getAuth(env.DB);
 
@@ -27,10 +37,25 @@ export async function LibraryBookList(
     return null;
   }
 
+  // 日付範囲の処理
+  let dateRange: SearchBooksFromLibraryOptions["dateRange"] | undefined = undefined;
+  if (props.fromQuery && isValid(parseISO(props.fromQuery))) {
+    dateRange = { ...dateRange, from: parseISO(props.fromQuery) };
+  }
+  if (props.toQuery && isValid(parseISO(props.toQuery))) {
+    const toDate = parseISO(props.toQuery);
+    // toDate はその日の終わりとして扱いたいが、DBクエリ側で調整するのでここではそのまま渡す
+    dateRange = { ...dateRange, to: toDate };
+  }
+
   const { books, total } = await searchBooksFromLibrary(env.DB, {
     userId: session.user.id,
     pageSize,
-    ...props,
+    status: props.status,
+    order: props.order,
+    page: props.page,
+    titleKeyword: props.titleKeyword,
+    dateRange, // 修正：dateRange を渡す
   });
 
   const totalPage = Math.ceil(total / pageSize);
@@ -42,7 +67,8 @@ export async function LibraryBookList(
           <span className="text-4xl">{total}</span>
           <span className="text-base">冊</span>
         </h1>
-        <Filter isOrderAsc={props.order === "asc"} />
+        {/* Filterコンポーネントからは isOrderAsc を削除 (Filter内でsearchParamsから判断) */}
+        <Filter />
       </div>
       {books.length === 0 ? (
         <SayTako message={getEmptyMessage(props.status)} />
