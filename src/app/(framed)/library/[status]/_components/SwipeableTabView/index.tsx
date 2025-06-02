@@ -144,7 +144,7 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
 
       if (Math.abs(eventData.deltaX) > SWIPE_ANIMATION_THRESHOLD) {
         const currentIndex = currentIndexRef.current;
-        let targetStatus: string | null = null;
+        let targetStatus: ReadingStatus | null = null;
 
         if (eventData.dir === "Left") {
           if (currentIndex < readingStatusOrder.length - 1) {
