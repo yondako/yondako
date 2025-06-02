@@ -1,13 +1,13 @@
-import { getCloudflareContext } from "@opennextjs/cloudflare";
-import { headers } from "next/headers";
-import BookList from "#src/components/BookList/index.jsx";
-import Pagination from "#src/components/Pagination/index.jsx";
-import SayTako from "#src/components/SayTako/index.jsx";
+import BookList from "@/components/BookList";
+import Pagination from "@/components/Pagination";
+import SayTako from "@/components/SayTako";
 import {
   type SearchBooksFromLibraryOptions,
   searchBooksFromLibrary,
-} from "#src/db/queries/status.js";
-import { getAuth } from "#src/lib/auth.js";
+} from "@/db/queries/status";
+import { getAuth } from "@/lib/auth";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { headers } from "next/headers";
 import { getEmptyMessage, pageSize } from ".";
 import Filter from "./Filter";
 
