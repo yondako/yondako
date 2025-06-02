@@ -184,7 +184,7 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
           api.start({
             x: exitDistance,
             opacity: 0,
-            config: { duration: 150, easing: (t) => t * (2 - t) },
+            config: { duration: 200, easing: (t) => t * (2 - t) },
             onRest: () => {
               router.push(`/library/${targetStatus}`);
             },
