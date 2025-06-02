@@ -14,6 +14,7 @@ type Props = {
 };
 
 const SWIPE_ANIMATION_THRESHOLD = 50; // px
+const SWIPE_TRANSITION_KEY = "swipeTransition";
 
 export function SwipeableTabView({ children, currentStatus }: Props) {
   const router = useRouter();
@@ -27,6 +28,38 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
     x: 0,
     opacity: 1,
   }));
+
+  // スワイプ遷移の検出と初期アニメーション
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const swipeData = sessionStorage.getItem(SWIPE_TRANSITION_KEY);
+    if (swipeData) {
+      const { direction, targetStatus } = JSON.parse(swipeData);
+
+      // 現在のページが遷移先と一致する場合のみスライドイン
+      if (targetStatus === currentStatus) {
+        const screenWidth = window.innerWidth;
+        const initialX =
+          direction === "Left" ? screenWidth * 0.2 : -screenWidth * 0.2;
+
+        // 初期位置を設定
+        api.set({ x: initialX, opacity: 0 });
+
+        // 一度使用したら削除
+        sessionStorage.removeItem(SWIPE_TRANSITION_KEY);
+        return;
+      }
+    }
+
+    api.start({
+      x: 0,
+      opacity: 1,
+      config: { tension: 300, friction: 30 },
+    });
+  }, [currentStatus, api]);
 
   useEffect(() => {
     currentIndexRef.current = readingStatusOrder.indexOf(currentStatus);
@@ -47,7 +80,7 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
     }
   }, []);
 
-  // 初期化時に画面幅を確実に取得
+  // 初期化時に画面幅を取得
   useEffect(() => {
     if (typeof window !== "undefined" && windowWidthRef.current === 0) {
       windowWidthRef.current = window.innerWidth;
@@ -86,7 +119,9 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
         return;
       }
 
-      if (!isSwiping) setIsSwiping(true);
+      if (!isSwiping) {
+        setIsSwiping(true);
+      }
 
       // スワイプの稼動域を画面幅の1/3に制限
       const screenWidth = windowWidthRef.current || window.innerWidth;
@@ -124,10 +159,21 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
         }
 
         if (targetStatus) {
+          // スワイプ情報をsessionStorageに保存
+          if (typeof window !== "undefined") {
+            sessionStorage.setItem(
+              SWIPE_TRANSITION_KEY,
+              JSON.stringify({
+                direction: eventData.dir,
+                targetStatus,
+              }),
+            );
+          }
+
           // スワイプ方向に基づいてページを画面外に移動
           const screenWidth = windowWidthRef.current || window.innerWidth;
           const exitDistance =
-            eventData.dir === "Left" ? -screenWidth : screenWidth;
+            eventData.dir === "Left" ? -screenWidth * 0.8 : screenWidth * 0.8;
 
           api.start({
             x: exitDistance,
@@ -145,6 +191,7 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
       // スワイプが不十分な場合は元の位置に戻る
       api.start({
         x: 0,
+        opacity: 1,
         config: { tension: 400, friction: 40 },
       });
     },
