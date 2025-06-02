@@ -66,6 +66,8 @@ export default async function Library(props: Props) {
     notFound();
   }
 
+  const isDesktop = (await headers()).get("X-IS-DESKTOP") !== null;
+
   const searchParams = await props.searchParams;
   const pageParseResult = safeParse(
     pageIndexSchema,
@@ -77,26 +79,34 @@ export default async function Library(props: Props) {
   const orderParseResult = safeParse(orderSchema, searchParams.order);
   const orderType = orderParseResult.success ? orderParseResult.output : "desc";
 
+  const contents = (
+    <Suspense
+      fallback={
+        <Loading
+          className="mt-12 justify-start lg:mt-0 lg:justify-center"
+          title="読み込んでいます"
+        />
+      }
+    >
+      <LibraryBookList
+        status={params.status}
+        page={page}
+        order={orderType}
+        titleKeyword={searchParams.q}
+      />
+    </Suspense>
+  );
+
   return (
     <>
       <Tab current={params.status} />
-      <SwipeableTabView currentStatus={params.status}>
-        <Suspense
-          fallback={
-            <Loading
-              className="mt-12 justify-start lg:mt-0 lg:justify-center"
-              title="読み込んでいます"
-            />
-          }
-        >
-          <LibraryBookList
-            status={params.status}
-            page={page}
-            order={orderType}
-            titleKeyword={searchParams.q}
-          />
-        </Suspense>
-      </SwipeableTabView>
+      {isDesktop ? (
+        contents
+      ) : (
+        <SwipeableTabView currentStatus={params.status}>
+          {contents}
+        </SwipeableTabView>
+      )}
     </>
   );
 }
