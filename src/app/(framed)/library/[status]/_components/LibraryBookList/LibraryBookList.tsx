@@ -1,7 +1,6 @@
 import BookList from "@/components/BookList";
 import Pagination from "@/components/Pagination";
 import SayTako from "@/components/SayTako";
-import FadeIn from "@/components/SlideIn/FadeIn";
 import {
   type SearchBooksFromLibraryOptions,
   searchBooksFromLibrary,

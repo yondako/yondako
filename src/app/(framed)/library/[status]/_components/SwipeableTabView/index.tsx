@@ -139,7 +139,7 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
 
       api.start({
         x: clampedDeltaX,
-        immediate: true,
+        config: { tension: 200, friction: 50 },
       });
     },
     onSwiped: (eventData) => {
@@ -184,7 +184,7 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
           api.start({
             x: exitDistance,
             opacity: 0,
-            config: { tension: 350, friction: 20, duration: 100 },
+            config: { duration: 150, easing: (t) => t * (2 - t) },
             onRest: () => {
               router.push(`/library/${targetStatus}`);
             },
