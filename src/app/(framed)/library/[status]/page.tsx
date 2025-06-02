@@ -1,4 +1,3 @@
-import { Loading } from "@/components/Loading";
 import { readingStatusMetadata } from "@/constants/status";
 import { getAuth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
@@ -16,6 +15,7 @@ import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
 import { is, safeParse } from "valibot";
 import { LibraryBookList } from "./_components/LibraryBookList/LibraryBookList";
+import LibraryBookListSkeleton from "./_components/LibraryBookList/Skeleton";
 import { SwipeableTabView } from "./_components/SwipeableTabView";
 import Tab from "./_components/Tab";
 
@@ -81,12 +81,8 @@ export default async function Library(props: Props) {
 
   const contents = (
     <Suspense
-      fallback={
-        <Loading
-          className="mt-12 justify-start lg:mt-0 lg:justify-center"
-          title="読み込んでいます"
-        />
-      }
+      fallback={<LibraryBookListSkeleton pageReadingStatus={params.status} />}
+      key={`${params.status}-${page}-${orderType}-${searchParams.q}`}
     >
       <LibraryBookList
         status={params.status}
