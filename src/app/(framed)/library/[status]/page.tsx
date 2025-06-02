@@ -12,11 +12,13 @@ import {
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import { notFound, redirect } from "next/navigation";
-import { Suspense } from "react";
+import { notFound, redirect, useRouter } from "next/navigation"; // useRouter をインポート
+import { Suspense, useCallback } from "react"; // useCallback をインポート
 import { is, safeParse } from "valibot";
 import { LibraryBookList } from "./_components/LibraryBookList";
 import Tab from "./_components/Tab";
+import { SwipeableTabView } from "./_components/SwipeableTabView"; // SwipeableTabView をインポート
+import { readingStatusOrder } from "@/constants/status"; // readingStatusOrder をインポート
 
 export const dynamic = "force-dynamic";
 
@@ -47,6 +49,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 export default async function Library(props: Props) {
   const params = await props.params;
+  const router = useRouter(); // useRouterフックを使用
 
   const { env } = await getCloudflareContext({
     async: true,
@@ -61,26 +64,38 @@ export default async function Library(props: Props) {
     redirect(createSignInPath(`/library/${params.status}`));
   }
 
-  // ライブラリのステータスが不正な場合は404にリダイレクト
   if (!is(readingStatusSchemaWithoutNone, params.status)) {
     notFound();
   }
 
   const searchParams = await props.searchParams;
-
-  // ページ数
   const pageParseResult = safeParse(
     pageIndexSchema,
     Number.parseInt(searchParams.page ?? "1"),
   );
   const page = pageParseResult.success ? pageParseResult.output : 1;
 
-  // ソート順
   const orderParseResult = safeParse(orderSchema, searchParams.order);
   const orderType = orderParseResult.success ? orderParseResult.output : "desc";
 
+  const handleSwipeEnd = useCallback((direction: "left" | "right") => {
+    const currentIndex = readingStatusOrder.indexOf(params.status);
+    if (direction === "left") {
+      if (currentIndex < readingStatusOrder.length - 1) {
+        const nextStatus = readingStatusOrder[currentIndex + 1];
+        router.push(`/library/${nextStatus}`);
+      }
+    } else if (direction === "right") {
+      if (currentIndex > 0) {
+        const prevStatus = readingStatusOrder[currentIndex - 1];
+        router.push(`/library/${prevStatus}`);
+      }
+    }
+  }, [params.status, router]);
+
   return (
-    <>
+    // SwipeableTabView で Tab と LibraryBookList をラップ
+    <SwipeableTabView currentStatus={params.status} onSwipeEnd={handleSwipeEnd}>
       <Tab current={params.status} />
       <Suspense
         fallback={
@@ -97,6 +112,6 @@ export default async function Library(props: Props) {
           titleKeyword={searchParams.q}
         />
       </Suspense>
-    </>
+    </SwipeableTabView>
   );
 }

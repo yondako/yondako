@@ -55,3 +55,9 @@ export const readingStatusMetadata = new Map<
     },
   ],
 ]);
+
+export const readingStatusOrder: ReadingStatus[] = [
+  "want_read",
+  "reading",
+  "read",
+];
