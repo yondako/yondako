@@ -35,5 +35,8 @@ export const getAuth = (dbInstance: D1Database) => {
         clientSecret: process.env.AUTH_GOOGLE_SECRET || "",
       },
     },
+    session: {
+      maxAge: 604800, // 7 days in seconds
+    },
   });
 };
