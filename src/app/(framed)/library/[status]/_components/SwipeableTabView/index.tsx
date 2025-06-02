@@ -26,7 +26,7 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
 
   const [springProps, api] = useSpring(() => ({
     x: 0,
-    opacity: 1,
+    opacity: 0,
   }));
 
   // スワイプ遷移の検出と初期アニメーション
@@ -46,7 +46,7 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
           const initialX =
             direction === "Left" ? screenWidth * 0.2 : -screenWidth * 0.2;
 
-          // 初期位置を設定してからスライドイン
+          // 初期位置を設定
           api.set({ x: initialX, opacity: 0 });
 
           // 一度使用したら削除
@@ -69,7 +69,11 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
     api.start({
       x: 0,
       opacity: 1,
-      config: { tension: 300, friction: 30 },
+      config: {
+        tension: 100,
+        friction: 30,
+        easing: (t) => t * t * t,
+      },
     });
   }, [currentStatus, api]);
 
