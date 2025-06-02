@@ -12,16 +12,12 @@ import {
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-// useRouter は SwipeableTabView に移行したため削除
-// useCallback も handleSwipeEnd がなくなるため削除
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
 import { is, safeParse } from "valibot";
-import { LibraryBookList } from "./_components/LibraryBookList";
-import Tab from "./_components/Tab";
+import { LibraryBookList } from "./_components/LibraryBookList/LibraryBookList";
 import { SwipeableTabView } from "./_components/SwipeableTabView";
-// readingStatusOrder は handleSwipeEnd で使っていたが、これも不要になる
-// import { readingStatusOrder } from "@/constants/status";
+import Tab from "./_components/Tab";
 
 export const dynamic = "force-dynamic";
 
@@ -52,8 +48,6 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 export default async function Library(props: Props) {
   const params = await props.params;
-  // useRouter は SwipeableTabView に移行したため削除
-  // const router = useRouter();
 
   const { env } = await getCloudflareContext({
     async: true,
@@ -77,46 +71,32 @@ export default async function Library(props: Props) {
     pageIndexSchema,
     Number.parseInt(searchParams.page ?? "1"),
   );
+
   const page = pageParseResult.success ? pageParseResult.output : 1;
 
   const orderParseResult = safeParse(orderSchema, searchParams.order);
   const orderType = orderParseResult.success ? orderParseResult.output : "desc";
 
-  // handleSwipeEnd 関数全体を削除
-  // const handleSwipeEnd = useCallback((direction: "left" | "right") => {
-  //   const currentIndex = readingStatusOrder.indexOf(params.status);
-  //   if (direction === "left") {
-  //     if (currentIndex < readingStatusOrder.length - 1) {
-  //       const nextStatus = readingStatusOrder[currentIndex + 1];
-  //       router.push(`/library/${nextStatus}`);
-  //     }
-  //   } else if (direction === "right") {
-  //     if (currentIndex > 0) {
-  //       const prevStatus = readingStatusOrder[currentIndex - 1];
-  //       router.push(`/library/${prevStatus}`);
-  //     }
-  //   }
-  // }, [params.status, router]);
-
   return (
-    // SwipeableTabView から onSwipeEnd prop を削除
-    <SwipeableTabView currentStatus={params.status}>
+    <>
       <Tab current={params.status} />
-      <Suspense
-        fallback={
-          <Loading
-            className="mt-12 justify-start lg:mt-0 lg:justify-center"
-            title="読み込んでいます"
+      <SwipeableTabView currentStatus={params.status}>
+        <Suspense
+          fallback={
+            <Loading
+              className="mt-12 justify-start lg:mt-0 lg:justify-center"
+              title="読み込んでいます"
+            />
+          }
+        >
+          <LibraryBookList
+            status={params.status}
+            page={page}
+            order={orderType}
+            titleKeyword={searchParams.q}
           />
-        }
-      >
-        <LibraryBookList
-          status={params.status}
-          page={page}
-          order={orderType}
-          titleKeyword={searchParams.q}
-        />
-      </Suspense>
-    </SwipeableTabView>
+        </Suspense>
+      </SwipeableTabView>
+    </>
   );
 }
