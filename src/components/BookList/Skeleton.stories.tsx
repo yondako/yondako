@@ -4,9 +4,6 @@ import BookListSkeleton from "./Skeleton";
 const meta: Meta<typeof BookListSkeleton> = {
   title: "Components/BookList/Skeleton",
   component: BookListSkeleton,
-  parameters: {
-    layout: "centered",
-  },
   tags: ["autodocs"],
   argTypes: {
     count: {
@@ -14,13 +11,6 @@ const meta: Meta<typeof BookListSkeleton> = {
       description: "表示するスケルトンカードの数",
     },
   },
-  decorators: [
-    (Story) => (
-      <div className="max-w-md">
-        <Story />
-      </div>
-    ),
-  ],
 };
 
 export default meta;
