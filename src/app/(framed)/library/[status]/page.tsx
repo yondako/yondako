@@ -14,7 +14,7 @@ import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
 import { is, safeParse } from "valibot";
-import { LibraryBookList } from "./_components/LibraryBookList/LibraryBookList";
+import { LibraryBookList } from "./_components/LibraryBookList";
 import LibraryBookListSkeleton from "./_components/LibraryBookList/Skeleton";
 import { SwipeableTabView } from "./_components/SwipeableTabView";
 import Tab from "./_components/Tab";
