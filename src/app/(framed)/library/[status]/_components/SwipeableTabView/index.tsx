@@ -1,37 +1,33 @@
 "use client";
 
 import { useSwipeable } from "react-swipeable";
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react"; // useEffect と useRef を削除
 import type { ReactNode } from "react";
-import { readingStatusOrder } from "@/constants/status"; // readingStatusOrder をインポート
+import { readingStatusOrder } from "@/constants/status";
 import type { ReadingStatus } from "@/types/readingStatus";
+import { useRouter } from "next/navigation"; // useRouter をインポート
 
 type Props = {
   children: ReactNode;
   currentStatus: ReadingStatus;
-  onSwipeEnd: (direction: "left" | "right") => void;
+  // onSwipeEnd: (direction: "left" | "right") => void; // onSwipeEnd prop を削除
 };
 
 const SWIPE_ANIMATION_THRESHOLD = 50; // px
-const DUMMY_PAGE_WIDTH = "80vw"; // ダミーページの幅（隣のページが少し見える程度）
+const DUMMY_PAGE_WIDTH = "80vw";
 
-export function SwipeableTabView({ children, currentStatus, onSwipeEnd }: Props) {
+export function SwipeableTabView({ children, currentStatus }: Props) { // onSwipeEnd を props から削除
   const [translateX, setTranslateX] = useState(0);
   const [isSwiping, setIsSwiping] = useState(false);
   const [showDummyPrev, setShowDummyPrev] = useState(false);
   const [showDummyNext, setShowDummyNext] = useState(false);
+  const router = useRouter(); // useRouterフックを使用
 
   const handlers = useSwipeable({
     onSwiping: (eventData) => {
       if (!isSwiping) setIsSwiping(true);
-      // 縦スクロールの抑制は react-swipeable の preventScrollOnSwipe: true を使うことを検討
-      // ただし、ページ全体のスクロールとの兼ね合いで調整が必要な場合がある
-
-      // 左スワイプ（次へ）の場合、deltaX は負の値
-      // 右スワイプ（前へ）の場合、deltaX は正の値
       setTranslateX(eventData.deltaX);
 
-      // 隣のページが見えるようにダミー表示を制御
       const currentIndex = readingStatusOrder.indexOf(currentStatus);
       if (eventData.deltaX < -SWIPE_ANIMATION_THRESHOLD && currentIndex < readingStatusOrder.length - 1) {
         setShowDummyNext(true);
@@ -49,26 +45,31 @@ export function SwipeableTabView({ children, currentStatus, onSwipeEnd }: Props)
       setShowDummyPrev(false);
       setShowDummyNext(false);
 
-      // 閾値を超えたらページ遷移
       if (Math.abs(eventData.deltaX) > SWIPE_ANIMATION_THRESHOLD) {
+        const currentIndex = readingStatusOrder.indexOf(currentStatus);
         if (eventData.dir === "Left") {
-          onSwipeEnd("left");
+          if (currentIndex < readingStatusOrder.length - 1) {
+            const nextStatus = readingStatusOrder[currentIndex + 1];
+            router.push(`/library/${nextStatus}`); // router.push を直接呼び出す
+          }
         } else if (eventData.dir === "Right") {
-          onSwipeEnd("right");
+          if (currentIndex > 0) {
+            const prevStatus = readingStatusOrder[currentIndex - 1];
+            router.push(`/library/${prevStatus}`); // router.push を直接呼び出す
+          }
         }
       }
-      // スワイプ終了後は元の位置に戻す
       setTranslateX(0);
     },
     onSwipedAborted: () => {
       setIsSwiping(false);
       setShowDummyPrev(false);
       setShowDummyNext(false);
-      setTranslateX(0); // 中断された場合も元の位置に戻す
+      setTranslateX(0);
     },
-    trackMouse: true, // マウス操作でもスワイプを可能にするか（開発中は便利）
-    preventScrollOnSwipe: true, // スワイプ中の縦スクロールを防止
-    delta: 10, // スワイプ検知の最小移動量(px)
+    trackMouse: true,
+    preventScrollOnSwipe: true,
+    delta: 10,
   });
 
   const prevStatusIndex = readingStatusOrder.indexOf(currentStatus) - 1;
@@ -79,23 +80,21 @@ export function SwipeableTabView({ children, currentStatus, onSwipeEnd }: Props)
 
 
   return (
-    <div {...handlers} style={{ touchAction: "pan-y" }} className="overflow-hidden"> {/* touchAction: pan-y で縦スクロールを許可しつつ、react-swipeableで横スワイプを制御 */}
+    <div {...handlers} style={{ touchAction: "pan-y" }} className="overflow-hidden">
       <div
         style={{
           transform: `translateX(${translateX}px)`,
           transition: isSwiping ? "none" : "transform 0.3s ease-out",
           display: "flex",
-          width: "100%", // スワイプ対象のコンテンツ幅
+          width: "100%",
         }}
       >
-        {/* 前のページのダミー */}
         {showDummyPrev && prevStatusLabel && (
           <div
             style={{
               minWidth: DUMMY_PAGE_WIDTH,
               flexShrink: 0,
-              // transform: `translateX(-100%)`, // 左に配置
-              opacity: Math.max(0, translateX / SWIPE_ANIMATION_THRESHOLD - 1), // スワイプ量に応じて表示
+              opacity: Math.max(0, translateX / SWIPE_ANIMATION_THRESHOLD - 1),
               transition: "opacity 0.2s ease-out",
             }}
             className="h-full min-h-[calc(100vh-200px)] bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-400 dark:text-gray-500 border-r border-gray-300 dark:border-gray-600"
@@ -104,19 +103,16 @@ export function SwipeableTabView({ children, currentStatus, onSwipeEnd }: Props)
           </div>
         )}
 
-        {/* 現在のページコンテンツ */}
         <div style={{ minWidth: "100%", flexShrink: 0 }}>
           {children}
         </div>
 
-        {/* 次のページのダミー */}
         {showDummyNext && nextStatusLabel && (
           <div
             style={{
               minWidth: DUMMY_PAGE_WIDTH,
               flexShrink: 0,
-              // transform: `translateX(100%)`, // 右に配置
-              opacity: Math.max(0, -translateX / SWIPE_ANIMATION_THRESHOLD -1), // スワイプ量に応じて表示
+              opacity: Math.max(0, -translateX / SWIPE_ANIMATION_THRESHOLD -1),
               transition: "opacity 0.2s ease-out",
             }}
             className="h-full min-h-[calc(100vh-200px)] bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-400 dark:text-gray-500 border-l border-gray-300 dark:border-gray-600"
