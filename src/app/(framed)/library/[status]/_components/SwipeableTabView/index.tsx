@@ -37,20 +37,24 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
 
     const swipeData = sessionStorage.getItem(SWIPE_TRANSITION_KEY);
     if (swipeData) {
-      const { direction, targetStatus } = JSON.parse(swipeData);
+      try {
+        const { direction, targetStatus } = JSON.parse(swipeData);
 
-      // 現在のページが遷移先と一致する場合のみスライドイン
-      if (targetStatus === currentStatus) {
-        const screenWidth = window.innerWidth;
-        const initialX =
-          direction === "Left" ? screenWidth * 0.2 : -screenWidth * 0.2;
+        // 現在のページが遷移先と一致する場合のみスライドイン
+        if (targetStatus === currentStatus) {
+          const screenWidth = window.innerWidth;
+          const initialX =
+            direction === "Left" ? screenWidth * 0.2 : -screenWidth * 0.2;
 
-        // 初期位置を設定
-        api.set({ x: initialX, opacity: 0 });
+          // 初期位置を設定
+          api.set({ x: initialX, opacity: 0 });
 
-        // 一度使用したら削除
+          // 一度使用したら削除
+          sessionStorage.removeItem(SWIPE_TRANSITION_KEY);
+          return;
+        }
+      } catch {
         sessionStorage.removeItem(SWIPE_TRANSITION_KEY);
-        return;
       }
     }
 
@@ -61,6 +65,7 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
     });
   }, [currentStatus, api]);
 
+  // 現在のステータスのインデックスを更新
   useEffect(() => {
     currentIndexRef.current = readingStatusOrder.indexOf(currentStatus);
   }, [currentStatus]);
@@ -79,13 +84,6 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
       return () => window.removeEventListener("resize", handleResize);
     }
   }, []);
-
-  // 初期化時に画面幅を取得
-  useEffect(() => {
-    if (typeof window !== "undefined" && windowWidthRef.current === 0) {
-      windowWidthRef.current = window.innerWidth;
-    }
-  });
 
   // スワイプを無効化するためにモーダルの存在を監視
   useEffect(() => {
