@@ -1,5 +1,6 @@
 "use client";
 
+import BookListSkeleton from "@/components/BookList/Skeleton";
 import { readingStatusOrder } from "@/constants/status";
 import type { ReadingStatus } from "@/types/readingStatus";
 import { useRouter } from "next/navigation";
@@ -106,6 +107,7 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
       setTranslateX(eventData.deltaX);
 
       const currentIndex = currentIndexRef.current;
+
       if (
         eventData.deltaX < -SWIPE_ANIMATION_THRESHOLD &&
         currentIndex < readingStatusOrder.length - 1
@@ -182,7 +184,7 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
     <div
       {...handlers}
       style={{ touchAction: "pan-y" }}
-      className="relative overflow-hidden"
+      className="-mx-6 lg:-mx-12 relative overflow-hidden"
     >
       {/* 左ダミーページ */}
       {showDummyPrev && prevStatusLabel && (
@@ -197,15 +199,22 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
             transform: `translateX(${Math.min(0, translateX - getDummyPageOffset())}px)`,
             zIndex: 1,
           }}
-          className="flex min-h-[calc(100vh-200px)] w-[80vw] items-center justify-center border-gray-300 border-r bg-gray-100 text-gray-400 md:w-80 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-500"
+          className="w-[80vw] border-gray-300 border-r bg-background md:w-80 dark:border-gray-600"
         >
-          <p className="text-sm">{`〈 ${prevStatusLabel}`}</p>
+          <div className="p-4">
+            <div className="mb-4 flex items-center gap-2">
+              <span className="text-muted-foreground text-sm">
+                〈 {prevStatusLabel}
+              </span>
+            </div>
+            <BookListSkeleton count={3} />
+          </div>
         </div>
       )}
 
       {/* 現在のページ */}
       <div
-        className="w-full transition-opacity duration-300 ease-in-out"
+        className="w-full px-6 transition-opacity duration-300 ease-in-out lg:px-12"
         style={{
           opacity: contentOpacity,
           transform: `translateX(${translateX}px)`,
@@ -230,9 +239,16 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
             transform: `translateX(${Math.max(0, translateX + getDummyPageOffset())}px)`,
             zIndex: 1,
           }}
-          className="flex min-h-[calc(100vh-200px)] w-[80vw] items-center justify-center border-gray-300 border-l bg-gray-100 text-gray-400 md:w-80 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-500"
+          className="w-[80vw] border-gray-300 border-l bg-background md:w-80 dark:border-gray-600"
         >
-          <p className="text-sm">{`${nextStatusLabel} 〉`}</p>
+          <div className="p-4">
+            <div className="mb-4 flex items-center gap-2">
+              <span className="text-muted-foreground text-sm">
+                {nextStatusLabel} 〉
+              </span>
+            </div>
+            <BookListSkeleton count={3} />
+          </div>
         </div>
       )}
     </div>

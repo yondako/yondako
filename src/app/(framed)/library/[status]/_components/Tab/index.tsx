@@ -1,6 +1,4 @@
-"use client";
-
-import { readingStatusMetadata, readingStatusOrder } from "@/constants/status"; // readingStatusOrder をインポート
+import { readingStatusMetadata, readingStatusOrder } from "@/constants/status";
 import type { ReadingStatus } from "@/types/readingStatus";
 import { TabItem } from "./TabItem";
 
@@ -11,7 +9,7 @@ type Props = {
 export default function Tab({ current }: Props) {
   return (
     <div className="mx-auto flex w-full rounded-full bg-tertiary-background lg:w-fit">
-      {readingStatusOrder.map((status) => { // インポートした readingStatusOrder を使用
+      {readingStatusOrder.map((status) => {
         const item = readingStatusMetadata.get(status);
 
         return item ? (
