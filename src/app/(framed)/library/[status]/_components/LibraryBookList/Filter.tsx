@@ -17,6 +17,9 @@ type Props = {
   isOrderAsc: boolean;
 };
 
+/**
+ * ライブラリページの書籍リストをフィルタリングするコンポーネント。ジャンル、著者、出版社などの条件で書籍を絞り込み、並び順の変更も可能です。
+ */
 export default function Filter({ isOrderAsc }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();

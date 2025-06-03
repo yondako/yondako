@@ -5,14 +5,7 @@ const meta: Meta<typeof SideNavi> = {
   title: "Layout/SideNavi",
   component: SideNavi,
   tags: ["autodocs"],
-  parameters: {
-    docs: {
-      description: {
-        component:
-          "サイドナビゲーションコンポーネント。ライブラリ、ニュース、検索、設定などの主要ページへのナビゲーションを提供します。アクティブページのハイライト表示とバッジ通知機能を含みます。",
-      },
-    },
-  },
+  parameters: {},
 };
 
 export default meta;

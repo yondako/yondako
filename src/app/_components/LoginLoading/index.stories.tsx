@@ -6,12 +6,6 @@ const meta: Meta<typeof LoginLoading> = {
   component: LoginLoading,
   tags: ["autodocs"],
   parameters: {
-    docs: {
-      description: {
-        component:
-          "ログイン処理中に表示されるローディング画面コンポーネント。フルスクリーンで表示され、ユーザーにログイン処理の進行状況を知らせます。",
-      },
-    },
     layout: "fullscreen",
   },
   argTypes: {

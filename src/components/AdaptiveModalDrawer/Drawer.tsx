@@ -1,6 +1,9 @@
 import { Drawer as VaulDrawer } from "vaul";
 import type { AdaptiveModalDrawerProps } from "./props";
 
+/**
+ * モバイル環境でボトムシートドロワーとして表示される適応型コンポーネント。画面下部からスライドアップして表示され、ドラッグまたは背景タップで閉じることができます。
+ */
 export default function Drawer({
   triggerChildren,
   children,

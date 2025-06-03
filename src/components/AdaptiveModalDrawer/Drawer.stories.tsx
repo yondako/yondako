@@ -5,14 +5,7 @@ const meta: Meta<typeof Drawer> = {
   title: "Components/AdaptiveModalDrawer/Drawer",
   component: Drawer,
   tags: ["autodocs"],
-  parameters: {
-    docs: {
-      description: {
-        component:
-          "モバイル環境でボトムシートドロワーとして表示される適応型コンポーネント。画面下部からスライドアップして表示され、ドラッグまたは背景タップで閉じることができます。",
-      },
-    },
-  },
+  parameters: {},
   argTypes: {
     open: {
       description: "ドロワーの開閉状態",

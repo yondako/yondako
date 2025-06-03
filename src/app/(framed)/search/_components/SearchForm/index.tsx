@@ -8,6 +8,9 @@ import type { SearchResultProps } from "../SearchResult";
 
 type Props = Partial<Pick<SearchResultProps, "ndc" | "sensitive" | "query">>;
 
+/**
+ * 書籍検索用のフォームコンポーネント。キーワード入力と検索実行機能を提供し、フィルタリング機能も統合しています。URLパラメータと同期して検索状態を管理します。
+ */
 export default function SearchForm(props: Props) {
   const isFiltered = !!props.ndc || !!props.sensitive;
 

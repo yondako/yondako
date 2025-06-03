@@ -5,6 +5,9 @@ type Props = {
   label: string;
 } & Omit<ComponentPropsWithoutRef<"input">, "type" | "className">;
 
+/**
+ * 検索フィルター内でNDCカテゴリーを選択するためのボタンコンポーネント。ラジオボタンの仕組みで、選択状態を視覚的に表現します。
+ */
 export default function CategoryButton({ label, ...props }: Props) {
   return (
     <div className="contents">

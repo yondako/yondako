@@ -9,6 +9,9 @@ export type BookReadingStatusButtonProps = {
   compact?: boolean;
 };
 
+/**
+ * 読書ステータスを表示・変更するためのボタンコンポーネント。選択中のステータスをハイライト表示し、クリックでステータスを変更できます。コンパクトモードもサポートしています。
+ */
 export default function BookReadingStatusButton({
   status,
   meta,

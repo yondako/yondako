@@ -15,6 +15,9 @@ type Props = {
   children: ReactNode;
 } & Partial<Pick<SearchResultProps, "ndc" | "sensitive" | "query">>;
 
+/**
+ * 検索フィルターコンポーネント。NDC（日本十進分類法）によるカテゴリーフィルタとセンシティブコンテンツのフィルタリング機能を提供します。デスクトップではモーダル、モバイルではドロワーとして表示されます。
+ */
 export default function SearchFilter({
   children,
   ndc = "",

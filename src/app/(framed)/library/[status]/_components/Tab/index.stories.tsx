@@ -5,14 +5,7 @@ const meta: Meta<typeof Tab> = {
   title: "Pages/Library/Tab",
   component: Tab,
   tags: ["autodocs"],
-  parameters: {
-    docs: {
-      description: {
-        component:
-          "ライブラリページの読書ステータス切り替え用タブコンポーネント。よみたい・読書中・読みおわったの3つのステータスを切り替えて書籍リストを絞り込みます。",
-      },
-    },
-  },
+  parameters: {},
   argTypes: {
     current: {
       description: "現在選択されている読書ステータス",

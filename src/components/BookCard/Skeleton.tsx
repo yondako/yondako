@@ -9,6 +9,9 @@ export type BookCardSkeletonProps = {
   className?: string;
 };
 
+/**
+ * BookCardのローディング状態を表示するスケルトンコンポーネント。コンテンツが読み込まれる前に表示されます。
+ */
 export default function BookCardSkeleton({
   pageReadingStatus,
   className,

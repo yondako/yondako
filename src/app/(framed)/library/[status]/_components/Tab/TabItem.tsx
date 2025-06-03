@@ -8,6 +8,9 @@ type TabItemProps = {
   current?: boolean;
 };
 
+/**
+ * ライブラリタブ内の個別アイテムコンポーネント。アクティブ状態、ホバー状態をサポートし、アイコンとラベルで読書ステータスを表現します。
+ */
 export function TabItem({ id, meta, current }: TabItemProps) {
   const Icon = current ? meta.IconFilled : meta.IconSolid;
 

@@ -9,6 +9,9 @@ type Props = {
   className?: string;
 };
 
+/**
+ * 検索フィルター内でセクションのラベルと説明を表示するコンポーネント。アクセシビリティを考慮し、スクリーンリーダーにも対応しています。
+ */
 export default function Label({
   title,
   description,

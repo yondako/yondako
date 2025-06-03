@@ -7,14 +7,7 @@ const meta: Meta<typeof BookDetailContent> = {
   title: "Components/BookDetail/Content",
   component: BookDetailContent,
   tags: ["autodocs"],
-  parameters: {
-    docs: {
-      description: {
-        component:
-          "本の詳細情報を表示するコンテンツコンポーネント。本のカバー画像、タイトル、著者、出版社、概要などの情報と、読書ステータス変更フォームを統合したモーダル・ドロワー用コンテンツです。",
-      },
-    },
-  },
+  parameters: {},
   argTypes: {
     data: {
       description: "本の詳細データと読書ステータス",

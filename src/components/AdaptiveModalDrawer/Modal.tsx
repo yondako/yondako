@@ -9,6 +9,9 @@ import { useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import type { AdaptiveModalDrawerProps } from "./props";
 
+/**
+ * デスクトップ環境でモーダルダイアログとして表示される適応型コンポーネント。画面の中央にオーバーレイとして表示され、背景をクリックして閉じることができます。
+ */
 export default function Modal({
   open = false,
   onOpenChange,

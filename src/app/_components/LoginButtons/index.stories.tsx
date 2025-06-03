@@ -8,12 +8,6 @@ const meta: Meta<typeof LoginButtons> = {
   component: LoginButtons,
   tags: ["autodocs"],
   parameters: {
-    docs: {
-      description: {
-        component:
-          "ログインボタンコンポーネント。Google認証とGitHub認証のボタンを提供し、クリック時にローディング状態を表示します。リダイレクト先URLを指定できます。",
-      },
-    },
     nextjs: {
       appDirectory: true,
     },

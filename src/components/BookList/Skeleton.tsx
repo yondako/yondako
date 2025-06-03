@@ -8,6 +8,9 @@ type Props = {
   className?: string;
 } & Pick<BookCardSkeletonProps, "pageReadingStatus">;
 
+/**
+ * BookListのローディング状態を表示するスケルトンコンポーネント。指定した数のスケルトンカードをグリッドレイアウトで表示します。
+ */
 export default function BookListSkeleton({
   count = 6,
   className,

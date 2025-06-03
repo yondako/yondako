@@ -7,6 +7,9 @@ type Props = {
   badge?: boolean;
 } & Omit<NavItem, "matchSegmentsRegExp">;
 
+/**
+ * サイドナビゲーション内の個別アイテムコンポーネント。アクティブ状態、ホバー状態、通知バッジ表示をサポートし、アイコンとラベルを持つナビゲーションリンクを提供します。
+ */
 export default function Item({
   title,
   IconSolid,

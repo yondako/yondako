@@ -8,12 +8,6 @@ const meta: Meta<typeof Item> = {
   component: Item,
   tags: ["autodocs"],
   parameters: {
-    docs: {
-      description: {
-        component:
-          "サイドナビゲーション内の個別アイテムコンポーネント。アクティブ状態、ホバー状態、通知バッジ表示をサポートし、アイコンとラベルを持つナビゲーションリンクを提供します。",
-      },
-    },
     pseudo: {
       hover: ["[href='/hover']"],
     },

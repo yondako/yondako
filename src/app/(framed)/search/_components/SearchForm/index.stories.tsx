@@ -6,12 +6,6 @@ const meta: Meta<typeof SearchForm> = {
   component: SearchForm,
   tags: ["autodocs"],
   parameters: {
-    docs: {
-      description: {
-        component:
-          "書籍検索用のフォームコンポーネント。キーワード入力と検索実行機能を提供し、フィルタリング機能も統合しています。URLパラメータと同期して検索状態を管理します。",
-      },
-    },
     nextjs: {
       appDirectory: true,
     },

@@ -8,12 +8,6 @@ const meta: Meta<typeof TabItem> = {
   component: TabItem,
   tags: ["autodocs"],
   parameters: {
-    docs: {
-      description: {
-        component:
-          "ライブラリタブ内の個別アイテムコンポーネント。アクティブ状態、ホバー状態をサポートし、アイコンとラベルで読書ステータスを表現します。",
-      },
-    },
     nextjs: {
       appDirectory: true,
     },

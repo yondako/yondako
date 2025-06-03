@@ -6,12 +6,6 @@ const meta: Meta<typeof Button> = {
   component: Button,
   tags: ["autodocs"],
   parameters: {
-    docs: {
-      description: {
-        component:
-          "汎用的なボタンコンポーネント。複数のスタイルバリエーションを提供し、リンクとしても使用できます。",
-      },
-    },
     pseudo: {
       hover: ["#hover"],
     },

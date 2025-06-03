@@ -6,6 +6,9 @@ type Props = {
   show: boolean;
 };
 
+/**
+ * ログイン処理中に表示されるローディング画面コンポーネント。フルスクリーンで表示され、ユーザーにログイン処理の進行状況を知らせます。
+ */
 export default function LoginLoading({ show }: Props) {
   const transitions = useTransition(show, {
     from: {

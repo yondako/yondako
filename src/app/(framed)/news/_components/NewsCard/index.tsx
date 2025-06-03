@@ -5,6 +5,9 @@ import Tag from "./Tag";
 
 type Props = InferInput<typeof newsSchema.item>;
 
+/**
+ * ニュース記事を表示するカードコンポーネント。タイトル、絵文字、タグ、公開日を表示し、クリックで詳細ページへリンクします。
+ */
 export default function NewsCard({
   slug,
   title,

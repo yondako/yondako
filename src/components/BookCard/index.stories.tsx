@@ -14,14 +14,7 @@ const meta: Meta<typeof BookCard> = {
   title: "Components/BookCard",
   component: BookCard,
   tags: ["autodocs"],
-  parameters: {
-    docs: {
-      description: {
-        component:
-          "書籍の情報を表示するカードコンポーネント。クリックで詳細ダイアログが開きます。",
-      },
-    },
-  },
+  parameters: {},
   argTypes: {
     data: {
       description: "書籍データ（詳細情報と読書ステータス）",

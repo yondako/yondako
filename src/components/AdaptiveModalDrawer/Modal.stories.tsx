@@ -6,14 +6,7 @@ const meta: Meta<typeof Modal> = {
   title: "Components/AdaptiveModalDrawer/Modal",
   component: Modal,
   tags: ["autodocs"],
-  parameters: {
-    docs: {
-      description: {
-        component:
-          "デスクトップ環境でモーダルダイアログとして表示される適応型コンポーネント。画面の中央にオーバーレイとして表示され、背景をクリックして閉じることができます。",
-      },
-    },
-  },
+  parameters: {},
   argTypes: {
     open: {
       description: "モーダルの開閉状態",

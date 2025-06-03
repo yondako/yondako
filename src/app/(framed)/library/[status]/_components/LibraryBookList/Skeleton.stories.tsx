@@ -5,14 +5,7 @@ const meta: Meta<typeof LibraryBookListSkeleton> = {
   title: "Pages/Library/BookList/Skeleton",
   component: LibraryBookListSkeleton,
   tags: ["autodocs"],
-  parameters: {
-    docs: {
-      description: {
-        component:
-          "ライブラリ書籍リストのローディング状態を表示するスケルトンコンポーネント。フィルターと書籍カードのスケルトンを組み合わせて表示します。",
-      },
-    },
-  },
+  parameters: {},
 };
 
 export default meta;

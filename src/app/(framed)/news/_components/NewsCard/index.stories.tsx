@@ -6,12 +6,6 @@ const meta: Meta<typeof NewsCard> = {
   component: NewsCard,
   tags: ["autodocs"],
   parameters: {
-    docs: {
-      description: {
-        component:
-          "ニュース記事を表示するカードコンポーネント。タイトル、絵文字、タグ、公開日を表示し、クリックで詳細ページへリンクします。",
-      },
-    },
     pseudo: {
       hover: ["[aria-label='hoverの詳細を見る']"],
     },

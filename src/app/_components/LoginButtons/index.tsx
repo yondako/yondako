@@ -16,6 +16,9 @@ type Props = {
   className?: string;
 };
 
+/**
+ * ログインボタンコンポーネント。Google認証とGitHub認証のボタンを提供し、クリック時にローディング状態を表示します。リダイレクト先URLを指定できます。
+ */
 export default function LoginButtons({ className, redirectTo }: Props) {
   const [loading, setLoading] = useState(false);
 

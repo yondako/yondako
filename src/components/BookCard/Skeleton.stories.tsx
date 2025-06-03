@@ -5,14 +5,7 @@ const meta: Meta<typeof BookCardSkeleton> = {
   title: "Components/BookCard/Skeleton",
   component: BookCardSkeleton,
   tags: ["autodocs"],
-  parameters: {
-    docs: {
-      description: {
-        component:
-          "BookCardのローディング状態を表示するスケルトンコンポーネント。コンテンツが読み込まれる前に表示されます。",
-      },
-    },
-  },
+  parameters: {},
   argTypes: {
     pageReadingStatus: {
       description:

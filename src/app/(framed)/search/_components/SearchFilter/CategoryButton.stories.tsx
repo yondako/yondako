@@ -6,12 +6,6 @@ const meta: Meta<typeof CategoryButton> = {
   component: CategoryButton,
   tags: ["autodocs"],
   parameters: {
-    docs: {
-      description: {
-        component:
-          "検索フィルター内でNDCカテゴリーを選択するためのボタンコンポーネント。ラジオボタンの仕組みで、選択状態を視覚的に表現します。",
-      },
-    },
     pseudo: {
       hover: ["#hover"],
     },

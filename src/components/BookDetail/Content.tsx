@@ -24,6 +24,9 @@ export type BookDetailContentProps = {
   "status" | "onChangeStatus" | "optimisticStatus" | "onChangeOptimisticStatus"
 >;
 
+/**
+ * 本の詳細情報を表示するコンテンツコンポーネント。本のカバー画像、タイトル、著者、出版社、概要などの情報と、読書ステータス変更フォームを統合したモーダル・ドロワー用コンテンツです。
+ */
 export default function BookDetailContent({
   data,
   Title,

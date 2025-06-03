@@ -9,12 +9,6 @@ const meta: Meta<typeof BookReadingStatusButton> = {
   component: BookReadingStatusButton,
   tags: ["autodocs"],
   parameters: {
-    docs: {
-      description: {
-        component:
-          "読書ステータスを表示・変更するためのボタンコンポーネント。選択中のステータスをハイライト表示し、クリックでステータスを変更できます。コンパクトモードもサポートしています。",
-      },
-    },
     pseudo: {
       hover: ["[data-testid=button-status-want_read]"],
     },

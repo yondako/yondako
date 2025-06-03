@@ -5,14 +5,7 @@ const meta: Meta<typeof BookListSkeleton> = {
   title: "Components/BookList/Skeleton",
   component: BookListSkeleton,
   tags: ["autodocs"],
-  parameters: {
-    docs: {
-      description: {
-        component:
-          "BookListのローディング状態を表示するスケルトンコンポーネント。指定した数のスケルトンカードをグリッドレイアウトで表示します。",
-      },
-    },
-  },
+  parameters: {},
   argTypes: {
     count: {
       control: { type: "number", min: 1, max: 6, step: 1 },

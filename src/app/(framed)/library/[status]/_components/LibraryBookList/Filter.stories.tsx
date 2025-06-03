@@ -5,14 +5,7 @@ const meta: Meta<typeof Filter> = {
   title: "Pages/Library/Filter",
   component: Filter,
   tags: ["autodocs"],
-  parameters: {
-    docs: {
-      description: {
-        component:
-          "ライブラリページの書籍リストをフィルタリングするコンポーネント。ジャンル、著者、出版社などの条件で書籍を絞り込み、並び順の変更も可能です。",
-      },
-    },
-  },
+  parameters: {},
 };
 
 export default meta;

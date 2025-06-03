@@ -9,12 +9,6 @@ const meta: Meta<typeof SearchFilter> = {
   component: SearchFilter,
   tags: ["autodocs"],
   parameters: {
-    docs: {
-      description: {
-        component:
-          "検索フィルターコンポーネント。NDC（日本十進分類法）によるカテゴリーフィルタとセンシティブコンテンツのフィルタリング機能を提供します。デスクトップではモーダル、モバイルではドロワーとして表示されます。",
-      },
-    },
     nextjs: {
       appDirectory: true,
       navigation: {

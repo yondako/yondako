@@ -6,14 +6,7 @@ const meta: Meta<typeof Label> = {
   title: "Pages/Search/SearchFilter/Label",
   component: Label,
   tags: ["autodocs"],
-  parameters: {
-    docs: {
-      description: {
-        component:
-          "検索フィルター内でセクションのラベルと説明を表示するコンポーネント。アクセシビリティを考慮し、スクリーンリーダーにも対応しています。",
-      },
-    },
-  },
+  parameters: {},
   argTypes: {
     title: {
       description: "ラベルのタイトル",

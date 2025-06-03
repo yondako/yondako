@@ -12,6 +12,9 @@ import { useSelectedLayoutSegments } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 import Item from "./Item";
 
+/**
+ * サイドナビゲーションコンポーネント。ライブラリ、ニュース、検索、設定などの主要ページへのナビゲーションを提供します。アクティブページのハイライト表示とバッジ通知機能を含みます。
+ */
 export default function SideNavi({
   latestNewsTimestamp: latestNewsPublishedAt,
   className,

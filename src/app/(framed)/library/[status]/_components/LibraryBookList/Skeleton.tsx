@@ -6,6 +6,9 @@ import Input from "@/components/Input";
 
 type Props = Pick<BookCardSkeletonProps, "pageReadingStatus">;
 
+/**
+ * ライブラリ書籍リストのローディング状態を表示するスケルトンコンポーネント。フィルターと書籍カードのスケルトンを組み合わせて表示します。
+ */
 export default function LibraryBookListSkeleton({ pageReadingStatus }: Props) {
   return (
     <>
