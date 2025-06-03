@@ -7,6 +7,9 @@ import Link from "next/link";
 import { useSelectedLayoutSegments } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 
+/**
+ * モバイルデバイス向けのボトムナビゲーションコンポーネント。主要なページへのナビゲーションリンクを提供します。
+ */
 export default function MobileBottomNavi({
   latestNewsTimestamp,
   className,

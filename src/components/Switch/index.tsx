@@ -3,6 +3,9 @@
 import * as RadixSwitch from "@radix-ui/react-switch";
 import { twMerge } from "tailwind-merge";
 
+/**
+ * オン/オフの切り替えを行うSwitchコンポーネント。ダークモード切り替えなどの設定項目で使用されます。
+ */
 export default function Switch({
   className,
   ...props

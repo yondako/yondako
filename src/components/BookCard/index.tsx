@@ -13,6 +13,9 @@ type Props = {
   data: BookType;
 };
 
+/**
+ * 書籍の情報を表示するカードコンポーネント。クリックで詳細ダイアログが開きます。
+ */
 export default function BookCard({ data }: Props) {
   const [displayReadingStatus, setDisplayReadingStatus] = useState(
     data.readingStatus,

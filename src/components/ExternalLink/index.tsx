@@ -1,6 +1,9 @@
 import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
 
+/**
+ * 外部リンクを表示するコンポーネント。新しいタブで開くリンクに外部リンクアイコンを自動的に追加します。
+ */
 export default function ExternalLink({
   className,
   ...props

@@ -7,6 +7,9 @@ export type FooterProps = {
   portrait?: boolean;
 } & ComponentPropsWithoutRef<"div">;
 
+/**
+ * ページのフッター部分を表示するコンポーネント。ロゴとクレジット情報を含みます。
+ */
 export default function Footer({ portrait = false, ...props }: FooterProps) {
   const year = new Date().getFullYear();
 

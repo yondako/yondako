@@ -24,6 +24,9 @@ type Props = {
 } & BookReadingStatusFormProps &
   Pick<BookReadingStatusButtonProps, "compact">;
 
+/**
+ * 本の読書ステータス（よみたい・読書中・読みおわった）を変更するためのフォームコンポーネント。各ステータスボタンをクリックして変更し、オプティミスティック更新でスムーズな操作を実現します。
+ */
 export default function BookReadingStatusForm({
   identifiers,
   bookTitle,

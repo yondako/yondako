@@ -15,6 +15,9 @@ type Props = {
   className?: string;
 };
 
+/**
+ * ページネーションコンポーネント。複数ページにわたるコンテンツのナビゲーションを提供します。
+ */
 export default function Pagination({
   currentPage,
   totalPage,

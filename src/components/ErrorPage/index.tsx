@@ -9,6 +9,9 @@ type Props = {
   children: ReactNode;
 };
 
+/**
+ * エラー画面を表示するコンポーネント。エラータイトルと説明文、タコのイラストを表示します。
+ */
 export default function ErrorPage({ title, children }: Props) {
   return (
     <LandingLayout>

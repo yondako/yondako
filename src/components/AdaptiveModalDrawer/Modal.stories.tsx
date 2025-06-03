@@ -3,10 +3,34 @@ import { expect, userEvent, waitFor, within } from "@storybook/test";
 import Modal from "./Modal";
 
 const meta: Meta<typeof Modal> = {
-  title: "Common/AdaptiveModalDrawer/Modal",
+  title: "Components/AdaptiveModalDrawer/Modal",
   component: Modal,
+  tags: ["autodocs"],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "デスクトップ環境でモーダルダイアログとして表示される適応型コンポーネント。画面の中央にオーバーレイとして表示され、背景をクリックして閉じることができます。",
+      },
+    },
+  },
   argTypes: {
-    onOpenChange: { action: "onOpenChange" },
+    open: {
+      description: "モーダルの開閉状態",
+      control: "boolean",
+    },
+    onOpenChange: {
+      description: "モーダルの開閉状態が変更された時のコールバック関数",
+      action: "onOpenChange",
+    },
+    children: {
+      description: "モーダル内に表示するコンテンツ",
+      control: false,
+    },
+    triggerChildren: {
+      description: "モーダルを開くトリガーとなる要素",
+      control: false,
+    },
   },
   args: {
     children: () => <p data-testid="content">モーダルです！</p>,
@@ -17,6 +41,14 @@ export default meta;
 type Story = StoryObj<typeof Modal>;
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "基本的なモーダルの表示状態。デフォルトで開いた状態で表示されます。",
+      },
+    },
+  },
   args: {
     open: true,
   },
@@ -24,6 +56,14 @@ export const Default: Story = {
 
 export const OpenClose: Story = {
   name: "ダイアログの開閉",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "ボタンクリックでモーダルを開き、閉じるボタンで閉じる操作をテストするストーリー。実際のユーザーインタラクションをシミュレートします。",
+      },
+    },
+  },
   args: {
     open: false,
     triggerChildren: <button>Open Dialog</button>,

@@ -6,6 +6,9 @@ type Props = {
   className?: string;
 };
 
+/**
+ * タコキャラクターがメッセージを言っているコンポーネント。吹き出しバブルでメッセージを表示します。
+ */
 export default function SayTako({ message, className }: Props) {
   return (
     <div

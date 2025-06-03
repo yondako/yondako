@@ -2,8 +2,9 @@ import type { Meta, StoryObj } from "@storybook/react";
 import MessagePage from ".";
 
 const meta: Meta<typeof MessagePage> = {
-  title: "App/Fullscreen/Search/Barcode/MessagePage",
+  title: "Pages/Search/Barcode/MessagePage",
   component: MessagePage,
+  tags: ["autodocs"],
 };
 
 export default meta;

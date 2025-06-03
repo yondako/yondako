@@ -10,6 +10,9 @@ export type MessageTakoProps = {
   className?: string;
 };
 
+/**
+ * メッセージを表示するタコキャラクターコンポーネント。タイトル、メッセージ内容、装飾要素を表示できます。
+ */
 export default function MessageTako({
   title,
   decoration,

@@ -2,8 +2,9 @@ import type { Meta, StoryObj } from "@storybook/react";
 import AccountSection from ".";
 
 const meta: Meta<typeof AccountSection> = {
-  title: "App/Framed/Settings/AccountSection",
+  title: "Pages/Settings/AccountSection",
   component: AccountSection,
+  tags: ["autodocs"],
   args: {
     userId: "this-is-user-id",
   },

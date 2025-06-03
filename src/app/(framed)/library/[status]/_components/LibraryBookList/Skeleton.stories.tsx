@@ -2,14 +2,30 @@ import type { Meta, StoryObj } from "@storybook/react";
 import LibraryBookListSkeleton from "./Skeleton";
 
 const meta: Meta<typeof LibraryBookListSkeleton> = {
-  title: "Components/LibraryBookList/Skeleton",
+  title: "Pages/Library/BookList/Skeleton",
   component: LibraryBookListSkeleton,
   tags: ["autodocs"],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "ライブラリ書籍リストのローディング状態を表示するスケルトンコンポーネント。フィルターと書籍カードのスケルトンを組み合わせて表示します。",
+      },
+    },
+  },
 };
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "基本的なライブラリ書籍リストスケルトンの表示例。フィルター部分と書籍リストのスケルトンが表示されます。",
+      },
+    },
+  },
   args: {},
 };

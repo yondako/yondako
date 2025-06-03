@@ -9,6 +9,9 @@ type Props = {
   bookDetailProps: Omit<BookDetailContentProps, "Title" | "Description">;
 } & Omit<DialogProps, "defaultOpen" | "modal">;
 
+/**
+ * 書籍の詳細情報を表示するダイアログコンポーネント。デスクトップではモーダル、モバイルではドロワーとして表示されます。
+ */
 export default function BookDetail({
   bookDetailProps,
   children,

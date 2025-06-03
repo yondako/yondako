@@ -2,14 +2,33 @@ import type { Meta, StoryObj } from "@storybook/react";
 import BudouX from ".";
 
 const meta: Meta<typeof BudouX> = {
-  title: "Common/BudouX",
+  title: "Components/BudouX",
   component: BudouX,
+  tags: ["autodocs"],
+  parameters: {},
+  argTypes: {
+    children: {
+      description: "改行処理を行うテキスト",
+      control: { type: "text" },
+    },
+    className: {
+      description: "追加のCSSクラス",
+    },
+  },
 };
 
 export default meta;
 type Story = StoryObj<typeof BudouX>;
 
 export const All: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "異なる幅のコンテナでのBudouXの改行動作を確認できます。赤枠内でテキストが適切に改行されます。",
+      },
+    },
+  },
   args: {
     children: "これはテストの文章です。適切な位置で改行されているはずです。",
   },

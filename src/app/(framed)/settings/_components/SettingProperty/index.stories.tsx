@@ -2,8 +2,9 @@ import type { Meta, StoryObj } from "@storybook/react";
 import SettingProperty from ".";
 
 const meta: Meta<typeof SettingProperty> = {
-  title: "App/Framed/Settings/SettingProperty",
+  title: "Pages/Settings/SettingProperty",
   component: SettingProperty,
+  tags: ["autodocs"],
 };
 
 export default meta;

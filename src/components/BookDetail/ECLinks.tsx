@@ -6,6 +6,9 @@ type Props = {
   isbn: string;
 };
 
+/**
+ * ECサイトへのリンクを表示するコンポーネント。Amazon、楽天、紀伊國屋などのオンライン書店へのリンクを表示します。
+ */
 export default function ECLinks({ isbn }: Props) {
   const isbn10 = toIsbn10(isbn);
 

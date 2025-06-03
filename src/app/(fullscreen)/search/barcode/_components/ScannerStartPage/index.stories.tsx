@@ -2,8 +2,9 @@ import type { Meta, StoryObj } from "@storybook/react";
 import ScannerStartPage from ".";
 
 const meta: Meta<typeof ScannerStartPage> = {
-  title: "App/Fullscreen/Search/Barcode/ScannerStartPage",
+  title: "Pages/Search/Barcode/ScannerStartPage",
   component: ScannerStartPage,
+  tags: ["autodocs"],
 };
 
 export default meta;

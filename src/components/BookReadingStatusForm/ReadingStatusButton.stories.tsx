@@ -5,8 +5,47 @@ import type { Meta, StoryObj } from "@storybook/react";
 import BookReadingStatusButton from "./ReadingStatusButton";
 
 const meta: Meta<typeof BookReadingStatusButton> = {
-  title: "Common/BookReadingStatusForm/BookReadingStatusButton",
+  title: "Components/BookReadingStatusForm/ReadingStatusButton",
   component: BookReadingStatusButton,
+  tags: ["autodocs"],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "読書ステータスを表示・変更するためのボタンコンポーネント。選択中のステータスをハイライト表示し、クリックでステータスを変更できます。コンパクトモードもサポートしています。",
+      },
+    },
+    pseudo: {
+      hover: ["[data-testid=button-status-want_read]"],
+    },
+  },
+  argTypes: {
+    status: {
+      description: "ボタンが表す読書ステータス",
+      control: "select",
+      options: ["want_read", "reading", "read"],
+    },
+    meta: {
+      description: "ステータスのメタデータ（ラベル、アイコン）",
+      control: false,
+    },
+    selected: {
+      description: "ボタンが選択状態かどうか",
+      control: "boolean",
+    },
+    compact: {
+      description: "コンパクト表示モード",
+      control: "boolean",
+    },
+    disabled: {
+      description: "ボタンの無効状態",
+      control: "boolean",
+    },
+    onClick: {
+      description: "ボタンクリック時のコールバック関数",
+      action: "onClick",
+    },
+  },
   render: (args) => {
     return (
       <>
@@ -28,11 +67,6 @@ const meta: Meta<typeof BookReadingStatusButton> = {
       </>
     );
   },
-  parameters: {
-    pseudo: {
-      hover: ["[data-testid=button-status-want_read]"],
-    },
-  },
 };
 
 export default meta;
@@ -45,6 +79,14 @@ const sampleMeta: ReadingStatusMetadataItem = {
 };
 
 export const All: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "ボタンの各種状態（通常・選択・コンパクト）を一覧で表示。ホバー状態もシミュレートされています。異なるステータスでの表示を確認できます。",
+      },
+    },
+  },
   args: {
     status: "reading",
     meta: sampleMeta,

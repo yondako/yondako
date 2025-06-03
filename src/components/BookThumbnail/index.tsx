@@ -10,6 +10,9 @@ type Props = {
   jpeCode?: string | null;
 };
 
+/**
+ * 書籍のサムネイル画像を表示するコンポーネント。画像が取得できない場合はプレースホルダー画像を表示します。
+ */
 export default function BookThumbnail({ className, isbn, jpeCode }: Props) {
   const imageBgStyle = "w-full object-contain";
 

@@ -7,6 +7,9 @@ type Props = {
   style?: "accent" | "noBorder";
 } & Omit<ComponentPropsWithRef<"button">, "style">;
 
+/**
+ * 汎用的なボタンコンポーネント。複数のスタイルバリエーションを提供し、リンクとしても使用できます。
+ */
 export default function Button({ asChild, className, style, ...props }: Props) {
   const baseStyle =
     "px-6 py-3 rounded-full text-center transition hover:brightness-95 cursor-pointer";
