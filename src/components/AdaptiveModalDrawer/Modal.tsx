@@ -112,7 +112,7 @@ export default function Modal({
                 >
                   <Dialog.Close
                     className={
-                      "absolute top-4 right-4 text-secondary-foreground transition-colors hover:text-primary-foreground"
+                      "absolute top-4 right-4 cursor-pointer rounded bg-primary-background p-1 text-secondary-foreground transition hover:brightness-95"
                     }
                     data-testid="button-close"
                   >
