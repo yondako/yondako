@@ -1,6 +1,6 @@
 import { readFileSync, readdirSync } from "node:fs";
 import test, { expect } from "@playwright/test";
-import type { StoryIndex } from "@storybook/types";
+import type { StoryIndex } from "storybook/internal/types";
 
 const isUpdate = !!process.env.UPDATE;
 

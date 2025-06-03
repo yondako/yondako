@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { expect, userEvent } from "@storybook/test";
 import { waitFor } from "@testing-library/dom";
+import { expect, userEvent } from "storybook/test";
 import LoginButtons from ".";
 
 const meta: Meta<typeof LoginButtons> = {

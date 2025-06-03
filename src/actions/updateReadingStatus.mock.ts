@@ -1,4 +1,4 @@
-import { fn } from "@storybook/test";
+import { fn } from "storybook/test";
 
 // NOTE:
 // ここで import * as actual from "./updateReadingStatus" とすると

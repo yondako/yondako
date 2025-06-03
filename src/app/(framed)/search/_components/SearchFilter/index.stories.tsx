@@ -1,7 +1,7 @@
 import { NDCList } from "@/types/ndc";
 import { INITIAL_VIEWPORTS } from "@storybook/addon-viewport";
 import type { Meta, StoryObj } from "@storybook/react";
-import { expect, userEvent, waitFor, within } from "@storybook/test";
+import { expect, userEvent, waitFor, within } from "storybook/test";
 import SearchFilter from ".";
 
 const meta: Meta<typeof SearchFilter> = {

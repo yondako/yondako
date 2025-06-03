@@ -1,7 +1,7 @@
 import { createDummyBookDetail } from "@/_mocks/book";
 import type { ReadingStatus } from "@/types/readingStatus";
 import type { Meta, StoryObj } from "@storybook/react";
-import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
+import { expect, fn, userEvent, waitFor, within } from "storybook/test";
 import { updateReadingStatus } from "#src/actions/updateReadingStatus.mock";
 import BookReadingStatusForm from ".";
 
