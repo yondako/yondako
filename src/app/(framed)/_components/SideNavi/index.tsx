@@ -1,12 +1,11 @@
 "use client";
 
-import logoUrl from "@/assets/images/logo/portrait.svg?url";
+import ImageLogo from "@/assets/images/logo/portrait.svg?url";
 import Footer from "@/components/Footer";
 import { naviItems } from "@/constants/navi-items";
 import { site } from "@/constants/site";
 import { useCheckLatestNews } from "@/hooks/useCheckLatestNews";
 import type { NaviProps } from "@/types/navi";
-import Image from "next/image";
 import Link from "next/link";
 import { useSelectedLayoutSegments } from "next/navigation";
 import { twMerge } from "tailwind-merge";
@@ -23,7 +22,7 @@ export default function SideNavi({ latestNewsTimestamp: latestNewsPublishedAt, c
     <nav {...props} className={twMerge("flex h-full w-full max-w-60 flex-col justify-between", className)}>
       <div className="mt-8">
         <Link className="ml-8 block w-32" href="/">
-          <Image src={logoUrl} alt={site.name} priority />
+          <ImageLogo aria-label={site.name} />
         </Link>
 
         <div className="mt-7 space-y-2">
