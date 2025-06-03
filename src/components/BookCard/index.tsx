@@ -29,10 +29,10 @@ export default function BookCard({ data }: Props) {
   };
 
   return (
-    <div className="@container relative mt-8 w-full text-left text-primary-foreground">
+    <div className="@container relative mt-8 w-full text-left text-primary-foreground transition hover:brightness-95">
       <BookDetail bookDetailProps={{ data, ...formProps }}>
         <button
-          className="flex h-40 w-full flex-col justify-between overflow-hidden rounded-2xl bg-tertiary-background p-4 pl-36 text-left"
+          className="flex h-40 w-full cursor-pointer flex-col justify-between overflow-hidden rounded-2xl bg-tertiary-background p-4 pl-36 text-left"
           data-testid="book-card"
         >
           <div className="space-y-1">
