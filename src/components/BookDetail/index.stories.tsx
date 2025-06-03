@@ -1,5 +1,4 @@
 import { createDummyBookDetail } from "@/_mocks/book";
-import { INITIAL_VIEWPORTS } from "@storybook/addon-viewport";
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "storybook/test";
 import BookDetail from ".";
@@ -8,11 +7,6 @@ const meta: Meta<typeof BookDetail> = {
   title: "Components/BookDetail",
   component: BookDetail,
   tags: ["autodocs"],
-  parameters: {
-    viewport: {
-      viewports: INITIAL_VIEWPORTS,
-    },
-  },
   argTypes: {
     open: {
       description: "ダイアログの表示状態",
