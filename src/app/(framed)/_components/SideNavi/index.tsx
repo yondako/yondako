@@ -1,6 +1,6 @@
 "use client";
 
-import ImageLogo from "@/assets/images/logo/portrait.svg?url";
+import ImageLogo from "@/assets/images/logo/portrait.svg";
 import Footer from "@/components/Footer";
 import { naviItems } from "@/constants/navi-items";
 import { site } from "@/constants/site";
@@ -14,9 +14,9 @@ import Item from "./Item";
 /**
  * サイドナビゲーションコンポーネント。ライブラリ、ニュース、検索、設定などの主要ページへのナビゲーションを提供します。アクティブページのハイライト表示とバッジ通知機能を含みます。
  */
-export default function SideNavi({ latestNewsTimestamp: latestNewsPublishedAt, className, ...props }: NaviProps) {
+export default function SideNavi({ latestNewsTimestamp, className, ...props }: NaviProps) {
   const segments = useSelectedLayoutSegments().join("/");
-  const hasNewNews = useCheckLatestNews(latestNewsPublishedAt);
+  const hasNewNews = useCheckLatestNews(latestNewsTimestamp);
 
   return (
     <nav {...props} className={twMerge("flex h-full w-full max-w-60 flex-col justify-between", className)}>
