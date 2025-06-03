@@ -20,24 +20,18 @@ export default function BookCardSkeleton({
         className,
       )}
     >
-      {/* メインカード - 実際のBookCardと同じ構造 */}
-      <button
-        className="flex h-40 w-full flex-col justify-between overflow-hidden rounded-2xl bg-tertiary-background p-4 pl-36 text-left"
-        disabled
-      >
+      <div className="flex h-40 w-full flex-col justify-between overflow-hidden rounded-2xl bg-tertiary-background p-4 pl-36 text-left">
+        {/* タイトルと著者 */}
         <div className="space-y-1">
-          {/* タイトル  */}
           <div className="space-y-1">
             <div className="h-4 w-full rounded bg-primary-foreground/20" />
             <div className="h-4 w-4/5 rounded bg-primary-foreground/20" />
           </div>
-
-          {/* 著者名 - text-xxsサイズのスケルトン */}
           <div className="mt-2 h-3 w-2/5 rounded bg-secondary-foreground/20" />
         </div>
-      </button>
+      </div>
 
-      {/* 読書ステータスフォーム - 実際のコンポーネントを使用 */}
+      {/* 読書ステータスボタン */}
       <div className="absolute bottom-4 left-36 text-accent">
         {readingStatusValues.slice(1).map((status) => {
           const meta = readingStatusMetadata.get(status);
@@ -55,10 +49,10 @@ export default function BookCardSkeleton({
         })}
       </div>
 
-      {/* ドットアイコン*/}
+      {/* メニューアイコン */}
       <IconDotsVertical className="pointer-events-none absolute right-5 bottom-6 @xs:block hidden h-4 w-4 rounded-2xl text-secondary-foreground" />
 
-      {/* サムネイル */}
+      {/* 書影 */}
       <div className="-top-4 pointer-events-none absolute left-4 h-full w-28 overflow-hidden rounded-2xl border-4 border-tertiary-background shadow-xl">
         <div className="h-full w-full bg-secondary-background" />
       </div>

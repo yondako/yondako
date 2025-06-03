@@ -9,14 +9,10 @@ type Props = Pick<BookCardSkeletonProps, "pageReadingStatus">;
 export default function LibraryBookListSkeleton({ pageReadingStatus }: Props) {
   return (
     <>
-      {/* ヘッダー部分 */}
       <div className="mt-10 flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
-        <div className="flex w-full grow-0 animate-pulse items-end font-bold sm:w-auto">
-          <div className="h-10 w-16 rounded bg-gray-300" />
-          <div className="ml-1 h-6 w-8 rounded bg-gray-200" />
-        </div>
+        <div className="h-10 w-16 rounded bg-primary-foreground/20" />
 
-        {/* フィルター部分 - 実際のFilterコンポーネントと同じ構造でdisabled */}
+        {/* フィルターUI */}
         <div className="flex w-full space-x-3 sm:justify-end">
           <Input
             className="grow text-sm sm:max-w-64 lg:text-xs"
@@ -36,7 +32,7 @@ export default function LibraryBookListSkeleton({ pageReadingStatus }: Props) {
         </div>
       </div>
 
-      {/* 書籍リストのスケルトン */}
+      {/* 書籍リスト */}
       <BookListSkeleton
         className="mt-2"
         pageReadingStatus={pageReadingStatus}
