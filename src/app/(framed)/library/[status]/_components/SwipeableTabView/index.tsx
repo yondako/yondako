@@ -5,15 +5,14 @@ import type { ReadingStatus } from "@/types/readingStatus";
 import { animated, useSpring } from "@react-spring/web";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import type { ReactNode } from "react";
+import type { PropsWithChildren } from "react";
 import { useSwipeable } from "react-swipeable";
 
-type Props = {
-  children: ReactNode;
+type Props = PropsWithChildren<{
   currentStatus: ReadingStatus;
-};
+}>;
 
-const SWIPE_ANIMATION_THRESHOLD = 50; // px
+const SWIPE_ANIMATION_THRESHOLD = 32; // px
 const SWIPE_TRANSITION_KEY = "swipeTransition";
 
 export function SwipeableTabView({ children, currentStatus }: Props) {
