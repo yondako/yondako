@@ -29,6 +29,11 @@ export default function SupportSection({ userId }: Props) {
       </h2>
       <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
         <FormLink
+          title="公式X"
+          description="最新情報やメンテナンス情報をお届けします"
+          href={site.xUrl}
+        />
+        <FormLink
           title="バグ報告"
           description="サービスのバグや不具合を見つけた場合はこちら"
           href={bugReportUrlWithUserId.toString()}
