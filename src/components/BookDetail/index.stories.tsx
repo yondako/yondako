@@ -49,8 +49,7 @@ export const Desktop: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "デスクトップ表示での書籍詳細ダイアログ。モーダルとして中央に表示されます。",
+        story: "デスクトップ表示での書籍詳細ダイアログ。モーダルとして中央に表示されます。",
       },
     },
     viewport: {
@@ -63,8 +62,7 @@ export const Mobile: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "モバイル表示での書籍詳細ダイアログ。下からスライドアップするドロワーとして表示されます。",
+        story: "モバイル表示での書籍詳細ダイアログ。下からスライドアップするドロワーとして表示されます。",
       },
     },
     viewport: {

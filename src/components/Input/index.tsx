@@ -10,10 +10,7 @@ type Props = {
 /**
  * テキスト入力用のInputコンポーネント。通常の入力フィールドと検索フィールドの2つのバリエーションがあります。
  */
-export default forwardRef<HTMLInputElement, Props>(function Input(
-  { search, className, ...props },
-  ref,
-) {
+export default forwardRef<HTMLInputElement, Props>(function Input({ search, className, ...props }, ref) {
   return (
     <div className={twMerge("relative text-primary-foreground", className)}>
       {search && (

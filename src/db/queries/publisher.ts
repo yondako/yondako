@@ -8,17 +8,10 @@ import { publishers } from "../schema/book";
  * @param name 出版社名
  * @returns 出版社ID
  */
-export async function createPublisher(
-  dbInstance: D1Database,
-  name: string,
-): Promise<number> {
+export async function createPublisher(dbInstance: D1Database, name: string): Promise<number> {
   const db = getDB(dbInstance);
 
-  const publisher = await db
-    .select()
-    .from(publishers)
-    .where(eq(publishers.name, name))
-    .get();
+  const publisher = await db.select().from(publishers).where(eq(publishers.name, name)).get();
 
   // 既に存在する場合はそのIDを返す
   if (publisher?.id) {

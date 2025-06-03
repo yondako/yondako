@@ -10,14 +10,7 @@ type Props = {
 /**
  * サイドナビゲーション内の個別アイテムコンポーネント。アクティブ状態、ホバー状態、通知バッジ表示をサポートし、アイコンとラベルを持つナビゲーションリンクを提供します。
  */
-export default function Item({
-  title,
-  IconSolid,
-  IconFilled,
-  href,
-  current = false,
-  badge = false,
-}: Props) {
+export default function Item({ title, IconSolid, IconFilled, href, current = false, badge = false }: Props) {
   const Icon = current ? IconFilled : IconSolid;
   const to = typeof href === "string" ? href : href.desktop;
 
@@ -37,8 +30,7 @@ export default function Item({
           <div
             className={twMerge(
               "-top-0.5 -right-0.5 absolute h-2 w-2 rounded-full bg-red-400",
-              current &&
-                "outline outline-1 outline-primary-background outline-offset-0",
+              current && "outline outline-1 outline-primary-background outline-offset-0",
             )}
             aria-label="新しい通知があります"
           />

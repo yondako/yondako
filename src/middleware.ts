@@ -55,10 +55,7 @@ export function middleware(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-nonce", nonce);
 
-  requestHeaders.set(
-    "Content-Security-Policy",
-    contentSecurityPolicyHeaderValue,
-  );
+  requestHeaders.set("Content-Security-Policy", contentSecurityPolicyHeaderValue);
 
   const response = NextResponse.next({
     request: {
@@ -66,10 +63,7 @@ export function middleware(request: NextRequest) {
     },
   });
 
-  response.headers.set(
-    "Content-Security-Policy",
-    contentSecurityPolicyHeaderValue,
-  );
+  response.headers.set("Content-Security-Policy", contentSecurityPolicyHeaderValue);
 
   // デスクトップ判定
   const { device } = userAgent(request);

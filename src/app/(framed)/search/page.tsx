@@ -58,10 +58,7 @@ export default async function Search(props: Props) {
   const searchParams = await props.searchParams;
 
   // ページ数
-  const pageParseResult = safeParse(
-    pageIndexSchema,
-    Number.parseInt(searchParams.page ?? "1"),
-  );
+  const pageParseResult = safeParse(pageIndexSchema, Number.parseInt(searchParams.page ?? "1"));
   const page = pageParseResult.success ? pageParseResult.output : 1;
 
   // NDC
@@ -90,19 +87,11 @@ export default async function Search(props: Props) {
       {query ? (
         <Suspense
           fallback={
-            <Loading
-              className="mt-12 justify-start lg:mt-0 lg:justify-center"
-              title="がんばって検索しています"
-            />
+            <Loading className="mt-12 justify-start lg:mt-0 lg:justify-center" title="がんばって検索しています" />
           }
           key={Object.values(searchParams).join("_")}
         >
-          <SearchResult
-            query={query}
-            ndc={ndc}
-            sensitive={sensitive}
-            currentPage={page}
-          />
+          <SearchResult query={query} ndc={ndc} sensitive={sensitive} currentPage={page} />
         </Suspense>
       ) : (
         <SayTako message="ｹﾝｻｸｼﾃﾈ" />

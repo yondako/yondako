@@ -8,17 +8,10 @@ import { authors } from "../schema/book";
  * @param name 著者名
  * @returns 著者ID
  */
-export async function createAuthor(
-  dbInstance: D1Database,
-  name: string,
-): Promise<number> {
+export async function createAuthor(dbInstance: D1Database, name: string): Promise<number> {
   const database = getDB(dbInstance);
 
-  const author = await database
-    .select()
-    .from(authors)
-    .where(eq(authors.name, name))
-    .get();
+  const author = await database.select().from(authors).where(eq(authors.name, name)).get();
 
   // 既に存在する場合はそのIDを返す
   if (author?.id) {

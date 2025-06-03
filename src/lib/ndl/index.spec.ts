@@ -1,9 +1,5 @@
 import { afterEach, beforeEach, describe, expect, mock, test } from "bun:test";
-import {
-  createDummyBookDetail,
-  createDummyItem,
-  createDummyXml,
-} from "@/_mocks/book";
+import { createDummyBookDetail, createDummyItem, createDummyXml } from "@/_mocks/book";
 import { searchBooksFromNDL } from ".";
 
 describe("searchBooksFromNDL", () => {
@@ -21,9 +17,7 @@ describe("searchBooksFromNDL", () => {
 
   test("書籍を検索できる", async () => {
     const mockFetch = mock().mockResolvedValue({
-      text: mock().mockResolvedValue(
-        createDummyXml(10, createDummyItem("000000000")),
-      ),
+      text: mock().mockResolvedValue(createDummyXml(10, createDummyItem("000000000"))),
     });
 
     const opts = {

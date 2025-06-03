@@ -8,10 +8,7 @@ import type { Order } from "@/types/order";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
-import {
-  createFilterSearchParams,
-  removeKeywordParam,
-} from "./filterSearchParams";
+import { createFilterSearchParams, removeKeywordParam } from "./filterSearchParams";
 
 type Props = {
   isOrderAsc: boolean;
@@ -27,11 +24,7 @@ export default function Filter({ isOrderAsc }: Props) {
   const debounced = useDebouncedCallback((value) => {
     const keyword = String(value).trim();
 
-    router.replace(
-      keyword === ""
-        ? removeKeywordParam(searchParams)
-        : createFilterSearchParams(searchParams, keyword),
-    );
+    router.replace(keyword === "" ? removeKeywordParam(searchParams) : createFilterSearchParams(searchParams, keyword));
   }, 600);
 
   const IconSort = isOrderAsc ? IconSortAsc : IconSortDesc;
@@ -47,15 +40,8 @@ export default function Filter({ isOrderAsc }: Props) {
         search
       />
 
-      <Button
-        className="flex w-40 items-center justify-center space-x-1 p-0 text-xs"
-        asChild
-        style="noBorder"
-      >
-        <Link
-          href={createFilterSearchParams(searchParams, undefined, nextOrder)}
-          replace
-        >
+      <Button className="flex w-40 items-center justify-center space-x-1 p-0 text-xs" asChild style="noBorder">
+        <Link href={createFilterSearchParams(searchParams, undefined, nextOrder)} replace>
           <IconSort className="h-5" />
           <span>{isOrderAsc ? "登録日が古い" : "最近登録した"}</span>
         </Link>

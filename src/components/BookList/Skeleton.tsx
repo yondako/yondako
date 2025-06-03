@@ -1,7 +1,5 @@
 import { twMerge } from "tailwind-merge";
-import BookCardSkeleton, {
-  type BookCardSkeletonProps,
-} from "../BookCard/Skeleton";
+import BookCardSkeleton, { type BookCardSkeletonProps } from "../BookCard/Skeleton";
 
 type Props = {
   count?: number;
@@ -11,11 +9,7 @@ type Props = {
 /**
  * BookListのローディング状態を表示するスケルトンコンポーネント。指定した数のスケルトンカードをグリッドレイアウトで表示します。
  */
-export default function BookListSkeleton({
-  count = 6,
-  className,
-  ...props
-}: Props) {
+export default function BookListSkeleton({ count = 6, className, ...props }: Props) {
   return (
     <div
       className={twMerge(

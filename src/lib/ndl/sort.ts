@@ -6,10 +6,7 @@ import type { BookDetailWithoutId } from "@/types/book";
  * @param keyword - ソート基準となるキーワード
  * @returns ソートされた書籍配列
  */
-export function sortBooksByKeyword(
-  books: BookDetailWithoutId[],
-  keyword: string,
-): BookDetailWithoutId[] {
+export function sortBooksByKeyword(books: BookDetailWithoutId[], keyword: string): BookDetailWithoutId[] {
   return books.sort((a, b) => {
     // タイトルの包含率でソート
     const aTitleRate = calculateInclusionRate(a.title, keyword);
@@ -31,14 +28,8 @@ export function sortBooksByKeyword(
 
     // 出版社名の包含率でソート
     if (a.publishers && b.publishers) {
-      const aPublisherRate = calculateInclusionRate(
-        a.publishers.join(" "),
-        keyword,
-      );
-      const bPublisherRate = calculateInclusionRate(
-        b.publishers.join(" "),
-        keyword,
-      );
+      const aPublisherRate = calculateInclusionRate(a.publishers.join(" "), keyword);
+      const bPublisherRate = calculateInclusionRate(b.publishers.join(" "), keyword);
 
       if (aPublisherRate !== bPublisherRate) {
         return bPublisherRate - aPublisherRate;

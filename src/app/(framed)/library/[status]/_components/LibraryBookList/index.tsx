@@ -1,10 +1,7 @@
 import BookList from "@/components/BookList";
 import Pagination from "@/components/Pagination";
 import SayTako from "@/components/SayTako";
-import {
-  type SearchBooksFromLibraryOptions,
-  searchBooksFromLibrary,
-} from "@/db/queries/status";
+import { type SearchBooksFromLibraryOptions, searchBooksFromLibrary } from "@/db/queries/status";
 import { getAuth } from "@/lib/auth";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { headers } from "next/headers";
@@ -32,9 +29,7 @@ function getEmptyMessage(status: ReadingStatus) {
   }
 }
 
-export async function LibraryBookList(
-  props: Omit<SearchBooksFromLibraryOptions, "userId" | "pageSize">,
-) {
+export async function LibraryBookList(props: Omit<SearchBooksFromLibraryOptions, "userId" | "pageSize">) {
   const { env } = getCloudflareContext();
   const auth = getAuth(env.DB);
 
@@ -68,13 +63,7 @@ export async function LibraryBookList(
       ) : (
         <>
           <BookList className="mt-2" items={books} />
-          {totalPage !== 1 && (
-            <Pagination
-              className="mt-auto pt-10"
-              currentPage={props.page}
-              totalPage={totalPage}
-            />
-          )}
+          {totalPage !== 1 && <Pagination className="mt-auto pt-10" currentPage={props.page} totalPage={totalPage} />}
         </>
       )}
     </>

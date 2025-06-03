@@ -43,8 +43,7 @@ export const All: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "タブアイテムの各種状態を表示。通常状態、ホバー状態、アクティブ状態の違いを確認できます。",
+        story: "タブアイテムの各種状態を表示。通常状態、ホバー状態、アクティブ状態の違いを確認できます。",
       },
     },
     pseudo: {

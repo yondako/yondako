@@ -1,9 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import {
-  createDummyBookDetail,
-  createDummyItem,
-  createDummyXml,
-} from "@/_mocks/book";
+import { createDummyBookDetail, createDummyItem, createDummyXml } from "@/_mocks/book";
 import { MAX_UPDATE_CHECK_COUNT } from "@/constants/db";
 import { isOlderThanHalfYear, parseOpenSearchXml } from "./parse";
 
@@ -32,11 +28,7 @@ describe("パースできる", () => {
   test("itemが複数の場合", () => {
     const xml = createDummyXml(
       3,
-      [
-        createDummyItem("000000000"),
-        createDummyItem("000000001"),
-        createDummyItem("000000002"),
-      ].join(""),
+      [createDummyItem("000000000"), createDummyItem("000000001"), createDummyItem("000000002")].join(""),
     );
     const got = parseOpenSearchXml(xml);
 
@@ -261,9 +253,7 @@ describe("isOlderThanHalfYear", () => {
   test("最近の日付ならfalse", () => {
     const recentDate = new Date();
     recentDate.setMonth(recentDate.getMonth() - 5);
-    expect(
-      isOlderThanHalfYear(recentDate.toISOString().split("T")[0]),
-    ).toBeFalse();
+    expect(isOlderThanHalfYear(recentDate.toISOString().split("T")[0])).toBeFalse();
   });
 
   test("undefinedならfalse", () => {

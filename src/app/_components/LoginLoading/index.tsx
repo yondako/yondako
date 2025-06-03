@@ -33,10 +33,7 @@ export default function LoginLoading({ show }: Props) {
           className="fixed inset-0 z-10 flex h-svh w-screen items-center justify-center bg-black/40"
           style={style}
         >
-          <Loading
-            className="h-fit w-48 rounded-lg bg-primary-background p-8"
-            title="ログイン中です"
-          />
+          <Loading className="h-fit w-48 rounded-lg bg-primary-background p-8" title="ログイン中です" />
         </animated.div>
       ),
   );

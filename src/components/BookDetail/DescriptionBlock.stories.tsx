@@ -25,8 +25,7 @@ export const All: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "DescriptionBlockの表示例。単一値と複数値の表示パターンを並べて表示します。",
+        story: "DescriptionBlockの表示例。単一値と複数値の表示パターンを並べて表示します。",
       },
     },
   },

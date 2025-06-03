@@ -17,18 +17,9 @@ export default function LibraryBookListSkeleton({ pageReadingStatus }: Props) {
 
         {/* フィルターUI */}
         <div className="flex w-full space-x-3 sm:justify-end">
-          <Input
-            className="grow text-sm sm:max-w-64 lg:text-xs"
-            placeholder="タイトルの一部"
-            disabled
-            search
-          />
+          <Input className="grow text-sm sm:max-w-64 lg:text-xs" placeholder="タイトルの一部" disabled search />
 
-          <Button
-            className="flex w-40 items-center justify-center space-x-1 p-0 text-xs"
-            style="noBorder"
-            disabled
-          >
+          <Button className="flex w-40 items-center justify-center space-x-1 p-0 text-xs" style="noBorder" disabled>
             <IconSortDesc className="h-5" />
             <span>最近登録した</span>
           </Button>
@@ -36,11 +27,7 @@ export default function LibraryBookListSkeleton({ pageReadingStatus }: Props) {
       </div>
 
       {/* 書籍リスト */}
-      <BookListSkeleton
-        className="mt-2"
-        pageReadingStatus={pageReadingStatus}
-        count={6}
-      />
+      <BookListSkeleton className="mt-2" pageReadingStatus={pageReadingStatus} count={6} />
     </>
   );
 }

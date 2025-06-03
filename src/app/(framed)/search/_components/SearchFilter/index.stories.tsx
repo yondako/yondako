@@ -1,5 +1,4 @@
 import { NDCList } from "@/types/ndc";
-import { INITIAL_VIEWPORTS } from "@storybook/addon-viewport";
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 import SearchFilter from ".";
@@ -60,7 +59,6 @@ export const Desktop: Story = {
       },
     },
     viewport: {
-      viewports: INITIAL_VIEWPORTS,
       defaultViewport: "ipad12p",
     },
   },
@@ -75,7 +73,6 @@ export const Mobile: Story = {
       },
     },
     viewport: {
-      viewports: INITIAL_VIEWPORTS,
       defaultViewport: "iphone14",
     },
   },
@@ -116,9 +113,7 @@ export const closeReset: Story = {
 
       // モーダルが閉じるのを待つ
       await waitFor(() => {
-        expect(
-          modalCanvas.queryByRole("radio", { name: NDCList[1].label }),
-        ).toBeNull();
+        expect(modalCanvas.queryByRole("radio", { name: NDCList[1].label })).toBeNull();
       });
     });
 

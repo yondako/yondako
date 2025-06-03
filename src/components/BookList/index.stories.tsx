@@ -50,8 +50,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "基本的なBookListの表示例。異なる読書ステータスの書籍をいくつか表示します。",
+        story: "基本的なBookListの表示例。異なる読書ステータスの書籍をいくつか表示します。",
       },
     },
   },

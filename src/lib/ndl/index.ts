@@ -63,10 +63,7 @@ export async function searchBooksFromNDL(
 
   // データプロバイダの指定
   // (国立国会図書館蔵書, 国立国会図書館新着書誌情報, 国立国会図書館全国書誌情報, JPRO)
-  endpoint.searchParams.append(
-    "dpid",
-    "iss-ndl-opac iss-ndl-opac-inprocess iss-ndl-opac-national jpro-book",
-  );
+  endpoint.searchParams.append("dpid", "iss-ndl-opac iss-ndl-opac-inprocess iss-ndl-opac-national jpro-book");
 
   // メディアタイプの指定
   endpoint.searchParams.append("mediatype", "books");
@@ -74,13 +71,7 @@ export async function searchBooksFromNDL(
   try {
     const cacheKey = JSON.stringify(opts);
 
-    const {
-      params,
-      page = 0,
-      count = 0,
-      ignoreSensitive = false,
-      ngWords = [],
-    } = opts;
+    const { params, page = 0, count = 0, ignoreSensitive = false, ngWords = [] } = opts;
 
     // 10分間キャッシュする
     const sortedBooks = await unstable_cache(
@@ -97,10 +88,7 @@ export async function searchBooksFromNDL(
         }
 
         // いい感じにソート
-        const results =
-          params?.any && rawBooks.length > 1
-            ? sortBooksByKeyword(rawBooks, params.any ?? "")
-            : rawBooks;
+        const results = params?.any && rawBooks.length > 1 ? sortBooksByKeyword(rawBooks, params.any ?? "") : rawBooks;
 
         return results;
       },

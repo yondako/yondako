@@ -4,10 +4,7 @@ import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
 import { type Order, orderSchema } from "@/types/order";
 import { pageIndexSchema } from "@/types/page";
-import {
-  type ReadingStatus,
-  readingStatusSchemaWithoutNone,
-} from "@/types/readingStatus";
+import { type ReadingStatus, readingStatusSchemaWithoutNone } from "@/types/readingStatus";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
@@ -69,10 +66,7 @@ export default async function Library(props: Props) {
   const isDesktop = (await headers()).get("X-IS-DESKTOP") !== null;
 
   const searchParams = await props.searchParams;
-  const pageParseResult = safeParse(
-    pageIndexSchema,
-    Number.parseInt(searchParams.page ?? "1"),
-  );
+  const pageParseResult = safeParse(pageIndexSchema, Number.parseInt(searchParams.page ?? "1"));
 
   const page = pageParseResult.success ? pageParseResult.output : 1;
 
@@ -84,25 +78,14 @@ export default async function Library(props: Props) {
       fallback={<LibraryBookListSkeleton pageReadingStatus={params.status} />}
       key={`${params.status}-${page}-${orderType}-${searchParams.q}`}
     >
-      <LibraryBookList
-        status={params.status}
-        page={page}
-        order={orderType}
-        titleKeyword={searchParams.q}
-      />
+      <LibraryBookList status={params.status} page={page} order={orderType} titleKeyword={searchParams.q} />
     </Suspense>
   );
 
   return (
     <>
       <Tab current={params.status} />
-      {isDesktop ? (
-        contents
-      ) : (
-        <SwipeableTabView currentStatus={params.status}>
-          {contents}
-        </SwipeableTabView>
-      )}
+      {isDesktop ? contents : <SwipeableTabView currentStatus={params.status}>{contents}</SwipeableTabView>}
     </>
   );
 }

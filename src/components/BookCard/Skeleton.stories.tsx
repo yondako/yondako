@@ -8,8 +8,7 @@ const meta: Meta<typeof BookCardSkeleton> = {
   parameters: {},
   argTypes: {
     pageReadingStatus: {
-      description:
-        "ページの読書ステータス。スケルトンの表示スタイルに影響します",
+      description: "ページの読書ステータス。スケルトンの表示スタイルに影響します",
       control: { type: "radio" },
       options: ["read", "reading", "want_read"],
     },

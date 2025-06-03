@@ -37,8 +37,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "基本的なモーダルの表示状態。デフォルトで開いた状態で表示されます。",
+        story: "基本的なモーダルの表示状態。デフォルトで開いた状態で表示されます。",
       },
     },
   },
@@ -71,20 +70,14 @@ export const OpenClose: Story = {
       const button = canvas.getByRole("button");
       await userEvent.click(button);
 
-      await waitFor(() =>
-        expect(canvas.getByTestId("content")).toHaveTextContent(
-          "モーダルです！",
-        ),
-      );
+      await waitFor(() => expect(canvas.getByTestId("content")).toHaveTextContent("モーダルです！"));
     });
 
     await step("ダイアログが閉じる", async () => {
       const closeButton = canvas.getByTestId("button-close");
       await userEvent.click(closeButton);
 
-      await waitFor(() =>
-        expect(canvas.getByTestId("content")).not.toBeVisible(),
-      );
+      await waitFor(() => expect(canvas.getByTestId("content")).not.toBeVisible());
     });
   },
 };

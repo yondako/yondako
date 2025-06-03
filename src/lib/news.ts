@@ -14,10 +14,7 @@ export async function checkLatestNews(fetch = global.fetch): Promise<number> {
   const timeoutId = setTimeout(() => ctrl.abort(), 3000);
 
   try {
-    const endpoint = new URL(
-      "/api/news/latest-timestamp.json",
-      site.infoUrl,
-    ).toString();
+    const endpoint = new URL("/api/news/latest-timestamp.json", site.infoUrl).toString();
 
     const res = await fetch(endpoint, {
       signal: ctrl.signal,

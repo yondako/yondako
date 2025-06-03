@@ -49,8 +49,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "基本的なSwitchの表示例。チェック済みとチェックなしの状態を並べて表示します。",
+        story: "基本的なSwitchの表示例。チェック済みとチェックなしの状態を並べて表示します。",
       },
     },
   },

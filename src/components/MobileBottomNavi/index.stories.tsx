@@ -15,8 +15,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "基本的なMobileBottomNaviの表示例。ライブラリページがアクティブ状態で表示されます。",
+        story: "基本的なMobileBottomNaviの表示例。ライブラリページがアクティブ状態で表示されます。",
       },
     },
     nextjs: {

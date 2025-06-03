@@ -25,8 +25,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "基本的なエラーページの表示例。カスタムタイトルと説明文を表示します。",
+        story: "基本的なエラーページの表示例。カスタムタイトルと説明文を表示します。",
       },
     },
   },

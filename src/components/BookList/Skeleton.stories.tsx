@@ -21,8 +21,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "基本的なBookListスケルトンの表示例。3個のスケルトンカードを表示します。",
+        story: "基本的なBookListスケルトンの表示例。3個のスケルトンカードを表示します。",
       },
     },
   },
@@ -35,8 +34,7 @@ export const Few: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "少ない数のスケルトン表示例。2個のスケルトンカードを表示します。",
+        story: "少ない数のスケルトン表示例。2個のスケルトンカードを表示します。",
       },
     },
   },

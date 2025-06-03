@@ -43,8 +43,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "基本的なBookCardの表示例。書籍のタイトル、著者、表紙画像を表示します。",
+        story: "基本的なBookCardの表示例。書籍のタイトル、著者、表紙画像を表示します。",
       },
     },
   },
@@ -91,8 +90,7 @@ export const OpenClose: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "BookCardをクリックすると書籍詳細ダイアログが開く操作をテストします。",
+        story: "BookCardをクリックすると書籍詳細ダイアログが開く操作をテストします。",
       },
     },
   },
@@ -106,11 +104,7 @@ export const OpenClose: Story = {
       const bookCard = canvas.getByTestId("book-card");
       await userEvent.click(bookCard);
 
-      await waitFor(() =>
-        expect(canvas.getByTestId("book-title")).toHaveTextContent(
-          args.data.detail.title,
-        ),
-      );
+      await waitFor(() => expect(canvas.getByTestId("book-title")).toHaveTextContent(args.data.detail.title));
     });
   },
 };

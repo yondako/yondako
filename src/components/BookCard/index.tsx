@@ -4,9 +4,7 @@ import IconDotsVertical from "@/assets/icons/dots-vertical.svg";
 import type { BookType } from "@/types/book";
 import { useOptimistic, useState } from "react";
 import BookDetail from "../BookDetail";
-import BookReadingStatusForm, {
-  type BookReadingStatusFormProps,
-} from "../BookReadingStatusForm";
+import BookReadingStatusForm, { type BookReadingStatusFormProps } from "../BookReadingStatusForm";
 import BookThumbnail from "../BookThumbnail";
 
 type Props = {
@@ -17,12 +15,9 @@ type Props = {
  * 書籍の情報を表示するカードコンポーネント。クリックで詳細ダイアログが開きます。
  */
 export default function BookCard({ data }: Props) {
-  const [displayReadingStatus, setDisplayReadingStatus] = useState(
-    data.readingStatus,
-  );
+  const [displayReadingStatus, setDisplayReadingStatus] = useState(data.readingStatus);
 
-  const [optimisticStatus, addOptimisticStatus] =
-    useOptimistic(displayReadingStatus);
+  const [optimisticStatus, addOptimisticStatus] = useOptimistic(displayReadingStatus);
 
   const formProps: BookReadingStatusFormProps = {
     status: displayReadingStatus,
@@ -39,14 +34,10 @@ export default function BookCard({ data }: Props) {
           data-testid="book-card"
         >
           <div className="space-y-1">
-            <h3 className="palt line-clamp-3 font-bold text-sm leading-5">
-              {data.detail.title}
-            </h3>
+            <h3 className="palt line-clamp-3 font-bold text-sm leading-5">{data.detail.title}</h3>
 
             {data.detail.authors && (
-              <p className="line-clamp-1 text-secondary-foreground text-xxs">
-                {data.detail.authors.join(", ")}
-              </p>
+              <p className="line-clamp-1 text-secondary-foreground text-xxs">{data.detail.authors.join(", ")}</p>
             )}
           </div>
         </button>

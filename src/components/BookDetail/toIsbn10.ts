@@ -3,9 +3,7 @@
  * @param rawIsbn13 ISBN-13
  * @returns ISBN-10
  */
-export const toIsbn10 = (
-  rawIsbn13: string | null | undefined,
-): string | null => {
+export const toIsbn10 = (rawIsbn13: string | null | undefined): string | null => {
   if (!rawIsbn13) {
     return null;
   }

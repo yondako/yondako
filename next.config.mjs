@@ -26,9 +26,7 @@ const nextConfig = {
     ];
   },
   webpack(config) {
-    const fileLoaderRule = config.module.rules.find((rule) =>
-      rule.test?.test?.(".svg"),
-    );
+    const fileLoaderRule = config.module.rules.find((rule) => rule.test?.test?.(".svg"));
 
     config.module.rules.push(
       {
@@ -49,8 +47,7 @@ const nextConfig = {
     config.ignoreWarnings = [
       {
         module: /kysely/,
-        message:
-          /Critical dependency: the request of a dependency is an expression/,
+        message: /Critical dependency: the request of a dependency is an expression/,
       },
     ];
 

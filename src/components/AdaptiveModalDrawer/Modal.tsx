@@ -1,10 +1,6 @@
 import IconClose from "@/assets/icons/x.svg";
 import * as Dialog from "@radix-ui/react-dialog";
-import {
-  type AnimationResult,
-  animated,
-  useTransition,
-} from "@react-spring/web";
+import { type AnimationResult, animated, useTransition } from "@react-spring/web";
 import { useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import type { AdaptiveModalDrawerProps } from "./props";
@@ -36,13 +32,9 @@ export default function Modal({
       const rect = ref.current?.getBoundingClientRect();
 
       // トリガー要素の中央座標を%で算出
-      const top = rect?.top
-        ? `${((rect.top + rect.height * 0.5) / window.innerHeight) * 100}%`
-        : "50%";
+      const top = rect?.top ? `${((rect.top + rect.height * 0.5) / window.innerHeight) * 100}%` : "50%";
 
-      const left = rect?.left
-        ? `${((rect.left + rect.width * 0.5) / window.innerWidth) * 100}%`
-        : "50%";
+      const left = rect?.left ? `${((rect.left + rect.width * 0.5) / window.innerWidth) * 100}%` : "50%";
 
       return {
         scale: 0.25,
@@ -97,10 +89,7 @@ export default function Modal({
           (style, isOpen) =>
             isOpen && (
               <>
-                <Overlay
-                  className="fixed inset-0 bg-black/40"
-                  style={{ opacity: style.opacity }}
-                />
+                <Overlay className="fixed inset-0 bg-black/40" style={{ opacity: style.opacity }} />
                 <Content
                   className={twMerge(
                     "fixed flex items-center rounded-2xl bg-primary-background p-10",

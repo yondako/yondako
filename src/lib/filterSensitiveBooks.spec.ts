@@ -26,15 +26,9 @@ describe("filterNGWords", () => {
 
     const result = filterSensitiveBooks(ngWords, books);
 
-    expect(result.safeBooks.map(({ title }) => title)).toEqual([
-      books[0].title,
-      books[2].title,
-    ]);
+    expect(result.safeBooks.map(({ title }) => title)).toEqual([books[0].title, books[2].title]);
 
-    expect(result.filteredBooks.map(({ title }) => title)).toEqual([
-      books[1].title,
-      books[3].title,
-    ]);
+    expect(result.filteredBooks.map(({ title }) => title)).toEqual([books[1].title, books[3].title]);
   });
 
   test("NGワードが存在しない場合、すべてのタイトルがsafeに分類される", async () => {
@@ -48,9 +42,7 @@ describe("filterNGWords", () => {
 
     const result = filterSensitiveBooks(ngWords, books);
 
-    expect(result.safeBooks.map(({ title }) => title)).toEqual([
-      books[0].title,
-    ]);
+    expect(result.safeBooks.map(({ title }) => title)).toEqual([books[0].title]);
 
     expect(result.filteredBooks.map(({ title }) => title)).toEqual([]);
   });
@@ -72,10 +64,7 @@ describe("filterNGWords", () => {
 
     expect(result.safeBooks.map(({ title }) => title)).toHaveLength(0);
 
-    expect(result.filteredBooks.map(({ title }) => title)).toEqual([
-      books[0].title,
-      books[1].title,
-    ]);
+    expect(result.filteredBooks.map(({ title }) => title)).toEqual([books[0].title, books[1].title]);
   });
 
   test("NGワードが部分一致する場合、filteredに分類される", async () => {
@@ -93,13 +82,9 @@ describe("filterNGWords", () => {
 
     const result = filterSensitiveBooks(ngWords, books);
 
-    expect(result.filteredBooks.map(({ title }) => title)).toEqual([
-      books[0].title,
-    ]);
+    expect(result.filteredBooks.map(({ title }) => title)).toEqual([books[0].title]);
 
-    expect(result.safeBooks.map(({ title }) => title)).toEqual([
-      books[1].title,
-    ]);
+    expect(result.safeBooks.map(({ title }) => title)).toEqual([books[1].title]);
   });
 
   test("大文字小文字の違いを無視してNGワードを検出する", async () => {
@@ -117,12 +102,8 @@ describe("filterNGWords", () => {
 
     const result = filterSensitiveBooks(ngWords, books);
 
-    expect(result.filteredBooks.map(({ title }) => title)).toEqual([
-      "This title contains ngword",
-    ]);
+    expect(result.filteredBooks.map(({ title }) => title)).toEqual(["This title contains ngword"]);
 
-    expect(result.safeBooks.map(({ title }) => title)).toEqual([
-      "Another safe title",
-    ]);
+    expect(result.safeBooks.map(({ title }) => title)).toEqual(["Another safe title"]);
   });
 });

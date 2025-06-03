@@ -42,8 +42,7 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
         // 現在のページが遷移先と一致する場合のみスライドイン
         if (targetStatus === currentStatus) {
           const screenWidth = window.innerWidth;
-          const initialX =
-            direction === "Left" ? screenWidth * 0.2 : -screenWidth * 0.2;
+          const initialX = direction === "Left" ? screenWidth * 0.2 : -screenWidth * 0.2;
 
           // 初期位置を設定
           api.set({ x: initialX, opacity: 0 });
@@ -135,10 +134,7 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
       // スワイプの稼動域を画面幅の1/3に制限
       const screenWidth = windowWidthRef.current || window.innerWidth;
       const maxSwipeDistance = screenWidth / 3;
-      const clampedDeltaX = Math.max(
-        -maxSwipeDistance,
-        Math.min(maxSwipeDistance, eventData.deltaX),
-      );
+      const clampedDeltaX = Math.max(-maxSwipeDistance, Math.min(maxSwipeDistance, eventData.deltaX));
 
       api.start({
         x: clampedDeltaX,
@@ -181,8 +177,7 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
 
           // スワイプ方向に基づいてページを画面外に移動
           const screenWidth = windowWidthRef.current || window.innerWidth;
-          const exitDistance =
-            eventData.dir === "Left" ? -screenWidth * 0.8 : screenWidth * 0.8;
+          const exitDistance = eventData.dir === "Left" ? -screenWidth * 0.8 : screenWidth * 0.8;
 
           api.start({
             x: exitDistance,
@@ -210,11 +205,7 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
   });
 
   return (
-    <div
-      {...handlers}
-      style={{ touchAction: "pan-y" }}
-      className="-mx-6 relative overflow-hidden"
-    >
+    <div {...handlers} style={{ touchAction: "pan-y" }} className="-mx-6 relative overflow-hidden">
       <animated.div
         className="w-full px-6"
         style={{

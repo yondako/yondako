@@ -15,8 +15,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "基本的なMobileHeaderの表示例。アプリケーションのメインヘッダーです。",
+        story: "基本的なMobileHeaderの表示例。アプリケーションのメインヘッダーです。",
       },
     },
   },

@@ -18,21 +18,12 @@ type Props = {
 /**
  * ページネーションコンポーネント。複数ページにわたるコンテンツのナビゲーションを提供します。
  */
-export default function Pagination({
-  currentPage,
-  totalPage,
-  className,
-}: Props) {
+export default function Pagination({ currentPage, totalPage, className }: Props) {
   const prevPageIndex = currentPage - 1;
   const nextPageIndex = currentPage + 1;
 
   return (
-    <div
-      className={twMerge(
-        "flex items-center justify-center space-x-2 text-sm",
-        className,
-      )}
-    >
+    <div className={twMerge("flex items-center justify-center space-x-2 text-sm", className)}>
       {currentPage !== 1 && (
         <LinkButton page={1}>
           <IconChevronsLeft className="h-5" />
@@ -54,11 +45,7 @@ export default function Pagination({
           (currentPage === totalPage && pageIndex >= totalPage - 2)
         ) {
           return (
-            <LinkButton
-              key={pageIndex}
-              page={pageIndex}
-              current={pageIndex === currentPage}
-            >
+            <LinkButton key={pageIndex} page={pageIndex} current={pageIndex === currentPage}>
               {pageIndex}
             </LinkButton>
           );
@@ -104,9 +91,7 @@ function LinkButton({ page, children, current = false }: LinkButtonProps) {
         query: params.toString(),
       }}
     >
-      <span className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2">
-        {children}
-      </span>
+      <span className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2">{children}</span>
     </Link>
   );
 }

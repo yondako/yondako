@@ -15,8 +15,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "基本的なライブラリフィルターの表示例。検索ボックス、ソートオプション、フィルター項目が表示されます。",
+        story: "基本的なライブラリフィルターの表示例。検索ボックス、ソートオプション、フィルター項目が表示されます。",
       },
     },
     nextjs: {

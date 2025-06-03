@@ -18,10 +18,7 @@ export type ReadingStatusMetadataItem = {
 /**
  * 読書ステータスと対応するラベル・アイコンのリスト
  */
-export const readingStatusMetadata = new Map<
-  ReadingStatus,
-  ReadingStatusMetadataItem
->([
+export const readingStatusMetadata = new Map<ReadingStatus, ReadingStatusMetadataItem>([
   [
     "none",
     {
@@ -56,8 +53,4 @@ export const readingStatusMetadata = new Map<
   ],
 ]);
 
-export const readingStatusOrder: ReadingStatus[] = [
-  "want_read",
-  "reading",
-  "read",
-];
+export const readingStatusOrder: ReadingStatus[] = ["want_read", "reading", "read"];

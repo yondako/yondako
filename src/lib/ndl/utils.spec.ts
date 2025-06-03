@@ -38,20 +38,14 @@ describe("toStringOrUndefined", () => {
 
 describe("getJpeCode", () => {
   test("JP-eコードを正常に取得できること", () => {
-    const urls = [
-      "https://www.books.or.jp/book-details/12345678901234567890",
-      "https://example.com/other-url",
-    ];
+    const urls = ["https://www.books.or.jp/book-details/12345678901234567890", "https://example.com/other-url"];
 
     const result = getJpeCode(urls);
     expect(result).toBe("12345678901234567890");
   });
 
   test("JP-eコードが含まれていない場合はundefinedを返すこと", () => {
-    const urls = [
-      "https://example.com/other-url",
-      "https://another-example.com/another-url",
-    ];
+    const urls = ["https://example.com/other-url", "https://another-example.com/another-url"];
 
     const result = getJpeCode(urls);
     expect(result).toBeUndefined();
@@ -60,20 +54,14 @@ describe("getJpeCode", () => {
 
 describe("getIsbnFromSeeAlso", () => {
   test("ISBNを正常に取得できること", () => {
-    const urls = [
-      "https://www.books.or.jp/book-details/9781234567890",
-      "https://example.com/other-url",
-    ];
+    const urls = ["https://www.books.or.jp/book-details/9781234567890", "https://example.com/other-url"];
 
     const result = getIsbnFromSeeAlso(urls);
     expect(result).toBe("9781234567890");
   });
 
   test("ISBNが含まれていない場合はundefinedを返すこと", () => {
-    const urls = [
-      "https://example.com/other-url",
-      "https://another-example.com/another-url",
-    ];
+    const urls = ["https://example.com/other-url", "https://another-example.com/another-url"];
 
     const result = getIsbnFromSeeAlso(urls);
     expect(result).toBeUndefined();
@@ -99,13 +87,7 @@ describe("createAuthors", () => {
     },
     {
       title: "重複が排除される",
-      value: [
-        "白菊ほたる",
-        "鷹富士茄子",
-        "白菊ほたる",
-        "鷹富士茄子",
-        "白菊ほたる",
-      ],
+      value: ["白菊ほたる", "鷹富士茄子", "白菊ほたる", "鷹富士茄子", "白菊ほたる"],
       want: ["白菊ほたる", "鷹富士茄子"],
     },
     {
@@ -122,16 +104,7 @@ describe("createAuthors", () => {
     });
   }
 
-  const texts = [
-    "2024-",
-    ", 2024-",
-    "2023-2024",
-    ", 2023-2024",
-    "pub. 2024",
-    ", pub. 2024",
-    "(2024年)",
-    ", (2024年)",
-  ];
+  const texts = ["2024-", ", 2024-", "2023-2024", ", 2023-2024", "pub. 2024", ", pub. 2024", "(2024年)", ", (2024年)"];
 
   for (const text of texts) {
     test(`不要な文字列が含まれていない: ${text}`, () => {
@@ -160,14 +133,7 @@ describe("createPublishers", () => {
     },
     {
       title: "重複が排除される",
-      value: [
-        "ほげほげ",
-        "ふがふが",
-        "ふがふが",
-        "ほげほげ",
-        "ふがふが",
-        "ほげほげ",
-      ],
+      value: ["ほげほげ", "ふがふが", "ふがふが", "ほげほげ", "ふがふが", "ほげほげ"],
       want: ["ほげほげ", "ふがふが"],
     },
     {

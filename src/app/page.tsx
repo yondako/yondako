@@ -46,13 +46,7 @@ export default async function Home(props: Props) {
     <>
       <section className="flex h-svh flex-col justify-between bg-[length:90vw] bg-[top_-20vw_right] bg-gradation bg-primary-background bg-no-repeat px-8 py-8 sm:bg-[length:70vw] md:h-auto md:px-24 md:py-36 lg:bg-contain lg:bg-right">
         <div className="mt-auto flex w-full flex-col text-left md:my-auto md:w-fit">
-          <Image
-            className="mx-auto md:mx-0"
-            width={256}
-            src={imageLogo}
-            alt={site.name}
-            priority
-          />
+          <Image className="mx-auto md:mx-0" width={256} src={imageLogo} alt={site.name} priority />
 
           <h1 className="mt-12 text-center text-4xl leading-tight tracking-wide md:text-left md:text-5xl">
             <BudouX>{site.description.short}</BudouX>
@@ -61,10 +55,7 @@ export default async function Home(props: Props) {
             <BudouX>{site.description.long}</BudouX>
           </p>
 
-          <LoginButtons
-            className="mt-12 text-center md:max-w-64 md:text-left"
-            redirectTo={redirectTo}
-          />
+          <LoginButtons className="mt-12 text-center md:max-w-64 md:text-left" redirectTo={redirectTo} />
         </div>
       </section>
 
@@ -74,19 +65,12 @@ export default async function Home(props: Props) {
             <BudouX>よみたいも、よんでるも</BudouX>
           </h2>
           <p className="mt-6">
-            <BudouX>
-              読書の状況を「よみたい」「よんでる」「よんだ」の3状態で記録できます。
-            </BudouX>
+            <BudouX>読書の状況を「よみたい」「よんでる」「よんだ」の3状態で記録できます。</BudouX>
           </p>
           <p className="mt-1">記録は簡単。ボタンをクリックするだけ。</p>
         </div>
         <SlideIn className="mt-12">
-          <video
-            className="w-full rounded-2xl border border-secondary-border"
-            autoPlay
-            muted
-            loop
-          >
+          <video className="w-full rounded-2xl border border-secondary-border" autoPlay muted loop>
             <source src="/videos/demo.webm" type="video/webm" />
           </video>
         </SlideIn>
@@ -108,9 +92,7 @@ export default async function Home(props: Props) {
             <h2 className="space-y-1 font-bold text-4xl md:text-5xl md:tracking-wide">
               <BudouX>できることは記録だけ</BudouX>
             </h2>
-            <p className="mt-6 break-keep">
-              誰かとつながったりするような機能はありません。
-            </p>
+            <p className="mt-6 break-keep">誰かとつながったりするような機能はありません。</p>
             <p className="mt-1 break-keep">
               しずかにゆったりと
               <wbr />
@@ -140,10 +122,7 @@ export default async function Home(props: Props) {
             <wbr />
             ずーっと無料です。
           </p>
-          <LoginButtons
-            className="mt-12 text-center md:max-w-64 md:text-left"
-            redirectTo={redirectTo}
-          />
+          <LoginButtons className="mt-12 text-center md:max-w-64 md:text-left" redirectTo={redirectTo} />
         </div>
         <SlideIn className="md:w-1/2">
           <OpenDoodlesReadingSide />

@@ -15,14 +15,7 @@ export default function Tab({ current }: Props) {
       {readingStatusOrder.map((status) => {
         const item = readingStatusMetadata.get(status);
 
-        return item ? (
-          <TabItem
-            id={status}
-            meta={item}
-            current={status === current}
-            key={status}
-          />
-        ) : null;
+        return item ? <TabItem id={status} meta={item} current={status === current} key={status} /> : null;
       })}
     </div>
   );

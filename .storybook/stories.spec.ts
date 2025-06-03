@@ -9,9 +9,7 @@ const json = JSON.parse(indexJson.toString()) as StoryIndex;
 
 // __snapshots__/stories.spec.ts/ 以下のpngファイル名を配列に格納
 const snapshotDir = "__snapshots__/stories.spec.ts/";
-const pngFiles = isUpdate
-  ? []
-  : readdirSync(snapshotDir).filter((file) => file.endsWith(".png"));
+const pngFiles = isUpdate ? [] : readdirSync(snapshotDir).filter((file) => file.endsWith(".png"));
 
 for (const [id, { tags }] of Object.entries(json.entries)) {
   // Play関数を持つストーリーはスクリーンショットを取得しない
@@ -23,10 +21,7 @@ for (const [id, { tags }] of Object.entries(json.entries)) {
 
   // スナップショットが無い場合はスキップ
   // NOTE: ファイル名の形式は <ブラウザ名>-<ストーリーID>.png なので、末尾一致で探す
-  if (
-    !isUpdate &&
-    !pngFiles.some((filename) => filename.endsWith(snapshotFilename))
-  ) {
+  if (!isUpdate && !pngFiles.some((filename) => filename.endsWith(snapshotFilename))) {
     console.warn(`Snapshot not found: ${snapshotFilename}`);
     continue;
   }
@@ -50,7 +45,7 @@ for (const [id, { tags }] of Object.entries(json.entries)) {
         await expect(img).toHaveJSProperty("complete", true);
         await expect(img).not.toHaveJSProperty("naturalWidth", 0);
       }
-    } catch (e) {
+    } catch (_e) {
       // 失敗しても大丈夫なので無視
     }
 

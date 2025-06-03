@@ -21,8 +21,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "基本的なECLinksの表示例。指定されたISBNに基づいて異なるECサイトへのリンクを表示します。",
+        story: "基本的なECLinksの表示例。指定されたISBNに基づいて異なるECサイトへのリンクを表示します。",
       },
     },
   },

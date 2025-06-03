@@ -51,8 +51,7 @@ export const WithButton: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "基本的なButtonの表示例。3つのスタイル（default、accent、noBorder）とホバー状態を表示します。",
+        story: "基本的なButtonの表示例。3つのスタイル（default、accent、noBorder）とホバー状態を表示します。",
       },
     },
   },

@@ -109,15 +109,11 @@ export const SubmitSuccess: Story = {
     await userEvent.click(canvas.getByTestId("button-status-reading"));
 
     await step("クリックしたら読書中になる", async () => {
-      await waitFor(() =>
-        expect(args.onChangeOptimisticStatus).toHaveBeenCalledWith("reading"),
-      );
+      await waitFor(() => expect(args.onChangeOptimisticStatus).toHaveBeenCalledWith("reading"));
     });
 
     await step("レスポンスが正常なら状態に反映される", async () => {
-      await waitFor(() =>
-        expect(args.onChangeStatus).toHaveBeenCalledWith("reading"),
-      );
+      await waitFor(() => expect(args.onChangeStatus).toHaveBeenCalledWith("reading"));
     });
   },
 };
@@ -143,16 +139,12 @@ export const SubmitError: Story = {
     await userEvent.click(canvas.getByTestId("button-status-reading"));
 
     await step("クリックしたら読書中になる", async () => {
-      await waitFor(() =>
-        expect(args.onChangeOptimisticStatus).toHaveBeenCalledWith("reading"),
-      );
+      await waitFor(() => expect(args.onChangeOptimisticStatus).toHaveBeenCalledWith("reading"));
     });
 
     await step("レスポンスがエラーなら状態が戻る", async () => {
       await waitFor(() => expect(args.onChangeStatus).not.toHaveBeenCalled());
-      await waitFor(() =>
-        expect(args.onChangeOptimisticStatus).toHaveBeenCalledWith("want_read"),
-      );
+      await waitFor(() => expect(args.onChangeOptimisticStatus).toHaveBeenCalledWith("want_read"));
     });
   },
 };

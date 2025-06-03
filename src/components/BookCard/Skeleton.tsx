@@ -12,16 +12,10 @@ export type BookCardSkeletonProps = {
 /**
  * BookCardのローディング状態を表示するスケルトンコンポーネント。コンテンツが読み込まれる前に表示されます。
  */
-export default function BookCardSkeleton({
-  pageReadingStatus,
-  className,
-}: BookCardSkeletonProps) {
+export default function BookCardSkeleton({ pageReadingStatus, className }: BookCardSkeletonProps) {
   return (
     <div
-      className={twMerge(
-        "@container relative mt-8 w-full animate-pulse text-left text-primary-foreground",
-        className,
-      )}
+      className={twMerge("@container relative mt-8 w-full animate-pulse text-left text-primary-foreground", className)}
     >
       <div className="flex h-40 w-full flex-col justify-between overflow-hidden rounded-2xl bg-tertiary-background p-4 pl-36 text-left">
         {/* タイトルと著者 */}
@@ -41,13 +35,7 @@ export default function BookCardSkeleton({
           const isSelected = status === pageReadingStatus;
 
           return meta ? (
-            <BookReadingStatusButton
-              key={status}
-              status={status}
-              meta={meta}
-              selected={isSelected}
-              compact
-            />
+            <BookReadingStatusButton key={status} status={status} meta={meta} selected={isSelected} compact />
           ) : null;
         })}
       </div>

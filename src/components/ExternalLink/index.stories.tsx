@@ -28,8 +28,7 @@ export const All: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "ExternalLinkの基本表示とホバー状態。外部リンクアイコンが表示されます。",
+        story: "ExternalLinkの基本表示とホバー状態。外部リンクアイコンが表示されます。",
       },
     },
     pseudo: {

@@ -45,8 +45,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "基本的なカテゴリーボタンの表示例。選択前状態とホバー状態を確認できます。",
+        story: "基本的なカテゴリーボタンの表示例。選択前状態とホバー状態を確認できます。",
       },
     },
   },
@@ -56,8 +55,7 @@ export const Checked: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "選択状態のカテゴリーボタン表示例。選択時のスタイル変化を確認できます。",
+        story: "選択状態のカテゴリーボタン表示例。選択時のスタイル変化を確認できます。",
       },
     },
   },

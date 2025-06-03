@@ -77,8 +77,7 @@ export const MultipleValue: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "複数の著者や出版社がある場合の表示。複数の値がカンマ区切りで適切に表示されることを確認できます。",
+        story: "複数の著者や出版社がある場合の表示。複数の値がカンマ区切りで適切に表示されることを確認できます。",
       },
     },
   },
@@ -98,8 +97,7 @@ export const WithoutAuthor: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "著者情報がない場合の表示。著者欄が適切に非表示またはフォールバック表示されることを確認できます。",
+        story: "著者情報がない場合の表示。著者欄が適切に非表示またはフォールバック表示されることを確認できます。",
       },
     },
   },
@@ -118,8 +116,7 @@ export const WithoutPublisher: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "出版社情報がない場合の表示。出版社欄が適切に非表示またはフォールバック表示されることを確認できます。",
+        story: "出版社情報がない場合の表示。出版社欄が適切に非表示またはフォールバック表示されることを確認できます。",
       },
     },
   },

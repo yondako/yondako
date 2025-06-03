@@ -12,10 +12,7 @@ export type FilterNGWordsResult = {
  * @param books 書籍データの配列
  * @returns 結果
  */
-export function filterSensitiveBooks(
-  ngWords: string[],
-  books: BookDetailWithoutId[],
-): FilterNGWordsResult {
+export function filterSensitiveBooks(ngWords: string[], books: BookDetailWithoutId[]): FilterNGWordsResult {
   const safeBooks: BookDetailWithoutId[] = [];
   const filteredBooks: BookDetailWithoutId[] = [];
 
@@ -59,10 +56,7 @@ function containsNGWord(text: string, ngWords: string[]): string[] {
     }
 
     // 分割された形態素が長い場合、部分一致でチェック
-    if (
-      word.length >= 4 &&
-      ngWords.some((ngWord) => wordLower.includes(ngWord.toLowerCase()))
-    ) {
+    if (word.length >= 4 && ngWords.some((ngWord) => wordLower.includes(ngWord.toLowerCase()))) {
       matchedWords.push(word);
     }
   }

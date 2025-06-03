@@ -65,10 +65,7 @@ export default function LoginButtons({ className, redirectTo }: Props) {
   );
 }
 
-function LoginButton({
-  children,
-  ...props
-}: Omit<ComponentPropsWithoutRef<"button">, "className" | "type" | "style">) {
+function LoginButton({ children, ...props }: Omit<ComponentPropsWithoutRef<"button">, "className" | "type" | "style">) {
   return (
     <Button
       {...props}

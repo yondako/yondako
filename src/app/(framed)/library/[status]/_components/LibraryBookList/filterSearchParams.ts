@@ -32,9 +32,7 @@ export function createFilterSearchParams(
  * キーワードパラメータを削除したクエリパラメータを作成
  * @returns 連結済みのクエリパラメータ文字列
  */
-export function removeKeywordParam(
-  prevSearchParams: ReadonlyURLSearchParams,
-): string {
+export function removeKeywordParam(prevSearchParams: ReadonlyURLSearchParams): string {
   const newSearchParams = new URLSearchParams(prevSearchParams);
 
   newSearchParams.delete("q");

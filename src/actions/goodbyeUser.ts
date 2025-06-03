@@ -8,10 +8,7 @@ export type GoodByeUserResult = {
   error?: string;
 };
 
-export const goodbyeUser = async (
-  _prevState: GoodByeUserResult,
-  formData: FormData,
-): Promise<GoodByeUserResult> => {
+export const goodbyeUser = async (_prevState: GoodByeUserResult, formData: FormData): Promise<GoodByeUserResult> => {
   const phrase = formData.get("phrase")?.toString() ?? "";
 
   if (phrase !== "アカウントを削除") {

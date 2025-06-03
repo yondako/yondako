@@ -48,8 +48,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "基本的なフィルターラベルの表示例。タイトルと説明文が適切なスタイルで表示されます。",
+        story: "基本的なフィルターラベルの表示例。タイトルと説明文が適切なスタイルで表示されます。",
       },
     },
   },

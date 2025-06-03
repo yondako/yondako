@@ -41,8 +41,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "通常のテキスト入力フィールドの表示例。プレースホルダー、入力値、フォーカス状態を含みます。",
+        story: "通常のテキスト入力フィールドの表示例。プレースホルダー、入力値、フォーカス状態を含みます。",
       },
     },
   },

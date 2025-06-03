@@ -29,8 +29,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "基本的なMessageTakoの表示例。タイトル、メッセージ、装飾アイコンが表示されます。",
+        story: "基本的なMessageTakoの表示例。タイトル、メッセージ、装飾アイコンが表示されます。",
       },
     },
   },

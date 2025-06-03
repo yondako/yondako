@@ -14,9 +14,7 @@ export function convertFullWidthToHalfWidth(input: string): string {
  * @param value 値
  * @returns 変換後
  */
-export function toStringOrUndefined(
-  value: string | number | undefined,
-): string | undefined {
+export function toStringOrUndefined(value: string | number | undefined): string | undefined {
   return typeof value === "number" ? String(value) : value;
 }
 
@@ -25,15 +23,12 @@ export function toStringOrUndefined(
  * @param seeAlsoUrls URLの配列
  * @returns JP-eコード
  */
-export function getJpeCode(
-  seeAlsoUrls: string[] | undefined,
-): string | undefined {
+export function getJpeCode(seeAlsoUrls: string[] | undefined): string | undefined {
   if (!seeAlsoUrls) {
     return;
   }
 
-  const jpeUrlRegex =
-    /^https:\/\/www\.books\.or\.jp\/book-details\/([a-zA-Z0-9]{20})$/;
+  const jpeUrlRegex = /^https:\/\/www\.books\.or\.jp\/book-details\/([a-zA-Z0-9]{20})$/;
 
   // JP-eコードを取り出す
   const jpeCode = seeAlsoUrls.find((url) => url && jpeUrlRegex.test(url));
@@ -46,9 +41,7 @@ export function getJpeCode(
  * @param seeAlsoUrls URLの配列
  * @returns ISBN
  */
-export function getIsbnFromSeeAlso(
-  seeAlsoUrls: string[] | undefined,
-): string | undefined {
+export function getIsbnFromSeeAlso(seeAlsoUrls: string[] | undefined): string | undefined {
   if (!seeAlsoUrls) {
     return;
   }
@@ -64,9 +57,7 @@ export function getIsbnFromSeeAlso(
  * @param authors カンマ区切りの著者名 or 著者名の配列
  * @return 著者名の配列
  */
-export function createAuthors(
-  rawAuthors: string | string[] | undefined,
-): string[] | undefined {
+export function createAuthors(rawAuthors: string | string[] | undefined): string[] | undefined {
   if (!rawAuthors) {
     return;
   }
@@ -95,16 +86,12 @@ export function createAuthors(
  * @param publishers カンマ区切りの出版社名 or 出版社名の配列
  * @return 出版社名の配列
  */
-export function createPublishers(
-  rawPublisher: string | string[] | undefined,
-): string[] | undefined {
+export function createPublishers(rawPublisher: string | string[] | undefined): string[] | undefined {
   if (!rawPublisher) {
     return;
   }
 
-  const publishers = Array.isArray(rawPublisher)
-    ? rawPublisher
-    : rawPublisher.split(",");
+  const publishers = Array.isArray(rawPublisher) ? rawPublisher : rawPublisher.split(",");
 
   const edited = publishers.map((publisher) => {
     return convertFullWidthToHalfWidth(publisher.trim());

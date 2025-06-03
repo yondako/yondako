@@ -21,8 +21,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "基本的なLoadingコンポーネントの表示例。タコのアニメーションとタイトルが表示されます。",
+        story: "基本的なLoadingコンポーネントの表示例。タコのアニメーションとタイトルが表示されます。",
       },
     },
   },

@@ -21,8 +21,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "基本的なSayTakoの表示例。タコキャラクターが吹き出しでメッセージを言います。",
+        story: "基本的なSayTakoの表示例。タコキャラクターが吹き出しでメッセージを言います。",
       },
     },
   },

@@ -38,8 +38,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "基本的なログインボタンの表示例。GoogleとGitHubのログインオプションが表示されます。",
+        story: "基本的なログインボタンの表示例。GoogleとGitHubのログインオプションが表示されます。",
       },
     },
   },

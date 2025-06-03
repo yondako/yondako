@@ -1,13 +1,7 @@
 import { MAX_UPDATE_CHECK_COUNT } from "@/constants/db";
 import type { BookDetailWithoutId } from "@/types/book";
 import { XMLParser } from "fast-xml-parser";
-import {
-  createAuthors,
-  createPublishers,
-  getIsbnFromSeeAlso,
-  getJpeCode,
-  toStringOrUndefined,
-} from "./utils";
+import { createAuthors, createPublishers, getIsbnFromSeeAlso, getJpeCode, toStringOrUndefined } from "./utils";
 
 type OpenSearchText = {
   "#text": string | number;
@@ -71,9 +65,7 @@ export function parseOpenSearchXml(xml: string): BookDetailWithoutId[] {
     return [];
   }
 
-  const items = Array.isArray(parsed.rss.channel.item)
-    ? parsed.rss.channel.item
-    : [parsed.rss.channel.item];
+  const items = Array.isArray(parsed.rss.channel.item) ? parsed.rss.channel.item : [parsed.rss.channel.item];
 
   const rawBooks: (BookDetailWithoutId | undefined)[] = [];
 
@@ -92,11 +84,7 @@ export function parseOpenSearchXml(xml: string): BookDetailWithoutId[] {
       : undefined;
 
     // NDL書誌ID
-    const ndlBibId = toStringOrUndefined(
-      identifier?.find((id) => id["@_xsi:type"] === "dcndl:NDLBibID")?.[
-        "#text"
-      ],
-    );
+    const ndlBibId = toStringOrUndefined(identifier?.find((id) => id["@_xsi:type"] === "dcndl:NDLBibID")?.["#text"]);
 
     // ISBN
     const isbn = identifier
@@ -110,31 +98,22 @@ export function parseOpenSearchXml(xml: string): BookDetailWithoutId[] {
     }
 
     // 全国書誌番号
-    const jpNo = identifier?.find((id) => id["@_xsi:type"] === "dcndl:JPNO")?.[
-      "#text"
-    ];
+    const jpNo = identifier?.find((id) => id["@_xsi:type"] === "dcndl:JPNO")?.["#text"];
 
     // JP-eコード
     const jpeCode = getJpeCode(seeAlsoUrls);
 
     // 巻数があればタイトルに追加
-    const title = item["dcndl:volume"]
-      ? `${item.title} (${item["dcndl:volume"]})`
-      : item.title;
+    const title = item["dcndl:volume"] ? `${item.title} (${item["dcndl:volume"]})` : item.title;
 
     // NDL書誌IDがなく、ISBNがある場合は新刊かも
     const isPotentialNewRelease = !ndlBibId && typeof isbn !== "undefined";
 
     // 出版日時
-    const publishedDate = isPotentialNewRelease
-      ? item["dc:date"]?.["#text"].toString()
-      : item.pubDate;
+    const publishedDate = isPotentialNewRelease ? item["dc:date"]?.["#text"].toString() : item.pubDate;
 
     // 新刊フラグが立っているかつ、出版日が半年以上前の場合は更新チェック回数を最大にして新刊として扱わないように
-    const updateCheckCount =
-      isPotentialNewRelease && isOlderThanHalfYear(publishedDate)
-        ? MAX_UPDATE_CHECK_COUNT
-        : 0;
+    const updateCheckCount = isPotentialNewRelease && isOlderThanHalfYear(publishedDate) ? MAX_UPDATE_CHECK_COUNT : 0;
 
     rawBooks.push({
       title,
@@ -157,9 +136,7 @@ export function parseOpenSearchXml(xml: string): BookDetailWithoutId[] {
  * @param publishedDateStr - 出版日を表す文字列
  * @returns 半年以上前ならtrue、そうでなければfalse
  */
-export function isOlderThanHalfYear(
-  publishedDateStr: string | undefined,
-): boolean {
+export function isOlderThanHalfYear(publishedDateStr: string | undefined): boolean {
   if (!publishedDateStr) {
     return false;
   }

@@ -21,8 +21,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "基本的なLandingLayoutの表示例。ロゴ、コンテンツエリア、フッターのレイアウトを確認できます。",
+        story: "基本的なLandingLayoutの表示例。ロゴ、コンテンツエリア、フッターのレイアウトを確認できます。",
       },
     },
   },
