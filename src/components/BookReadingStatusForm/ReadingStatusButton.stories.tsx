@@ -31,14 +31,6 @@ const meta: Meta<typeof BookReadingStatusButton> = {
       description: "コンパクト表示モード",
       control: "boolean",
     },
-    disabled: {
-      description: "ボタンの無効状態",
-      control: "boolean",
-    },
-    onClick: {
-      description: "ボタンクリック時のコールバック関数",
-      action: "onClick",
-    },
   },
   render: (args) => {
     return (
@@ -51,12 +43,7 @@ const meta: Meta<typeof BookReadingStatusButton> = {
           <BookReadingStatusButton {...args} compact />
           <BookReadingStatusButton {...args} compact status="want_read" />
           <BookReadingStatusButton {...args} selected compact />
-          <BookReadingStatusButton
-            {...args}
-            selected
-            compact
-            status="want_read"
-          />
+          <BookReadingStatusButton {...args} selected compact status="want_read" />
         </div>
       </>
     );

@@ -11,9 +11,6 @@ const meta: Meta<typeof BudouX> = {
       description: "改行処理を行うテキスト",
       control: { type: "text" },
     },
-    className: {
-      description: "追加のCSSクラス",
-    },
   },
 };
 
@@ -24,8 +21,7 @@ export const All: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "異なる幅のコンテナでのBudouXの改行動作を確認できます。赤枠内でテキストが適切に改行されます。",
+        story: "異なる幅のコンテナでのBudouXの改行動作を確認できます。赤枠内でテキストが適切に改行されます。",
       },
     },
   },
