@@ -12,7 +12,7 @@ type Props = Pick<BookCardSkeletonProps, "pageReadingStatus">;
 export default function LibraryBookListSkeleton({ pageReadingStatus }: Props) {
   return (
     <>
-      <div className="mt-10 flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
+      <div className="flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
         <div className="w-full">
           <div className="h-10 w-16 rounded bg-primary-foreground/20" />
         </div>

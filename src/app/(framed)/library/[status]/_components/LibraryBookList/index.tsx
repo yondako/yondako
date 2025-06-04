@@ -51,7 +51,7 @@ export function LibraryBookList({ status, page, order, titleKeyword }: Props) {
 
   return (
     <>
-      <div className="mt-10 flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0 ">
+      <div className="flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0 ">
         <h1 className="flex w-full grow-0 items-end font-bold sm:w-auto">
           <span className="text-4xl">{data.total}</span>
           <span className="text-base">冊</span>
