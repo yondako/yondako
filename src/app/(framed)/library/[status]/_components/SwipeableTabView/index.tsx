@@ -242,9 +242,9 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
   });
 
   return (
-    <div {...handlers} style={{ touchAction: "pan-y" }} className="-mx-6 relative flex-1 overflow-hidden">
+    <div {...handlers} style={{ touchAction: "pan-y" }} className="-mx-6 relative flex flex-1 overflow-hidden">
       <animated.div
-        className="w-full px-6"
+        className="flex-1 px-6"
         style={{
           transform: springProps.x.to((x) => `translateX(${x}px)`),
           opacity: springProps.opacity,

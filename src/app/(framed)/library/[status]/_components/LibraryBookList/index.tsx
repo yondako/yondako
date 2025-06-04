@@ -1,6 +1,7 @@
 "use client";
 
 import BookList from "@/components/BookList";
+import MessageTako from "@/components/MessageTako";
 import Pagination from "@/components/Pagination";
 import SayTako from "@/components/SayTako";
 import { LIBRARY_MESSAGE, LIBRARY_MESSAGE_NONE } from "@/constants/library-message";
@@ -28,10 +29,19 @@ export function LibraryBookList({ status, page, order, titleKeyword }: Props) {
     return <LibraryBookListSkeleton pageReadingStatus={status} />;
   }
 
-  // TODO: ちゃんとエラー表示つくる
   if (error || !data) {
     console.error("Failed to fetch library books:", error);
-    return <SayTako message="ｴﾗｰ" />;
+
+    return (
+      <div className="flex h-full items-center justify-center">
+        <MessageTako
+          title="ライブラリの取得に失敗しました"
+          decoration={<span className="-right-8 absolute top-8 text-3xl">💦</span>}
+        >
+          <p className="mt-1 text-secondary-foreground">ページを再読み込みしてください</p>
+        </MessageTako>
+      </div>
+    );
   }
 
   const totalPage = Math.ceil(data.total / MAX_PAGE_ITEMS);
