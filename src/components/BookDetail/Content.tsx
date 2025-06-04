@@ -13,7 +13,7 @@ export type BookDetailContentProps = {
 } & Pick<BookReadingStatusFormProps, "status" | "onChangeStatus" | "optimisticStatus" | "onChangeOptimisticStatus">;
 
 /**
- * 本の詳細情報を表示するコンテンツコンポーネント。本のカバー画像、タイトル、著者、出版社、概要などの情報と、読書ステータス変更フォームを統合したモーダル・ドロワー用コンテンツです。
+ * 本の詳細情報を表示するコンテンツコンポーネント
  */
 export default function BookDetailContent({
   data,
@@ -55,6 +55,7 @@ export default function BookDetailContent({
           optimisticStatus={optimisticStatus}
           onChangeStatus={onChangeStatus}
           onChangeOptimisticStatus={onChangeOptimisticStatus}
+          disableUndoToast
         />
       </div>
 

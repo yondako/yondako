@@ -6,14 +6,16 @@ import type { BookType } from "@/types/book";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { headers } from "next/headers";
 
-type GetLibraryBooksResult =
-  | {
-      books: BookType[];
-      total: number;
-    }
-  | {
-      error: string;
-    };
+export type GetLibraryBooksSuccess = {
+  books: BookType[];
+  total: number;
+};
+
+export type GetLibraryBooksError = {
+  error: string;
+};
+
+export type GetLibraryBooksResult = GetLibraryBooksSuccess | GetLibraryBooksError;
 
 /**
  * ライブラリの書籍を取得するServer Action

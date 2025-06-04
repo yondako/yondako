@@ -5,7 +5,7 @@ import MessageTako from "@/components/MessageTako";
 import Pagination from "@/components/Pagination";
 import SayTako from "@/components/SayTako";
 import { LIBRARY_MESSAGE, LIBRARY_MESSAGE_NONE } from "@/constants/library-message";
-import { type UseLibraryBooksOptions, useLibraryBooks } from "@/hooks/useLibraryBooks";
+import { type UseLibraryBooksOptions, useLibraryBooks, useLibraryCleanup } from "@/hooks/useLibraryBooks";
 import Filter from "./Filter";
 import LibraryBookListSkeleton from "./Skeleton";
 
@@ -17,6 +17,9 @@ type Props = Omit<UseLibraryBooksOptions, "pageSize">;
  * クライアントサイドでライブラリデータを取得・表示
  */
 export function LibraryBookList({ status, page, order, titleKeyword }: Props) {
+  // ライブラリページのクリーンアップフックを使用
+  useLibraryCleanup();
+
   const { data, error, isLoading } = useLibraryBooks({
     status,
     page,

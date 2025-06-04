@@ -69,8 +69,8 @@ describe("パースできる", () => {
         <dc:subject xsi:type="dcndl:NDLC">Y00</dc:subject>
         <dc:subject xsi:type="dcndl:NDC10">000.0</dc:subject>
         <dc:description>ダミー出版</dc:description>
-        <rdfs:seeAlso rdf:resource="https://www.books.or.jp/book-details/00000000A11111111111" />
-        <rdfs:seeAlso rdf:resource="https://www.books.or.jp/book-details/9784040000000" />
+        <rdfs:seeAlso rdf:resource="https://www.books.or.jp/book-details/000000000A11111111111" />
+        <rdfs:seeAlso rdf:resource="https://www.books.or.jp/book-details/978404000000000" />
         <dc:description>2024</dc:description>
       </item>
       `,
@@ -80,10 +80,15 @@ describe("パースできる", () => {
 
     expect(want).toEqual([
       {
-        ...createDummyBookDetail("000000000"),
-        title: "ダミータイトル",
+        authors: ["ダミー著者"],
         isbn: undefined,
         jpNo: undefined,
+        jpeCode: undefined,
+        link: "https://example.com/books/dummy-link",
+        ndlBibId: "000000000",
+        publishers: ["ダミー出版社"],
+        title: "ダミータイトル",
+        updateCheckCount: 0,
       },
     ]);
   });
@@ -114,12 +119,15 @@ test("NDL書誌IDがなくidentifierが無い場合、seeAlsoからISBNを取得
 
   expect(want).toEqual([
     {
-      ...createDummyBookDetail("000000000"),
+      authors: ["ダミー著者"],
       isbn: "9784040000000",
       jpNo: undefined,
+      jpeCode: "00000000A11111111111",
+      link: "https://example.com/books/dummy-link",
       ndlBibId: undefined,
       publishers: undefined,
       title: "ダミータイトル",
+      updateCheckCount: 0,
     },
   ]);
 });
@@ -209,8 +217,15 @@ test("巻数がある場合はタイトルに含まれる", () => {
 
   expect(want).toEqual([
     {
-      ...createDummyBookDetail("000000000"),
+      authors: ["ダミー著者"],
+      isbn: "978-4-04-000000-0",
+      jpNo: "00000000",
+      jpeCode: "00000000A11111111111",
+      link: "https://example.com/books/dummy-link",
+      ndlBibId: "000000000",
+      publishers: ["ダミー出版社"],
       title: "ダミータイトル (05)",
+      updateCheckCount: 0,
     },
   ]);
 });
@@ -219,29 +234,29 @@ test("totalResultsが500件以上なら丸められる", () => {
   const xml = createDummyXml(1000, createDummyItem("000000000"));
 
   expect(parseOpenSearchXml(xml)).toEqual([createDummyBookDetail("000000000")]);
+});
 
-  test("新刊が6ヶ月以上前の場合、updateCheckCountがMAX_UPDATE_CHECK_COUNTになる", () => {
-    const xml = `
-      <rss>
-        <channel>
-          <item>
-            <title>Old Test Book</title>
-            <link>http://example.com/oldbook</link>
-            <dc:creator>Old Author</dc:creator>
-            <dc:publisher>Old Publisher</dc:publisher>
-            <dc:identifier xsi:type="dcndl:ISBN">0987654321</dc:identifier>
-            <dc:date>2022-01-01</dc:date>
-          </item>
-          <openSearch:totalResults>1</openSearch:totalResults>
-          <openSearch:startIndex>1</openSearch:startIndex>
-          <openSearch:itemsPerPage>1</openSearch:itemsPerPage>
-        </channel>
-      </rss>
-    `;
+test("新刊が6ヶ月以上前の場合、updateCheckCountがMAX_UPDATE_CHECK_COUNTになる", () => {
+  const xml = `
+    <rss>
+      <channel>
+        <item>
+          <title>Old Test Book</title>
+          <link>http://example.com/oldbook</link>
+          <dc:creator>Old Author</dc:creator>
+          <dc:publisher>Old Publisher</dc:publisher>
+          <dc:identifier xsi:type="dcndl:ISBN">0987654321</dc:identifier>
+          <dc:date xsi:type="dcterms:W3CDTF">2022-01-01</dc:date>
+        </item>
+        <openSearch:totalResults>1</openSearch:totalResults>
+        <openSearch:startIndex>1</openSearch:startIndex>
+        <openSearch:itemsPerPage>1</openSearch:itemsPerPage>
+      </channel>
+    </rss>
+  `;
 
-    const result = parseOpenSearchXml(xml);
-    expect(result[0].updateCheckCount).toBe(MAX_UPDATE_CHECK_COUNT);
-  });
+  const result = parseOpenSearchXml(xml);
+  expect(result[0].updateCheckCount).toBe(MAX_UPDATE_CHECK_COUNT);
 });
 
 describe("isOlderThanHalfYear", () => {

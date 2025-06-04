@@ -18,7 +18,6 @@ export async function checkLatestNews(fetch = global.fetch): Promise<number> {
 
     const res = await fetch(endpoint, {
       signal: ctrl.signal,
-      cache: "no-cache",
     });
 
     clearTimeout(timeoutId);

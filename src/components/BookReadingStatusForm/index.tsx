@@ -1,10 +1,12 @@
+import { toast } from "@/components/Toast";
 import { readingStatusMetadata } from "@/constants/status";
 import type { BookIdentifiers, BookType } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
-import { toast } from "sonner";
+import { usePathname } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 import { useUpdateReadingStatus } from "#hooks/useUpdateReadingStatus";
 import BookReadingStatusButton, { type BookReadingStatusButtonProps } from "./ReadingStatusButton";
+import { createUndoToast } from "./undoToast";
 
 const order: ReadingStatus[] = ["want_read", "reading", "read"] as const;
 
@@ -19,11 +21,12 @@ type Props = {
   identifiers: BookIdentifiers;
   bookTitle: string;
   className?: string;
+  disableUndoToast?: boolean;
 } & BookReadingStatusFormProps &
   Pick<BookReadingStatusButtonProps, "compact">;
 
 /**
- * 本の読書ステータス（よみたい・読書中・読みおわった）を変更するためのフォームコンポーネント。各ステータスボタンをクリックして変更し、オプティミスティック更新でスムーズな操作を実現します。
+ * 本の読書ステータスを変更するためのフォーム
  */
 export default function BookReadingStatusForm({
   identifiers,
@@ -34,9 +37,18 @@ export default function BookReadingStatusForm({
   onChangeStatus,
   compact,
   className,
+  disableUndoToast = false,
   ...props
 }: Props) {
+  const pathname = usePathname();
   const { updateReadingStatusWithCache } = useUpdateReadingStatus();
+
+  const showUndoToast = createUndoToast({
+    identifiers,
+    updateReadingStatusWithCache,
+    onChangeOptimisticStatus,
+    onChangeStatus,
+  });
 
   // 読書ステータスが変更された
   const changeStatusFormAction = async (formData: FormData) => {
@@ -49,21 +61,18 @@ export default function BookReadingStatusForm({
     // 記録に失敗
     if (result.error || !result.book) {
       toast.error("記録に失敗しました", {
-        description: (
-          <p>
-            {result.error ?? "時間をおいてもう一度お試しください"}
-            <br />
-            {bookTitle}
-          </p>
-        ),
+        description: `${result.error ?? "時間をおいてもう一度お試しください"}\n${bookTitle}`,
       });
 
       onChangeOptimisticStatus(status);
-
       return;
     }
 
     onChangeStatus(result.book.readingStatus);
+
+    if (!disableUndoToast) {
+      showUndoToast(pathname, status, newStatus, bookTitle);
+    }
   };
 
   return (
