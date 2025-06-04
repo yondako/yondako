@@ -101,6 +101,7 @@ toast.info = (title: string, options?: Omit<ToastInput, "title" | "type">) => {
 export default function Toaster() {
   return (
     <SonnerToaster
+      position="top-right"
       style={
         {
           "--width": "400px",
