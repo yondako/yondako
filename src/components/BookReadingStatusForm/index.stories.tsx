@@ -1,6 +1,8 @@
+import { createDummyBookDetail } from "@/_mocks/book";
 import type { ReadingStatus } from "@/types/readingStatus";
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, fn, userEvent, waitFor, within } from "storybook/test";
+import { mockUpdateReadingStatusWithCache } from "#src/hooks/useUpdateReadingStatus.mock";
 import BookReadingStatusForm from ".";
 
 const mockNdlBibId = "1234567890";
@@ -56,6 +58,14 @@ const meta: Meta<typeof BookReadingStatusForm> = {
     optimisticStatus: "want_read" as ReadingStatus,
     onChangeStatus: fn(),
     onChangeOptimisticStatus: fn(),
+  },
+  beforeEach: async () => {
+    mockUpdateReadingStatusWithCache.mockResolvedValue({
+      book: {
+        detail: createDummyBookDetail(mockNdlBibId),
+        readingStatus: "reading",
+      },
+    });
   },
 };
 
@@ -117,6 +127,11 @@ export const SubmitError: Story = {
           "ステータス変更が失敗した場合のフロー。オプティミスティック更新後にエラーが発生した場合、元の状態にロールバックされます。",
       },
     },
+  },
+  beforeEach: async () => {
+    mockUpdateReadingStatusWithCache.mockResolvedValue({
+      error: "error",
+    });
   },
   play: async ({ canvasElement, args, step }) => {
     const canvas = within(canvasElement);
