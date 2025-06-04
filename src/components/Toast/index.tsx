@@ -38,7 +38,7 @@ function CustomToast(props: ToastProps) {
     >
       <div className="flex flex-1 items-center">
         <div className="w-full">
-          <p className="font-bold font-medium text-base text-primary-foreground">{title}</p>
+          <p className="font-medium text-base text-primary-foreground">{title}</p>
           {description && <p className="mt-1 text-secondary-foreground text-xs">{description}</p>}
         </div>
       </div>
