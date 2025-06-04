@@ -3,8 +3,8 @@
 import BookList from "@/components/BookList";
 import Pagination from "@/components/Pagination";
 import SayTako from "@/components/SayTako";
+import { LIBRARY_MESSAGE, LIBRARY_MESSAGE_NONE } from "@/constants/library-message";
 import { type UseLibraryBooksOptions, useLibraryBooks } from "@/hooks/useLibraryBooks";
-import { LIBRARY_MESSAGE, LIBRARY_MESSAGE_NONE } from "#src/constants/library-message.js";
 import Filter from "./Filter";
 import LibraryBookListSkeleton from "./Skeleton";
 
