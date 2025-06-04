@@ -69,7 +69,11 @@ export async function searchBooksFromNDL(
   endpoint.searchParams.append("mediatype", "books");
 
   try {
-    const cacheKey = JSON.stringify(opts);
+    const cacheKey = JSON.stringify({
+      count: opts.count,
+      ignoreSensitive: opts.ignoreSensitive,
+      params: opts.params,
+    });
 
     const { params, page = 0, count = 0, ignoreSensitive = false, ngWords = [] } = opts;
 
