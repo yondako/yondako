@@ -2,6 +2,7 @@ import ImageQrCode from "@/assets/images/qr-search-barcode.svg";
 import MessageTako from "@/components/MessageTako";
 import { PATH_SEARCH_BARCODE_MOBILE_EXCLUSIVE } from "@/constants/path";
 import { getAuth } from "@/lib/auth";
+import { getIsDesktop } from "@/lib/isMobile";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
@@ -29,7 +30,7 @@ export default async function MobileExclusive() {
     redirect(createSignInPath(PATH_SEARCH_BARCODE_MOBILE_EXCLUSIVE));
   }
 
-  const isMobile = (await headers()).get("X-IS-DESKTOP") === null;
+  const isMobile = !getIsDesktop(await headers());
 
   // モバイルであれば利用可能なのでリダイレクト
   if (isMobile) {

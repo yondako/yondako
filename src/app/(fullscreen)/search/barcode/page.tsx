@@ -1,5 +1,6 @@
 import { PATH_SEARCH_BARCODE } from "@/constants/path";
 import { getAuth } from "@/lib/auth";
+import { getIsDesktop } from "@/lib/getIsDesktop";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
@@ -28,7 +29,7 @@ export default async function SearchBarcode() {
     redirect(createSignInPath(PATH_SEARCH_BARCODE));
   }
 
-  const isDesktop = (await headers()).get("X-IS-DESKTOP") !== null;
+  const isDesktop = getIsDesktop(await headers());
 
   // デスクトップでは利用できないので、モバイルへの誘導ページへリダイレクト
   if (isDesktop) {
