@@ -1,3 +1,4 @@
+import { useLibraryRevalidation } from "@/contexts/LibraryRevalidationContext";
 import { useModalState } from "@/contexts/ModalStateContext";
 import { revalidateLibraryCacheImmediate } from "@/hooks/useLibraryBooks";
 import type { DialogProps } from "@radix-ui/react-dialog";
@@ -16,7 +17,8 @@ type Props = {
  * デスクトップではモーダル、モバイルではドロワーとして表示されます
  */
 export default function BookDetail({ bookDetailProps, children, ...props }: Props) {
-  const { setIsModalOpen, executePendingRevalidations } = useModalState();
+  const { setIsModalOpen } = useModalState();
+  const { executePendingRevalidations } = useLibraryRevalidation();
 
   const handleOpenChange = (open: boolean) => {
     setIsModalOpen(open);
@@ -27,10 +29,10 @@ export default function BookDetail({ bookDetailProps, children, ...props }: Prop
     // モーダル表示時にライブラリの再検証を実行すると、ページの再描画が走ってモーダルが消えてしまうので
     // 閉じるアニメーションが完了したタイミングで保留中の再検証を実行する
     if (!open) {
-      const pendingStatuses = executePendingRevalidations();
+      const pendingRevalidations = executePendingRevalidations();
 
-      for (const status of pendingStatuses) {
-        revalidateLibraryCacheImmediate(status);
+      for (const revalidation of pendingRevalidations) {
+        revalidateLibraryCacheImmediate(revalidation);
       }
     }
   };

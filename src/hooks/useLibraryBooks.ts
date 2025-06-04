@@ -1,4 +1,5 @@
 import { getLibraryBooks } from "@/actions/getLibraryBooks";
+import { useLibraryRevalidation } from "@/contexts/LibraryRevalidationContext";
 import { useModalState } from "@/contexts/ModalStateContext";
 import type { Order } from "@/types/order";
 import type { ReadingStatus } from "@/types/readingStatus";
@@ -81,11 +82,11 @@ export function revalidateLibraryCacheImmediate({ status, action }: LibraryReval
  * モーダルの状態に応じてキャッシュ再検証を行うフック
  */
 export function useLibraryCacheRevalidation() {
-  const { isModalOpen, addPendingRevalidation } = useModalState();
+  const { isModalOpen } = useModalState();
+  const { addPendingRevalidation } = useLibraryRevalidation();
 
   /**
-   * @param status 対象の読書ステータス
-   * @param type データの更新種別
+   * @param data ライブラリ再検証データ
    */
   const revalidateLibraryCache = (data: LibraryRevalidationData) => {
     if (isModalOpen) {
@@ -104,7 +105,8 @@ export function useLibraryCacheRevalidation() {
  * ライブラリページのクリーンアップ時に保留中の再検証を実行するフック
  */
 export function useLibraryCleanup() {
-  const { executePendingRevalidations, setIsModalOpen } = useModalState();
+  const { setIsModalOpen } = useModalState();
+  const { executePendingRevalidations } = useLibraryRevalidation();
 
   // refを使用して最新の関数への参照を保持
   const executePendingRevalidationsRef = useRef(executePendingRevalidations);
@@ -117,10 +119,10 @@ export function useLibraryCleanup() {
   useEffect(() => {
     // コンポーネントがアンマウントされる時に保留中の再検証を実行
     return () => {
-      const pendingStatuses = executePendingRevalidationsRef.current();
+      const pendingRevalidations = executePendingRevalidationsRef.current();
 
-      for (const status of pendingStatuses) {
-        revalidateLibraryCacheImmediate(status);
+      for (const revalidation of pendingRevalidations) {
+        revalidateLibraryCacheImmediate(revalidation);
       }
 
       // モーダル状態もリセット
