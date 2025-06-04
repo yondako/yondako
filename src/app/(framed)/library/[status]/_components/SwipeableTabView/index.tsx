@@ -4,7 +4,7 @@ import { readingStatusOrder } from "@/constants/status";
 import type { ReadingStatus } from "@/types/readingStatus";
 import { animated, useSpring } from "@react-spring/web";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import type { PropsWithChildren } from "react";
 import { useSwipeable } from "react-swipeable";
 
@@ -14,16 +14,17 @@ type Props = PropsWithChildren<{
 
 const SWIPE_ANIMATION_THRESHOLD = 32; // px
 const SWIPE_TRANSITION_KEY = "swipeTransition";
+const SWIPE_RESET_TIMEOUT = 300; // ms
 
 export function SwipeableTabView({ children, currentStatus }: Props) {
   const router = useRouter();
 
-  const [isSwiping, setIsSwiping] = useState(false);
-
   const windowWidthRef = useRef(0);
+  const isSwipingRef = useRef(false);
   const isDialogOpenRef = useRef(false);
   const isSlideInAnimationCompletedRef = useRef(false);
   const currentIndexRef = useRef(readingStatusOrder.indexOf(currentStatus));
+  const resetTimeoutRef = useRef<number | null>(null);
 
   const [springProps, api] = useSpring(() => ({
     x: 0,
@@ -89,6 +90,15 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
     currentIndexRef.current = readingStatusOrder.indexOf(currentStatus);
   }, [currentStatus]);
 
+  // コンポーネントのアンマウント時にタイムアウトをクリア
+  useEffect(() => {
+    return () => {
+      if (resetTimeoutRef.current) {
+        window.clearTimeout(resetTimeoutRef.current);
+      }
+    };
+  }, []);
+
   // 画面幅を取得
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -131,13 +141,17 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
 
   const handlers = useSwipeable({
     onSwiping: (eventData) => {
-      // モーダルが開いている場合は無効
+      // モーダルが開いている場合はスキップ
       if (isDialogOpenRef.current) {
         return;
       }
 
-      if (!isSwiping) {
-        setIsSwiping(true);
+      isSwipingRef.current = true;
+
+      // 既存のタイムアウトをクリア
+      if (resetTimeoutRef.current) {
+        window.clearTimeout(resetTimeoutRef.current);
+        resetTimeoutRef.current = null;
       }
 
       // スワイプの稼動域を画面幅の1/3に制限
@@ -146,14 +160,33 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
       const clampedDeltaX = Math.max(-maxSwipeDistance, Math.min(maxSwipeDistance, eventData.deltaX));
 
       api.start({ x: clampedDeltaX });
+
+      // スワイプ中にタイムアウトを設定
+      resetTimeoutRef.current = window.setTimeout(() => {
+        if (isSwipingRef.current) {
+          isSwipingRef.current = false;
+
+          api.start({
+            x: 0,
+            opacity: 1,
+            config: { tension: 300, friction: 40 },
+          });
+        }
+      }, SWIPE_RESET_TIMEOUT);
     },
     onSwiped: (eventData) => {
-      // モーダルが開いている場合は無効
-      if (isDialogOpenRef.current) {
+      // モーダルが開いている場合 or スワイプ中でない場合はスキップ
+      if (isDialogOpenRef.current || !isSwipingRef.current) {
         return;
       }
 
-      setIsSwiping(false);
+      // タイムアウトをクリア
+      if (resetTimeoutRef.current) {
+        window.clearTimeout(resetTimeoutRef.current);
+        resetTimeoutRef.current = null;
+      }
+
+      isSwipingRef.current = false;
 
       if (Math.abs(eventData.deltaX) > SWIPE_ANIMATION_THRESHOLD) {
         const currentIndex = currentIndexRef.current;
