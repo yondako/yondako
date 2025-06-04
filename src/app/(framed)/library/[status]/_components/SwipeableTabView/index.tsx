@@ -121,16 +121,6 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
   }, []);
 
   const handlers = useSwipeable({
-    onSwipeStart: () => {
-      // モーダルが開いている場合は無効
-      if (isDialogOpenRef.current) {
-        return;
-      }
-
-      // 既存のアニメーションを即座に停止し、現在位置を0にリセット
-      api.stop();
-      api.set({ x: 0 });
-    },
     onSwiping: (eventData) => {
       // モーダルが開いている場合は無効
       if (isDialogOpenRef.current) {
@@ -146,7 +136,10 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
       const maxSwipeDistance = screenWidth / 3;
       const clampedDeltaX = Math.max(-maxSwipeDistance, Math.min(maxSwipeDistance, eventData.deltaX));
 
-      api.set({ x: clampedDeltaX });
+      api.start({
+        x: clampedDeltaX,
+        config: { tension: 200, friction: 50 },
+      });
     },
     onSwiped: (eventData) => {
       // モーダルが開いている場合は無効
