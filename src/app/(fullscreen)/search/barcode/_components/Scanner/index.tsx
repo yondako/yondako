@@ -4,11 +4,11 @@ import IconBlubOff from "@/assets/icons/bulb-off.svg";
 import IconBulb from "@/assets/icons/bulb.svg";
 import BookDetail from "@/components/BookDetail";
 import MobileHeader from "@/components/MobileHeader";
+import { toast } from "@/components/Toast";
 import type { BookType } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
 import Quagga from "@ericblade/quagga2";
 import { useCallback, useOptimistic, useReducer, useRef, useState } from "react";
-import { toast } from "sonner";
 import { searchFromIsbn } from "#actions/searchFromIsbn";
 import MessagePage from "../MessagePage";
 import ScannerCore from "./Core";
@@ -32,15 +32,20 @@ export default function Scanner() {
     const result = await searchFromIsbn(code);
 
     if (!result) {
-      toast.info("書籍がみつかりませんでした", {
-        description: `ISBN: ${code}`,
-        onDismiss: () => {
-          isSearched.current = false;
+      toast.error(
+        "書籍がみつかりませんでした",
+        {
+          description: `ISBN: ${code}`,
         },
-        onAutoClose: () => {
-          isSearched.current = false;
+        {
+          onDismiss: () => {
+            isSearched.current = false;
+          },
+          onAutoClose: () => {
+            isSearched.current = false;
+          },
         },
-      });
+      );
 
       return;
     }

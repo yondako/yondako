@@ -1,4 +1,6 @@
 import { createDummyBookDetail } from "@/_mocks/book";
+import { LibraryRevalidationProvider } from "@/contexts/LibraryRevalidationContext";
+import { ModalStateProvider } from "@/contexts/ModalStateContext";
 import type { BookDetailWithoutId } from "@/types/book.js";
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
@@ -14,6 +16,15 @@ const meta: Meta<typeof BookCard> = {
   title: "Components/BookCard",
   component: BookCard,
   tags: ["autodocs"],
+  decorators: [
+    (Story) => (
+      <ModalStateProvider>
+        <LibraryRevalidationProvider>
+          <Story />
+        </LibraryRevalidationProvider>
+      </ModalStateProvider>
+    ),
+  ],
   parameters: {},
   argTypes: {
     data: {

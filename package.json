@@ -45,6 +45,7 @@
     "react-use": "^17.6.0",
     "server-only": "^0.0.1",
     "sonner": "^2.0.1",
+    "swr": "^2.3.3",
     "tailwind-merge": "^3.0.2",
     "tiny-segmenter": "^0.2.0",
     "use-debounce": "^10.0.4",
@@ -106,6 +107,10 @@
     "#actions/searchFromIsbn": {
       "storybook": "./src/actions/searchFromIsbn.mock.ts",
       "default": "./src/actions/searchFromIsbn.ts"
+    },
+    "#hooks/useUpdateReadingStatus": {
+      "storybook": "./src/hooks/useUpdateReadingStatus.mock.ts",
+      "default": "./src/hooks/useUpdateReadingStatus.ts"
     },
     "#*": ["./*", "./*.ts", "./*.tsx"]
   }

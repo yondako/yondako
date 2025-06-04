@@ -21,7 +21,7 @@ export async function searchFromIsbn(isbn: string): Promise<BookType | undefined
   }
 
   const result = await searchBooksFromNDL({
-    count: 1,
+    limit: 1,
     params: {
       isbn,
     },
