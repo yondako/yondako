@@ -48,31 +48,52 @@ export function useLibraryBooks(options: UseLibraryBooksOptions) {
   };
 }
 
+export type LibraryRevalidationData = {
+  status: ReadingStatus;
+  action: "add" | "remove";
+};
+
 /**
  * ライブラリキャッシュを即座に再検証
  * @param status 対象の読書ステータス
  */
-export function revalidateLibraryCacheImmediate(status: ReadingStatus) {
+export function revalidateLibraryCacheImmediate({ status, action }: LibraryRevalidationData) {
   mutate(
     (key) => typeof key === "string" && key.startsWith(`library-${status}-`),
-    async (currentData) => currentData,
+    async (data) => {
+      // 削除のときはそのまま返す
+      if (action === "remove") {
+        return data;
+      }
+
+      // 追加のときはそのまま返すとCLSが発生するので、先頭に空を入れる
+      // (UI上はスケルトンが表示される)
+      return {
+        books: [undefined, ...data.books],
+        total: data.total + 1,
+      };
+    },
     { revalidate: true },
   );
 }
 
 /**
- * モーダル状態に応じたキャッシュ再検証フック
+ * モーダルの状態に応じてキャッシュ再検証を行うフック
  */
 export function useLibraryCacheRevalidation() {
   const { isModalOpen, addPendingRevalidation } = useModalState();
 
-  const revalidateLibraryCache = (status: ReadingStatus) => {
+  /**
+   * @param status 対象の読書ステータス
+   * @param type データの更新種別
+   */
+  const revalidateLibraryCache = (data: LibraryRevalidationData) => {
     if (isModalOpen) {
       // モーダルが開いている場合は保留
-      addPendingRevalidation(status);
+      addPendingRevalidation(data);
     } else {
-      // モーダルが閉じている場合は即座に実行
-      revalidateLibraryCacheImmediate(status);
+      // モーダルが閉じている場合は即時
+      revalidateLibraryCacheImmediate(data);
     }
   };
 

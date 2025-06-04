@@ -17,12 +17,18 @@ export function useUpdateReadingStatus() {
       if (!result.error && result.book) {
         // 新しい読書ステータスのライブラリのキャッシュを再検証
         if (newStatus !== "none") {
-          revalidateLibraryCache(newStatus);
+          revalidateLibraryCache({
+            status: newStatus,
+            action: "add",
+          });
         }
 
         // 以前の読書ステータスのキャッシュも再検証
         if (previousStatus && previousStatus !== "none" && previousStatus !== newStatus) {
-          revalidateLibraryCache(previousStatus);
+          revalidateLibraryCache({
+            status: previousStatus,
+            action: "remove",
+          });
         }
       }
 

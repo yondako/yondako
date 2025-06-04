@@ -2,13 +2,14 @@ import type { BookType } from "@/types/book";
 import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
 import BookCard from "../BookCard";
+import BookCardSkeleton from "../BookCard/Skeleton";
 
 type Props = {
-  items: BookType[];
+  items: (BookType | undefined)[];
 } & ComponentPropsWithoutRef<"div">;
 
 /**
- * 書籍リストを表示するコンポーネント。書籍カードをグリッドレイアウトで表示します。
+ * 書籍リストを表示するコンポーネント
  */
 export default function BookList({ items, ...props }: Props) {
   return (
@@ -18,9 +19,13 @@ export default function BookList({ items, ...props }: Props) {
         props.className,
       )}
     >
-      {items.map((book) => (
-        <BookCard data={book} key={book.detail.link} />
-      ))}
+      {items.map((book, index) =>
+        book ? (
+          <BookCard data={book} key={book.detail.link} />
+        ) : (
+          <BookCardSkeleton pageReadingStatus="none" key={index.toString()} />
+        ),
+      )}
     </div>
   );
 }
