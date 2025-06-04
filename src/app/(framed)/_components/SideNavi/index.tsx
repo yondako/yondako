@@ -5,17 +5,20 @@ import Footer from "@/components/Footer";
 import { naviItems } from "@/constants/navi-items";
 import { site } from "@/constants/site";
 import { useCheckLatestNews } from "@/hooks/useCheckLatestNews";
-import type { NaviProps } from "@/types/navi";
+import { useLatestNews } from "@/hooks/useLatestNews";
 import Link from "next/link";
 import { useSelectedLayoutSegments } from "next/navigation";
+import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
 import Item from "./Item";
 
 /**
- * サイドナビゲーションコンポーネント。ライブラリ、ニュース、検索、設定などの主要ページへのナビゲーションを提供します。アクティブページのハイライト表示とバッジ通知機能を含みます。
+ * サイドナビゲーションコンポーネント
+ * アクティブページのハイライト表示とバッジ通知機能を含みます。
  */
-export default function SideNavi({ latestNewsTimestamp, className, ...props }: NaviProps) {
+export default function SideNavi({ className, ...props }: ComponentPropsWithoutRef<"nav">) {
   const segments = useSelectedLayoutSegments().join("/");
+  const { latestNewsTimestamp } = useLatestNews();
   const hasNewNews = useCheckLatestNews(latestNewsTimestamp);
 
   return (

@@ -2,16 +2,18 @@
 
 import { naviItems } from "@/constants/navi-items";
 import { useCheckLatestNews } from "@/hooks/useCheckLatestNews";
-import type { NaviProps } from "@/types/navi";
+import { useLatestNews } from "@/hooks/useLatestNews";
 import Link from "next/link";
 import { useSelectedLayoutSegments } from "next/navigation";
+import type { ComponentPropsWithRef } from "react";
 import { twMerge } from "tailwind-merge";
 
 /**
- * モバイルデバイス向けのボトムナビゲーションコンポーネント。主要なページへのナビゲーションリンクを提供します。
+ * モバイルデバイス向けのボトムナビゲーションコンポーネント
  */
-export default function MobileBottomNavi({ latestNewsTimestamp, className, ...props }: NaviProps) {
+export default function MobileBottomNavi({ className, ...props }: ComponentPropsWithRef<"nav">) {
   const segments = useSelectedLayoutSegments().join("/");
+  const { latestNewsTimestamp } = useLatestNews();
   const hasNewNews = useCheckLatestNews(latestNewsTimestamp);
 
   return (
