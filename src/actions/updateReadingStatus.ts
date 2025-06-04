@@ -44,18 +44,18 @@ export async function updateReadingStatus(
   // DBに無い場合登録する
   if (!bookDetail) {
     const opts: SearchOptions = {
-      count: 1,
+      limit: 1,
     };
 
-    if (bookIdentifiers.ndlBibId) {
-      // NDL書誌IDがある場合はそれを優先
-      opts.params = {
-        any: bookIdentifiers.ndlBibId,
-      };
-    } else if (bookIdentifiers.isbn) {
-      // NDL書誌IDが無い場合はISBNで検索
+    if (bookIdentifiers.isbn) {
+      // ISBNで検索
       opts.params = {
         isbn: bookIdentifiers.isbn,
+      };
+    } else if (bookIdentifiers.ndlBibId) {
+      // NDL書誌ID
+      opts.params = {
+        any: bookIdentifiers.ndlBibId,
       };
     } else {
       // どちらも無い場合はエラー

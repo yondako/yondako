@@ -9,7 +9,7 @@ const API_BASE_URL = "https://iss.ndl.go.jp/api/opensearch";
 
 export type SearchOptions = {
   /** 取得件数 */
-  count: number;
+  limit: number;
   /** ページ番号 */
   page?: number;
   /** センシティブな書籍を除外する */
@@ -49,8 +49,8 @@ export async function searchBooksFromNDL(
   const endpoint = new URL(API_BASE_URL);
 
   // 取得件数の指定
-  // NOTE: NDLサーチAPIの最大取得件数は500
-  endpoint.searchParams.append("cnt", "500");
+  // NOTE: limitが1ではない場合は、NDLサーチAPIの最大取得件数の500件を指定
+  endpoint.searchParams.append("cnt", opts.limit === 1 ? "1" : "500");
 
   // その他をクエリパラメータに追加
   if (opts.params) {
@@ -68,14 +68,16 @@ export async function searchBooksFromNDL(
   // メディアタイプの指定
   endpoint.searchParams.append("mediatype", "books");
 
+  console.debug("[NDL] Search endpoint:", endpoint.toString());
+
   try {
     const cacheKey = JSON.stringify({
-      count: opts.count,
+      count: opts.limit,
       ignoreSensitive: opts.ignoreSensitive,
       params: opts.params,
     });
 
-    const { params, page = 0, count = 0, ignoreSensitive = false, ngWords = [] } = opts;
+    const { params, page = 0, limit = 0, ignoreSensitive = false, ngWords = [] } = opts;
 
     // 30分間キャッシュする
     const sortedBooks = await unstable_cache(
@@ -102,8 +104,8 @@ export async function searchBooksFromNDL(
       },
     )();
 
-    const index = page * count;
-    const books = sortedBooks.slice(index, index + count);
+    const index = page * limit;
+    const books = sortedBooks.slice(index, index + limit);
 
     return {
       meta: {

@@ -34,7 +34,7 @@ export async function SearchResult({ query, currentPage, ndc, sensitive }: Searc
   const ngWords = await getAllNgWords(env.DB);
 
   const result = await searchBooksFromNDL({
-    count: SEARCH_COUNT,
+    limit: SEARCH_COUNT,
     page: currentPage - 1,
     ignoreSensitive: !sensitive,
     ngWords,
