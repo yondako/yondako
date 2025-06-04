@@ -30,7 +30,7 @@ export const createDummyItem = (id: string) => `
   <dc:subject xsi:type="dcndl:NDLC">Y00</dc:subject>
   <dc:subject xsi:type="dcndl:NDC10">000.0</dc:subject>
   <dc:description>ダミー出版</dc:description>
-  <rdfs:seeAlso rdf:resource="https://www.books.or.jp/book-details/${id.padStart(8, "0")}A11111111111" />
+  <rdfs:seeAlso rdf:resource="https://www.books.or.jp/book-details/${id.padStart(8, "0")}A1111111111" />
   <rdfs:seeAlso rdf:resource="https://www.books.or.jp/book-details/978404${id.padStart(6, "0")}0" />
   <dc:description>2024</dc:description>
 </item>
@@ -58,7 +58,7 @@ export const createDummyBookDetail = (ndlBibId: string): BookDetailWithoutId => 
     authors: ["ダミー著者"],
     isbn: `978-4-04-${ndlBibId.padStart(6, "0")}-0`,
     jpNo: `${ndlBibId.padStart(8, "0")}`,
-    jpeCode: `${ndlBibId.padStart(8, "0")}A11111111111`,
+    jpeCode: `${ndlBibId.padStart(8, "0")}A1111111111`,
     link: `https://example.com/books/dummy-link-${ndlBibId}`,
     ndlBibId,
     publishers: ["ダミー出版社"],
