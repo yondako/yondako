@@ -38,6 +38,7 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
     }
 
     const swipeData = sessionStorage.getItem(SWIPE_TRANSITION_KEY);
+
     if (swipeData) {
       try {
         const { direction, targetStatus } = JSON.parse(swipeData);
@@ -90,36 +91,21 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
     currentIndexRef.current = readingStatusOrder.indexOf(currentStatus);
   }, [currentStatus]);
 
-  // コンポーネントのアンマウント時にタイムアウトをクリア
-  useEffect(() => {
-    return () => {
-      if (resetTimeoutRef.current) {
-        window.clearTimeout(resetTimeoutRef.current);
-      }
-    };
-  }, []);
-
-  // 画面幅を取得
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      windowWidthRef.current = window.innerWidth;
-
-      const handleResize = () => {
-        windowWidthRef.current = window.innerWidth;
-      };
-
-      window.addEventListener("resize", handleResize);
-
-      return () => window.removeEventListener("resize", handleResize);
-    }
-  }, []);
-
-  // スワイプを無効化するためにモーダルの存在を監視
   useEffect(() => {
     if (typeof window === "undefined") {
       return;
     }
 
+    // リサイズ検知
+    windowWidthRef.current = window.innerWidth;
+
+    const handleResize = () => {
+      windowWidthRef.current = window.innerWidth;
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // モーダル監視
     const checkDialogExists = () => {
       const dialogExists = document.querySelector('[role="dialog"]') !== null;
       isDialogOpenRef.current = dialogExists;
@@ -136,7 +122,15 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
       attributeFilter: ["role"],
     });
 
-    return () => observer.disconnect();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+
+      observer.disconnect();
+
+      if (resetTimeoutRef.current) {
+        window.clearTimeout(resetTimeoutRef.current);
+      }
+    };
   }, []);
 
   const handlers = useSwipeable({
