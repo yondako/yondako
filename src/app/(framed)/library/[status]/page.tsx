@@ -1,5 +1,6 @@
 import { readingStatusMetadata } from "@/constants/status";
 import { getAuth } from "@/lib/auth";
+import { getIsDesktop } from "@/lib/getIsDesktop";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
 import { type Order, orderSchema } from "@/types/order";
@@ -61,7 +62,7 @@ export default async function Library(props: Props) {
     notFound();
   }
 
-  const isDesktop = (await headers()).get("X-IS-DESKTOP") !== null;
+  const isDesktop = getIsDesktop(await headers());
 
   const searchParams = await props.searchParams;
   const pageParseResult = safeParse(pageIndexSchema, Number.parseInt(searchParams.page ?? "1"));
