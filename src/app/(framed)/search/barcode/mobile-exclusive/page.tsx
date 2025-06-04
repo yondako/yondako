@@ -2,7 +2,7 @@ import ImageQrCode from "@/assets/images/qr-search-barcode.svg";
 import MessageTako from "@/components/MessageTako";
 import { PATH_SEARCH_BARCODE_MOBILE_EXCLUSIVE } from "@/constants/path";
 import { getAuth } from "@/lib/auth";
-import { getIsDesktop } from "@/lib/isMobile";
+import { getIsDesktop } from "@/lib/getIsDesktop";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
