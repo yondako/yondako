@@ -36,7 +36,7 @@ export function useLibraryBooks(options: UseLibraryBooksOptions) {
       return result;
     },
     {
-      dedupingInterval: 1000 * 30,
+      dedupingInterval: 1000 * 60 * 5, // 5分間キャッシュ
       errorRetryCount: 2,
     },
   );
