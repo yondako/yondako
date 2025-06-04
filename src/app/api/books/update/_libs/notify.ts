@@ -9,16 +9,10 @@ type NotifyUpdateResultOpts = {
  * @param updatedBooksCount 更新書籍数
  * @param unupdatedBooksCount 未更新書籍数
  */
-export async function notifyUpdateResult({
-  updatedBookIds,
-  unupdatedBookIds,
-  webhookUrl,
-}: NotifyUpdateResultOpts) {
-  const updatedStatus =
-    updatedBookIds.length > 0 ? updatedBookIds.join("\n") : "なし";
+export async function notifyUpdateResult({ updatedBookIds, unupdatedBookIds, webhookUrl }: NotifyUpdateResultOpts) {
+  const updatedStatus = updatedBookIds.length > 0 ? updatedBookIds.join("\n") : "なし";
 
-  const unupdatedStatus =
-    unupdatedBookIds.length > 0 ? unupdatedBookIds.join("\n") : "なし";
+  const unupdatedStatus = unupdatedBookIds.length > 0 ? unupdatedBookIds.join("\n") : "なし";
 
   const text = `*🆙 更新済み*
 ${updatedStatus}

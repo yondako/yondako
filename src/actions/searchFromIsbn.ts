@@ -8,9 +8,7 @@ import type { ReadingStatus } from "@/types/readingStatus";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { headers } from "next/headers";
 
-export async function searchFromIsbn(
-  isbn: string,
-): Promise<BookType | undefined> {
+export async function searchFromIsbn(isbn: string): Promise<BookType | undefined> {
   const { env } = getCloudflareContext();
   const auth = getAuth(env.DB);
 
@@ -34,15 +32,10 @@ export async function searchFromIsbn(
   }
 
   // ライブラリを検索
-  const libraryBook = await getStatusesByBookIds(
-    env.DB,
-    session.user.id,
-    result.books,
-  );
+  const libraryBook = await getStatusesByBookIds(env.DB, session.user.id, result.books);
 
   // 自分の読書ステータス
-  const readingStatus: ReadingStatus =
-    libraryBook.at(0)?.readingStatus ?? "none";
+  const readingStatus: ReadingStatus = libraryBook.at(0)?.readingStatus ?? "none";
 
   return {
     detail: result.books[0],

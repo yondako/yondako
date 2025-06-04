@@ -15,12 +15,10 @@ type Props = {
   children: ReactNode;
 } & Partial<Pick<SearchResultProps, "ndc" | "sensitive" | "query">>;
 
-export default function SearchFilter({
-  children,
-  ndc = "",
-  sensitive,
-  query,
-}: Props) {
+/**
+ * 検索フィルターコンポーネント。NDC（日本十進分類法）によるカテゴリーフィルタとセンシティブコンテンツのフィルタリング機能を提供します。デスクトップではモーダル、モバイルではドロワーとして表示されます。
+ */
+export default function SearchFilter({ children, ndc = "", sensitive, query }: Props) {
   const commonCloseButtonStyle =
     "px-6 py-2.5 md:py-2 block w-full cursor-pointer rounded-full text-center hover:brightness-95 transition text-sm";
 
@@ -59,20 +57,13 @@ export default function SearchFilter({
           </div>
           <div className="mt-8 flex flex-col gap-2 md:flex-row md:flex-row-reverse">
             <Close
-              className={twMerge(
-                commonCloseButtonStyle,
-                "bg-accent text-center text-primary-background",
-              )}
+              className={twMerge(commonCloseButtonStyle, "bg-accent text-center text-primary-background")}
               type="submit"
             >
               絞り込む
             </Close>
             <Close
-              className={twMerge(
-                commonCloseButtonStyle,
-                "border border-accent text-center text-accent",
-                "md:w-[40%]",
-              )}
+              className={twMerge(commonCloseButtonStyle, "border border-accent text-center text-accent", "md:w-[40%]")}
               asChild
             >
               <Link href={`${PATH_SEARCH}?q=${query}`}>リセット</Link>

@@ -10,9 +10,7 @@ import * as userDBSchema from "../schema/user";
  * @param dbInstance D1のインスタンス
  * @returns エラーメッセージ
  */
-export async function deleteUser(
-  dbInstance: D1Database,
-): Promise<string | undefined> {
+export async function deleteUser(dbInstance: D1Database): Promise<string | undefined> {
   const { env } = getCloudflareContext();
   const auth = getAuth(env.DB);
 
@@ -27,10 +25,9 @@ export async function deleteUser(
   const userDB = getDB(dbInstance);
 
   try {
-    await userDB
-      .delete(userDBSchema.user)
-      .where(eq(userDBSchema.user.id, session.user.id));
+    await userDB.delete(userDBSchema.user).where(eq(userDBSchema.user.id, session.user.id));
   } catch (e) {
+    console.error("Failed to delete user:", e);
     return "アカウントの削除に失敗しました";
   }
 }

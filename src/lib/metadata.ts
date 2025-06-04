@@ -7,9 +7,7 @@ type MetadataOptions = {
 };
 
 export const generateMetadataTitle = (options?: MetadataOptions): Metadata => {
-  const title = options
-    ? `${options.pageTitle} | ${site.name}`
-    : `${site.name} | ${site.description.short}`;
+  const title = options ? `${options.pageTitle} | ${site.name}` : `${site.name} | ${site.description.short}`;
 
   const index = options?.noindex ? !options.noindex : true;
 

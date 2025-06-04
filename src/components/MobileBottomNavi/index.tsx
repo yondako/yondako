@@ -7,11 +7,10 @@ import Link from "next/link";
 import { useSelectedLayoutSegments } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 
-export default function MobileBottomNavi({
-  latestNewsTimestamp,
-  className,
-  ...props
-}: NaviProps) {
+/**
+ * モバイルデバイス向けのボトムナビゲーションコンポーネント。主要なページへのナビゲーションリンクを提供します。
+ */
+export default function MobileBottomNavi({ latestNewsTimestamp, className, ...props }: NaviProps) {
   const segments = useSelectedLayoutSegments().join("/");
   const hasNewNews = useCheckLatestNews(latestNewsTimestamp);
 
@@ -24,34 +23,29 @@ export default function MobileBottomNavi({
       )}
     >
       <div className="flex w-full max-w-96 justify-between px-8">
-        {naviItems.map(
-          ({ title, href, matchSegmentsRegExp, IconSolid, IconFilled }) => {
-            const isCurrent = matchSegmentsRegExp.test(segments);
-            const Icon = isCurrent ? IconFilled : IconSolid;
-            const to = typeof href === "string" ? href : href.mobile;
-            const badge = title === "お知らせ" && hasNewNews;
+        {naviItems.map(({ title, href, matchSegmentsRegExp, IconSolid, IconFilled }) => {
+          const isCurrent = matchSegmentsRegExp.test(segments);
+          const Icon = isCurrent ? IconFilled : IconSolid;
+          const to = typeof href === "string" ? href : href.mobile;
+          const badge = title === "お知らせ" && hasNewNews;
 
-            return (
-              <Link
-                className={twMerge(
-                  "relative flex w-full flex-col items-center py-4",
-                  isCurrent && "text-accent",
-                )}
-                href={to}
-                aria-current={isCurrent ? "page" : undefined}
-                key={title}
-              >
-                {badge && (
-                  <div
-                    className="absolute top-3 right-3 h-2.5 w-2.5 rounded-full bg-red-400 outline outline-2 outline-primary-background outline-offset-0"
-                    aria-label="新しい通知があります"
-                  />
-                )}
-                <Icon className="h-7 w-7" />
-              </Link>
-            );
-          },
-        )}
+          return (
+            <Link
+              className={twMerge("relative flex w-full flex-col items-center py-4", isCurrent && "text-accent")}
+              href={to}
+              aria-current={isCurrent ? "page" : undefined}
+              key={title}
+            >
+              {badge && (
+                <div
+                  className="absolute top-3 right-3 h-2.5 w-2.5 rounded-full bg-red-400 outline outline-2 outline-primary-background outline-offset-0"
+                  aria-label="新しい通知があります"
+                />
+              )}
+              <Icon className="h-7 w-7" />
+            </Link>
+          );
+        })}
       </div>
     </nav>
   );

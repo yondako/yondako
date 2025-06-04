@@ -9,7 +9,5 @@ test("お知らせページを開いた時刻を保存すること", () => {
 
   render(<UpdateLastNewsCheckedAt />);
 
-  expect(localStorage.getItem(lastNewsCheckedKey)).toBe(
-    mockTimestamp.toString(),
-  );
+  expect(localStorage.getItem(lastNewsCheckedKey)).toBe(mockTimestamp.toString());
 });

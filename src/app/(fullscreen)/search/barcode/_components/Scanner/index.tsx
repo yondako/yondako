@@ -7,13 +7,7 @@ import MobileHeader from "@/components/MobileHeader";
 import type { BookType } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
 import Quagga from "@ericblade/quagga2";
-import {
-  useCallback,
-  useOptimistic,
-  useReducer,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useOptimistic, useReducer, useRef, useState } from "react";
 import { toast } from "sonner";
 import { searchFromIsbn } from "#actions/searchFromIsbn";
 import MessagePage from "../MessagePage";
@@ -22,10 +16,8 @@ import ScannerCore from "./Core";
 export default function Scanner() {
   const [isCameraError, setIsCameraError] = useState(false);
   const [searchResult, setSearchResult] = useState<BookType | null>(null);
-  const [displayReadingStatus, setDisplayReadingStatus] =
-    useState<ReadingStatus>("none");
-  const [optimisticStatus, addOptimisticStatus] =
-    useOptimistic(displayReadingStatus);
+  const [displayReadingStatus, setDisplayReadingStatus] = useState<ReadingStatus>("none");
+  const [optimisticStatus, addOptimisticStatus] = useOptimistic(displayReadingStatus);
   const [torchOn, toggleTorchOn] = useReducer((v) => !v, false);
   const scannerRef = useRef<HTMLDivElement>(null);
   const isSearched = useRef(false);
@@ -98,15 +90,9 @@ export default function Scanner() {
   return (
     <>
       <MobileHeader className="fixed inset-0 z-10 h-fit text-white" />
-      <div
-        className="relative h-svh w-screen bg-primary-background [&>video]:h-full"
-        ref={scannerRef}
-      >
+      <div className="relative h-svh w-screen bg-primary-background [&>video]:h-full" ref={scannerRef}>
         <div className="absolute inset-x-0 top-0 h-2/5 bg-black/40">
-          <button
-            className="absolute top-8 right-8 z-20 text-white"
-            onClick={handleTorchClick}
-          >
+          <button className="absolute top-8 right-8 z-20 text-white" onClick={handleTorchClick}>
             <IconBlubStatus className="h-8 w-8" />
           </button>
           <div className="absolute bottom-8 w-full text-center text-white">
@@ -120,11 +106,7 @@ export default function Scanner() {
           className="drawingBuffer" // これがないと Quagga に認識されない
           style={{ position: "absolute" }}
         />
-        <ScannerCore
-          scannerRef={scannerRef}
-          onDetected={handleDetected}
-          onInitError={handleInitError}
-        />
+        <ScannerCore scannerRef={scannerRef} onDetected={handleDetected} onInitError={handleInitError} />
       </div>
 
       {searchResult && (

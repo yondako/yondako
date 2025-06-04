@@ -33,8 +33,7 @@ describe("extractBookTitle", () => {
   });
 
   test("URLが削除される", () => {
-    const text =
-      "書籍のタイトル (出版社) https://example.com そして http://example.org";
+    const text = "書籍のタイトル (出版社) https://example.com そして http://example.org";
     const result = extractBookTitle(text);
     expect(result).toBe("書籍のタイトル");
   });
@@ -46,8 +45,7 @@ describe("fetchSiteTitle", () => {
   });
 
   test("サイトのタイトルを正常に取得できる", async () => {
-    const mockHtml =
-      "<html><head><title>テストタイトル</title></head><body></body></html>";
+    const mockHtml = "<html><head><title>テストタイトル</title></head><body></body></html>";
     global.fetch = jest.fn(() =>
       Promise.resolve({
         ok: true,

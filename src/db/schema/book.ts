@@ -1,11 +1,6 @@
 import { readingStatusValues } from "@/types/readingStatus";
 import { relations, sql } from "drizzle-orm";
-import {
-  integer,
-  primaryKey,
-  sqliteTable,
-  text,
-} from "drizzle-orm/sqlite-core";
+import { integer, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { v7 as uuidv7 } from "uuid";
 import { user } from "./user";
 
@@ -130,19 +125,16 @@ export const readingStatuses = sqliteTable(
   (t) => [primaryKey({ columns: [t.userId, t.bookId] })],
 );
 
-export const readingStatusesRelations = relations(
-  readingStatuses,
-  ({ one }) => ({
-    user: one(user, {
-      fields: [readingStatuses.userId],
-      references: [user.id],
-    }),
-    book: one(books, {
-      fields: [readingStatuses.bookId],
-      references: [books.id],
-    }),
+export const readingStatusesRelations = relations(readingStatuses, ({ one }) => ({
+  user: one(user, {
+    fields: [readingStatuses.userId],
+    references: [user.id],
   }),
-);
+  book: one(books, {
+    fields: [readingStatuses.bookId],
+    references: [books.id],
+  }),
+}));
 
 /**
  * センシティブな書籍の除外用のNGワード

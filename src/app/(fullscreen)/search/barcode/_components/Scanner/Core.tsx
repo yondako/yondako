@@ -64,20 +64,14 @@ function getMedian(arr: number[]): number {
  * Custom Hooks にしたらなんかトーチの制御がうまくいかなくなったので、サンプル通りコンポーネントにしてる
  * 具体的には1回目のトーチのON時に Operation Error: The associated Track is in an invalid state. が発生する
  */
-export default function ScannerCore({
-  scannerRef,
-  onDetected,
-  onInitError,
-}: Props) {
+export default function ScannerCore({ scannerRef, onDetected, onInitError }: Props) {
   const prevScanCode = useRef("");
 
   const checkError = useCallback(
     (result: QuaggaJSResultObject) => {
       const { code, decodedCodes } = result.codeResult;
 
-      const errors = decodedCodes
-        .flatMap((x) => x.error)
-        .filter((x) => typeof x === "number");
+      const errors = decodedCodes.flatMap((x) => x.error).filter((x) => typeof x === "number");
 
       const medianOfErrors = getMedian(errors);
 
@@ -110,16 +104,11 @@ export default function ScannerCore({
       }
 
       const isLandscape =
-        screen.orientation.type === "landscape-primary" ||
-        screen.orientation.type === "landscape-secondary";
+        screen.orientation.type === "landscape-primary" || screen.orientation.type === "landscape-secondary";
 
       // getUserMedia API で取得できるサイズは常に横向きなので、縦向きの場合は入れ替える
-      const constraintsWidth = isLandscape
-        ? window.innerWidth
-        : window.innerHeight;
-      const constraintsHeight = isLandscape
-        ? window.innerHeight
-        : window.innerWidth;
+      const constraintsWidth = isLandscape ? window.innerWidth : window.innerHeight;
+      const constraintsHeight = isLandscape ? window.innerHeight : window.innerWidth;
 
       try {
         await Quagga.init(

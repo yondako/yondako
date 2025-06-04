@@ -7,6 +7,9 @@ type Props = {
   items: BookType[];
 } & ComponentPropsWithoutRef<"div">;
 
+/**
+ * 書籍リストを表示するコンポーネント。書籍カードをグリッドレイアウトで表示します。
+ */
 export default function BookList({ items, ...props }: Props) {
   return (
     <div

@@ -1,8 +1,4 @@
-import {
-  fetchSimpleBooksByIds,
-  incrementBooksUpdateCheckCount,
-  updateBooksMissingNdlBibId,
-} from "@/db/queries/book";
+import { fetchSimpleBooksByIds, incrementBooksUpdateCheckCount, updateBooksMissingNdlBibId } from "@/db/queries/book";
 import { normalizeIsbn } from "@/lib/isbn";
 import { searchBooksFromNDL } from "@/lib/ndl";
 import type { BookDetail } from "@/types/book";
@@ -52,9 +48,7 @@ export async function updateNewReleaseBooks(bookIds: string[]) {
 
   // Slackに通知
   await notifyUpdateResult({
-    updatedBookIds: targetBooks
-      .filter((book) => !unupdatedBookIds.includes(book.id))
-      .map((book) => book.id),
+    updatedBookIds: targetBooks.filter((book) => !unupdatedBookIds.includes(book.id)).map((book) => book.id),
     unupdatedBookIds,
     webhookUrl,
   });
@@ -86,11 +80,7 @@ async function checkAndUpdateBook(
   const resultBook = result?.books?.at(0);
 
   // NDL書誌IDが取得できなかった、またはISBNが一致しない場合はスキップ
-  if (
-    !resultBook ||
-    !resultBook.ndlBibId ||
-    normalizeIsbn(resultBook.isbn) !== normalizeIsbn(isbn)
-  ) {
+  if (!resultBook || !resultBook.ndlBibId || normalizeIsbn(resultBook.isbn) !== normalizeIsbn(isbn)) {
     return bookId;
   }
 

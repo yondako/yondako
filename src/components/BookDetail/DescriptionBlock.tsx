@@ -5,6 +5,9 @@ type Props = {
   values: string[];
 };
 
+/**
+ * 書籍の詳細情報を表示するブロックコンポーネント。ラベルと値のリストを表示し、複数の値がある場合はカンマ区切りで表示します。
+ */
 export function DescriptionBlock({ label, values }: Props) {
   return (
     <div className="my-auto w-fit space-y-1 text-center text-xs">

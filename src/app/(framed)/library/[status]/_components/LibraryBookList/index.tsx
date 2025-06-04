@@ -1,21 +1,35 @@
 import BookList from "@/components/BookList";
 import Pagination from "@/components/Pagination";
 import SayTako from "@/components/SayTako";
-import {
-  type SearchBooksFromLibraryOptions,
-  searchBooksFromLibrary,
-} from "@/db/queries/status";
+import { type SearchBooksFromLibraryOptions, searchBooksFromLibrary } from "@/db/queries/status";
 import { getAuth } from "@/lib/auth";
-import type { ReadingStatus } from "@/types/readingStatus";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { headers } from "next/headers";
 import Filter from "./Filter";
 
-const pageSize = 24;
+import type { ReadingStatus } from "@/types/readingStatus";
 
-export async function LibraryBookList(
-  props: Omit<SearchBooksFromLibraryOptions, "userId" | "pageSize">,
-) {
+export const pageSize = 24;
+
+/**
+ * ライブラリのステータスに応じた空メッセージを取得
+ * @param status ライブラリのステータス
+ * @returns 空メッセージ
+ */
+function getEmptyMessage(status: ReadingStatus) {
+  switch (status) {
+    case "reading":
+      return "ｶﾗｯﾎﾟ";
+    case "read":
+      return "ﾅﾆﾓﾅｲ";
+    case "want_read":
+      return "ｽｯｷﾘ";
+    default:
+      return "ｺｺﾊﾄﾞｺ";
+  }
+}
+
+export async function LibraryBookList(props: Omit<SearchBooksFromLibraryOptions, "userId" | "pageSize">) {
   const { env } = getCloudflareContext();
   const auth = getAuth(env.DB);
 
@@ -49,33 +63,9 @@ export async function LibraryBookList(
       ) : (
         <>
           <BookList className="mt-2" items={books} />
-          {totalPage !== 1 && (
-            <Pagination
-              className="mt-auto pt-10"
-              currentPage={props.page}
-              totalPage={totalPage}
-            />
-          )}
+          {totalPage !== 1 && <Pagination className="mt-auto pt-10" currentPage={props.page} totalPage={totalPage} />}
         </>
       )}
     </>
   );
-}
-
-/**
- * ライブラリのステータスに応じた空メッセージを取得
- * @param status ライブラリのステータス
- * @returns 空メッセージ
- */
-function getEmptyMessage(status: ReadingStatus) {
-  switch (status) {
-    case "reading":
-      return "ｶﾗｯﾎﾟ";
-    case "read":
-      return "ﾅﾆﾓﾅｲ";
-    case "want_read":
-      return "ｽｯｷﾘ";
-    default:
-      return "ｺｺﾊﾄﾞｺ";
-  }
 }

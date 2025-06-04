@@ -3,10 +3,7 @@
 import { animated, useInView } from "@react-spring/web";
 import type { ComponentPropsWithRef } from "react";
 
-export default function SlideIn({
-  className,
-  children,
-}: Pick<ComponentPropsWithRef<"div">, "className" | "children">) {
+export default function SlideIn({ className, children }: Pick<ComponentPropsWithRef<"div">, "className" | "children">) {
   const [ref, springs] = useInView(
     () => ({
       from: {

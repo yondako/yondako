@@ -6,11 +6,7 @@ type Props = {
   children: ReactNode;
 };
 
-export default function SettingProperty({
-  title,
-  description,
-  children,
-}: Props) {
+export default function SettingProperty({ title, description, children }: Props) {
   return (
     <div className="flex flex-col justify-between space-y-2 sm:flex-row sm:items-center sm:space-x-2 sm:space-y-0">
       <div>

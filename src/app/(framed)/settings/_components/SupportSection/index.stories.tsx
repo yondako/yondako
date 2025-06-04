@@ -2,8 +2,9 @@ import type { Meta, StoryObj } from "@storybook/react";
 import SupportSection from ".";
 
 const meta: Meta<typeof SupportSection> = {
-  title: "App/Framed/Settings/SupportSection",
+  title: "Pages/Settings/SupportSection",
   component: SupportSection,
+  tags: ["autodocs"],
 };
 
 export default meta;

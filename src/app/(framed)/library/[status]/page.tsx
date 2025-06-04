@@ -1,14 +1,10 @@
-import { Loading } from "@/components/Loading";
 import { readingStatusMetadata } from "@/constants/status";
 import { getAuth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
 import { type Order, orderSchema } from "@/types/order";
 import { pageIndexSchema } from "@/types/page";
-import {
-  type ReadingStatus,
-  readingStatusSchemaWithoutNone,
-} from "@/types/readingStatus";
+import { type ReadingStatus, readingStatusSchemaWithoutNone } from "@/types/readingStatus";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
@@ -16,6 +12,8 @@ import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
 import { is, safeParse } from "valibot";
 import { LibraryBookList } from "./_components/LibraryBookList";
+import LibraryBookListSkeleton from "./_components/LibraryBookList/Skeleton";
+import { SwipeableTabView } from "./_components/SwipeableTabView";
 import Tab from "./_components/Tab";
 
 export const dynamic = "force-dynamic";
@@ -61,42 +59,33 @@ export default async function Library(props: Props) {
     redirect(createSignInPath(`/library/${params.status}`));
   }
 
-  // ライブラリのステータスが不正な場合は404にリダイレクト
   if (!is(readingStatusSchemaWithoutNone, params.status)) {
     notFound();
   }
 
-  const searchParams = await props.searchParams;
+  const isDesktop = (await headers()).get("X-IS-DESKTOP") !== null;
 
-  // ページ数
-  const pageParseResult = safeParse(
-    pageIndexSchema,
-    Number.parseInt(searchParams.page ?? "1"),
-  );
+  const searchParams = await props.searchParams;
+  const pageParseResult = safeParse(pageIndexSchema, Number.parseInt(searchParams.page ?? "1"));
+
   const page = pageParseResult.success ? pageParseResult.output : 1;
 
-  // ソート順
   const orderParseResult = safeParse(orderSchema, searchParams.order);
   const orderType = orderParseResult.success ? orderParseResult.output : "desc";
+
+  const contents = (
+    <Suspense
+      fallback={<LibraryBookListSkeleton pageReadingStatus={params.status} />}
+      key={`${params.status}-${page}-${orderType}-${searchParams.q}`}
+    >
+      <LibraryBookList status={params.status} page={page} order={orderType} titleKeyword={searchParams.q} />
+    </Suspense>
+  );
 
   return (
     <>
       <Tab current={params.status} />
-      <Suspense
-        fallback={
-          <Loading
-            className="mt-12 justify-start lg:mt-0 lg:justify-center"
-            title="読み込んでいます"
-          />
-        }
-      >
-        <LibraryBookList
-          status={params.status}
-          page={page}
-          order={orderType}
-          titleKeyword={searchParams.q}
-        />
-      </Suspense>
+      {isDesktop ? contents : <SwipeableTabView currentStatus={params.status}>{contents}</SwipeableTabView>}
     </>
   );
 }

@@ -1,12 +1,38 @@
 import { NDCList } from "@/types/ndc";
-import { INITIAL_VIEWPORTS } from "@storybook/addon-viewport";
 import type { Meta, StoryObj } from "@storybook/react";
-import { expect, userEvent, waitFor, within } from "@storybook/test";
+import { expect, userEvent, waitFor, within } from "storybook/test";
 import SearchFilter from ".";
 
 const meta: Meta<typeof SearchFilter> = {
-  title: "SearchFilter/SearchFilter",
+  title: "Pages/Search/SearchFilter",
   component: SearchFilter,
+  tags: ["autodocs"],
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+      navigation: {
+        pathname: "/search",
+      },
+    },
+  },
+  argTypes: {
+    children: {
+      description: "フィルターを開くトリガー要素",
+      control: false,
+    },
+    ndc: {
+      description: "現在選択されているNDCカテゴリー",
+      control: "text",
+    },
+    sensitive: {
+      description: "センシティブコンテンツフィルタの状態",
+      control: "boolean",
+    },
+    query: {
+      description: "現在の検索クエリ",
+      control: "text",
+    },
+  },
   args: {
     children: <button>Open Filter</button>,
     ndc: "",
@@ -19,14 +45,6 @@ const meta: Meta<typeof SearchFilter> = {
     // モーダルを開く
     await userEvent.click(canvas.getByRole("button", { name: /open filter/i }));
   },
-  parameters: {
-    nextjs: {
-      appDirectory: true,
-      navigation: {
-        pathname: "/search",
-      },
-    },
-  },
 };
 
 export default meta;
@@ -34,8 +52,13 @@ type Story = StoryObj<typeof SearchFilter>;
 
 export const Desktop: Story = {
   parameters: {
+    docs: {
+      description: {
+        story:
+          "デスクトップ表示での検索フィルター。モーダルダイアログとして表示され、NDCカテゴリー選択とセンシティブコンテンツフィルタリングが可能です。",
+      },
+    },
     viewport: {
-      viewports: INITIAL_VIEWPORTS,
       defaultViewport: "ipad12p",
     },
   },
@@ -43,8 +66,13 @@ export const Desktop: Story = {
 
 export const Mobile: Story = {
   parameters: {
+    docs: {
+      description: {
+        story:
+          "モバイル表示での検索フィルター。ボトムシートドロワーとして表示され、タッチ操作に最適化されたレイアウトで検索フィルターを設定できます。",
+      },
+    },
     viewport: {
-      viewports: INITIAL_VIEWPORTS,
       defaultViewport: "iphone14",
     },
   },
@@ -52,6 +80,14 @@ export const Mobile: Story = {
 
 export const closeReset: Story = {
   name: "キャンセルしたら状態がリセットされる",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "フィルターモーダルで変更を加えた後、キャンセルボタンで閉じると変更が破棄され、元の状態にリセットされることをテストします。",
+      },
+    },
+  },
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
     const openButton = canvas.getByRole("button", { name: /open filter/i });
@@ -77,9 +113,7 @@ export const closeReset: Story = {
 
       // モーダルが閉じるのを待つ
       await waitFor(() => {
-        expect(
-          modalCanvas.queryByRole("radio", { name: NDCList[1].label }),
-        ).toBeNull();
+        expect(modalCanvas.queryByRole("radio", { name: NDCList[1].label })).toBeNull();
       });
     });
 

@@ -16,29 +16,16 @@ export default function AccountSection({ userId }: Props) {
         <span>アカウント</span>
       </h2>
       <div className="mt-6 w-full space-y-6 rounded-2xl bg-tertiary-background p-8">
-        <SettingProperty
-          title="ユーザーID"
-          description="サポート時などに使用します"
-        >
+        <SettingProperty title="ユーザーID" description="サポート時などに使用します">
           <p className="break-all text-primary-foreground text-sm">{userId}</p>
         </SettingProperty>
 
-        <SettingProperty
-          title="ログアウト"
-          description="このデバイスからログアウトして、トップページに戻ります"
-        >
+        <SettingProperty title="ログアウト" description="このデバイスからログアウトして、トップページに戻ります">
           <LogoutButton />
         </SettingProperty>
 
-        <SettingProperty
-          title="退会"
-          description="アカウントを削除して退会します"
-        >
-          <Button
-            className="block w-full bg-rose-700 text-primary-background text-sm sm:w-48"
-            asChild
-            style="noBorder"
-          >
+        <SettingProperty title="退会" description="アカウントを削除して退会します">
+          <Button className="block w-full bg-rose-700 text-primary-background text-sm sm:w-48" asChild style="noBorder">
             <Link href="/settings/goodbye">アカウントを削除</Link>
           </Button>
         </SettingProperty>

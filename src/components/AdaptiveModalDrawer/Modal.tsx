@@ -1,14 +1,13 @@
 import IconClose from "@/assets/icons/x.svg";
 import * as Dialog from "@radix-ui/react-dialog";
-import {
-  type AnimationResult,
-  animated,
-  useTransition,
-} from "@react-spring/web";
+import { type AnimationResult, animated, useTransition } from "@react-spring/web";
 import { useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import type { AdaptiveModalDrawerProps } from "./props";
 
+/**
+ * デスクトップ環境でモーダルダイアログとして表示される適応型コンポーネント。画面の中央にオーバーレイとして表示され、背景をクリックして閉じることができます。
+ */
 export default function Modal({
   open = false,
   onOpenChange,
@@ -33,13 +32,9 @@ export default function Modal({
       const rect = ref.current?.getBoundingClientRect();
 
       // トリガー要素の中央座標を%で算出
-      const top = rect?.top
-        ? `${((rect.top + rect.height * 0.5) / window.innerHeight) * 100}%`
-        : "50%";
+      const top = rect?.top ? `${((rect.top + rect.height * 0.5) / window.innerHeight) * 100}%` : "50%";
 
-      const left = rect?.left
-        ? `${((rect.left + rect.width * 0.5) / window.innerWidth) * 100}%`
-        : "50%";
+      const left = rect?.left ? `${((rect.left + rect.width * 0.5) / window.innerWidth) * 100}%` : "50%";
 
       return {
         scale: 0.25,
@@ -93,11 +88,10 @@ export default function Modal({
         {transitions(
           (style, isOpen) =>
             isOpen && (
-              <>
-                <Overlay
-                  className="fixed inset-0 bg-black/40"
-                  style={{ opacity: style.opacity }}
-                />
+              // NOTE: React.Fragment. React.Fragment can only have key and children props が出るのを防ぐため div で代用
+              // @see https://github.com/tailwindlabs/headlessui/issues/3351#issuecomment-2808599323
+              <div className="contents">
+                <Overlay className="fixed inset-0 bg-black/40" style={{ opacity: style.opacity }} />
                 <Content
                   className={twMerge(
                     "fixed flex items-center rounded-2xl bg-primary-background p-10",
@@ -112,7 +106,7 @@ export default function Modal({
                 >
                   <Dialog.Close
                     className={
-                      "absolute top-4 right-4 text-secondary-foreground transition-colors hover:text-primary-foreground"
+                      "absolute top-4 right-4 cursor-pointer rounded bg-primary-background p-1 text-secondary-foreground transition hover:brightness-95"
                     }
                     data-testid="button-close"
                   >
@@ -124,7 +118,7 @@ export default function Modal({
                     Close: Dialog.Close,
                   })}
                 </Content>
-              </>
+              </div>
             ),
         )}
       </Dialog.Portal>

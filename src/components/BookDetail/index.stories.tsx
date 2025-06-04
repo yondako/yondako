@@ -1,12 +1,22 @@
 import { createDummyBookDetail } from "@/_mocks/book";
-import { INITIAL_VIEWPORTS } from "@storybook/addon-viewport";
 import type { Meta, StoryObj } from "@storybook/react";
-import { fn } from "@storybook/test";
+import { fn } from "storybook/test";
 import BookDetail from ".";
 
 const meta: Meta<typeof BookDetail> = {
-  title: "Common/BookDetail",
+  title: "Components/BookDetail",
   component: BookDetail,
+  tags: ["autodocs"],
+  argTypes: {
+    open: {
+      description: "ダイアログの表示状態",
+      control: { type: "boolean" },
+    },
+    bookDetailProps: {
+      description: "書籍詳細のプロパティ",
+      control: false,
+    },
+  },
   args: {
     open: true,
     bookDetailProps: {
@@ -24,11 +34,6 @@ const meta: Meta<typeof BookDetail> = {
       onChangeOptimisticStatus: fn(),
     },
   },
-  parameters: {
-    viewport: {
-      viewports: INITIAL_VIEWPORTS,
-    },
-  },
 };
 
 export default meta;
@@ -36,6 +41,11 @@ type Story = StoryObj<typeof BookDetail>;
 
 export const Desktop: Story = {
   parameters: {
+    docs: {
+      description: {
+        story: "デスクトップ表示での書籍詳細ダイアログ。モーダルとして中央に表示されます。",
+      },
+    },
     viewport: {
       defaultViewport: "ipad12p",
     },
@@ -44,6 +54,11 @@ export const Desktop: Story = {
 
 export const Mobile: Story = {
   parameters: {
+    docs: {
+      description: {
+        story: "モバイル表示での書籍詳細ダイアログ。下からスライドアップするドロワーとして表示されます。",
+      },
+    },
     viewport: {
       defaultViewport: "iphone14",
     },

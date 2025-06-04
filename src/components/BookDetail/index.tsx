@@ -9,11 +9,10 @@ type Props = {
   bookDetailProps: Omit<BookDetailContentProps, "Title" | "Description">;
 } & Omit<DialogProps, "defaultOpen" | "modal">;
 
-export default function BookDetail({
-  bookDetailProps,
-  children,
-  ...props
-}: Props) {
+/**
+ * 書籍の詳細情報を表示するダイアログコンポーネント。デスクトップではモーダル、モバイルではドロワーとして表示されます。
+ */
+export default function BookDetail({ bookDetailProps, children, ...props }: Props) {
   return (
     <AdaptiveModalDrawer
       contentClassName="lg:px-12 lg:pl-[8.625rem] lg:min-h-[17.5rem]"
@@ -32,10 +31,7 @@ export default function BookDetail({
           />
           <BookDetailContent
             {...bookDetailProps}
-            className={twMerge(
-              "mt-4 max-w-sm",
-              "lg:mt-0 lg:w-[28rem] lg:max-w-none lg:text-left",
-            )}
+            className={twMerge("mt-4 max-w-sm", "lg:mt-0 lg:w-[28rem] lg:max-w-none lg:text-left")}
             Title={Title}
             Description={Description}
           />

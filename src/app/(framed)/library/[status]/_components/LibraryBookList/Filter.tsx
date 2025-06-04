@@ -8,15 +8,15 @@ import type { Order } from "@/types/order";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
-import {
-  createFilterSearchParams,
-  removeKeywordParam,
-} from "./filterSearchParams";
+import { createFilterSearchParams, removeKeywordParam } from "./filterSearchParams";
 
 type Props = {
   isOrderAsc: boolean;
 };
 
+/**
+ * ライブラリページの書籍リストをフィルタリングするコンポーネント。ジャンル、著者、出版社などの条件で書籍を絞り込み、並び順の変更も可能です。
+ */
 export default function Filter({ isOrderAsc }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -24,11 +24,7 @@ export default function Filter({ isOrderAsc }: Props) {
   const debounced = useDebouncedCallback((value) => {
     const keyword = String(value).trim();
 
-    router.replace(
-      keyword === ""
-        ? removeKeywordParam(searchParams)
-        : createFilterSearchParams(searchParams, keyword),
-    );
+    router.replace(keyword === "" ? removeKeywordParam(searchParams) : createFilterSearchParams(searchParams, keyword));
   }, 600);
 
   const IconSort = isOrderAsc ? IconSortAsc : IconSortDesc;
@@ -39,19 +35,13 @@ export default function Filter({ isOrderAsc }: Props) {
       <Input
         className="grow text-sm sm:max-w-64 lg:text-xs"
         placeholder="タイトルの一部"
+        defaultValue={searchParams.get("q") ?? ""}
         onChange={(e) => debounced(e.target.value)}
         search
       />
 
-      <Button
-        className="flex w-40 items-center justify-center space-x-1 p-0 text-xs"
-        asChild
-        style="noBorder"
-      >
-        <Link
-          href={createFilterSearchParams(searchParams, undefined, nextOrder)}
-          replace
-        >
+      <Button className="flex w-40 items-center justify-center space-x-1 p-0 text-xs" asChild style="noBorder">
+        <Link href={createFilterSearchParams(searchParams, undefined, nextOrder)} replace>
           <IconSort className="h-5" />
           <span>{isOrderAsc ? "登録日が古い" : "最近登録した"}</span>
         </Link>

@@ -2,17 +2,7 @@ import { normalizeIsbn } from "@/lib/isbn";
 import type { BookDetailWithoutId, BookType } from "@/types/book";
 import type { Order } from "@/types/order";
 import type { ReadingStatus } from "@/types/readingStatus";
-import {
-  and,
-  asc,
-  count,
-  desc,
-  eq,
-  getTableColumns,
-  inArray,
-  or,
-  sql,
-} from "drizzle-orm";
+import { and, asc, count, desc, eq, getTableColumns, inArray, or, sql } from "drizzle-orm";
 import { getDB } from "..";
 import * as dbSchema from "../schema/book";
 
@@ -36,10 +26,7 @@ export async function upsertReadingStatus(
     .insert(dbSchema.readingStatuses)
     .values({ userId, bookId, status })
     .onConflictDoUpdate({
-      target: [
-        dbSchema.readingStatuses.userId,
-        dbSchema.readingStatuses.bookId,
-      ],
+      target: [dbSchema.readingStatuses.userId, dbSchema.readingStatuses.bookId],
       set: { status },
     })
     .returning()
@@ -72,14 +59,7 @@ type BookReadimgStatusResult = {
  */
 export async function searchBooksFromLibrary(
   dbInstance: D1Database,
-  {
-    userId,
-    status,
-    order,
-    page,
-    pageSize,
-    titleKeyword,
-  }: SearchBooksFromLibraryOptions,
+  { userId, status, order, page, pageSize, titleKeyword }: SearchBooksFromLibraryOptions,
 ): Promise<BookReadimgStatusResult> {
   const db = getDB(dbInstance);
 
@@ -99,19 +79,12 @@ export async function searchBooksFromLibrary(
           },
         })
         .from(dbSchema.readingStatuses)
-        .where(
-          and(
-            eq(dbSchema.readingStatuses.userId, userId),
-            eq(dbSchema.readingStatuses.status, status),
-          ),
-        )
+        .where(and(eq(dbSchema.readingStatuses.userId, userId), eq(dbSchema.readingStatuses.status, status)))
         .innerJoin(
           dbSchema.books,
           and(
             eq(dbSchema.readingStatuses.bookId, dbSchema.books.id),
-            escapedTitleKeyword
-              ? sql`${dbSchema.books.title} LIKE ${escapedTitleKeyword} ESCAPE '\\'`
-              : undefined,
+            escapedTitleKeyword ? sql`${dbSchema.books.title} LIKE ${escapedTitleKeyword} ESCAPE '\\'` : undefined,
           ),
         ),
     );
@@ -127,36 +100,16 @@ export async function searchBooksFromLibrary(
           book: {
             ...results.book,
           },
-          authors: sql<
-            string | null
-          >`GROUP_CONCAT(DISTINCT ${dbSchema.authors.name})`,
-          publishers: sql<
-            string | null
-          >`GROUP_CONCAT(DISTINCT ${dbSchema.publishers.name})`,
+          authors: sql<string | null>`GROUP_CONCAT(DISTINCT ${dbSchema.authors.name})`,
+          publishers: sql<string | null>`GROUP_CONCAT(DISTINCT ${dbSchema.publishers.name})`,
         })
         .from(results)
-        .leftJoin(
-          dbSchema.bookAuthors,
-          eq(results.book.id, dbSchema.bookAuthors.bookId),
-        )
-        .leftJoin(
-          dbSchema.authors,
-          eq(dbSchema.bookAuthors.authorId, dbSchema.authors.id),
-        )
-        .leftJoin(
-          dbSchema.bookPublishers,
-          eq(results.book.id, dbSchema.bookPublishers.bookId),
-        )
-        .leftJoin(
-          dbSchema.publishers,
-          eq(dbSchema.bookPublishers.publisherId, dbSchema.publishers.id),
-        )
+        .leftJoin(dbSchema.bookAuthors, eq(results.book.id, dbSchema.bookAuthors.bookId))
+        .leftJoin(dbSchema.authors, eq(dbSchema.bookAuthors.authorId, dbSchema.authors.id))
+        .leftJoin(dbSchema.bookPublishers, eq(results.book.id, dbSchema.bookPublishers.bookId))
+        .leftJoin(dbSchema.publishers, eq(dbSchema.bookPublishers.publisherId, dbSchema.publishers.id))
         .groupBy(results.book.id)
-        .orderBy(
-          order === "asc"
-            ? asc(results.readingStatus.updatedAt)
-            : desc(results.readingStatus.updatedAt),
-        )
+        .orderBy(order === "asc" ? asc(results.readingStatus.updatedAt) : desc(results.readingStatus.updatedAt))
         .limit(pageSize)
         .offset(pageSize * (page - 1))
         .all(),
@@ -199,14 +152,10 @@ export async function getStatusesByBookIds(
 
   try {
     // NDL書誌ID
-    const ndlBibIds = bookIdentifiers
-      .map((b) => b.ndlBibId)
-      .filter((id) => typeof id === "string");
+    const ndlBibIds = bookIdentifiers.map((b) => b.ndlBibId).filter((id) => typeof id === "string");
 
     // ISBN
-    const isbns = bookIdentifiers
-      .map((b) => normalizeIsbn(b.isbn))
-      .filter((id) => typeof id === "string");
+    const isbns = bookIdentifiers.map((b) => normalizeIsbn(b.isbn)).filter((id) => typeof id === "string");
 
     // NDL書誌IDかISBNで書籍を検索
     const bookIds = db.$with("book_ids").as(
@@ -240,20 +189,13 @@ export async function getStatusesByBookIds(
       .where(
         and(
           eq(dbSchema.readingStatuses.userId, userId),
-          or(
-            inArray(bookIds.ndlBibId, ndlBibIds),
-            sql`replace(${bookIds.isbn}, '-', '') IN ${isbns}`,
-          ),
+          or(inArray(bookIds.ndlBibId, ndlBibIds), sql`replace(${bookIds.isbn}, '-', '') IN ${isbns}`),
         ),
       );
 
     const results = bookIdentifiers.map((b) => {
       const readingStatus: ReadingStatus =
-        raw.find(
-          (r) =>
-            b.ndlBibId === r.ndlBibId ||
-            normalizeIsbn(b.isbn) === normalizeIsbn(r.isbn),
-        )?.status ?? "none";
+        raw.find((r) => b.ndlBibId === r.ndlBibId || normalizeIsbn(b.isbn) === normalizeIsbn(r.isbn))?.status ?? "none";
 
       return {
         detail: b,

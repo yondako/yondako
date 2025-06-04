@@ -7,6 +7,9 @@ export type FooterProps = {
   portrait?: boolean;
 } & ComponentPropsWithoutRef<"div">;
 
+/**
+ * ページのフッター部分を表示するコンポーネント。ロゴとクレジット情報を含みます。
+ */
 export default function Footer({ portrait = false, ...props }: FooterProps) {
   const year = new Date().getFullYear();
 
@@ -14,11 +17,7 @@ export default function Footer({ portrait = false, ...props }: FooterProps) {
     <div {...props} className={twMerge("text-xs", props.className)}>
       <div className={portrait ? "space-y-1" : "space-x-2"}>
         {links.map(({ title, href }) => (
-          <ExternalLink
-            className={portrait ? "block" : "inline"}
-            href={href}
-            key={href}
-          >
+          <ExternalLink className={portrait ? "block" : "inline"} href={href} key={href}>
             {title}
           </ExternalLink>
         ))}

@@ -71,8 +71,7 @@ export async function updateReadingStatus(
     if (
       !results ||
       !book ||
-      (bookIdentifiers.ndlBibId &&
-        book.ndlBibId !== bookIdentifiers.ndlBibId) ||
+      (bookIdentifiers.ndlBibId && book.ndlBibId !== bookIdentifiers.ndlBibId) ||
       (bookIdentifiers.isbn && book.isbn !== bookIdentifiers.isbn)
     ) {
       return {
@@ -84,12 +83,7 @@ export async function updateReadingStatus(
   }
 
   // 読書ステータスの変更をDBに反映
-  const resultReadingStatus = await upsertReadingStatus(
-    env.DB,
-    session.user.id,
-    bookDetail.id,
-    status,
-  );
+  const resultReadingStatus = await upsertReadingStatus(env.DB, session.user.id, bookDetail.id, status);
 
   return {
     book: {

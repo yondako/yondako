@@ -48,9 +48,7 @@ export default async function MobileExclusive() {
         }
       >
         <p className="mt-3">よかったらスマホからアクセスしてみてください 🙏</p>
-        <p className="mt-1 text-xs">
-          (需要があれば、デスクトップ対応するかもしれません)
-        </p>
+        <p className="mt-1 text-xs">(需要があれば、デスクトップ対応するかもしれません)</p>
         <div className="mx-auto mt-12 w-48 rounded-2xl bg-tertiary-background p-4">
           <ImageQrCode className="text-accent" />
         </div>

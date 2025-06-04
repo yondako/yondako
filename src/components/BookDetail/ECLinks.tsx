@@ -6,6 +6,9 @@ type Props = {
   isbn: string;
 };
 
+/**
+ * ECサイトへのリンクを表示するコンポーネント。Amazon、楽天、紀伊國屋などのオンライン書店へのリンクを表示します。
+ */
 export default function ECLinks({ isbn }: Props) {
   const isbn10 = toIsbn10(isbn);
 
@@ -13,10 +16,7 @@ export default function ECLinks({ isbn }: Props) {
     {
       title: "Amazon",
       url: () => {
-        const url = new URL(
-          `/gp/product/${isbn10}/`,
-          "https://www.amazon.co.jp",
-        );
+        const url = new URL(`/gp/product/${isbn10}/`, "https://www.amazon.co.jp");
 
         return url.toString();
       },
@@ -24,10 +24,7 @@ export default function ECLinks({ isbn }: Props) {
     {
       title: "Rakuten",
       url: () => {
-        const url = new URL(
-          `/search/mall/${isbn}/`,
-          "https://search.rakuten.co.jp/",
-        );
+        const url = new URL(`/search/mall/${isbn}/`, "https://search.rakuten.co.jp/");
 
         return url.toString();
       },
@@ -46,10 +43,7 @@ export default function ECLinks({ isbn }: Props) {
     {
       title: "honto",
       url: () => {
-        const url = new URL(
-          `/ebook/search_10${isbn10}.html`,
-          "https://honto.jp",
-        );
+        const url = new URL(`/ebook/search_10${isbn10}.html`, "https://honto.jp");
 
         return url.toString();
       },

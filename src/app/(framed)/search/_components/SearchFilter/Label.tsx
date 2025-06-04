@@ -9,19 +9,14 @@ type Props = {
   className?: string;
 };
 
-export default function Label({
-  title,
-  description,
-  Title,
-  Description,
-  className,
-}: Props) {
+/**
+ * 検索フィルター内でセクションのラベルと説明を表示するコンポーネント。アクセシビリティを考慮し、スクリーンリーダーにも対応しています。
+ */
+export default function Label({ title, description, Title, Description, className }: Props) {
   return (
     <>
       <Title className={twMerge("font-bold", className)}>{title}</Title>
-      <Description className="mt-0.5 text-secondary-foreground text-xs">
-        {description}
-      </Description>
+      <Description className="mt-0.5 text-secondary-foreground text-xs">{description}</Description>
     </>
   );
 }

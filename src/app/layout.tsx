@@ -3,7 +3,6 @@ import "./globals.css";
 import { site } from "@/constants/site";
 import { LINESeedJP } from "@/lib/font";
 import type { Metadata } from "next";
-import Script from "next/script";
 
 export const metadata: Metadata = {
   description: site.description.long,
@@ -28,11 +27,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body
-        className={twMerge(
-          "bg-primary-background text-primary-foreground",
-          LINESeedJP.className,
-          LINESeedJP.variable,
-        )}
+        className={twMerge("bg-primary-background text-primary-foreground", LINESeedJP.className, LINESeedJP.variable)}
       >
         {children}
       </body>

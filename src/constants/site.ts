@@ -7,6 +7,7 @@ export const site = {
   url: "https://yondako.com",
   infoUrl: "https://info.yondako.com",
   github: "https://github.com/yondako/yondako",
+  xUrl: "https://x.com/yondako_com",
 };
 
 export const links = [

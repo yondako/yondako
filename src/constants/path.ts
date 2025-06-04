@@ -8,8 +8,7 @@ export const PATH_SEARCH = "/search";
 export const PATH_SEARCH_BARCODE = "/search/barcode";
 
 /** バーコード検索未対応ページ */
-export const PATH_SEARCH_BARCODE_MOBILE_EXCLUSIVE =
-  "/search/barcode/mobile-exclusive";
+export const PATH_SEARCH_BARCODE_MOBILE_EXCLUSIVE = "/search/barcode/mobile-exclusive";
 
 /** ライブラリページ */
 export const PATH_LIBLARY_WANT_READ = "/library/want_read";

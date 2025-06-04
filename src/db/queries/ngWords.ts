@@ -5,7 +5,7 @@ import * as dbSchema from "../schema/book";
 
 /**
  * NGワードの一覧を取得
- * NOTE: 24時間キャッシュされます
+ * NOTE: 1週間キャッシュされます
  * @param dbInstance D1のインスタンス
  * @returns NGワードの一覧
  */
@@ -25,7 +25,7 @@ export async function getAllNgWords(dbInstance: D1Database): Promise<string[]> {
     },
     ["ng-words"],
     {
-      revalidate: 60 * 60 * 24, // 24時間
+      revalidate: 60 * 60 * 24 * 7, // 1週間
     },
   )();
 }

@@ -19,12 +19,7 @@ export type SearchResultProps = {
   sensitive?: boolean;
 };
 
-export async function SearchResult({
-  query,
-  currentPage,
-  ndc,
-  sensitive,
-}: SearchResultProps) {
+export async function SearchResult({ query, currentPage, ndc, sensitive }: SearchResultProps) {
   const { env } = getCloudflareContext();
 
   const auth = getAuth(env.DB);
@@ -55,9 +50,7 @@ export async function SearchResult({
       <MessageTako
         className="mt-16"
         title="検索できませんでした"
-        decoration={
-          <span className="-right-2 absolute top-0 text-5xl">🔧</span>
-        }
+        decoration={<span className="-right-2 absolute top-0 text-5xl">🔧</span>}
       >
         <p className="mt-3">一時的に検索が利用できない状態です。</p>
         <p>時間をおいて、再度お試しください。</p>
@@ -71,9 +64,7 @@ export async function SearchResult({
       <MessageTako
         className="mt-16"
         title="見つかりませんでした"
-        decoration={
-          <span className="-right-8 absolute top-0 text-5xl">❓</span>
-        }
+        decoration={<span className="-right-8 absolute top-0 text-5xl">❓</span>}
       >
         <p className="mt-3">該当する書籍が見つかりませんでした。</p>
         <p>キーワードを変更して、再度お試しください。</p>
@@ -83,11 +74,7 @@ export async function SearchResult({
 
   console.log("search result", result.books.length);
 
-  const items = await getStatusesByBookIds(
-    env.DB,
-    session.user.id,
-    result.books,
-  );
+  const items = await getStatusesByBookIds(env.DB, session.user.id, result.books);
 
   const totalPage = Math.ceil(result.meta.totalResults / SEARCH_COUNT);
 
@@ -98,13 +85,7 @@ export async function SearchResult({
         <span className="text-base">冊 みつかりました</span>
       </h1>
       <BookList items={items} />
-      {totalPage > 1 && (
-        <Pagination
-          className="mt-auto pt-10"
-          currentPage={currentPage}
-          totalPage={totalPage}
-        />
-      )}
+      {totalPage > 1 && <Pagination className="mt-auto pt-10" currentPage={currentPage} totalPage={totalPage} />}
     </>
   );
 }

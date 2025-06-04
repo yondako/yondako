@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { expect, fn, userEvent, within } from "@storybook/test";
+import { expect, fn, userEvent, within } from "storybook/test";
 import { goodbyeUser } from "#src/actions/goodbyeUser.mock";
 import ConformInput from ".";
 
 const meta: Meta<typeof ConformInput> = {
-  title: "App/Framed/Settings/Goodbye/ConformInput",
+  title: "Pages/Settings/ConformInput",
   component: ConformInput,
+  tags: ["autodocs"],
   parameters: {
     nextjs: {
       appDirectory: true,

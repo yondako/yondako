@@ -53,9 +53,7 @@ export const createDummyXml = (total: number, children = "") => {
   `;
 };
 
-export const createDummyBookDetail = (
-  ndlBibId: string,
-): BookDetailWithoutId => {
+export const createDummyBookDetail = (ndlBibId: string): BookDetailWithoutId => {
   return {
     authors: ["ダミー著者"],
     isbn: "978-4-04-000000-0",

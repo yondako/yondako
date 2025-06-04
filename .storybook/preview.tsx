@@ -1,5 +1,4 @@
-import type { Preview } from "@storybook/react";
-import React from "react";
+import type { Preview } from "@storybook/nextjs";
 import { LINESeedJP } from "../src/lib/font";
 import "../src/app/globals.css";
 

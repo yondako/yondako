@@ -5,13 +5,7 @@ import { array, maxLength, object, pipe, safeParse, string } from "valibot";
 import { updateNewReleaseBooks } from "./_libs/checkAndUpdateBook";
 
 const requestBodySchema = object({
-  ids: pipe(
-    array(string()),
-    maxLength(
-      MAX_UPDATE_BOOKS_PER_REQUEST,
-      "1回のリクエストで更新可能な書籍は20件までです",
-    ),
-  ),
+  ids: pipe(array(string()), maxLength(MAX_UPDATE_BOOKS_PER_REQUEST, "1回のリクエストで更新可能な書籍は20件までです")),
 });
 
 /**

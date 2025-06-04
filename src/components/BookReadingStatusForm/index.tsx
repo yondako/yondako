@@ -4,9 +4,7 @@ import type { ReadingStatus } from "@/types/readingStatus";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 import { updateReadingStatus } from "#actions/updateReadingStatus";
-import BookReadingStatusButton, {
-  type BookReadingStatusButtonProps,
-} from "./ReadingStatusButton";
+import BookReadingStatusButton, { type BookReadingStatusButtonProps } from "./ReadingStatusButton";
 
 const order: ReadingStatus[] = ["want_read", "reading", "read"] as const;
 
@@ -24,6 +22,9 @@ type Props = {
 } & BookReadingStatusFormProps &
   Pick<BookReadingStatusButtonProps, "compact">;
 
+/**
+ * 本の読書ステータス（よみたい・読書中・読みおわった）を変更するためのフォームコンポーネント。各ステータスボタンをクリックして変更し、オプティミスティック更新でスムーズな操作を実現します。
+ */
 export default function BookReadingStatusForm({
   identifiers,
   bookTitle,
@@ -64,11 +65,7 @@ export default function BookReadingStatusForm({
   };
 
   return (
-    <form
-      {...props}
-      className={twMerge("text-accent", className)}
-      action={changeStatusFormAction}
-    >
+    <form {...props} className={twMerge("text-accent", className)} action={changeStatusFormAction}>
       {order.map((status) => {
         const meta = readingStatusMetadata.get(status);
 

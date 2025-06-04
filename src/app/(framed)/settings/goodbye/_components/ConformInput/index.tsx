@@ -28,21 +28,14 @@ export default function ConfirmInput() {
 
   return (
     <form className="mt-6 text-sm" action={dispatch}>
-      <Input
-        className="lg:max-w-96"
-        placeholder="アカウントを削除"
-        name="phrase"
-      />
+      <Input className="lg:max-w-96" placeholder="アカウントを削除" name="phrase" />
       {result.error && (
         <p className="mt-2 flex items-center space-x-1 text-rose-700">
           <IconExclamationCircle className="h-4 w-4" />
           <span>{result.error}</span>
         </p>
       )}
-      <Button
-        className="mt-4 block w-full bg-rose-700 text-primary-background text-sm lg:w-fit"
-        style="noBorder"
-      >
+      <Button className="mt-4 block w-full bg-rose-700 text-primary-background text-sm lg:w-fit" style="noBorder">
         👋 アカウントの削除を実行する
       </Button>
     </form>

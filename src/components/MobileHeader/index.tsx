@@ -4,6 +4,9 @@ import Link from "next/link";
 import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
 
+/**
+ * モバイルデバイス向けのヘッダーコンポーネント。アプリケーションの上部に表示されるロゴとタイトルを含みます。
+ */
 export default function MobileHeader(props: ComponentPropsWithoutRef<"div">) {
   const style = "p-8 pb-0 text-center";
 

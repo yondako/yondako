@@ -10,6 +10,9 @@ type Props = {
   jpeCode?: string | null;
 };
 
+/**
+ * 書籍のサムネイル画像を表示するコンポーネント。画像が取得できない場合はプレースホルダー画像を表示します。
+ */
 export default function BookThumbnail({ className, isbn, jpeCode }: Props) {
   const imageBgStyle = "w-full object-contain";
 
@@ -17,16 +20,8 @@ export default function BookThumbnail({ className, isbn, jpeCode }: Props) {
   if (isbn && jpeCode) {
     return (
       <Wrapper className={className}>
-        <object
-          className={imageBgStyle}
-          type="image/jpeg"
-          data={createThumbnailUrl(isbn)}
-        >
-          <object
-            className={imageBgStyle}
-            type="image/jpeg"
-            data={createThumbnailUrl(jpeCode)}
-          >
+        <object className={imageBgStyle} type="image/jpeg" data={createThumbnailUrl(isbn)}>
+          <object className={imageBgStyle} type="image/jpeg" data={createThumbnailUrl(jpeCode)}>
             <Image className={imageBgStyle} src={imageNoImage} alt="" />
           </object>
         </object>
@@ -39,11 +34,7 @@ export default function BookThumbnail({ className, isbn, jpeCode }: Props) {
   return (
     <Wrapper className={className}>
       {isbnOrJpeCode ? (
-        <object
-          className={imageBgStyle}
-          type="image/jpeg"
-          data={createThumbnailUrl(isbnOrJpeCode)}
-        >
+        <object className={imageBgStyle} type="image/jpeg" data={createThumbnailUrl(isbnOrJpeCode)}>
           <Image className={imageBgStyle} src={imageNoImage} alt="" />
         </object>
       ) : (
@@ -53,10 +44,7 @@ export default function BookThumbnail({ className, isbn, jpeCode }: Props) {
   );
 }
 
-function Wrapper({
-  children,
-  className,
-}: { children: ReactNode } & Pick<Props, "className">) {
+function Wrapper({ children, className }: { children: ReactNode } & Pick<Props, "className">) {
   return (
     <div
       className={twMerge(

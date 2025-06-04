@@ -1,10 +1,11 @@
 import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
+import webpack from "webpack";
 
 initOpenNextCloudflareForDev();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async headers() {
+  headers: async () => {
     return [
       {
         source: "/(.*)",
@@ -25,10 +26,16 @@ const nextConfig = {
       },
     ];
   },
-  webpack(config) {
-    const fileLoaderRule = config.module.rules.find((rule) =>
-      rule.test?.test?.(".svg"),
-    );
+  turbopack: {
+    rules: {
+      "*.svg": {
+        loaders: ["@svgr/webpack"],
+        as: "*.js",
+      },
+    },
+  },
+  webpack: (config) => {
+    const fileLoaderRule = config.module.rules.find((rule) => rule.test?.test?.(".svg"));
 
     config.module.rules.push(
       {
@@ -46,12 +53,12 @@ const nextConfig = {
 
     fileLoaderRule.exclude = /\.svg$/i;
 
-    config.ignoreWarnings = [
-      {
-        module: /kysely/,
-        message:
-          /Critical dependency: the request of a dependency is an expression/,
-      },
+    config.plugins = [
+      ...config.plugins,
+      new webpack.IgnorePlugin({
+        resourceRegExp: /canvas/,
+        contextRegExp: /linkedom$/,
+      }),
     ];
 
     return config;
