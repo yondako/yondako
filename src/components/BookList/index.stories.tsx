@@ -1,4 +1,6 @@
 import { createDummyBookDetail } from "@/_mocks/book";
+import { LibraryRevalidationProvider } from "@/contexts/LibraryRevalidationContext";
+import { ModalStateProvider } from "@/contexts/ModalStateContext";
 import type { BookType } from "@/types/book";
 import type { Meta, StoryObj } from "@storybook/react";
 import BookList from "./index";
@@ -7,6 +9,15 @@ const meta: Meta<typeof BookList> = {
   title: "Components/BookList",
   component: BookList,
   tags: ["autodocs"],
+  decorators: [
+    (Story) => (
+      <ModalStateProvider>
+        <LibraryRevalidationProvider>
+          <Story />
+        </LibraryRevalidationProvider>
+      </ModalStateProvider>
+    ),
+  ],
   parameters: {},
   argTypes: {
     items: {

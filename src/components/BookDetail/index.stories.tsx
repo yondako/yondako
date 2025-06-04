@@ -1,4 +1,6 @@
 import { createDummyBookDetail } from "@/_mocks/book";
+import { LibraryRevalidationProvider } from "@/contexts/LibraryRevalidationContext";
+import { ModalStateProvider } from "@/contexts/ModalStateContext";
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "storybook/test";
 import BookDetail from ".";
@@ -7,6 +9,15 @@ const meta: Meta<typeof BookDetail> = {
   title: "Components/BookDetail",
   component: BookDetail,
   tags: ["autodocs"],
+  decorators: [
+    (Story) => (
+      <ModalStateProvider>
+        <LibraryRevalidationProvider>
+          <Story />
+        </LibraryRevalidationProvider>
+      </ModalStateProvider>
+    ),
+  ],
   argTypes: {
     open: {
       description: "ダイアログの表示状態",
