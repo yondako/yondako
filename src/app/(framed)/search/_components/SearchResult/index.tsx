@@ -39,7 +39,7 @@ export async function SearchResult({ query, currentPage, ndc, sensitive }: Searc
     ignoreSensitive: !sensitive,
     ngWords,
     params: {
-      any: query,
+      any: query.trim(),
       ndc,
     },
   });
