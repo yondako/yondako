@@ -1,11 +1,11 @@
-import type { BookType } from "@/types/book";
+import type { LibraryBooksData } from "@/hooks/useLibraryBooks";
 import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
 import BookCard from "../BookCard";
 import BookCardSkeleton from "../BookCard/Skeleton";
 
 type Props = {
-  items: (BookType | undefined)[];
+  items: LibraryBooksData["books"];
 } & ComponentPropsWithoutRef<"div">;
 
 /**

@@ -1,10 +1,23 @@
 import { getLibraryBooks } from "@/actions/getLibraryBooks";
 import { useLibraryRevalidation } from "@/contexts/LibraryRevalidationContext";
 import { useModalState } from "@/contexts/ModalStateContext";
+import type { BookType } from "@/types/book";
 import type { Order } from "@/types/order";
 import type { ReadingStatus } from "@/types/readingStatus";
 import { useEffect, useRef } from "react";
 import useSWR, { mutate } from "swr";
+
+export const BOOK_SKELETON = undefined;
+
+export type LibraryBooksData = {
+  books: (BookType | typeof BOOK_SKELETON)[];
+  total: number;
+};
+
+export type LibraryRevalidationData = {
+  status: ReadingStatus;
+  action: "add" | "remove";
+};
 
 export type UseLibraryBooksOptions = {
   status: ReadingStatus;
@@ -22,7 +35,7 @@ export type UseLibraryBooksOptions = {
 export function useLibraryBooks(options: UseLibraryBooksOptions) {
   const key = `library-${options.status}-${options.page}-${options.order}-${options.titleKeyword || "all"}`;
 
-  const { data, error, isLoading, mutate } = useSWR(
+  const { data, error, isLoading } = useSWR<LibraryBooksData>(
     key,
     async () => {
       const result = await getLibraryBooks(options);
@@ -33,7 +46,7 @@ export function useLibraryBooks(options: UseLibraryBooksOptions) {
         throw new Error(result.error);
       }
 
-      return result;
+      return { books: result.books, total: result.total };
     },
     {
       dedupingInterval: 1000 * 60 * 5, // 5分間キャッシュ
@@ -45,14 +58,8 @@ export function useLibraryBooks(options: UseLibraryBooksOptions) {
     data,
     error,
     isLoading,
-    mutate,
   };
 }
-
-export type LibraryRevalidationData = {
-  status: ReadingStatus;
-  action: "add" | "remove";
-};
 
 /**
  * ライブラリキャッシュを即座に再検証
@@ -61,9 +68,9 @@ export type LibraryRevalidationData = {
 export function revalidateLibraryCacheImmediate({ status, action }: LibraryRevalidationData) {
   mutate(
     (key) => typeof key === "string" && key.startsWith(`library-${status}-`),
-    async (data) => {
-      // 削除のときはそのまま返す
-      if (action === "remove") {
+    async (data: LibraryBooksData | undefined) => {
+      // データが存在しない or 削除のときはそのまま
+      if (!data || action === "remove") {
         return data;
       }
 
