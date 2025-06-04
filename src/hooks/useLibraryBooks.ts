@@ -1,6 +1,8 @@
 import { getLibraryBooks } from "@/actions/getLibraryBooks";
+import { useModalState } from "@/contexts/ModalStateContext";
 import type { Order } from "@/types/order";
 import type { ReadingStatus } from "@/types/readingStatus";
+import { useEffect, useRef } from "react";
 import useSWR, { mutate } from "swr";
 
 export type UseLibraryBooksOptions = {
@@ -47,13 +49,61 @@ export function useLibraryBooks(options: UseLibraryBooksOptions) {
 }
 
 /**
- * 特定のステータスのライブラリキャッシュを再検証
+ * ライブラリキャッシュを即座に再検証
  * @param status 対象の読書ステータス
  */
-export function revalidateLibraryCache(status: ReadingStatus) {
+export function revalidateLibraryCacheImmediate(status: ReadingStatus) {
   mutate(
     (key) => typeof key === "string" && key.startsWith(`library-${status}-`),
     async (currentData) => currentData,
     { revalidate: true },
   );
+}
+
+/**
+ * モーダル状態に応じたキャッシュ再検証フック
+ */
+export function useLibraryCacheRevalidation() {
+  const { isModalOpen, addPendingRevalidation } = useModalState();
+
+  const revalidateLibraryCache = (status: ReadingStatus) => {
+    if (isModalOpen) {
+      // モーダルが開いている場合は保留
+      addPendingRevalidation(status);
+    } else {
+      // モーダルが閉じている場合は即座に実行
+      revalidateLibraryCacheImmediate(status);
+    }
+  };
+
+  return { revalidateLibraryCache };
+}
+
+/**
+ * ライブラリページのクリーンアップ時に保留中の再検証を実行するフック
+ */
+export function useLibraryCleanup() {
+  const { executePendingRevalidations, setIsModalOpen } = useModalState();
+
+  // refを使用して最新の関数への参照を保持
+  const executePendingRevalidationsRef = useRef(executePendingRevalidations);
+  const setIsModalOpenRef = useRef(setIsModalOpen);
+
+  // refを更新
+  executePendingRevalidationsRef.current = executePendingRevalidations;
+  setIsModalOpenRef.current = setIsModalOpen;
+
+  useEffect(() => {
+    // コンポーネントがアンマウントされる時に保留中の再検証を実行
+    return () => {
+      const pendingStatuses = executePendingRevalidationsRef.current();
+
+      for (const status of pendingStatuses) {
+        revalidateLibraryCacheImmediate(status);
+      }
+
+      // モーダル状態もリセット
+      setIsModalOpenRef.current(false);
+    };
+  }, []);
 }

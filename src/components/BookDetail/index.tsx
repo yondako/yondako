@@ -1,3 +1,5 @@
+import { useModalState } from "@/contexts/ModalStateContext";
+import { revalidateLibraryCacheImmediate } from "@/hooks/useLibraryBooks";
 import type { DialogProps } from "@radix-ui/react-dialog";
 import { twMerge } from "tailwind-merge";
 import AdaptiveModalDrawer from "../AdaptiveModalDrawer";
@@ -10,13 +12,35 @@ type Props = {
 } & Omit<DialogProps, "defaultOpen" | "modal">;
 
 /**
- * 書籍の詳細情報を表示するダイアログコンポーネント。デスクトップではモーダル、モバイルではドロワーとして表示されます。
+ * 書籍の詳細情報を表示するダイアログコンポーネント
+ * デスクトップではモーダル、モバイルではドロワーとして表示されます
  */
 export default function BookDetail({ bookDetailProps, children, ...props }: Props) {
+  const { setIsModalOpen, executePendingRevalidations } = useModalState();
+
+  const handleOpenChange = (open: boolean) => {
+    setIsModalOpen(open);
+    props.onOpenChange?.(open);
+  };
+
+  const handleAnimationEnd = (open: boolean) => {
+    // モーダル表示時にライブラリの再検証を実行すると、ページの再描画が走ってモーダルが消えてしまうので
+    // 閉じるアニメーションが完了したタイミングで保留中の再検証を実行する
+    if (!open) {
+      const pendingStatuses = executePendingRevalidations();
+
+      for (const status of pendingStatuses) {
+        revalidateLibraryCacheImmediate(status);
+      }
+    }
+  };
+
   return (
     <AdaptiveModalDrawer
       contentClassName="lg:px-12 lg:pl-[8.625rem] lg:min-h-[17.5rem]"
       triggerChildren={children}
+      onOpenChange={handleOpenChange}
+      onAnimationEnd={handleAnimationEnd}
       {...props}
     >
       {({ Title, Description }) => (

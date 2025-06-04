@@ -1,5 +1,5 @@
 import MobileBottomNavi from "@/components/MobileBottomNavi";
-import Toaster from "@/components/Toaster";
+import Toaster from "@/components/Toast";
 import { checkLatestNews } from "@/lib/news";
 import type { ReactNode } from "react";
 import UmamiScript from "../_components/UmamiScript";

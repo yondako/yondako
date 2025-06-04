@@ -2,24 +2,25 @@ import { updateReadingStatus } from "@/actions/updateReadingStatus";
 import type { BookIdentifiers } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
 import { useCallback } from "react";
-import { revalidateLibraryCache } from "./useLibraryBooks";
+import { useLibraryCacheRevalidation } from "./useLibraryBooks";
 
 /**
  * 読書ステータスを更新
  */
 export function useUpdateReadingStatus() {
+  const { revalidateLibraryCache } = useLibraryCacheRevalidation();
+
   const updateReadingStatusWithCache = useCallback(
     async (bookIdentifiers: BookIdentifiers, newStatus: ReadingStatus, previousStatus?: ReadingStatus) => {
       const result = await updateReadingStatus(bookIdentifiers, newStatus);
 
-      // 成功した場合、関連するキャッシュを古いものとしてマーク
       if (!result.error && result.book) {
-        // 新しいステータスのキャッシュをマーク
+        // 新しい読書ステータスのライブラリのキャッシュを再検証
         if (newStatus !== "none") {
           revalidateLibraryCache(newStatus);
         }
 
-        // 以前のステータスのキャッシュもマーク
+        // 以前の読書ステータスのキャッシュも再検証
         if (previousStatus && previousStatus !== "none" && previousStatus !== newStatus) {
           revalidateLibraryCache(previousStatus);
         }
@@ -27,7 +28,7 @@ export function useUpdateReadingStatus() {
 
       return result;
     },
-    [],
+    [revalidateLibraryCache],
   );
 
   return { updateReadingStatusWithCache };

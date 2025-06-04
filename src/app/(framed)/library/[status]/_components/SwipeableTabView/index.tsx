@@ -1,6 +1,7 @@
 "use client";
 
 import { readingStatusOrder } from "@/constants/status";
+import { useModalState } from "@/contexts/ModalStateContext";
 import type { ReadingStatus } from "@/types/readingStatus";
 import { animated, useSpring } from "@react-spring/web";
 import { useRouter } from "next/navigation";
@@ -18,10 +19,10 @@ const SWIPE_RESET_TIMEOUT = 300; // ms
 
 export function SwipeableTabView({ children, currentStatus }: Props) {
   const router = useRouter();
+  const { isModalOpen } = useModalState();
 
   const windowWidthRef = useRef(0);
   const isSwipingRef = useRef(false);
-  const isDialogOpenRef = useRef(false);
   const isSlideInAnimationCompletedRef = useRef(false);
   const currentIndexRef = useRef(readingStatusOrder.indexOf(currentStatus));
   const resetTimeoutRef = useRef<number | null>(null);
@@ -105,27 +106,8 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
 
     window.addEventListener("resize", handleResize);
 
-    // モーダル監視
-    const checkDialogExists = () => {
-      const dialogExists = document.querySelector('[role="dialog"]') !== null;
-      isDialogOpenRef.current = dialogExists;
-    };
-
-    checkDialogExists();
-
-    const observer = new MutationObserver(checkDialogExists);
-
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-      attributes: true,
-      attributeFilter: ["role"],
-    });
-
     return () => {
       window.removeEventListener("resize", handleResize);
-
-      observer.disconnect();
 
       if (resetTimeoutRef.current) {
         window.clearTimeout(resetTimeoutRef.current);
@@ -136,7 +118,7 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
   const handlers = useSwipeable({
     onSwiping: (eventData) => {
       // モーダルが開いている場合はスキップ
-      if (isDialogOpenRef.current) {
+      if (isModalOpen) {
         return;
       }
 
@@ -170,7 +152,7 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
     },
     onSwiped: (eventData) => {
       // モーダルが開いている場合 or スワイプ中でない場合はスキップ
-      if (isDialogOpenRef.current || !isSwipingRef.current) {
+      if (isModalOpen || !isSwipingRef.current) {
         return;
       }
 
