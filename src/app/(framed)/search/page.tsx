@@ -23,6 +23,7 @@ export const dynamic = "force-dynamic";
 type Props = {
   searchParams: Promise<{
     q?: string;
+    type?: string;
     ndc?: string;
     sensitive?: string;
     page?: string;
@@ -71,10 +72,14 @@ export default async function Search(props: Props) {
   // 検索クエリ
   const query = searchParams.q;
 
+  // 検索タイプ
+  // TODO: 検索タイプのバリデーションを追加
+  const searchType = searchParams.type === "title" || searchParams.type === "creator" ? searchParams.type : "title";
+
   return (
     <>
       <div className="flex flex-col items-end lg:flex-row lg:items-center">
-        <SearchForm query={query} ndc={ndc} sensitive={sensitive} />
+        <SearchForm query={query} searchType={searchType} ndc={ndc} sensitive={sensitive} />
         <ExternalLink
           className="mt-4 flex shrink-0 items-center space-x-1 text-xs lg:mt-0 lg:ml-4"
           href={dataSourceUrl}
@@ -91,7 +96,7 @@ export default async function Search(props: Props) {
           }
           key={Object.values(searchParams).join("_")}
         >
-          <SearchResult query={query} ndc={ndc} sensitive={sensitive} currentPage={page} />
+          <SearchResult query={query} searchType={searchType} ndc={ndc} sensitive={sensitive} currentPage={page} />
         </Suspense>
       ) : (
         <SayTako message="ｹﾝｻｸｼﾃﾈ" />

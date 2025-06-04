@@ -14,12 +14,13 @@ const SEARCH_COUNT = 24;
 
 export type SearchResultProps = {
   query: string;
+  searchType?: "any" | "title" | "creator";
   currentPage: number;
   ndc?: NDC;
   sensitive?: boolean;
 };
 
-export async function SearchResult({ query, currentPage, ndc, sensitive }: SearchResultProps) {
+export async function SearchResult({ query, searchType = "title", currentPage, ndc, sensitive }: SearchResultProps) {
   const { env } = getCloudflareContext();
 
   const auth = getAuth(env.DB);
@@ -33,15 +34,23 @@ export async function SearchResult({ query, currentPage, ndc, sensitive }: Searc
 
   const ngWords = await getAllNgWords(env.DB);
 
+  const searchParams: Parameters<typeof searchBooksFromNDL>[0]["params"] = { ndc };
+  const trimmedQuery = query.trim();
+
+  if (searchType === "title") {
+    searchParams.title = trimmedQuery;
+  } else if (searchType === "creator") {
+    searchParams.creator = trimmedQuery;
+  } else {
+    searchParams.any = trimmedQuery;
+  }
+
   const result = await searchBooksFromNDL({
     limit: SEARCH_COUNT,
     page: currentPage - 1,
     ignoreSensitive: !sensitive,
     ngWords,
-    params: {
-      any: query.trim(),
-      ndc,
-    },
+    params: searchParams,
   });
 
   // 検索エラー

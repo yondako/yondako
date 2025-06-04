@@ -19,6 +19,10 @@ export type SearchOptions = {
   params?: {
     /** すべての項目を対象に検索 */
     any?: string;
+    /** タイトル */
+    title?: string;
+    /** 著者名 */
+    creator?: string;
     /** NDC */
     ndc?: NDC;
     /** 開始出版年月日 */
