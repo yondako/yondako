@@ -9,10 +9,8 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
-import { Suspense } from "react";
 import { is, safeParse } from "valibot";
 import { LibraryBookList } from "./_components/LibraryBookList";
-import LibraryBookListSkeleton from "./_components/LibraryBookList/Skeleton";
 import { SwipeableTabView } from "./_components/SwipeableTabView";
 import Tab from "./_components/Tab";
 
@@ -74,12 +72,7 @@ export default async function Library(props: Props) {
   const orderType = orderParseResult.success ? orderParseResult.output : "desc";
 
   const contents = (
-    <Suspense
-      fallback={<LibraryBookListSkeleton pageReadingStatus={params.status} />}
-      key={`${params.status}-${page}-${orderType}-${searchParams.q}`}
-    >
-      <LibraryBookList status={params.status} page={page} order={orderType} titleKeyword={searchParams.q} />
-    </Suspense>
+    <LibraryBookList status={params.status} page={page} order={orderType} titleKeyword={searchParams.q} />
   );
 
   return (

@@ -21,7 +21,7 @@ describe("searchBooksFromNDL", () => {
     });
 
     const opts = {
-      count: 10,
+      limit: 10,
       params: {
         any: "JavaScript",
       },
@@ -41,7 +41,7 @@ describe("searchBooksFromNDL", () => {
     const mockFetch = mock().mockRejectedValue(new Error("fetch error"));
 
     const opts = {
-      count: 10,
+      limit: 10,
       params: {
         any: "JavaScript",
       },

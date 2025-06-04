@@ -3,7 +3,7 @@ import type { BookIdentifiers, BookType } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
-import { updateReadingStatus } from "#actions/updateReadingStatus";
+import { useUpdateReadingStatus } from "#hooks/useUpdateReadingStatus";
 import BookReadingStatusButton, { type BookReadingStatusButtonProps } from "./ReadingStatusButton";
 
 const order: ReadingStatus[] = ["want_read", "reading", "read"] as const;
@@ -36,13 +36,15 @@ export default function BookReadingStatusForm({
   className,
   ...props
 }: Props) {
+  const { updateReadingStatusWithCache } = useUpdateReadingStatus();
+
   // 読書ステータスが変更された
   const changeStatusFormAction = async (formData: FormData) => {
     const newStatus = formData.get("status") as BookType["readingStatus"];
 
     onChangeOptimisticStatus(newStatus);
 
-    const result = await updateReadingStatus(identifiers, newStatus);
+    const result = await updateReadingStatusWithCache(identifiers, newStatus, status);
 
     // 記録に失敗
     if (result.error || !result.book) {
