@@ -19,8 +19,10 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
   const router = useRouter();
 
   const [isSwiping, setIsSwiping] = useState(false);
+
   const windowWidthRef = useRef(0);
   const isDialogOpenRef = useRef(false);
+  const isSlideInAnimationCompletedRef = useRef(false);
   const currentIndexRef = useRef(readingStatusOrder.indexOf(currentStatus));
 
   const [springProps, api] = useSpring(() => ({
@@ -57,11 +59,18 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
               config: { tension: 300, friction: 30 },
             });
           });
+
+          isSlideInAnimationCompletedRef.current = true;
           return;
         }
       } catch {
         sessionStorage.removeItem(SWIPE_TRANSITION_KEY);
       }
+    }
+
+    // スライドインのアニメーションが再生済ならスキップ
+    if (isSlideInAnimationCompletedRef.current) {
+      return;
     }
 
     api.start({
@@ -121,9 +130,6 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
   }, []);
 
   const handlers = useSwipeable({
-    onSwipeStart: () => {
-      console.log("Swipe started");
-    },
     onSwiping: (eventData) => {
       // モーダルが開いている場合は無効
       if (isDialogOpenRef.current) {
@@ -134,25 +140,18 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
         setIsSwiping(true);
       }
 
-      console.log("Swiping", eventData);
-
       // スワイプの稼動域を画面幅の1/3に制限
       const screenWidth = windowWidthRef.current || window.innerWidth;
       const maxSwipeDistance = screenWidth / 3;
       const clampedDeltaX = Math.max(-maxSwipeDistance, Math.min(maxSwipeDistance, eventData.deltaX));
 
-      api.start({
-        x: clampedDeltaX,
-        config: { tension: 200, friction: 50 },
-      });
+      api.start({ x: clampedDeltaX });
     },
     onSwiped: (eventData) => {
       // モーダルが開いている場合は無効
       if (isDialogOpenRef.current) {
         return;
       }
-
-      console.log("Swiped", eventData);
 
       setIsSwiping(false);
 
@@ -184,12 +183,16 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
 
           // スワイプ方向に基づいてページを画面外に移動
           const screenWidth = windowWidthRef.current || window.innerWidth;
-          const exitDistance = eventData.dir === "Left" ? -screenWidth * 0.8 : screenWidth * 0.8;
+          // NOTE: 1.0だとiPadでなぜか画面内に残るので1.8倍にしてる
+          const exitDistance = eventData.dir === "Left" ? -screenWidth * 1.8 : screenWidth * 1.8;
 
           api.start({
             x: exitDistance,
             opacity: 0,
-            config: { duration: 200, easing: (t) => t * (2 - t) },
+            config: {
+              duration: 100,
+              easing: (t) => t * t * t,
+            },
             onRest: () => {
               router.push(`/library/${targetStatus}`);
             },
@@ -203,7 +206,7 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
       api.start({
         x: 0,
         opacity: 1,
-        config: { tension: 400, friction: 40 },
+        config: { tension: 300, friction: 40 },
       });
     },
     trackMouse: true,
