@@ -121,6 +121,9 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
   }, []);
 
   const handlers = useSwipeable({
+    onSwipeStart: () => {
+      console.log("Swipe started");
+    },
     onSwiping: (eventData) => {
       // モーダルが開いている場合は無効
       if (isDialogOpenRef.current) {
@@ -130,6 +133,8 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
       if (!isSwiping) {
         setIsSwiping(true);
       }
+
+      console.log("Swiping", eventData);
 
       // スワイプの稼動域を画面幅の1/3に制限
       const screenWidth = windowWidthRef.current || window.innerWidth;
@@ -146,6 +151,8 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
       if (isDialogOpenRef.current) {
         return;
       }
+
+      console.log("Swiped", eventData);
 
       setIsSwiping(false);
 
