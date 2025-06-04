@@ -88,7 +88,9 @@ export default function Modal({
         {transitions(
           (style, isOpen) =>
             isOpen && (
-              <>
+              // NOTE: React.Fragment. React.Fragment can only have key and children props が出るのを防ぐため div で代用
+              // @see https://github.com/tailwindlabs/headlessui/issues/3351#issuecomment-2808599323
+              <div className="contents">
                 <Overlay className="fixed inset-0 bg-black/40" style={{ opacity: style.opacity }} />
                 <Content
                   className={twMerge(
@@ -116,7 +118,7 @@ export default function Modal({
                     Close: Dialog.Close,
                   })}
                 </Content>
-              </>
+              </div>
             ),
         )}
       </Dialog.Portal>

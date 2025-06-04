@@ -22,7 +22,7 @@ export default async function Layout({ children }: Props) {
         <Toaster />
         <MobileHeader className="block text-accent lg:hidden" />
         <SideNavi className="hidden lg:flex" latestNewsTimestamp={latestNewsTimestamp} />
-        <div className="flex h-full w-full flex-col px-6 py-8 lg:shrink lg:overflow-y-scroll lg:px-12 ">{children}</div>
+        <div className="flex h-full w-full flex-col px-6 py-8 lg:shrink lg:overflow-y-scroll lg:px-12">{children}</div>
         <MobileBottomNavi className="lg:hidden" latestNewsTimestamp={latestNewsTimestamp} />
       </div>
     </>
