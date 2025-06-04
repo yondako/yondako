@@ -68,8 +68,6 @@ export async function searchBooksFromNDL(
   // メディアタイプの指定
   endpoint.searchParams.append("mediatype", "books");
 
-  console.debug("[NDL] Search endpoint:", endpoint.toString());
-
   try {
     const cacheKey = JSON.stringify({
       count: opts.limit,
