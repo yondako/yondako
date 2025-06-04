@@ -2,7 +2,7 @@ import { createDummyBookDetail } from "@/_mocks/book";
 import type { ReadingStatus } from "@/types/readingStatus";
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, fn, userEvent, waitFor, within } from "storybook/test";
-import { updateReadingStatus } from "#src/actions/updateReadingStatus.mock";
+import { mockUpdateReadingStatusWithCache } from "#src/hooks/useUpdateReadingStatus.mock";
 import BookReadingStatusForm from ".";
 
 const mockNdlBibId = "1234567890";
@@ -60,7 +60,7 @@ const meta: Meta<typeof BookReadingStatusForm> = {
     onChangeOptimisticStatus: fn(),
   },
   beforeEach: async () => {
-    updateReadingStatus.mockResolvedValue({
+    mockUpdateReadingStatusWithCache.mockResolvedValue({
       book: {
         detail: createDummyBookDetail(mockNdlBibId),
         readingStatus: "reading",
@@ -129,7 +129,7 @@ export const SubmitError: Story = {
     },
   },
   beforeEach: async () => {
-    updateReadingStatus.mockResolvedValue({
+    mockUpdateReadingStatusWithCache.mockResolvedValue({
       error: "error",
     });
   },
