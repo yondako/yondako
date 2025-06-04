@@ -26,18 +26,13 @@ export function createUndoToast({
       return;
     }
 
-    const previousStatusLabel =
-      previousStatus !== "none"
-        ? `「${readingStatusMetadata.get(previousStatus)?.label}」にもどしました`
-        : "登録を解除しました";
-
     const newStatusLabel =
-      newStatus !== "none" ? `「${readingStatusMetadata.get(newStatus)?.label}」に登録しました` : "登録を解除しました";
+      newStatus !== "none" ? `"${readingStatusMetadata.get(newStatus)?.label}" に登録しました` : "登録を解除しました";
 
     toast.success(newStatusLabel, {
       description: bookTitle,
       action: {
-        label: "取り消す",
+        label: "元に戻す",
         onClick: async () => {
           // 前のステータスに戻す
           startTransition(() => {
@@ -60,7 +55,7 @@ export function createUndoToast({
           }
 
           onChangeStatus(undoResult.book.readingStatus);
-          toast.success(previousStatusLabel);
+          toast.success("🐙 元に戻しました");
         },
       },
     });

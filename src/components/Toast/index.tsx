@@ -32,7 +32,7 @@ function CustomToast(props: ToastProps) {
   return (
     <div
       className={twMerge(
-        "flex w-full items-center rounded-2xl bg-secondary-background p-6 shadow-lg",
+        "flex w-full items-center rounded-2xl bg-secondary-background px-6 py-4 shadow-lg",
         getBorderColor(),
       )}
     >
@@ -63,20 +63,15 @@ function CustomToast(props: ToastProps) {
  * スタイルを当てたtoast
  */
 export function toast(toastProps: ToastInput) {
-  return sonnerToast.custom(
-    (id) => (
-      <CustomToast
-        id={id}
-        title={toastProps.title}
-        description={toastProps.description}
-        type={toastProps.type}
-        action={toastProps.action}
-      />
-    ),
-    {
-      duration: 600000,
-    },
-  );
+  return sonnerToast.custom((id) => (
+    <CustomToast
+      id={id}
+      title={toastProps.title}
+      description={toastProps.description}
+      type={toastProps.type}
+      action={toastProps.action}
+    />
+  ));
 }
 
 toast.success = (title: string, options?: Omit<ToastInput, "title" | "type">) => {
