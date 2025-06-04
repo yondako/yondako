@@ -77,7 +77,7 @@ export async function searchBooksFromNDL(
 
     const { params, page = 0, count = 0, ignoreSensitive = false, ngWords = [] } = opts;
 
-    // 10分間キャッシュする
+    // 30分間キャッシュする
     const sortedBooks = await unstable_cache(
       async () => {
         const res = await fetch(endpoint);
@@ -98,7 +98,7 @@ export async function searchBooksFromNDL(
       },
       [cacheKey],
       {
-        revalidate: 10 * 60,
+        revalidate: 60 * 30, // 30分
       },
     )();
 
