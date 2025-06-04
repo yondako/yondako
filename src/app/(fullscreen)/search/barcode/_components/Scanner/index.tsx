@@ -32,15 +32,20 @@ export default function Scanner() {
     const result = await searchFromIsbn(code);
 
     if (!result) {
-      toast.info("書籍がみつかりませんでした", {
-        description: `ISBN: ${code}`,
-        onDismiss: () => {
-          isSearched.current = false;
+      toast.error(
+        "書籍がみつかりませんでした",
+        {
+          description: `ISBN: ${code}`,
         },
-        onAutoClose: () => {
-          isSearched.current = false;
+        {
+          onDismiss: () => {
+            isSearched.current = false;
+          },
+          onAutoClose: () => {
+            isSearched.current = false;
+          },
         },
-      });
+      );
 
       return;
     }

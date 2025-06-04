@@ -1,10 +1,10 @@
 "use client";
 
 import type { CSSProperties } from "react";
-import { Toaster as SonnerToaster, toast as sonnerToast } from "sonner";
+import { type ExternalToast, Toaster as SonnerToaster, toast as sonnerToast } from "sonner";
 import { twMerge } from "tailwind-merge";
 
-export interface ToastProps {
+export type ToastProps = {
   id: string | number;
   title: string;
   description?: string;
@@ -13,7 +13,7 @@ export interface ToastProps {
     label: string;
     onClick: () => void;
   };
-}
+};
 
 export type ToastInput = Omit<ToastProps, "id">;
 
@@ -62,40 +62,41 @@ function CustomToast(props: ToastProps) {
 /**
  * スタイルを当てたtoast
  */
-export function toast(toastProps: ToastInput) {
-  return sonnerToast.custom((id) => (
-    <CustomToast
-      id={id}
-      title={toastProps.title}
-      description={toastProps.description}
-      type={toastProps.type}
-      action={toastProps.action}
-    />
-  ));
+export function toast(toastProps: ToastInput, external?: ExternalToast) {
+  return sonnerToast.custom(
+    (id) => (
+      <CustomToast
+        id={id}
+        title={toastProps.title}
+        description={toastProps.description}
+        type={toastProps.type}
+        action={toastProps.action}
+      />
+    ),
+    external,
+  );
 }
 
-toast.success = (title: string, options?: Omit<ToastInput, "title" | "type">) => {
-  return toast({
-    title,
-    type: "success",
-    ...options,
-  });
+toast.success = (title: string, options?: Omit<ToastInput, "title" | "type">, external?: ExternalToast) => {
+  return toast(
+    {
+      title,
+      type: "success",
+      ...options,
+    },
+    external,
+  );
 };
 
-toast.error = (title: string, options?: Omit<ToastInput, "title" | "type">) => {
-  return toast({
-    title,
-    type: "error",
-    ...options,
-  });
-};
-
-toast.info = (title: string, options?: Omit<ToastInput, "title" | "type">) => {
-  return toast({
-    title,
-    type: "info",
-    ...options,
-  });
+toast.error = (title: string, options?: Omit<ToastInput, "title" | "type">, external?: ExternalToast) => {
+  return toast(
+    {
+      title,
+      type: "error",
+      ...options,
+    },
+    external,
+  );
 };
 
 export default function Toaster() {
