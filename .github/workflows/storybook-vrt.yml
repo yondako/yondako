@@ -6,7 +6,6 @@ on:
 
 jobs:
   storybook-vrt:
-    needs: build-check
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
