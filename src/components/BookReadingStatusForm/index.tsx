@@ -3,7 +3,7 @@ import type { BookIdentifiers, BookType } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
-import { useUpdateReadingStatus } from "#src/hooks/useUpdateReadingStatus.mock";
+import { useUpdateReadingStatus } from "#hooks/useUpdateReadingStatus";
 import BookReadingStatusButton, { type BookReadingStatusButtonProps } from "./ReadingStatusButton";
 
 const order: ReadingStatus[] = ["want_read", "reading", "read"] as const;

@@ -108,6 +108,10 @@
       "storybook": "./src/actions/searchFromIsbn.mock.ts",
       "default": "./src/actions/searchFromIsbn.ts"
     },
+    "#hooks/useUpdateReadingStatus": {
+      "storybook": "./src/hooks/useUpdateReadingStatus.mock.ts",
+      "default": "./src/hooks/useUpdateReadingStatus.ts"
+    },
     "#*": ["./*", "./*.ts", "./*.tsx"]
   }
 }
