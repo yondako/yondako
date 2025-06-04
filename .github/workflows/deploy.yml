@@ -24,12 +24,10 @@ jobs:
           sed -i "s|<DEVELOPMENT_URL>|${{ secrets.DEVELOPMENT_URL }}|g" wrangler.toml
           sed -i "s|<FORM_BUG_REPORT_URL>|${{ secrets.FORM_BUG_REPORT_URL }}|g" wrangler.toml
           sed -i "s|<FORM_CONTACT_URL>|${{ secrets.FORM_CONTACT_URL }}|g" wrangler.toml
-          sed -i "s|<DEVELOPMENT_KV_ID>|${{ secrets.DEVELOPMENT_KV_ID }}|g" wrangler.toml
           sed -i "s|<DEVELOPMENT_DATABASE_ID>|${{ secrets.DEVELOPMENT_DATABASE_ID }}|g" wrangler.toml
 
           # 本番環境の値を置換
           sed -i "s|<PRODUCTION_URL>|${{ secrets.PRODUCTION_URL }}|g" wrangler.toml
-          sed -i "s|<PRODUCTION_KV_ID>|${{ secrets.PRODUCTION_KV_ID }}|g" wrangler.toml
           sed -i "s|<PRODUCTION_DATABASE_ID>|${{ secrets.PRODUCTION_DATABASE_ID }}|g" wrangler.toml
           sed -i "s|<UMAMI_SCRIPT_URL>|${{ secrets.UMAMI_SCRIPT_URL }}|g" wrangler.toml
           sed -i "s|<UMAMI_WEBSITE_ID>|${{ secrets.UMAMI_WEBSITE_ID }}|g" wrangler.toml

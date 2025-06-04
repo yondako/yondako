@@ -20,7 +20,7 @@ binding = "ASSETS"
 
 [[r2_buckets]]
 binding = "NEXT_INC_CACHE_R2_BUCKET"
-bucket-name = "yondako-dev-inc-cache"
+bucket_name = "yondako-dev-inc-cache"
 
 [[d1_databases]]
 binding = "DB"
@@ -54,7 +54,7 @@ NEXT_PUBLIC_UMAMI_WEBSITE_ID="<UMAMI_WEBSITE_ID>"
 
 [[env.production.r2_buckets]]
 binding = "NEXT_INC_CACHE_R2_BUCKET"
-bucket-name = "yondako-prod-inc-cache"
+bucket_name = "yondako-prod-inc-cache"
 
 [[env.production.d1_databases]]
 binding = "DB"
