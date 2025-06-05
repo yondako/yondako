@@ -1,5 +1,6 @@
 import type { BookDetailWithoutId } from "@/types/book";
 import type { NDC } from "@/types/ndc";
+import type { SearchType } from "@/types/search";
 import { unstable_cache } from "next/cache";
 import { filterSensitiveBooks } from "../filterSensitiveBooks";
 import { parseOpenSearchXml } from "./parse";
@@ -19,6 +20,10 @@ export type SearchOptions = {
   params?: {
     /** すべての項目を対象に検索 */
     any?: string;
+    /** タイトル */
+    title?: string;
+    /** 著者名 */
+    creator?: string;
     /** NDC */
     ndc?: NDC;
     /** 開始出版年月日 */
@@ -91,8 +96,19 @@ export async function searchBooksFromNDL(
           rawBooks = results.safeBooks;
         }
 
+        const keyword = params?.any || params?.title || params?.creator || "";
+
+        // 検索タイプを判定
+        const searchType: SearchType = params?.any
+          ? "any"
+          : params?.title
+            ? "title"
+            : params?.creator
+              ? "creator"
+              : "title";
+
         // いい感じにソート
-        const results = params?.any && rawBooks.length > 1 ? sortBooksByKeyword(rawBooks, params.any ?? "") : rawBooks;
+        const results = rawBooks.length > 1 ? sortBooksByKeyword(rawBooks, keyword, searchType) : rawBooks;
 
         return results;
       },

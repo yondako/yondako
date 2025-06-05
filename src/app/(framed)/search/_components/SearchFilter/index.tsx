@@ -13,12 +13,15 @@ import Label from "./Label";
 
 type Props = {
   children: ReactNode;
-} & Partial<Pick<SearchResultProps, "ndc" | "sensitive" | "query">>;
+} & Partial<Pick<SearchResultProps, "ndc" | "sensitive" | "query" | "searchType">>;
 
 /**
- * 検索フィルターコンポーネント。NDC（日本十進分類法）によるカテゴリーフィルタとセンシティブコンテンツのフィルタリング機能を提供します。デスクトップではモーダル、モバイルではドロワーとして表示されます。
+ * 検索フィルターコンポーネント
+ *
+ * NDCによるカテゴリーフィルタとセンシティブコンテンツのフィルタリング機能を提供します
+ * デスクトップではモーダル、モバイルではドロワーとして表示されます
  */
-export default function SearchFilter({ children, ndc = "", sensitive, query }: Props) {
+export default function SearchFilter({ children, ndc = "", sensitive, query, searchType }: Props) {
   const commonCloseButtonStyle =
     "px-6 py-2.5 md:py-2 block w-full cursor-pointer rounded-full text-center hover:brightness-95 transition text-sm";
 
@@ -27,6 +30,7 @@ export default function SearchFilter({ children, ndc = "", sensitive, query }: P
       {({ Title, Description, Close }) => (
         <form className="pt-6 lg:pt-0" action={PATH_SEARCH}>
           <input type="hidden" name="q" value={query} />
+          <input type="hidden" name="searchType" value={searchType} />
           <Label
             title="カテゴリー"
             description="お探しのジャンルを選択して、関連する書籍だけを表示します"

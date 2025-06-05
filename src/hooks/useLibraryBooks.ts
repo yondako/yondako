@@ -40,8 +40,6 @@ export function useLibraryBooks(options: UseLibraryBooksOptions) {
     async () => {
       const result = await getLibraryBooks(options);
 
-      console.log("👍 getLibraryBooks result", result);
-
       if ("error" in result) {
         throw new Error(result.error);
       }

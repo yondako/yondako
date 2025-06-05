@@ -1,39 +1,67 @@
 import type { BookDetailWithoutId } from "@/types/book";
+import { DEFAULT_SEARCH_TYPE, type SearchType } from "@/types/search";
 
 /**
  * 書籍をキーワードに基づいてソート
- * @param books - ソート対象の書籍配列
- * @param keyword - ソート基準となるキーワード
+ * @param books ソート対象の書籍配列
+ * @param keyword キーワード
+ * @param searchType 検索タイプ
  * @returns ソートされた書籍配列
  */
-export function sortBooksByKeyword(books: BookDetailWithoutId[], keyword: string): BookDetailWithoutId[] {
+export function sortBooksByKeyword(
+  books: BookDetailWithoutId[],
+  keyword: string,
+  searchType: SearchType = DEFAULT_SEARCH_TYPE,
+): BookDetailWithoutId[] {
   return books.sort((a, b) => {
-    // タイトルの包含率でソート
-    const aTitleRate = calculateInclusionRate(a.title, keyword);
-    const bTitleRate = calculateInclusionRate(b.title, keyword);
+    // 包含率を比較
+    const compareByInclusionRate = (aValue: string, bValue: string): number => {
+      const aRate = calculateInclusionRate(aValue, keyword);
+      const bRate = calculateInclusionRate(bValue, keyword);
+      return aRate !== bRate ? bRate - aRate : 0;
+    };
 
-    if (aTitleRate !== bTitleRate) {
-      return bTitleRate - aTitleRate;
+    // 検索タイプごとの比較順序を定義
+    const comparisons: Array<() => number> = [];
+
+    if (searchType === "title") {
+      // タイトル検索: タイトルのみ比較
+      comparisons.push(() => compareByInclusionRate(a.title, b.title));
+    } else if (searchType === "creator") {
+      // 著者検索: 著者 → タイトルの順で比較
+      comparisons.push(() => {
+        if (a.authors && b.authors) {
+          return compareByInclusionRate(a.authors.join(" "), b.authors.join(" "));
+        }
+
+        return 0;
+      });
+      comparisons.push(() => compareByInclusionRate(a.title, b.title));
+    } else {
+      // "any": タイトル → 著者 → 出版社
+      comparisons.push(() => compareByInclusionRate(a.title, b.title));
+
+      comparisons.push(() => {
+        if (a.authors && b.authors) {
+          return compareByInclusionRate(a.authors.join(" "), b.authors.join(" "));
+        }
+
+        return 0;
+      });
+
+      comparisons.push(() => {
+        if (a.publishers && b.publishers) {
+          return compareByInclusionRate(a.publishers.join(" "), b.publishers.join(" "));
+        }
+
+        return 0;
+      });
     }
 
-    // 著者名の包含率でソート
-    if (a.authors && b.authors) {
-      const aAuthorRate = calculateInclusionRate(a.authors.join(" "), keyword);
-      const bAuthorRate = calculateInclusionRate(b.authors.join(" "), keyword);
-
-      if (aAuthorRate !== bAuthorRate) {
-        return bAuthorRate - aAuthorRate;
-      }
-    }
-
-    // 出版社名の包含率でソート
-    if (a.publishers && b.publishers) {
-      const aPublisherRate = calculateInclusionRate(a.publishers.join(" "), keyword);
-      const bPublisherRate = calculateInclusionRate(b.publishers.join(" "), keyword);
-
-      if (aPublisherRate !== bPublisherRate) {
-        return bPublisherRate - aPublisherRate;
-      }
+    // 定義された順序で比較を実行
+    for (const compare of comparisons) {
+      const result = compare();
+      if (result !== 0) return result;
     }
 
     // すべての包含率が同じ場合はタイトルでソート

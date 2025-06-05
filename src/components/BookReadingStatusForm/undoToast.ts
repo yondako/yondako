@@ -27,7 +27,9 @@ export function createUndoToast({
     }
 
     const newStatusLabel =
-      newStatus !== "none" ? `"${readingStatusMetadata.get(newStatus)?.label}" に登録しました` : "登録を解除しました";
+      newStatus !== "none"
+        ? `"${readingStatusMetadata.get(newStatus)?.label}" に登録しました`
+        : "ライブラリから削除しました";
 
     toast.success(newStatusLabel, {
       description: bookTitle,
