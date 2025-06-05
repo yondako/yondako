@@ -6,6 +6,7 @@ import { getStatusesByBookIds } from "@/db/queries/status";
 import { getAuth } from "@/lib/auth";
 import { searchBooksFromNDL } from "@/lib/ndl";
 import type { NDC } from "@/types/ndc";
+import { DEFAULT_SEARCH_TYPE, type SearchType } from "@/types/search";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { headers } from "next/headers";
 
@@ -14,13 +15,19 @@ const SEARCH_COUNT = 24;
 
 export type SearchResultProps = {
   query: string;
-  searchType?: "any" | "title" | "creator";
+  searchType?: SearchType;
   currentPage: number;
   ndc?: NDC;
   sensitive?: boolean;
 };
 
-export async function SearchResult({ query, searchType = "title", currentPage, ndc, sensitive }: SearchResultProps) {
+export async function SearchResult({
+  query,
+  searchType = DEFAULT_SEARCH_TYPE,
+  currentPage,
+  ndc,
+  sensitive,
+}: SearchResultProps) {
   const { env } = getCloudflareContext();
 
   const auth = getAuth(env.DB);

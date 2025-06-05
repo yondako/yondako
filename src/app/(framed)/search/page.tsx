@@ -9,12 +9,13 @@ import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
 import { ndcSchema } from "@/types/ndc";
 import { pageIndexSchema } from "@/types/page";
+import { searchTypeSchema } from "@/types/search";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
-import { safeParse } from "valibot";
+import { parse, safeParse } from "valibot";
 import SearchForm from "./_components/SearchForm";
 import { SearchResult } from "./_components/SearchResult";
 
@@ -73,8 +74,7 @@ export default async function Search(props: Props) {
   const query = searchParams.q;
 
   // 検索タイプ
-  // TODO: 検索タイプのバリデーションを追加
-  const searchType = searchParams.type === "title" || searchParams.type === "creator" ? searchParams.type : "title";
+  const searchType = parse(searchTypeSchema, searchParams.type);
 
   return (
     <>

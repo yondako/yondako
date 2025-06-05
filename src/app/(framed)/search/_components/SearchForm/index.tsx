@@ -3,12 +3,13 @@ import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Select from "@/components/Select";
 import { PATH_SEARCH } from "@/constants/path";
+import { DEFAULT_SEARCH_TYPE, type SearchType } from "@/types/search";
 import { twMerge } from "tailwind-merge";
 import SearchFilter from "../SearchFilter";
 import type { SearchResultProps } from "../SearchResult";
 
 type Props = Partial<Pick<SearchResultProps, "ndc" | "sensitive" | "query">> & {
-  searchType?: "any" | "title" | "creator";
+  searchType?: SearchType;
 };
 
 /**
@@ -16,7 +17,7 @@ type Props = Partial<Pick<SearchResultProps, "ndc" | "sensitive" | "query">> & {
  */
 export default function SearchForm(props: Props) {
   const isFiltered = !!props.ndc || !!props.sensitive;
-  const searchType = props.searchType || "title";
+  const searchType = props.searchType || DEFAULT_SEARCH_TYPE;
 
   return (
     <form className="m-0 flex w-full flex-col items-center gap-2 md:flex-row" action={PATH_SEARCH}>
