@@ -24,7 +24,7 @@ export default function SearchForm(props: Props) {
       <Select className="w-full shrink-0 md:w-auto" name="type" defaultValue={searchType}>
         <option value="title">タイトルから</option>
         <option value="creator">著者名から</option>
-        <option value="any">すべて</option>
+        <option value="any">すべてから</option>
       </Select>
       <div className="flex w-full gap-2">
         <Input
