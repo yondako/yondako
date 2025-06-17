@@ -54,7 +54,7 @@
     "vaul": "^1.1.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
+    "@biomejs/biome": "^2.0.0",
     "@cloudflare/workers-types": "^4.20250224.0",
     "@happy-dom/global-registrator": "^18.0.0",
     "@libsql/client": "^0.15.0",
