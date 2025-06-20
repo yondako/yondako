@@ -60,7 +60,7 @@
         "storybook-addon-pseudo-states": "^9.0.4",
         "tailwindcss": "^4.0.9",
         "typescript": "^5.8.2",
-        "vercel": "43.2.0",
+        "vercel": "43.3.0",
         "wrangler": "^4.0.0",
       },
     },
@@ -1139,7 +1139,7 @@
 
     "@vercel/nft": ["@vercel/nft@0.29.2", "", { "dependencies": { "@mapbox/node-pre-gyp": "^2.0.0", "@rollup/pluginutils": "^5.1.3", "acorn": "^8.6.0", "acorn-import-attributes": "^1.9.5", "async-sema": "^3.1.1", "bindings": "^1.4.0", "estree-walker": "2.0.2", "glob": "^10.4.5", "graceful-fs": "^4.2.9", "node-gyp-build": "^4.2.2", "picomatch": "^4.0.2", "resolve-from": "^5.0.0" }, "bin": { "nft": "out/cli.js" } }, "sha512-A/Si4mrTkQqJ6EXJKv5EYCDQ3NL6nJXxG8VGXePsaiQigsomHYQC9xSpX8qGk7AEZk4b1ssbYIqJ0ISQQ7bfcA=="],
 
-    "@vercel/node": ["@vercel/node@5.2.2", "", { "dependencies": { "@edge-runtime/node-utils": "2.3.0", "@edge-runtime/primitives": "4.1.0", "@edge-runtime/vm": "3.2.0", "@types/node": "16.18.11", "@vercel/build-utils": "10.6.1", "@vercel/error-utils": "2.0.3", "@vercel/nft": "0.29.2", "@vercel/static-config": "3.1.1", "async-listen": "3.0.0", "cjs-module-lexer": "1.2.3", "edge-runtime": "2.5.9", "es-module-lexer": "1.4.1", "esbuild": "0.14.47", "etag": "1.8.1", "node-fetch": "2.6.9", "path-to-regexp": "6.1.0", "path-to-regexp-updated": "npm:path-to-regexp@6.3.0", "ts-morph": "12.0.0", "ts-node": "10.9.1", "typescript": "4.9.5", "undici": "5.28.4" } }, "sha512-BcpCn6NVLBBWDSKUVCMmmM1mUoYttGwWIuOL8HpF2AbOnx1NzUTlrR6pvBLxs403DIjEfPzqgYHLxITg85oi7w=="],
+    "@vercel/node": ["@vercel/node@5.3.0", "", { "dependencies": { "@edge-runtime/node-utils": "2.3.0", "@edge-runtime/primitives": "4.1.0", "@edge-runtime/vm": "3.2.0", "@types/node": "16.18.11", "@vercel/build-utils": "10.6.1", "@vercel/error-utils": "2.0.3", "@vercel/nft": "0.29.2", "@vercel/static-config": "3.1.1", "async-listen": "3.0.0", "cjs-module-lexer": "1.2.3", "edge-runtime": "2.5.9", "es-module-lexer": "1.4.1", "esbuild": "0.14.47", "etag": "1.8.1", "node-fetch": "2.6.9", "path-to-regexp": "6.1.0", "path-to-regexp-updated": "npm:path-to-regexp@6.3.0", "ts-morph": "12.0.0", "ts-node": "10.9.1", "typescript": "4.9.5", "undici": "5.28.4" } }, "sha512-NeE5c7dRt9PXUzq7zUA+rj94l7AoXBw2cE+xK0hIoYDcWbIJVYBhbkBtzNdZx8CGncUJ2wMq01gn8pCwoQ0xYA=="],
 
     "@vercel/python": ["@vercel/python@4.7.2", "", {}, "sha512-i2QBNMvNxUZQ2e5vLIL7mUkLg5Qkl9nqxUNXCYezdyvk2Ql6xYKjg7tMhpK/uiy094KfZSOECpDbDxkIN0jUSw=="],
 
@@ -2879,7 +2879,7 @@
 
     "vaul": ["vaul@1.1.2", "", { "dependencies": { "@radix-ui/react-dialog": "^1.1.1" }, "peerDependencies": { "react": "^16.8 || ^17.0 || ^18.0 || ^19.0.0 || ^19.0.0-rc", "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0.0 || ^19.0.0-rc" } }, "sha512-ZFkClGpWyI2WUQjdLJ/BaGuV6AVQiJ3uELGk3OYtP+B6yCO7Cmn9vPFXVJkRaGkOJu3m8bQMgtyzNHixULceQA=="],
 
-    "vercel": ["vercel@43.2.0", "", { "dependencies": { "@vercel/blob": "1.0.2", "@vercel/build-utils": "10.6.1", "@vercel/fun": "1.1.6", "@vercel/go": "3.2.1", "@vercel/hydrogen": "1.2.2", "@vercel/next": "4.9.0", "@vercel/node": "5.2.2", "@vercel/python": "4.7.2", "@vercel/redwood": "2.3.3", "@vercel/remix-builder": "5.4.9", "@vercel/ruby": "2.2.0", "@vercel/static-build": "2.7.10", "chokidar": "4.0.0", "jose": "5.9.6" }, "bin": { "vc": "dist/vc.js", "vercel": "dist/vc.js" } }, "sha512-e47JEu7Hk5XA+FysBN4ZH9XiM1+RRRW9FC4fo5dDXsnHSsVlMkU1WWa8B4OERPYEqQGS2usfUf9kRAsNBShWGQ=="],
+    "vercel": ["vercel@43.3.0", "", { "dependencies": { "@vercel/blob": "1.0.2", "@vercel/build-utils": "10.6.1", "@vercel/fun": "1.1.6", "@vercel/go": "3.2.1", "@vercel/hydrogen": "1.2.2", "@vercel/next": "4.9.0", "@vercel/node": "5.3.0", "@vercel/python": "4.7.2", "@vercel/redwood": "2.3.3", "@vercel/remix-builder": "5.4.9", "@vercel/ruby": "2.2.0", "@vercel/static-build": "2.7.10", "chokidar": "4.0.0", "jose": "5.9.6" }, "bin": { "vc": "dist/vc.js", "vercel": "dist/vc.js" } }, "sha512-EID1ooEAp8F6JxR9WEckDX91qBuLhNvEltHbdKVmYwAbaPyB8q/G/51DJgDoT4ZALdbDujsVxGXDUp0nU26ouQ=="],
 
     "verror": ["verror@1.10.0", "", { "dependencies": { "assert-plus": "^1.0.0", "core-util-is": "1.0.2", "extsprintf": "^1.2.0" } }, "sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw=="],
 
