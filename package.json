@@ -37,7 +37,7 @@
     "fast-xml-parser": "^5.0.8",
     "kysely": "^0.28.0",
     "kysely-d1": "^0.4.0",
-    "next": "15.3.5",
+    "next": "15.4.1",
     "p-limit": "^6.2.0",
     "react": "19",
     "react-dom": "19",
