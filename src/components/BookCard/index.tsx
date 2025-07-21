@@ -57,7 +57,7 @@ export default function BookCard({ data }: Props) {
 
       <ShareDropdownMenu ndlUrl={data.detail.link} bookTitle={data.detail.title}>
         <button
-          className="absolute right-5 bottom-6 @xs:block hidden h-4 w-4 cursor-pointer rounded-2xl text-secondary-foreground transition-opacity hover:opacity-70"
+          className="absolute right-3 bottom-4 @xs:block hidden cursor-pointer rounded-2xl bg-tertiary-background p-2 text-secondary-foreground transition hover:brightness-95"
           aria-label="共有メニューを開く"
         >
           <IconDotsVertical className="h-4 w-4" />
