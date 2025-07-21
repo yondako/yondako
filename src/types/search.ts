@@ -1,4 +1,4 @@
-import { type InferOutput, fallback, picklist } from "valibot";
+import { fallback, type InferOutput, picklist } from "valibot";
 
 /**
  * 検索タイプのスキーマ

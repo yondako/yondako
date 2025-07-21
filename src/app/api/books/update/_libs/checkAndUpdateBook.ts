@@ -1,9 +1,9 @@
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+import pLimit from "p-limit";
 import { fetchSimpleBooksByIds, incrementBooksUpdateCheckCount, updateBooksMissingNdlBibId } from "@/db/queries/book";
 import { normalizeIsbn } from "@/lib/isbn";
 import { searchBooksFromNDL } from "@/lib/ndl";
 import type { BookDetail } from "@/types/book";
-import { getCloudflareContext } from "@opennextjs/cloudflare";
-import pLimit from "p-limit";
 import { notifyUpdateResult } from "./notify";
 
 /**

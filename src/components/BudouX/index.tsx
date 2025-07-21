@@ -1,4 +1,4 @@
-import { Parser, jaModel } from "budoux";
+import { jaModel, Parser } from "budoux";
 
 type Props = {
   children: string;

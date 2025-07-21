@@ -1,13 +1,13 @@
 "use client";
 
-import IconChevronLeft from "@/assets/icons/chevron-left.svg";
-import IconChevronRight from "@/assets/icons/chevron-right.svg";
-import IconChevronsLeft from "@/assets/icons/chevrons-left.svg";
-import IconChevronsRight from "@/assets/icons/chevrons-right.svg";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import type { ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
+import IconChevronLeft from "@/assets/icons/chevron-left.svg";
+import IconChevronRight from "@/assets/icons/chevron-right.svg";
+import IconChevronsLeft from "@/assets/icons/chevrons-left.svg";
+import IconChevronsRight from "@/assets/icons/chevrons-right.svg";
 
 type Props = {
   currentPage: number;

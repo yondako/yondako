@@ -1,6 +1,6 @@
-import NotoColorEmojiTako from "@/assets/images/noto-color-emoji/emoji_u1f419.svg";
 import type { ReactElement, ReactNode } from "react";
 import { twJoin, twMerge } from "tailwind-merge";
+import NotoColorEmojiTako from "@/assets/images/noto-color-emoji/emoji_u1f419.svg";
 
 export type MessageTakoProps = {
   title: string;

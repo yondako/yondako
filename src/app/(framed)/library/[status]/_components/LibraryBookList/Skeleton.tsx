@@ -29,7 +29,7 @@ export default function LibraryBookListSkeleton({ pageReadingStatus }: Props) {
       </div>
 
       {/* 書籍リスト */}
-      <BookListSkeleton className="mt-2" pageReadingStatus={pageReadingStatus} count={6} />
+      <BookListSkeleton className="mt-2" pageReadingStatus={pageReadingStatus} count={9} />
     </>
   );
 }

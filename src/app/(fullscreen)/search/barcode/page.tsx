@@ -1,11 +1,11 @@
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import { PATH_SEARCH_BARCODE } from "@/constants/path";
 import { getAuth } from "@/lib/auth";
 import { getIsDesktop } from "@/lib/getIsDesktop";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
-import { getCloudflareContext } from "@opennextjs/cloudflare";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 import ScannerStartPage from "./_components/ScannerStartPage";
 
 export const dynamic = "force-dynamic";

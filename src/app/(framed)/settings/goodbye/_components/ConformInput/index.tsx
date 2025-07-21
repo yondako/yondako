@@ -1,12 +1,12 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useActionState, useEffect } from "react";
+import { goodbyeUser } from "#actions/goodbyeUser";
 import IconExclamationCircle from "@/assets/icons/exclamation-circle.svg";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { signOut } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
-import { useActionState, useEffect } from "react";
-import { goodbyeUser } from "#actions/goodbyeUser";
 
 export default function ConfirmInput() {
   const router = useRouter();

@@ -1,6 +1,6 @@
 import { expect, setSystemTime, test } from "bun:test";
-import { lastNewsCheckedKey } from "@/hooks/useCheckLatestNews";
 import { render } from "@testing-library/react";
+import { lastNewsCheckedKey } from "@/hooks/useCheckLatestNews";
 import UpdateLastNewsCheckedAt from "./index";
 
 test("お知らせページを開いた時刻を保存すること", () => {

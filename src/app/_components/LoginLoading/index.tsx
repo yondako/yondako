@@ -1,6 +1,6 @@
 "use client";
-import { Loading } from "@/components/Loading";
 import { animated, useTransition } from "@react-spring/web";
+import { Loading } from "@/components/Loading";
 
 type Props = {
   show: boolean;

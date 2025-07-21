@@ -1,9 +1,9 @@
+import { startTransition } from "react";
+import type { useUpdateReadingStatus } from "#hooks/useUpdateReadingStatus";
 import { toast } from "@/components/Toast";
 import { readingStatusMetadata } from "@/constants/status";
 import type { BookIdentifiers } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
-import { startTransition } from "react";
-import type { useUpdateReadingStatus } from "#hooks/useUpdateReadingStatus";
 import type { BookReadingStatusFormProps } from ".";
 
 export type UndoToastOptions = {
@@ -57,7 +57,9 @@ export function createUndoToast({
           }
 
           onChangeStatus(undoResult.book.readingStatus);
-          toast.success("🐙 元に戻しました");
+          toast.success("🐙 元に戻しました", {
+            description: bookTitle,
+          });
         },
       },
     });

@@ -1,6 +1,6 @@
-import { getAuth } from "@/lib/auth";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { NextRequest } from "next/server";
+import { getAuth } from "@/lib/auth";
 
 export async function GET(req: NextRequest) {
   const { env } = getCloudflareContext();

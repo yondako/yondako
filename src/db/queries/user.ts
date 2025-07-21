@@ -1,7 +1,7 @@
-import { getAuth } from "@/lib/auth";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
+import { getAuth } from "@/lib/auth";
 import { getDB } from "..";
 import * as userDBSchema from "../schema/user";
 

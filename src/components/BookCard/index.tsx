@@ -1,11 +1,12 @@
 "use client";
 
+import { useOptimistic, useState } from "react";
 import IconDotsVertical from "@/assets/icons/dots-vertical.svg";
 import type { BookType } from "@/types/book";
-import { useOptimistic, useState } from "react";
 import BookDetail from "../BookDetail";
 import BookReadingStatusForm, { type BookReadingStatusFormProps } from "../BookReadingStatusForm";
 import BookThumbnail from "../BookThumbnail";
+import ShareDropdownMenu from "./ShareDropdownMenu";
 
 type Props = {
   data: BookType;
@@ -54,8 +55,14 @@ export default function BookCard({ data }: Props) {
         {...formProps}
       />
 
-      {/* 書籍詳細を開くボタンの名残り */}
-      <IconDotsVertical className="pointer-events-none absolute right-5 bottom-6 @xs:block hidden h-4 w-4 rounded-2xl text-secondary-foreground" />
+      <ShareDropdownMenu ndlUrl={data.detail.link} bookTitle={data.detail.title}>
+        <button
+          className="absolute right-3 bottom-4 @xs:block hidden cursor-pointer rounded-2xl bg-tertiary-background p-2 text-secondary-foreground transition hover:brightness-95"
+          aria-label="共有メニューを開く"
+        >
+          <IconDotsVertical className="h-4 w-4" />
+        </button>
+      </ShareDropdownMenu>
 
       <BookThumbnail
         className="-top-4 pointer-events-none absolute left-4 h-full w-28 border-4 border-tertiary-background shadow-xl"

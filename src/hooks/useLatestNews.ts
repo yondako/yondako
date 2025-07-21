@@ -1,5 +1,5 @@
-import { checkLatestNews } from "@/lib/news";
 import useSWR from "swr";
+import { checkLatestNews } from "@/lib/news";
 
 /**
  * 最新のお知らせタイムスタンプを取得

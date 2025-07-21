@@ -1,6 +1,6 @@
+import { XMLParser } from "fast-xml-parser";
 import { MAX_UPDATE_CHECK_COUNT } from "@/constants/db";
 import type { BookDetailWithoutId } from "@/types/book";
-import { XMLParser } from "fast-xml-parser";
 import { createAuthors, createPublishers, getIsbnFromSeeAlso, getJpeCode, toStringOrUndefined } from "./utils";
 
 type OpenSearchText = {

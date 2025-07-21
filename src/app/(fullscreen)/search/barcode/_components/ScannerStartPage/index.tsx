@@ -1,11 +1,11 @@
 "use client";
 
-import IconScan from "@/assets/icons/scan.svg";
-import Button from "@/components/Button";
 import type { QuaggaJSStatic } from "@ericblade/quagga2";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { useOrientation } from "react-use";
+import IconScan from "@/assets/icons/scan.svg";
+import Button from "@/components/Button";
 import MessagePage from "../MessagePage";
 
 const Scanner = dynamic(() => import("../Scanner"), {

@@ -1,15 +1,15 @@
 "use client";
 
+import Link from "next/link";
+import { useSelectedLayoutSegments } from "next/navigation";
+import type { ComponentPropsWithoutRef } from "react";
+import { twMerge } from "tailwind-merge";
 import ImageLogo from "@/assets/images/logo/portrait.svg";
 import Footer from "@/components/Footer";
 import { naviItems } from "@/constants/navi-items";
 import { site } from "@/constants/site";
 import { useCheckLatestNews } from "@/hooks/useCheckLatestNews";
 import { useLatestNews } from "@/hooks/useLatestNews";
-import Link from "next/link";
-import { useSelectedLayoutSegments } from "next/navigation";
-import type { ComponentPropsWithoutRef } from "react";
-import { twMerge } from "tailwind-merge";
 import Item from "./Item";
 
 /**

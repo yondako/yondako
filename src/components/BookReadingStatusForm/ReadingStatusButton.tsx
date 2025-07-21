@@ -1,6 +1,6 @@
+import { twMerge } from "tailwind-merge";
 import type { ReadingStatusMetadataItem } from "@/constants/status";
 import type { ReadingStatus } from "@/types/readingStatus";
-import { twMerge } from "tailwind-merge";
 
 export type BookReadingStatusButtonProps = {
   status: ReadingStatus;

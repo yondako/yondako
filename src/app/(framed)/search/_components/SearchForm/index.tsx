@@ -1,10 +1,10 @@
+import { twMerge } from "tailwind-merge";
 import IconAdjustments from "@/assets/icons/adjustments.svg";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Select from "@/components/Select";
 import { PATH_SEARCH } from "@/constants/path";
 import { DEFAULT_SEARCH_TYPE, type SearchType } from "@/types/search";
-import { twMerge } from "tailwind-merge";
 import SearchFilter from "../SearchFilter";
 import type { SearchResultProps } from "../SearchResult";
 

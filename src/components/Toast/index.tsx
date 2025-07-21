@@ -25,14 +25,14 @@ function CustomToast(props: ToastProps) {
       case "error":
         return "border border-red-600/80";
       default:
-        return "border border-accent/50";
+        return "border border-tertiary-border";
     }
   };
 
   return (
     <div
       className={twMerge(
-        "flex w-full items-center rounded-2xl bg-secondary-background px-6 py-4 shadow-lg",
+        "flex w-full items-center rounded-2xl bg-primary-background px-6 py-4 shadow-lg lg:min-w-72",
         getBorderColor(),
       )}
     >
@@ -43,9 +43,9 @@ function CustomToast(props: ToastProps) {
         </div>
       </div>
       {action && (
-        <div className="ml-4 shrink-0">
+        <div className="ml-6 shrink-0">
           <button
-            className="cursor-pointer rounded-xl bg-accent px-3 py-2 font-medium text-primary-background text-sm transition-colors hover:bg-accent/90"
+            className="cursor-pointer rounded-full bg-accent px-3 py-2 font-medium text-primary-background text-sm transition-colors hover:bg-accent/90"
             onClick={() => {
               action.onClick();
               sonnerToast.dismiss(id);

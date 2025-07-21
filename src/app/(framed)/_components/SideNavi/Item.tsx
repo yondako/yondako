@@ -1,6 +1,6 @@
-import type { NavItem } from "@/constants/navi-items";
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
+import type { NavItem } from "@/constants/navi-items";
 
 type Props = {
   current?: boolean;
@@ -8,7 +8,7 @@ type Props = {
 } & Omit<NavItem, "matchSegmentsRegExp">;
 
 /**
- * サイドナビゲーション内の個別アイテムコンポーネント。アクティブ状態、ホバー状態、通知バッジ表示をサポートし、アイコンとラベルを持つナビゲーションリンクを提供します。
+ * サイドナビゲーション内の個別アイテムコンポーネント
  */
 export default function Item({ title, IconSolid, IconFilled, href, current = false, badge = false }: Props) {
   const Icon = current ? IconFilled : IconSolid;
@@ -32,7 +32,6 @@ export default function Item({ title, IconSolid, IconFilled, href, current = fal
               "-top-0.5 -right-0.5 absolute h-2 w-2 rounded-full bg-red-400",
               current && "outline outline-1 outline-primary-background outline-offset-0",
             )}
-            aria-label="新しい通知があります"
           />
         )}
         <Icon className="h-5 w-5" />

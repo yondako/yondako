@@ -1,7 +1,7 @@
-import { MAX_UPDATE_BOOKS_PER_REQUEST } from "@/constants/update-books";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { NextRequest } from "next/server";
 import { array, maxLength, object, pipe, safeParse, string } from "valibot";
+import { MAX_UPDATE_BOOKS_PER_REQUEST } from "@/constants/update-books";
 import { updateNewReleaseBooks } from "./_libs/checkAndUpdateBook";
 
 const requestBodySchema = object({

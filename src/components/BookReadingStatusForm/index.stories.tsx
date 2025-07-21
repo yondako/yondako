@@ -1,8 +1,8 @@
-import { createDummyBookDetail } from "@/_mocks/book";
-import type { ReadingStatus } from "@/types/readingStatus";
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, fn, userEvent, waitFor, within } from "storybook/test";
 import { mockUpdateReadingStatusWithCache } from "#src/hooks/useUpdateReadingStatus.mock";
+import { createDummyBookDetail } from "@/_mocks/book";
+import type { ReadingStatus } from "@/types/readingStatus";
 import BookReadingStatusForm from ".";
 
 const mockNdlBibId = "1234567890";

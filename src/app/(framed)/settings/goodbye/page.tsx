@@ -1,9 +1,9 @@
-import { PATH_SETTING_GOODBYE } from "@/constants/path";
-import { getAuth } from "@/lib/auth";
-import { createSignInPath } from "@/lib/path";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { PATH_SETTING_GOODBYE } from "@/constants/path";
+import { getAuth } from "@/lib/auth";
+import { createSignInPath } from "@/lib/path";
 import ConfirmInput from "./_components/ConformInput";
 
 export const dynamic = "force-dynamic";

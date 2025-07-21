@@ -1,7 +1,7 @@
+import { and, eq, inArray, isNotNull, isNull, lt, or, sql } from "drizzle-orm";
 import { MAX_UPDATE_CHECK_COUNT } from "@/constants/db";
 import { normalizeIsbn } from "@/lib/isbn";
 import type { BookDetail, BookDetailWithoutId, BookIdentifiers } from "@/types/book";
-import { and, eq, inArray, isNotNull, isNull, lt, or, sql } from "drizzle-orm";
 import { getDB } from "..";
 import * as dbSchema from "../schema/book";
 import { createAuthor } from "./author";

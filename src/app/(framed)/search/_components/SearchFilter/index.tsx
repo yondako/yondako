@@ -1,12 +1,12 @@
 "use client";
 
+import Link from "next/link";
+import type { ReactNode } from "react";
+import { twMerge } from "tailwind-merge";
 import AdaptiveModalDrawer from "@/components/AdaptiveModalDrawer";
 import Switch from "@/components/Switch";
 import { PATH_SEARCH } from "@/constants/path";
 import { NDCList } from "@/types/ndc";
-import Link from "next/link";
-import type { ReactNode } from "react";
-import { twMerge } from "tailwind-merge";
 import type { SearchResultProps } from "../SearchResult";
 import CategoryButton from "./CategoryButton";
 import Label from "./Label";

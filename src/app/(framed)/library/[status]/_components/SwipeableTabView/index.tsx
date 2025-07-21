@@ -1,13 +1,13 @@
 "use client";
 
+import { animated, useSpring } from "@react-spring/web";
+import { useRouter } from "next/navigation";
+import type { PropsWithChildren } from "react";
+import { useEffect, useRef } from "react";
+import { useSwipeable } from "react-swipeable";
 import { readingStatusOrder } from "@/constants/status";
 import { useModalState } from "@/contexts/ModalStateContext";
 import type { ReadingStatus } from "@/types/readingStatus";
-import { animated, useSpring } from "@react-spring/web";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
-import type { PropsWithChildren } from "react";
-import { useSwipeable } from "react-swipeable";
 
 type Props = PropsWithChildren<{
   currentStatus: ReadingStatus;
@@ -122,6 +122,21 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
         return;
       }
 
+      // 縦横のスワイプの動き
+      const horizontalStrength = Math.abs(eventData.deltaX);
+      const verticalStrength = Math.abs(eventData.deltaY);
+
+      // 縦方向の動きが横方向より大きい場合は左右スワイプを無効化
+      // NOTE: ななめスワイプ時の誤作動を軽減するため
+      if (verticalStrength > horizontalStrength) {
+        return;
+      }
+
+      // 最小スワイプ距離以下ならスワイプしない
+      if (horizontalStrength < 20) {
+        return;
+      }
+
       isSwipingRef.current = true;
 
       // 既存のタイムアウトをクリア
@@ -220,7 +235,7 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
     },
     trackMouse: true,
     preventScrollOnSwipe: false,
-    delta: 10,
+    delta: 20,
   });
 
   return (

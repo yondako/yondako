@@ -6,11 +6,7 @@ export type AdaptiveModalDrawerProps = {
   contentClassName?: string;
 
   /** 中身 */
-  children?: (components: {
-    Title: typeof Title;
-    Description: typeof Description;
-    Close: typeof Close;
-  }) => ReactNode;
+  children?: (components: { Title: typeof Title; Description: typeof Description; Close: typeof Close }) => ReactNode;
 
   /** トリガー要素 */
   triggerChildren?: ReactNode;

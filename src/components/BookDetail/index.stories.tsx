@@ -1,8 +1,8 @@
+import type { Meta, StoryObj } from "@storybook/react";
+import { fn } from "storybook/test";
 import { createDummyBookDetail } from "@/_mocks/book";
 import { LibraryRevalidationProvider } from "@/contexts/LibraryRevalidationContext";
 import { ModalStateProvider } from "@/contexts/ModalStateContext";
-import type { Meta, StoryObj } from "@storybook/react";
-import { fn } from "storybook/test";
 import BookDetail from ".";
 
 const meta: Meta<typeof BookDetail> = {

@@ -1,7 +1,7 @@
+import { twMerge } from "tailwind-merge";
 import IconDotsVertical from "@/assets/icons/dots-vertical.svg";
 import { readingStatusMetadata } from "@/constants/status";
 import { readingStatusValues } from "@/types/readingStatus";
-import { twMerge } from "tailwind-merge";
 import BookReadingStatusButton from "../BookReadingStatusForm/ReadingStatusButton";
 
 export type BookCardSkeletonProps = {
