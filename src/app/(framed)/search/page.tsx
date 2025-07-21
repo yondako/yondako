@@ -1,3 +1,9 @@
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+import type { Metadata } from "next";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { Suspense } from "react";
+import { parse, safeParse } from "valibot";
 import IconHelp from "@/assets/icons/help.svg";
 import ExternalLink from "@/components/ExternalLink";
 import { Loading } from "@/components/Loading";
@@ -10,12 +16,6 @@ import { createSignInPath } from "@/lib/path";
 import { ndcSchema } from "@/types/ndc";
 import { pageIndexSchema } from "@/types/page";
 import { searchTypeSchema } from "@/types/search";
-import { getCloudflareContext } from "@opennextjs/cloudflare";
-import type { Metadata } from "next";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { Suspense } from "react";
-import { parse, safeParse } from "valibot";
 import SearchForm from "./_components/SearchForm";
 import { SearchResult } from "./_components/SearchResult";
 

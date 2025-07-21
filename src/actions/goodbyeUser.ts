@@ -1,7 +1,7 @@
 "use server";
 
-import { deleteUser } from "@/db/queries/user";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { deleteUser } from "@/db/queries/user";
 
 export type GoodByeUserResult = {
   success: boolean;

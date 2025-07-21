@@ -1,11 +1,11 @@
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import Footer from "@/components/Footer";
 import { PATH_SETTING } from "@/constants/path";
 import { getAuth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
-import { getCloudflareContext } from "@opennextjs/cloudflare";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 import AccountSection from "./_components/AccountSection";
 import SupportSection from "./_components/SupportSection";
 

@@ -1,8 +1,8 @@
 import { twMerge } from "tailwind-merge";
 import "./globals.css";
+import type { Metadata } from "next";
 import { site } from "@/constants/site";
 import { LINESeedJP } from "@/lib/font";
-import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   description: site.description.long,

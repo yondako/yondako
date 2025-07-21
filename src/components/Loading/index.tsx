@@ -1,8 +1,8 @@
 "use client";
 
-import imageTako from "@/assets/images/animation-emoji/1f419.gif";
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
+import imageTako from "@/assets/images/animation-emoji/1f419.gif";
 
 type Props = {
   title: string;

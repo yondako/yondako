@@ -1,7 +1,7 @@
-import { readingStatusValues } from "@/types/readingStatus";
 import { relations, sql } from "drizzle-orm";
 import { integer, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { v7 as uuidv7 } from "uuid";
+import { readingStatusValues } from "@/types/readingStatus";
 import { user } from "./user";
 
 /**

@@ -1,13 +1,13 @@
 "use client";
 
+import { animated, useSpring } from "@react-spring/web";
+import { useRouter } from "next/navigation";
+import type { PropsWithChildren } from "react";
+import { useEffect, useRef } from "react";
+import { useSwipeable } from "react-swipeable";
 import { readingStatusOrder } from "@/constants/status";
 import { useModalState } from "@/contexts/ModalStateContext";
 import type { ReadingStatus } from "@/types/readingStatus";
-import { animated, useSpring } from "@react-spring/web";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
-import type { PropsWithChildren } from "react";
-import { useSwipeable } from "react-swipeable";
 
 type Props = PropsWithChildren<{
   currentStatus: ReadingStatus;

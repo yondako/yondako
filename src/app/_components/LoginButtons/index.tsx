@@ -1,13 +1,13 @@
 "use client";
 
+import { type ComponentPropsWithoutRef, useState } from "react";
+import { twMerge } from "tailwind-merge";
 import IconBrandGitHub from "@/assets/icons/brand-github.svg";
 import IconBrandGoogle from "@/assets/icons/brand-google.svg";
 import Button from "@/components/Button";
 import ExternalLink from "@/components/ExternalLink";
 import { links } from "@/constants/site";
 import { signIn } from "@/lib/auth-client";
-import { type ComponentPropsWithoutRef, useState } from "react";
-import { twMerge } from "tailwind-merge";
 import LoginLoading from "../LoginLoading";
 
 type Props = {

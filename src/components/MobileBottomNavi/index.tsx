@@ -1,12 +1,12 @@
 "use client";
 
-import { naviItems } from "@/constants/navi-items";
-import { useCheckLatestNews } from "@/hooks/useCheckLatestNews";
-import { useLatestNews } from "@/hooks/useLatestNews";
 import Link from "next/link";
 import { useSelectedLayoutSegments } from "next/navigation";
 import type { ComponentPropsWithRef } from "react";
 import { twMerge } from "tailwind-merge";
+import { naviItems } from "@/constants/navi-items";
+import { useCheckLatestNews } from "@/hooks/useCheckLatestNews";
+import { useLatestNews } from "@/hooks/useLatestNews";
 
 /**
  * モバイルデバイス向けのボトムナビゲーションコンポーネント
@@ -39,10 +39,7 @@ export default function MobileBottomNavi({ className, ...props }: ComponentProps
               key={title}
             >
               {badge && (
-                <div
-                  className="absolute top-3 right-3 h-2.5 w-2.5 rounded-full bg-red-400 outline outline-2 outline-primary-background outline-offset-0"
-                  aria-label="新しい通知があります"
-                />
+                <div className="absolute top-3 right-3 h-2.5 w-2.5 rounded-full bg-red-400 outline outline-2 outline-primary-background outline-offset-0" />
               )}
               <Icon className="h-7 w-7" />
             </Link>

@@ -1,3 +1,6 @@
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import ImageLogo from "@/assets/images/logo/portrait.svg";
 import OpenDoodlesReadingSide from "@/assets/images/open-doodles/reading-side.svg";
 import OpenDoodlesSittingReading from "@/assets/images/open-doodles/sitting-reading.svg";
@@ -7,9 +10,6 @@ import { PATH_LIBLARY_WANT_READ } from "@/constants/path";
 import { site } from "@/constants/site";
 import { getAuth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
-import { getCloudflareContext } from "@opennextjs/cloudflare";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 import LoginButtons from "./_components/LoginButtons";
 import SlideIn from "./_components/SlideIn";
 

@@ -1,6 +1,6 @@
-import { extractBookTitle } from "@/lib/sharedContent";
 import { redirect } from "next/navigation";
 import type { NextRequest } from "next/server";
+import { extractBookTitle } from "@/lib/sharedContent";
 
 export async function GET(req: NextRequest) {
   const params = new URL(req.url).searchParams;

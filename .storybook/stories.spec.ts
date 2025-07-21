@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import test, { expect } from "@playwright/test";
 import type { StoryIndex } from "storybook/internal/types";
 

@@ -1,8 +1,8 @@
-import IconClose from "@/assets/icons/x.svg";
 import * as Dialog from "@radix-ui/react-dialog";
 import { type AnimationResult, animated, useTransition } from "@react-spring/web";
 import { useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
+import IconClose from "@/assets/icons/x.svg";
 import type { AdaptiveModalDrawerProps } from "./props";
 
 /**

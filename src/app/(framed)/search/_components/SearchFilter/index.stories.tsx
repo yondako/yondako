@@ -1,6 +1,6 @@
-import { NDCList } from "@/types/ndc";
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+import { NDCList } from "@/types/ndc";
 import SearchFilter from ".";
 
 const meta: Meta<typeof SearchFilter> = {

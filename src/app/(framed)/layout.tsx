@@ -1,9 +1,9 @@
+import type { ReactNode } from "react";
 import MobileBottomNavi from "@/components/MobileBottomNavi";
 import MobileHeader from "@/components/MobileHeader";
 import Toaster from "@/components/Toast";
 import { LibraryRevalidationProvider } from "@/contexts/LibraryRevalidationContext";
 import { ModalStateProvider } from "@/contexts/ModalStateContext";
-import type { ReactNode } from "react";
 import UmamiScript from "../_components/UmamiScript";
 import SideNavi from "./_components/SideNavi";
 

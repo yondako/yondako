@@ -1,5 +1,5 @@
-import { site } from "@/constants/site";
 import type { Metadata } from "next";
+import { site } from "@/constants/site";
 
 type MetadataOptions = {
   pageTitle: string;

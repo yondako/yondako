@@ -1,6 +1,6 @@
-import IconBookmarksFilled from "@/assets/icons/bookmarks-filled.svg";
-import IconBookmarks from "@/assets/icons/bookmarks.svg";
 import type { Meta, StoryObj } from "@storybook/react";
+import IconBookmarks from "@/assets/icons/bookmarks.svg";
+import IconBookmarksFilled from "@/assets/icons/bookmarks-filled.svg";
 import { TabItem } from "./TabItem";
 
 const meta: Meta<typeof TabItem> = {

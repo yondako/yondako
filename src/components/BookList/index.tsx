@@ -1,6 +1,6 @@
-import type { LibraryBooksData } from "@/hooks/useLibraryBooks";
 import type { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
+import type { LibraryBooksData } from "@/hooks/useLibraryBooks";
 import BookCard from "../BookCard";
 import BookCardSkeleton from "../BookCard/Skeleton";
 

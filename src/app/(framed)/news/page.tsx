@@ -1,10 +1,10 @@
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import { PATH_NEWS } from "@/constants/path";
 import { getAuth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
-import { getCloudflareContext } from "@opennextjs/cloudflare";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 import NewsCard from "./_components/NewsCard";
 import UpdateLastNewsCheckedAt from "./_components/UpdateLastNewsCheckedAt";
 import { fetchRecentNews } from "./_lib/fetchRecentNews";

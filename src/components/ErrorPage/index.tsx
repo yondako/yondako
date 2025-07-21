@@ -1,8 +1,8 @@
+import Link from "next/link";
+import type { ReactNode } from "react";
 import NotoColorEmojiTako from "@/assets/images/noto-color-emoji/emoji_u1f419.svg";
 import Button from "@/components/Button";
 import LandingLayout from "@/components/LandingLayout";
-import Link from "next/link";
-import type { ReactNode } from "react";
 
 type Props = {
   title: string;

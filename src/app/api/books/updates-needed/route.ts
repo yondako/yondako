@@ -1,6 +1,6 @@
-import { getBooksPossiblyNewReleases } from "@/db/queries/book";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { NextRequest } from "next/server";
+import { getBooksPossiblyNewReleases } from "@/db/queries/book";
 
 /**
  * 新刊書籍の書誌IDを返す

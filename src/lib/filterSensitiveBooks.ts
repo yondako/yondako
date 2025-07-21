@@ -1,5 +1,5 @@
-import type { BookDetailWithoutId } from "@/types/book";
 import TinySegmenter from "tiny-segmenter";
+import type { BookDetailWithoutId } from "@/types/book";
 
 export type FilterNGWordsResult = {
   safeBooks: BookDetailWithoutId[];
