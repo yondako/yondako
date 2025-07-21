@@ -16,9 +16,13 @@ export default function ShareDropdownMenu({ children, ndlUrl, bookTitle }: Props
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(ndlUrl);
-      toast.success("リンクをコピーしました");
+      toast.success("リンクをコピーしました", {
+        description: bookTitle,
+      });
     } catch {
-      toast.error("リンクのコピーに失敗しました");
+      toast.error("リンクのコピーに失敗しました", {
+        description: "クリップボードへのアクセスが許可されているか設定をご確認ください",
+      });
     }
   };
 
