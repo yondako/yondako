@@ -57,7 +57,9 @@ export function createUndoToast({
           }
 
           onChangeStatus(undoResult.book.readingStatus);
-          toast.success("🐙 元に戻しました");
+          toast.success("🐙 元に戻しました", {
+            description: bookTitle,
+          });
         },
       },
     });
