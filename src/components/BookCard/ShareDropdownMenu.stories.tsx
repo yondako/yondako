@@ -11,18 +11,18 @@ const meta: Meta<typeof ShareDropdownMenu> = {
     layout: "centered",
   },
   argTypes: {
-    url: {
+    ndlUrl: {
       control: "text",
       description: "共有するURL",
     },
-    title: {
+    bookTitle: {
       control: "text",
       description: "共有するコンテンツのタイトル",
     },
   },
   args: {
-    url: "https://ndlsearch.ndl.go.jp/books/R100000002-I000011285337",
-    title: "吾輩は猫である",
+    ndlUrl: "https://ndlsearch.ndl.go.jp/books/R100000002-I030179672",
+    bookTitle: "上伊那ぼたん、酔へる姿は百合の花",
   },
   render: (args) => {
     return (
@@ -63,14 +63,17 @@ export const Open: Story = {
     },
   },
   play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
+    // NOTE: canvasElement内にcreatePortalで作った要素がない問題のワークアラウンド
+    // https://github.com/storybookjs/storybook/issues/16971
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
+    const canvas = within(canvasElement.parentElement!);
 
     const trigger = canvas.getByRole("button", { name: "共有メニューを開く" });
     await userEvent.click(trigger);
 
     await waitFor(() => {
       expect(canvas.getByText("リンクをコピー")).toBeInTheDocument();
-      expect(canvas.getByText("その他の方法でポストを共有...")).toBeInTheDocument();
+      expect(canvas.getByText("その他の方法で共有")).toBeInTheDocument();
     });
   },
 };
@@ -85,7 +88,10 @@ export const ClickMenuItem: Story = {
     },
   },
   play: async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
+    // NOTE: canvasElement内にcreatePortalで作った要素がない問題のワークアラウンド
+    // https://github.com/storybookjs/storybook/issues/16971
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
+    const canvas = within(canvasElement.parentElement!);
 
     await step("メニューを開く", async () => {
       const trigger = canvas.getByRole("button", { name: "共有メニューを開く" });
