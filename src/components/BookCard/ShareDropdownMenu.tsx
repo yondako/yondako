@@ -4,12 +4,12 @@ import { type PropsWithChildren, useState } from "react";
 import { toast } from "@/components/Toast";
 import { useDevice } from "@/contexts/DeviceContext";
 
-type Props = PropsWithChildren<{
+export type ShareDropdownMenuProps = PropsWithChildren<{
   ndlUrl: string;
   bookTitle?: string;
 }>;
 
-export default function ShareDropdownMenu({ children, ndlUrl, bookTitle }: Props) {
+export default function ShareDropdownMenu({ children, ndlUrl, bookTitle }: ShareDropdownMenuProps) {
   const [open, setOpen] = useState(false);
   const { isDesktop } = useDevice();
 
@@ -44,7 +44,7 @@ export default function ShareDropdownMenu({ children, ndlUrl, bookTitle }: Props
   };
 
   const itemClassName =
-    "flex cursor-pointer rounded-xl select-none items-center px-4 py-3 text-primary-foreground text-sm outline-none transition-colors hover:bg-tertiary-background focus:bg-tertiary-background transition-colors";
+    "flex cursor-pointer rounded-xl select-none items-center px-4 py-3 text-primary-foreground text-sm outline-none transition hover:brightness-95 bg-primary-background";
 
   const openShareSite = () => {
     const shareText = bookTitle ? `${bookTitle}\n${ndlUrl}` : ndlUrl;

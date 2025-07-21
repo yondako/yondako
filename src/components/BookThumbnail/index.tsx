@@ -48,7 +48,7 @@ function Wrapper({ children, className }: { children: ReactNode } & Pick<Props, 
   return (
     <div
       className={twMerge(
-        "flex aspect-[64/91] items-center justify-center overflow-hidden rounded-2xl bg-secondary-background",
+        "flex aspect-[64/91] items-center justify-center overflow-hidden rounded-xl bg-secondary-background",
         className,
       )}
     >
