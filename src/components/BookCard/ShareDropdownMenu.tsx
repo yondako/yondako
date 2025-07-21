@@ -1,7 +1,7 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { animated, useTransition } from "@react-spring/web";
 import { type PropsWithChildren, useState } from "react";
-import { toast } from "sonner";
+import { toast } from "@/components/Toast";
 import { useDevice } from "@/contexts/DeviceContext";
 
 type Props = PropsWithChildren<{
@@ -39,6 +39,9 @@ export default function ShareDropdownMenu({ children, ndlUrl, bookTitle }: Props
     }
   };
 
+  const itemClassName =
+    "flex cursor-pointer rounded-xl select-none items-center px-4 py-3 text-primary-foreground text-sm outline-none transition-colors hover:bg-tertiary-background focus:bg-tertiary-background transition-colors";
+
   const openShareSite = () => {
     const shareText = bookTitle ? `${bookTitle}\n${ndlUrl}` : ndlUrl;
     const shareUrl = new URL("https://しぇあ.com");
@@ -75,21 +78,14 @@ export default function ShareDropdownMenu({ children, ndlUrl, bookTitle }: Props
           item ? (
             <DropdownMenu.Content asChild sideOffset={8} align="end">
               <animated.div
-                className="min-w-[280px] origin-top overflow-hidden rounded-lg border border-secondary-border bg-primary-background shadow-lg"
+                className=" origin-top overflow-hidden rounded-2xl bg-primary-background p-2 shadow-lg"
                 style={style}
               >
-                <DropdownMenu.Item
-                  className="flex h-12 cursor-pointer select-none items-center px-4 text-primary-foreground text-sm outline-none transition-colors hover:bg-secondary-background focus:bg-secondary-background"
-                  onSelect={handleCopyLink}
-                >
+                <DropdownMenu.Item className={itemClassName} onSelect={handleCopyLink}>
                   リンクをコピー
                 </DropdownMenu.Item>
-                <DropdownMenu.Separator className="h-[1px] bg-secondary-border" />
-                <DropdownMenu.Item
-                  className="flex h-12 cursor-pointer select-none items-center px-4 text-primary-foreground text-sm outline-none transition-colors hover:bg-secondary-background focus:bg-secondary-background"
-                  onSelect={handleShare}
-                >
-                  その他の方法でポストを共有...
+                <DropdownMenu.Item className={itemClassName} onSelect={handleShare}>
+                  その他の方法で共有
                 </DropdownMenu.Item>
               </animated.div>
             </DropdownMenu.Content>
