@@ -1,4 +1,6 @@
 import type { Preview } from "@storybook/nextjs";
+// biome-ignore lint/correctness/noUnusedImports: <explanation>
+import React from "react";
 import { DeviceProvider } from "../src/contexts/DeviceContext";
 import { LibraryRevalidationProvider } from "../src/contexts/LibraryRevalidationContext";
 import { ModalStateProvider } from "../src/contexts/ModalStateContext";
