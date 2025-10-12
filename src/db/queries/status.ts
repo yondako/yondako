@@ -68,6 +68,12 @@ export async function searchBooksFromLibrary(
     : undefined;
 
   try {
+    // "all"の場合は、want_read, reading, readの3つのステータスを含める
+    const statusCondition =
+      status === "all"
+        ? inArray(dbSchema.readingStatuses.status, ["want_read", "reading", "read"])
+        : eq(dbSchema.readingStatuses.status, status);
+
     const results = db.$with("results").as(
       db
         .select({
@@ -79,7 +85,7 @@ export async function searchBooksFromLibrary(
           },
         })
         .from(dbSchema.readingStatuses)
-        .where(and(eq(dbSchema.readingStatuses.userId, userId), eq(dbSchema.readingStatuses.status, status)))
+        .where(and(eq(dbSchema.readingStatuses.userId, userId), statusCondition))
         .innerJoin(
           dbSchema.books,
           and(

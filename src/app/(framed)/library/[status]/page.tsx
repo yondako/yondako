@@ -10,7 +10,7 @@ import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
 import { type Order, orderSchema } from "@/types/order";
 import { pageIndexSchema } from "@/types/page";
-import { type ReadingStatus, readingStatusSchemaWithoutNone } from "@/types/readingStatus";
+import { type ReadingStatus, libraryReadingStatusSchema } from "@/types/readingStatus";
 import { LibraryBookList } from "./_components/LibraryBookList";
 import { SwipeableTabView } from "./_components/SwipeableTabView";
 import Tab from "./_components/Tab";
@@ -32,7 +32,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params;
   const readingStatus = readingStatusMetadata.get(params.status);
 
-  if (!readingStatus || !is(readingStatusSchemaWithoutNone, params.status)) {
+  if (!readingStatus || !is(libraryReadingStatusSchema, params.status)) {
     notFound();
   }
 
@@ -58,7 +58,7 @@ export default async function Library(props: Props) {
     redirect(createSignInPath(`/library/${params.status}`));
   }
 
-  if (!is(readingStatusSchemaWithoutNone, params.status)) {
+  if (!is(libraryReadingStatusSchema, params.status)) {
     notFound();
   }
 

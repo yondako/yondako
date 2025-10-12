@@ -3,6 +3,8 @@ import IconBook from "@/assets/icons/book.svg";
 import IconBookFilled from "@/assets/icons/book-filled.svg";
 import IconBookmark from "@/assets/icons/bookmark.svg";
 import IconBookmarkFilled from "@/assets/icons/bookmark-filled.svg";
+import IconBookmarks from "@/assets/icons/bookmarks.svg";
+import IconBookmarksFilled from "@/assets/icons/bookmarks-filled.svg";
 import IconMoodEmpty from "@/assets/icons/mood-empty.svg";
 import IconMoodEmptyFilled from "@/assets/icons/mood-empty-filled.svg";
 import IconSquareCheck from "@/assets/icons/square-check.svg";
@@ -51,6 +53,14 @@ export const readingStatusMetadata = new Map<ReadingStatus, ReadingStatusMetadat
       IconFilled: IconSquareCheckFilled,
     },
   ],
+  [
+    "all",
+    {
+      label: "すべて",
+      IconSolid: IconBookmarks,
+      IconFilled: IconBookmarksFilled,
+    },
+  ],
 ]);
 
-export const readingStatusOrder: ReadingStatus[] = ["want_read", "reading", "read"];
+export const readingStatusOrder: ReadingStatus[] = ["all", "want_read", "reading", "read"];

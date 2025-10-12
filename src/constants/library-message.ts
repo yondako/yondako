@@ -7,4 +7,5 @@ export const LIBRARY_MESSAGE = new Map<ReadingStatus, string>([
   ["read", "ﾅﾆﾓﾅｲ"],
   ["want_read", "ｽｯｷﾘ"],
   ["none", LIBRARY_MESSAGE_NONE],
+  ["all", "ﾅﾆﾓﾅｲ"],
 ]);
