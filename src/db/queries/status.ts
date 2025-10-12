@@ -64,7 +64,7 @@ export async function searchBooksFromLibrary(
   const db = getDB(dbInstance);
 
   const escapedTitleKeyword = titleKeyword
-    ? `%${titleKeyword?.replaceAll("%", "\\%").replaceAll("_", "//_")}%`
+    ? `%${titleKeyword.replaceAll("%", "\\%").replaceAll("_", "\\_")}%`
     : undefined;
 
   try {
