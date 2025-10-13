@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useDebouncedCallback } from "use-debounce";
 import IconSortAsc from "@/assets/icons/sort-ascending.svg";
 import IconSortDesc from "@/assets/icons/sort-descending.svg";
 import Button from "@/components/Button";
@@ -21,11 +20,10 @@ export default function Filter({ isOrderAsc }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const debounced = useDebouncedCallback((value) => {
-    const keyword = String(value).trim();
-
+  const handleSearch = (value: string) => {
+    const keyword = value.trim();
     router.replace(keyword === "" ? removeKeywordParam(searchParams) : createFilterSearchParams(searchParams, keyword));
-  }, 600);
+  };
 
   const IconSort = isOrderAsc ? IconSortAsc : IconSortDesc;
   const nextOrder: Order = isOrderAsc ? "desc" : "asc";
@@ -36,7 +34,11 @@ export default function Filter({ isOrderAsc }: Props) {
         className="grow text-sm sm:max-w-64 lg:text-xs"
         placeholder="タイトルの一部"
         defaultValue={searchParams.get("q") ?? ""}
-        onChange={(e) => debounced(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            handleSearch(e.currentTarget.value);
+          }
+        }}
         search
       />
 
