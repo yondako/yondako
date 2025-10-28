@@ -76,7 +76,7 @@
     "@types/react-dom": "19",
     "@types/tiny-segmenter": "^0.2.0",
     "drizzle-kit": "^0.31.0",
-    "lefthook": "^1.11.2",
+    "lefthook": "^2.0.0",
     "postcss": "^8.5.3",
     "storybook": "^9.0.4",
     "storybook-addon-pseudo-states": "^9.0.4",
