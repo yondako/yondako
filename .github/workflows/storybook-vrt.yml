@@ -18,7 +18,7 @@ jobs:
         uses: ./.github/actions/setup-playwright
 
       - name: Restore Cache VRT snapshots
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: __snapshots__
           key: storybook-vrt-snapshots-${{ github.sha }}-${{ github.run_id }}
