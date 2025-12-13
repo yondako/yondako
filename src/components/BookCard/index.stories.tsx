@@ -108,7 +108,7 @@ export const OpenClose: Story = {
   play: async ({ canvasElement, step, args }) => {
     // NOTE: canvasElement内にcreatePortalで作った要素がない問題のワークアラウンド
     // https://github.com/storybookjs/storybook/issues/16971
-    // biome-ignore lint/style/noNonNullAssertion: <explanation>
+    // biome-ignore lint/style/noNonNullAssertion: createPortalで作成された要素はparentElement内に存在する
     const canvas = within(canvasElement.parentElement!);
 
     await step("ダイアログが開く", async () => {

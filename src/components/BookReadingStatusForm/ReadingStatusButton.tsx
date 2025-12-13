@@ -23,7 +23,7 @@ export default function BookReadingStatusButton({
   return (
     <button
       className={twMerge(
-        "cursor-pointer rounded-2xl px-3 py-1 transition hover:brightness-95 ",
+        "cursor-pointer rounded-2xl px-3 py-1 transition hover:brightness-95",
         compact ? "bg-tertiary-background" : "space-y-1 bg-primary-background",
       )}
       key={meta.label}

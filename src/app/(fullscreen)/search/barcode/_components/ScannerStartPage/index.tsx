@@ -46,7 +46,7 @@ export default function ScannerStartPage() {
   }, []);
 
   // 画面が回転したらカメラのサイズを変更する必要があるので、最初からやり直す
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: typeの変更時のみスキャン状態をリセットする
   useEffect(() => {
     setScanning(false);
   }, [type]);

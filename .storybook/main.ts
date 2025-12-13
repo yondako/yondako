@@ -22,9 +22,21 @@ const config: StorybookConfig = {
     },
   ],
   webpackFinal: async (config) => {
+    // node: スキームのモジュールを外部化（@opennextjs/cloudflareなどが使用）
+    const existingExternals = config.externals || [];
+    config.externals = [
+      ...(Array.isArray(existingExternals) ? existingExternals : [existingExternals]),
+      ({ request }: { request?: string }, callback: (err?: null, result?: string) => void) => {
+        if (request && /^node:/.test(request)) {
+          return callback(null, `commonjs ${request}`);
+        }
+        callback();
+      },
+    ];
+
     const fileLoaderRule = config.module?.rules?.find(
       (rule) => (rule as { test?: RegExp })?.test?.test(".svg"),
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      // biome-ignore lint/suspicious/noExplicitAny: webpackの設定オブジェクトは動的な構造のためany型を使用
     ) as { [key: string]: any };
 
     config.module?.rules?.push(

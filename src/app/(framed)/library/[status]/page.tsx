@@ -65,7 +65,7 @@ export default async function Library(props: Props) {
   const isDesktop = getIsDesktop(await headers());
 
   const searchParams = await props.searchParams;
-  const pageParseResult = safeParse(pageIndexSchema, Number.parseInt(searchParams.page ?? "1"));
+  const pageParseResult = safeParse(pageIndexSchema, Number.parseInt(searchParams.page ?? "1", 10));
 
   const page = pageParseResult.success ? pageParseResult.output : 1;
 

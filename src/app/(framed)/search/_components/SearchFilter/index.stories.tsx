@@ -97,7 +97,7 @@ export const closeReset: Story = {
     });
 
     // NOTE: canvasElement内にcreatePortalで作った要素がない問題のワークアラウンド
-    // biome-ignore lint/style/noNonNullAssertion: <explanation>
+    // biome-ignore lint/style/noNonNullAssertion: createPortalで作成された要素はparentElement内に存在する
     const modalCanvas = within(canvasElement.parentElement!);
 
     await step("カテゴリーを選択", async () => {

@@ -38,7 +38,8 @@
     "fast-xml-parser": "^5.0.8",
     "kysely": "^0.28.0",
     "kysely-d1": "^0.4.0",
-    "next": "15.5.7",
+    "ndarray-pixels": "^5.0.1",
+    "next": "15.5.9",
     "p-limit": "^7.0.0",
     "react": "19",
     "react-dom": "19",
@@ -82,7 +83,7 @@
     "storybook-addon-pseudo-states": "^10.0.0",
     "tailwindcss": "^4.0.9",
     "typescript": "^5.8.2",
-    "vercel": "48.12.0",
+    "vercel": "48.12.1",
     "wrangler": "^4.0.0"
   },
   "overrides": {

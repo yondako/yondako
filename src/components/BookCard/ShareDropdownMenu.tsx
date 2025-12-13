@@ -82,7 +82,7 @@ export default function ShareDropdownMenu({ children, ndlUrl, bookTitle }: Share
           item ? (
             <DropdownMenu.Content asChild sideOffset={8} align="end">
               <animated.div
-                className=" origin-top overflow-hidden rounded-2xl bg-primary-background p-2 shadow-lg"
+                className="origin-top overflow-hidden rounded-2xl bg-primary-background p-2 shadow-lg"
                 style={style}
               >
                 <DropdownMenu.Item className={itemClassName} onSelect={handleCopyLink}>
