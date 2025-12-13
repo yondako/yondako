@@ -5,7 +5,7 @@ declare module "*.svg" {
 }
 
 declare module "*.svg?url" {
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // biome-ignore lint/suspicious/noExplicitAny: SVGファイルのURL importは動的な型のためany型を使用
   const content: any;
   export default content;
 }

@@ -1,5 +1,5 @@
 import type { Preview } from "@storybook/nextjs";
-// biome-ignore lint/correctness/noUnusedImports: <explanation>
+// biome-ignore lint/correctness/noUnusedImports: JSX変換にReactのインポートが必要
 import React from "react";
 import { DeviceProvider } from "../src/contexts/DeviceContext";
 import { LibraryRevalidationProvider } from "../src/contexts/LibraryRevalidationContext";

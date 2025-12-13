@@ -24,7 +24,7 @@ const config: StorybookConfig = {
   webpackFinal: async (config) => {
     const fileLoaderRule = config.module?.rules?.find(
       (rule) => (rule as { test?: RegExp })?.test?.test(".svg"),
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      // biome-ignore lint/suspicious/noExplicitAny: webpackの設定オブジェクトは動的な構造のためany型を使用
     ) as { [key: string]: any };
 
     config.module?.rules?.push(

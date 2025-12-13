@@ -16,10 +16,9 @@ export default forwardRef<HTMLSelectElement, Props>(function Select({ className,
       >
         {children}
       </select>
-      <img
-        src="/icons/chevron-down.svg"
-        alt=""
-        className="-translate-y-1/2 pointer-events-none absolute top-1/2 right-3 h-4 w-4"
+      <span
+        className="-translate-y-1/2 pointer-events-none absolute top-1/2 right-3 h-4 w-4 bg-[image:var(--background-image-chevron-down)] bg-center bg-no-repeat"
+        aria-hidden="true"
       />
     </div>
   );

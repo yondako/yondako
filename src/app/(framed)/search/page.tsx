@@ -60,7 +60,7 @@ export default async function Search(props: Props) {
   const searchParams = await props.searchParams;
 
   // ページ数
-  const pageParseResult = safeParse(pageIndexSchema, Number.parseInt(searchParams.page ?? "1"));
+  const pageParseResult = safeParse(pageIndexSchema, Number.parseInt(searchParams.page ?? "1", 10));
   const page = pageParseResult.success ? pageParseResult.output : 1;
 
   // NDC

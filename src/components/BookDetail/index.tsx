@@ -56,7 +56,7 @@ export default function BookDetail({ bookDetailProps, children, ...props }: Prop
             )}
           >
             <BookThumbnail
-              className={twMerge("h-40 ", "lg:h-52 lg:border-4 lg:border-primary-background lg:shadow-xl")}
+              className={twMerge("h-40", "lg:h-52 lg:border-4 lg:border-primary-background lg:shadow-xl")}
               isbn={bookDetailProps.data.detail.isbn}
               jpeCode={bookDetailProps.data.detail.jpeCode}
             />
