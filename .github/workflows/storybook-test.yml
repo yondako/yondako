@@ -21,7 +21,8 @@ jobs:
         uses: ./.github/actions/setup-bun
 
       - name: Setup Playwright
-        uses: ./.github/actions/setup-playwright
+        run: |
+          bunx playwright install
 
       - name: Serve Storybook and run tests
         run: |
