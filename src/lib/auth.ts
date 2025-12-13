@@ -10,7 +10,7 @@ export const getAuth = (dbInstance: D1Database) => {
 
   return betterAuth({
     baseURL: process.env.BETTER_AUTH_URL,
-    secret: process.env.BETTER_AUTH_SECRET,
+    secret: process.env.AUTH_SECRET,
     // NOTE:
     // 本当は以下のように drizzleAdapter を使いたい
     // database: drizzleAdapter(getDB(dbInstance), { provider: "sqlite" })
