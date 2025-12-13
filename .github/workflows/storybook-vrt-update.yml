@@ -27,7 +27,7 @@ jobs:
 
       - name: Update Cache VRT snapshots
         if: success()
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         id: storybook-vrt-cache
         with:
           path: __snapshots__
