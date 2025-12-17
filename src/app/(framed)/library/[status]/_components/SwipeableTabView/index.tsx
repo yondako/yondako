@@ -29,7 +29,7 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
 
   const [springProps, api] = useSpring(() => ({
     x: 0,
-    opacity: 0,
+    opacity: 1,
   }));
 
   // スワイプ遷移の検出と初期アニメーション
