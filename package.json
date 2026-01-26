@@ -39,7 +39,7 @@
     "kysely": "^0.28.0",
     "kysely-d1": "^0.4.0",
     "ndarray-pixels": "^5.0.1",
-    "next": "15.5.9",
+    "next": "15.5.10",
     "p-limit": "^7.0.0",
     "react": "19",
     "react-dom": "19",
