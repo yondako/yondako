@@ -33,12 +33,13 @@ async function fetchThumbnailUrl(isbn: string, applicationId: string): Promise<s
   url.searchParams.set("formatVersion", "2");
 
   const res = await fetch(url);
+
   if (!res.ok) {
-    console.error(`  API error: ${res.status} ${res.statusText}`);
-    return null;
+    throw new Error(`Rakuten API error: ${res.status} ${res.statusText}`);
   }
 
   const data: RakutenBooksResponse = await res.json();
+  // 書籍が見つからない場合はItems: []が返るのでnull
   return data.Items?.[0]?.largeImageUrl ?? null;
 }
 
