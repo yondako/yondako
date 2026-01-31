@@ -104,13 +104,22 @@ export async function fetchSimpleBooksByIds(
   });
 }
 
+type CreateBookOptions = {
+  thumbnailQueue?: Queue<ThumbnailJobMessage>;
+};
+
 /**
  * 書籍データを登録
  * @param dbInstance D1のインスタンス
  * @param book 書籍データ
+ * @param options オプション（書影取得用のQueue等）
  * @returns 登録した書籍データ
  */
-export async function createBook(dbInstance: D1Database, book: BookDetailWithoutId): Promise<BookDetail> {
+export async function createBook(
+  dbInstance: D1Database,
+  book: BookDetailWithoutId,
+  options?: CreateBookOptions,
+): Promise<BookDetail> {
   const db = getDB(dbInstance);
 
   // 書籍データを登録
@@ -118,6 +127,14 @@ export async function createBook(dbInstance: D1Database, book: BookDetailWithout
 
   // 著者情報と出版社情報を登録
   await insertAuthorsAndPublishers(dbInstance, insertedBook.id, book.authors, book.publishers);
+
+  // 書影取得用のQueueにジョブを追加（ISBNがある場合のみ）
+  if (options?.thumbnailQueue && insertedBook.isbn) {
+    await options.thumbnailQueue.send({
+      bookId: insertedBook.id,
+      isbn: insertedBook.isbn,
+    });
+  }
 
   return insertedBook;
 }

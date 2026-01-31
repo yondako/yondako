@@ -3,4 +3,13 @@
 
 interface CloudflareEnv {
   DB: D1Database;
+  THUMBNAIL_QUEUE: Queue<ThumbnailJobMessage>;
 }
+
+/**
+ * 書影取得ジョブのメッセージ
+ */
+type ThumbnailJobMessage = {
+  bookId: string;
+  isbn: string;
+};
