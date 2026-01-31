@@ -79,7 +79,9 @@ export async function updateReadingStatus(
       };
     }
 
-    bookDetail = await createBook(env.DB, book);
+    bookDetail = await createBook(env.DB, book, {
+      thumbnailQueue: env.THUMBNAIL_QUEUE,
+    });
   }
 
   // 読書ステータスの変更をDBに反映
