@@ -33,7 +33,7 @@ export default function BookLinks({ title, isbn, ndlLink }: Props) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            国会国立図書館
+            国立国会図書館
             <IconExternalLink className="ml-1 h-4 w-4" />
           </a>
         </Button>
