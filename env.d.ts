@@ -4,6 +4,7 @@
 interface CloudflareEnv {
   DB: D1Database;
   THUMBNAIL_QUEUE: Queue<ThumbnailJobMessage>;
+  RAKUTEN_APP_ID: string;
 }
 
 /**

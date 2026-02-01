@@ -23,6 +23,7 @@ export async function fetchThumbnailUrl(isbn: string, applicationId: string): Pr
   }
 
   const data: RakutenBooksResponse = await res.json();
+
   // 書籍が見つからない場合はItems: []が返るのでnull
   return data.Items?.[0]?.largeImageUrl ?? null;
 }
