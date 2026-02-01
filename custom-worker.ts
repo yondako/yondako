@@ -1,5 +1,8 @@
+import { eq } from "drizzle-orm";
 // @ts-expect-error `.open-next/worker.js` is generated at build time
 import { default as handler } from "./.open-next/worker.js";
+import { getDB } from "./src/db";
+import { books } from "./src/db/schema/book";
 import { fetchThumbnailUrl } from "./src/lib/thumbnail/rakuten";
 
 const MAX_RETRY_ATTEMPTS = 3;
@@ -8,6 +11,8 @@ export default {
   fetch: handler.fetch,
 
   async queue(batch: MessageBatch<ThumbnailJobMessage>, env: CloudflareEnv): Promise<void> {
+    const db = getDB(env.DB);
+
     for (const message of batch.messages) {
       const { bookId, isbn } = message.body;
 
@@ -15,7 +20,7 @@ export default {
         const thumbnailUrl = await fetchThumbnailUrl(isbn, env.RAKUTEN_APP_ID);
 
         if (thumbnailUrl) {
-          await env.DB.prepare("UPDATE books SET thumbnail_url = ? WHERE id = ?").bind(thumbnailUrl, bookId).run();
+          await db.update(books).set({ thumbnailUrl }).where(eq(books.id, bookId));
         }
 
         message.ack();
