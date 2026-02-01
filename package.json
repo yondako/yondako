@@ -68,7 +68,7 @@
     "@biomejs/biome": "^2.1.2",
     "@cloudflare/workers-types": "^4.20250224.0",
     "@happy-dom/global-registrator": "^20.0.0",
-    "@libsql/client": "^0.15.15",
+    "@libsql/client": "^0.17.0",
     "@opennextjs/cloudflare": "^1.16.1",
     "@playwright/test": "^1.50.1",
     "@storybook/addon-docs": "^10.0.0",
