@@ -1,8 +1,11 @@
 import type { DialogDescriptionProps, DialogTitleProps } from "@radix-ui/react-dialog";
 import type { ForwardRefExoticComponent, RefAttributes } from "react";
 import { twMerge } from "tailwind-merge";
+import IconHelp from "@/assets/icons/help.svg";
+import { links } from "@/constants/site";
 import type { BookType } from "@/types/book";
 import BookReadingStatusForm, { type BookReadingStatusFormProps } from "../BookReadingStatusForm";
+import ExternalLink from "../ExternalLink";
 import { DescriptionBlock } from "./DescriptionBlock";
 import ECLinks from "./ECLinks";
 
@@ -60,6 +63,13 @@ export default function BookDetailContent({
       </div>
 
       {isbn && <ECLinks isbn={isbn} />}
+
+      <div className="mt-8 flex justify-end">
+        <ExternalLink className="flex items-center space-x-1 text-accent text-xs" href={links.dataSource.href}>
+          <IconHelp className="h-4 w-4" />
+          <span>{links.dataSource.title}</span>
+        </ExternalLink>
+      </div>
     </div>
   );
 }

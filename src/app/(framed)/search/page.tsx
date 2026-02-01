@@ -9,7 +9,7 @@ import ExternalLink from "@/components/ExternalLink";
 import { Loading } from "@/components/Loading";
 import SayTako from "@/components/SayTako";
 import { PATH_SEARCH } from "@/constants/path";
-import { site } from "@/constants/site";
+import { links } from "@/constants/site";
 import { getAuth } from "@/lib/auth";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
@@ -40,8 +40,6 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     noindex: true,
   });
 }
-
-const dataSourceUrl = new URL("/docs/data-source", site.infoUrl).toString();
 
 export default async function Search(props: Props) {
   const { env } = await getCloudflareContext({
@@ -82,10 +80,10 @@ export default async function Search(props: Props) {
         <SearchForm query={query} searchType={searchType} ndc={ndc} sensitive={sensitive} />
         <ExternalLink
           className="mt-4 flex shrink-0 items-center space-x-1 text-xs lg:mt-0 lg:ml-4"
-          href={dataSourceUrl}
+          href={links.dataSource.href}
         >
           <IconHelp className="h-4 w-4" />
-          <span>データの取得元について</span>
+          <span>{links.dataSource.title}</span>
         </ExternalLink>
       </div>
 
