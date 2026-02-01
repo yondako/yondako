@@ -35,6 +35,7 @@ export default function Scanner() {
       toast.error(
         "書籍がみつかりませんでした",
         {
+          emoji: "🫥",
           description: `ISBN: ${code}`,
         },
         {

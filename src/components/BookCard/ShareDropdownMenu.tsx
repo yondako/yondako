@@ -17,10 +17,12 @@ export default function ShareDropdownMenu({ children, ndlUrl, bookTitle }: Share
     try {
       await navigator.clipboard.writeText(ndlUrl);
       toast.success("リンクをコピーしました", {
+        emoji: "📋",
         description: bookTitle,
       });
     } catch {
       toast.error("リンクのコピーに失敗しました", {
+        emoji: "⚠️",
         description: "クリップボードへのアクセスが許可されているか設定をご確認ください",
       });
     }

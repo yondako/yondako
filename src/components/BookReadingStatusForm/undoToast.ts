@@ -32,6 +32,7 @@ export function createUndoToast({
         : "ライブラリから削除しました";
 
     toast.success(newStatusLabel, {
+      emoji: "🐙",
       description: bookTitle,
       action: {
         label: "元に戻す",
@@ -45,6 +46,7 @@ export function createUndoToast({
 
           if (undoResult.error || !undoResult.book) {
             toast.error("取り消しに失敗しました", {
+              emoji: "⚠️",
               description: undoResult.error ?? "時間をおいてもう一度お試しください",
             });
 
@@ -57,7 +59,8 @@ export function createUndoToast({
           }
 
           onChangeStatus(undoResult.book.readingStatus);
-          toast.success("🐙 元に戻しました", {
+          toast.success("元に戻しました", {
+            emoji: "🐙",
             description: bookTitle,
           });
         },

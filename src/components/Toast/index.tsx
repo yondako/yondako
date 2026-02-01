@@ -9,6 +9,7 @@ export type ToastProps = {
   title: string;
   description?: string;
   type?: "success" | "error" | "info";
+  emoji?: string;
   action?: {
     label: string;
     onClick: () => void;
@@ -18,27 +19,28 @@ export type ToastProps = {
 export type ToastInput = Omit<ToastProps, "id">;
 
 function CustomToast(props: ToastProps) {
-  const { title, description, type = "info", action, id } = props;
+  const { title, description, emoji, type = "info", action, id } = props;
 
   const getBorderColor = () => {
     switch (type) {
       case "error":
-        return "border border-red-600/80";
+        return "border-red-400/50";
       default:
-        return "border border-tertiary-border";
+        return "border-tertiary-border";
     }
   };
 
   return (
     <div
       className={twMerge(
-        "flex w-full items-center rounded-2xl bg-primary-background px-6 py-4 shadow-lg lg:min-w-72",
+        "flex w-full items-center rounded-2xl border-2 bg-primary-background px-6 py-4 shadow-lg lg:min-w-72",
         getBorderColor(),
       )}
     >
+      {emoji && <div className="mr-4 border-secondary-border border-r pr-4 text-xl">{emoji}</div>}
       <div className="flex flex-1 items-center">
         <div className="w-full">
-          <p className="font-medium text-base text-primary-foreground">{title}</p>
+          <p className="font-medium text-base/5 text-primary-foreground">{title}</p>
           {description && <p className="mt-1 text-secondary-foreground text-xs">{description}</p>}
         </div>
       </div>
@@ -70,6 +72,7 @@ export function toast(toastProps: ToastInput, external?: ExternalToast) {
         title={toastProps.title}
         description={toastProps.description}
         type={toastProps.type}
+        emoji={toastProps.emoji}
         action={toastProps.action}
       />
     ),
