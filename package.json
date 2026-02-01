@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack --experimental-https -H local.yondako.com",
+    "dev:wrangler": "wrangler dev --ip 0.0.0.0 --port 3000 --local-protocol https --local-upstream local.yondako.com --https-key-path ./certificates/localhost-key.pem --https-cert-path ./certificates/localhost.pem",
     "build": "next build",
     "build:worker": "opennextjs-cloudflare build",
     "start": "next start",
@@ -14,7 +15,7 @@
     "vrt:storybook:update": "UPDATE=1 playwright test -c .storybook/playwright.config.ts .storybook/ --update-snapshots",
     "generate:schema": "drizzle-kit generate --dialect sqlite --out ./src/db/migrations --schema",
     "generate:svg": "bunx svgo ./src/assets/**/*.svg",
-    "preview": "opennextjs-cloudflare build && wrangler dev --ip 0.0.0.0 --port 3000 --local-protocol https --local-upstream local.yondako.com",
+    "preview": "opennextjs-cloudflare build && bun run dev:wrangler",
     "preview:storybook": "bunx http-server storybook-static --port 6006 --silent",
     "prepreview:storybook": "storybook build --test",
     "deploy": "opennextjs-cloudflare build && wrangler deploy",
