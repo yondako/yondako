@@ -37,17 +37,42 @@ bun run generate:schema "./src/db/schema/*"
 bun run wrangler d1 migrations apply yondako_dev --local
 ```
 
+### Queueの作成
+
+```sh
+bun run wrangler queues create yondako-dev-thumbnail
+```
+
 ### `wrangler.toml` の設定
+
+`wrangler.example.toml` をコピーして `wrangler.toml` を作成し、`database_id` を設定。
 
 ```toml
 name = "yondako"
-pages_build_output_dir = ".vercel/output/static"
+main = "custom-worker.ts"
+compatibility_date = "2024-12-30"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = ".open-next/assets"
+binding = "ASSETS"
 
 [[d1_databases]]
 binding = "DB"
 database_name = "yondako_dev"
 database_id = "<database_idを指定>"
 migrations_dir = "src/db/migrations"
+
+[[queues.producers]]
+queue = "yondako-dev-thumbnail"
+binding = "THUMBNAIL_QUEUE"
+
+[[queues.consumers]]
+queue = "yondako-dev-thumbnail"
+max_batch_size = 1
+max_batch_timeout = 1
+max_retries = 3
+max_concurrency = 1
 ```
 
 ### 起動
@@ -56,11 +81,17 @@ migrations_dir = "src/db/migrations"
 bun dev
 ```
 
-### ビルド
+### ビルド・プレビュー
 
 ```sh
+# ビルド
 bun run build
-bun run preview
+
+# 開発サーバー起動 (Queue は動作しないので注意)
+bun run dev
+
+# Queue も一緒に動作させる場合
+bun run preview 
 ```
 
 ### Dizzle Studio
