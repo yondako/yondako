@@ -2,12 +2,13 @@ import IconExternalLink from "@/assets/icons/external-link.svg";
 import Button from "../Button";
 
 type Props = {
+  title: string;
   isbn: string;
   ndlLink: string;
 };
 
-export default function BookLinks({ isbn, ndlLink }: Props) {
-  const rakutenUrl = `https://search.rakuten.co.jp/search/mall/${isbn}/`;
+export default function BookLinks({ title, isbn, ndlLink }: Props) {
+  const rakutenUrl = `https://search.rakuten.co.jp/search/mall/${encodeURIComponent(title)}/200162/`;
   const booksUrl = `https://www.books.or.jp/book-details/${isbn.replaceAll("-", "")}`;
 
   return (

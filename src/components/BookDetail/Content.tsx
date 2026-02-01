@@ -62,7 +62,7 @@ export default function BookDetailContent({
         />
       </div>
 
-      {isbn && <BookLinks isbn={isbn} ndlLink={link} />}
+      {isbn && <BookLinks title={title} isbn={isbn} ndlLink={link} />}
 
       <div className="mt-8">
         <ExternalLink
