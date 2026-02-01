@@ -27,7 +27,24 @@ bun install
 
 ### .env
 
-`.env.example` をコピーして `.env.local` を作成。
+`.env.example` をコピーして `.env.local` を作成し、必要な値を設定。
+
+| 環境変数 | 説明 | 必須 |
+|-|-|-|
+| `DATABASE_PATH` | Drizzle Studio用のローカルDBパス | |
+| `RAKUTEN_APP_ID` | [楽天API](https://webservice.rakuten.co.jp/)のアプリID（書影取得用） | ✓ |
+| `BETTER_AUTH_SECRET` | 認証用シークレット | ✓ |
+| `BETTER_AUTH_URL` | 認証用URL（例: `https://local.yondako.com:3000`） | ✓ |
+| `AUTH_GITHUB_ID` | GitHub OAuth Client ID | ✓ |
+| `AUTH_GITHUB_SECRET` | GitHub OAuth Client Secret | ✓ |
+| `AUTH_GOOGLE_ID` | Google OAuth Client ID | ✓ |
+| `AUTH_GOOGLE_SECRET` | Google OAuth Client Secret | ✓ |
+| `API_SECRET_KEY` | 内部API用シークレットキー | ✓ |
+| `FORM_CONTACT_URL` | お問い合わせフォームのURL | |
+| `FORM_BUG_REPORT_URL` | バグ報告フォームのURL（`{{userId}}`がユーザーIDに置換される） | |
+| `NEXT_PUBLIC_UMAMI_SCRIPT_URL` | umamiのスクリプトURL | |
+| `NEXT_PUBLIC_UMAMI_WEBSITE_ID` | umamiのWebsite ID | |
+| `SLACK_WEBHOOK_URL` | Slack通知用Webhook URL | |
 
 ### DBのセットアップ
 
