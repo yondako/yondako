@@ -61,6 +61,7 @@ export default function BookReadingStatusForm({
     // 記録に失敗
     if (result.error || !result.book) {
       toast.error("記録に失敗しました", {
+        emoji: "⚠️",
         description: `${result.error ?? "時間をおいてもう一度お試しください"}\n${bookTitle}`,
       });
 

@@ -27,7 +27,24 @@ bun install
 
 ### .env
 
-`.env.example` をコピーして `.env.local` を作成。
+`.env.example` をコピーして `.env.local` を作成し、必要な値を設定。
+
+| 環境変数 | 説明 | 必須 |
+|-|-|-|
+| `DATABASE_PATH` | Drizzle Studio用のローカルDBパス | |
+| `RAKUTEN_APP_ID` | [楽天API](https://webservice.rakuten.co.jp/)のアプリID（書影取得用） | ✓ |
+| `BETTER_AUTH_SECRET` | 認証用シークレット | ✓ |
+| `BETTER_AUTH_URL` | 認証用URL（例: `https://local.yondako.com:3000`） | ✓ |
+| `AUTH_GITHUB_ID` | GitHub OAuth Client ID | ✓ |
+| `AUTH_GITHUB_SECRET` | GitHub OAuth Client Secret | ✓ |
+| `AUTH_GOOGLE_ID` | Google OAuth Client ID | ✓ |
+| `AUTH_GOOGLE_SECRET` | Google OAuth Client Secret | ✓ |
+| `API_SECRET_KEY` | 内部API用シークレットキー | ✓ |
+| `FORM_CONTACT_URL` | お問い合わせフォームのURL | |
+| `FORM_BUG_REPORT_URL` | バグ報告フォームのURL（`{{userId}}`がユーザーIDに置換される） | |
+| `NEXT_PUBLIC_UMAMI_SCRIPT_URL` | umamiのスクリプトURL | |
+| `NEXT_PUBLIC_UMAMI_WEBSITE_ID` | umamiのWebsite ID | |
+| `SLACK_WEBHOOK_URL` | Slack通知用Webhook URL | |
 
 ### DBのセットアップ
 
@@ -37,17 +54,42 @@ bun run generate:schema "./src/db/schema/*"
 bun run wrangler d1 migrations apply yondako_dev --local
 ```
 
+### Queueの作成
+
+```sh
+bun run wrangler queues create yondako-dev-thumbnail
+```
+
 ### `wrangler.toml` の設定
+
+`wrangler.example.toml` をコピーして `wrangler.toml` を作成し、`database_id` を設定。
 
 ```toml
 name = "yondako"
-pages_build_output_dir = ".vercel/output/static"
+main = "custom-worker.ts"
+compatibility_date = "2024-12-30"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = ".open-next/assets"
+binding = "ASSETS"
 
 [[d1_databases]]
 binding = "DB"
 database_name = "yondako_dev"
 database_id = "<database_idを指定>"
 migrations_dir = "src/db/migrations"
+
+[[queues.producers]]
+queue = "yondako-dev-thumbnail"
+binding = "THUMBNAIL_QUEUE"
+
+[[queues.consumers]]
+queue = "yondako-dev-thumbnail"
+max_batch_size = 1
+max_batch_timeout = 1
+max_retries = 3
+max_concurrency = 1
 ```
 
 ### 起動
@@ -56,11 +98,17 @@ migrations_dir = "src/db/migrations"
 bun dev
 ```
 
-### ビルド
+### ビルド・プレビュー
 
 ```sh
+# ビルド
 bun run build
-bun run preview
+
+# 開発サーバー起動 (Queue は動作しないので注意)
+bun run dev
+
+# Queue も一緒に動作させる場合
+bun run preview 
 ```
 
 ### Dizzle Studio

@@ -6,6 +6,7 @@ import IconBrandGitHub from "@/assets/icons/brand-github.svg";
 import IconBrandGoogle from "@/assets/icons/brand-google.svg";
 import Button from "@/components/Button";
 import ExternalLink from "@/components/ExternalLink";
+import { PATH_AUTH_ERROR } from "@/constants/path";
 import { links } from "@/constants/site";
 import { signIn } from "@/lib/auth-client";
 import LoginLoading from "../LoginLoading";
@@ -28,6 +29,7 @@ export default function LoginButtons({ className, redirectTo }: Props) {
     await signIn.social({
       provider,
       callbackURL: redirectTo,
+      errorCallbackURL: PATH_AUTH_ERROR,
     });
   };
 
@@ -48,14 +50,14 @@ export default function LoginButtons({ className, redirectTo }: Props) {
         <p className="mt-4 break-keep text-xxs">
           アカウントを登録することにより、
           <wbr />
-          <ExternalLink className="font-bold" href={links[2].href}>
-            {links[2].title}
+          <ExternalLink className="font-bold" href={links.terms.href}>
+            {links.terms.title}
           </ExternalLink>
           <wbr />
           および
           <wbr />
-          <ExternalLink className="font-bold" href={links[3].href}>
-            {links[3].title}
+          <ExternalLink className="font-bold" href={links.privacy.href}>
+            {links.privacy.title}
           </ExternalLink>
           <wbr />
           に同意したものとみなされます。

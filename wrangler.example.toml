@@ -2,7 +2,7 @@
 # 開発環境
 # ------------------
 
-main = ".open-next/worker.js"
+main = "custom-worker.ts"
 name = "yondako-dev"
 compatibility_date = "2024-12-30"
 compatibility_flags = ["nodejs_compat"]
@@ -27,6 +27,18 @@ binding = "DB"
 database_name = "yondako_dev"
 database_id = "<DEVELOPMENT_DATABASE_ID>"
 migrations_dir = "src/db/migrations"
+
+# 書影取得用キュー
+[[queues.producers]]
+queue = "yondako-dev-thumbnail"
+binding = "THUMBNAIL_QUEUE"
+
+[[queues.consumers]]
+queue = "yondako-dev-thumbnail"
+max_batch_size = 1
+max_batch_timeout = 1
+max_retries = 3
+max_concurrency = 1
 
 # ------------------
 # 本番環境
@@ -61,3 +73,15 @@ binding = "DB"
 database_name = "yondako"
 database_id = "<PRODUCTION_DATABASE_ID>"
 migrations_dir = "src/db/migrations"
+
+# 書影取得用キュー
+[[env.production.queues.producers]]
+queue = "yondako-thumbnail"
+binding = "THUMBNAIL_QUEUE"
+
+[[env.production.queues.consumers]]
+queue = "yondako-thumbnail"
+max_batch_size = 1
+max_batch_timeout = 1
+max_retries = 3
+max_concurrency = 1

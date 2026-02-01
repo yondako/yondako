@@ -3,4 +3,14 @@
 
 interface CloudflareEnv {
   DB: D1Database;
+  THUMBNAIL_QUEUE: Queue<ThumbnailJobMessage>;
+  RAKUTEN_APP_ID: string;
 }
+
+/**
+ * 書影取得ジョブのメッセージ
+ */
+type ThumbnailJobMessage = {
+  bookId: string;
+  isbn: string;
+};

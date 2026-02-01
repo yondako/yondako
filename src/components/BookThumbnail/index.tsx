@@ -2,44 +2,30 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 import imageNoImage from "@/assets/images/noimage.webp";
-import { createThumbnailUrl } from "./createThumbnailUrl";
 
 type Props = {
   className?: string;
-  isbn?: string | null;
-  jpeCode?: string | null;
+  thumbnailUrl?: string | null;
 };
 
 /**
  * 書籍のサムネイル画像を表示するコンポーネント。画像が取得できない場合はプレースホルダー画像を表示します。
  */
-export default function BookThumbnail({ className, isbn, jpeCode }: Props) {
+export default function BookThumbnail({ className, thumbnailUrl }: Props) {
   const imageBgStyle = "w-full object-contain";
 
-  // 両方ある場合は ISBN -> JP-eコード の順に取得
-  if (isbn && jpeCode) {
+  if (thumbnailUrl) {
     return (
       <Wrapper className={className}>
-        <object className={imageBgStyle} type="image/jpeg" data={createThumbnailUrl(isbn)}>
-          <object className={imageBgStyle} type="image/jpeg" data={createThumbnailUrl(jpeCode)}>
-            <Image className={imageBgStyle} src={imageNoImage} alt="" />
-          </object>
-        </object>
+        {/* biome-ignore lint/performance/noImgElement: 外部URLの画像なのでNext.jsのImageコンポーネントを使用できない */}
+        <img className={imageBgStyle} src={thumbnailUrl} alt="" />
       </Wrapper>
     );
   }
 
-  const isbnOrJpeCode = isbn || jpeCode;
-
   return (
     <Wrapper className={className}>
-      {isbnOrJpeCode ? (
-        <object className={imageBgStyle} type="image/jpeg" data={createThumbnailUrl(isbnOrJpeCode)}>
-          <Image className={imageBgStyle} src={imageNoImage} alt="" />
-        </object>
-      ) : (
-        <Image className={imageBgStyle} src={imageNoImage} alt="" />
-      )}
+      <Image className={imageBgStyle} src={imageNoImage} alt="" />
     </Wrapper>
   );
 }

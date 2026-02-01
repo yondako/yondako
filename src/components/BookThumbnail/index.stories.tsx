@@ -7,12 +7,8 @@ const meta: Meta<typeof BookThumbnail> = {
   tags: ["autodocs"],
   parameters: {},
   argTypes: {
-    isbn: {
-      description: "書籍のISBN",
-      control: { type: "text" },
-    },
-    jpeCode: {
-      description: "JP-eコード",
+    thumbnailUrl: {
+      description: "サムネイル画像のURL",
       control: { type: "text" },
     },
     className: {
@@ -20,7 +16,7 @@ const meta: Meta<typeof BookThumbnail> = {
     },
   },
   args: {
-    isbn: "9784798142470",
+    thumbnailUrl: "https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/2470/9784798142470.jpg",
   },
   render: (args) => {
     return <BookThumbnail {...args} className="w-32" />;
@@ -34,21 +30,21 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: "基本的なBookThumbnailの表示例。ISBNから書籍のサムネイル画像を表示します。",
+        story: "基本的なBookThumbnailの表示例。サムネイル画像URLから書籍のサムネイルを表示します。",
       },
     },
   },
 };
 
-export const WithoutISBN: Story = {
+export const WithoutThumbnail: Story = {
   parameters: {
     docs: {
       description: {
-        story: "ISBNが指定されていない場合のプレースホルダー画像表示例。",
+        story: "サムネイルURLが指定されていない場合のプレースホルダー画像表示例。",
       },
     },
   },
   args: {
-    isbn: undefined,
+    thumbnailUrl: undefined,
   },
 };

@@ -88,8 +88,6 @@ export async function SearchResult({
     );
   }
 
-  console.log("search result", result.books.length);
-
   const items = await getStatusesByBookIds(env.DB, session.user.id, result.books);
 
   const totalPage = Math.ceil(result.meta.totalResults / SEARCH_COUNT);

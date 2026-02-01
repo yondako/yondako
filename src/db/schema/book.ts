@@ -18,6 +18,7 @@ export const books = sqliteTable("books", {
   isbn: text("isbn"),
   jpNo: text("jpNo"),
   jpeCode: text("jpeCode"),
+  thumbnailUrl: text("thumbnail_url"),
   updateCheckCount: integer("updateCheckCount").notNull().default(0),
 });
 
