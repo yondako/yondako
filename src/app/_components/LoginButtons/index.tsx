@@ -2,11 +2,11 @@
 
 import { type ComponentPropsWithoutRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { PATH_AUTH_ERROR } from "#src/constants/path.js";
 import IconBrandGitHub from "@/assets/icons/brand-github.svg";
 import IconBrandGoogle from "@/assets/icons/brand-google.svg";
 import Button from "@/components/Button";
 import ExternalLink from "@/components/ExternalLink";
+import { PATH_AUTH_ERROR } from "@/constants/path";
 import { links } from "@/constants/site";
 import { signIn } from "@/lib/auth-client";
 import LoginLoading from "../LoginLoading";
