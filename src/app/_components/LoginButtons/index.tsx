@@ -2,6 +2,7 @@
 
 import { type ComponentPropsWithoutRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { PATH_AUTH_ERROR } from "#src/constants/path.js";
 import IconBrandGitHub from "@/assets/icons/brand-github.svg";
 import IconBrandGoogle from "@/assets/icons/brand-google.svg";
 import Button from "@/components/Button";
@@ -28,6 +29,7 @@ export default function LoginButtons({ className, redirectTo }: Props) {
     await signIn.social({
       provider,
       callbackURL: redirectTo,
+      errorCallbackURL: PATH_AUTH_ERROR,
     });
   };
 
