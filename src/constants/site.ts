@@ -12,10 +12,6 @@ export const site = {
 
 export const links = [
   {
-    title: "データソース",
-    href: new URL("/docs/data-source", site.infoUrl).toString(),
-  },
-  {
     title: "GitHub",
     href: site.github,
   },
@@ -26,5 +22,9 @@ export const links = [
   {
     title: "プライバシーポリシー",
     href: new URL("/docs/privacy", site.infoUrl).toString(),
+  },
+  {
+    title: "データの取得元について",
+    href: new URL("/docs/data-source", site.infoUrl).toString(),
   },
 ] as const;

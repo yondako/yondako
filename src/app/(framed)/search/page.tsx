@@ -85,7 +85,7 @@ export default async function Search(props: Props) {
           href={dataSourceUrl}
         >
           <IconHelp className="h-4 w-4" />
-          <span>使用しているデータについて</span>
+          <span>データの取得元について</span>
         </ExternalLink>
       </div>
 
