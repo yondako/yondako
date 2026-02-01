@@ -6,8 +6,8 @@ import { links } from "@/constants/site";
 import type { BookType } from "@/types/book";
 import BookReadingStatusForm, { type BookReadingStatusFormProps } from "../BookReadingStatusForm";
 import ExternalLink from "../ExternalLink";
+import BookLinks from "./BookLinks";
 import { DescriptionBlock } from "./DescriptionBlock";
-import ECLinks from "./ECLinks";
 
 export type BookDetailContentProps = {
   data: BookType;
@@ -28,7 +28,7 @@ export default function BookDetailContent({
   onChangeStatus,
   className,
 }: BookDetailContentProps & { className?: string }) {
-  const { title, authors, publishers, isbn } = data.detail;
+  const { title, authors, publishers, isbn, link } = data.detail;
 
   return (
     <div className={twMerge("mx-auto", className)}>
@@ -62,13 +62,25 @@ export default function BookDetailContent({
         />
       </div>
 
-      {isbn && <ECLinks isbn={isbn} />}
+      {isbn && <BookLinks isbn={isbn} ndlLink={link} />}
 
-      <div className="mt-8 flex justify-end">
-        <ExternalLink className="flex items-center space-x-1 text-accent text-xs" href={links.dataSource.href}>
+      <div className="mt-8">
+        <ExternalLink
+          className="flex items-center justify-end space-x-1 text-accent text-xs"
+          href={links.dataSource.href}
+        >
           <IconHelp className="h-4 w-4" />
           <span>{links.dataSource.title}</span>
         </ExternalLink>
+
+        <div className="mt-1.5 space-x-1 text-right text-accent text-xs">
+          <span>書影:</span>
+          {/* Rakuten Web Services Attribution Snippet FROM HERE  */}
+          <a href="https://developers.rakuten.com/" target="_blank" rel="noopener">
+            Supported by Rakuten Developers
+          </a>
+          {/* Rakuten Web Services Attribution Snippet TO HERE  */}
+        </div>
       </div>
     </div>
   );
