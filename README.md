@@ -33,6 +33,7 @@ bun install
 |-|-|-|
 | `DATABASE_PATH` | Drizzle Studio用のローカルDBパス | |
 | `RAKUTEN_APP_ID` | [楽天API](https://webservice.rakuten.co.jp/)のアプリID（書影取得用） | ✓ |
+| `RAKUTEN_APP_SECRET` | 楽天APIのアプリシークレット（書影取得用） | ✓ |
 | `BETTER_AUTH_SECRET` | 認証用シークレット | ✓ |
 | `BETTER_AUTH_URL` | 認証用URL（例: `https://local.yondako.com:3000`） | ✓ |
 | `AUTH_GITHUB_ID` | GitHub OAuth Client ID | ✓ |
