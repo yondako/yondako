@@ -1,4 +1,4 @@
-const RAKUTEN_API_ENDPOINT = "https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404";
+const RAKUTEN_API_ENDPOINT = "https://openapi.rakuten.co.jp/services/api/BooksBook/Search/20170404";
 
 type RakutenBooksResponse = {
   Items?: Array<{ largeImageUrl?: string }>;
