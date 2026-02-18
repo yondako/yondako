@@ -17,7 +17,12 @@ export default {
       const { bookId, isbn } = message.body;
 
       try {
-        const thumbnailUrl = await fetchThumbnailUrl(isbn, env.RAKUTEN_APP_ID);
+        const thumbnailUrl = await fetchThumbnailUrl(
+          isbn,
+          env.RAKUTEN_APP_ID,
+          env.RAKUTEN_APP_SECRET,
+          env.BETTER_AUTH_URL,
+        );
 
         if (thumbnailUrl) {
           await db.update(books).set({ thumbnailUrl }).where(eq(books.id, bookId));

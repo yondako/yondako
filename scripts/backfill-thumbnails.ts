@@ -3,13 +3,13 @@
  *
  * 使用方法:
  *   # ローカルD1に対して実行
- *   RAKUTEN_APP_ID=xxx bun run scripts/backfill-thumbnails.ts
+ *   RAKUTEN_APP_ID=xxx RAKUTEN_APP_SECRET=xxx BETTER_AUTH_URL=xxx bun run scripts/backfill-thumbnails.ts
  *
  *   # リモートD1（Dev環境）に対して実行
- *   RAKUTEN_APP_ID=xxx bun run scripts/backfill-thumbnails.ts --remote
+ *   RAKUTEN_APP_ID=xxx RAKUTEN_APP_SECRET=xxx BETTER_AUTH_URL=xxx bun run scripts/backfill-thumbnails.ts --remote
  *
  *   # リモートD1（Prod環境）に対して実行
- *   RAKUTEN_APP_ID=xxx bun run scripts/backfill-thumbnails.ts --remote --env production
+ *   RAKUTEN_APP_ID=xxx RAKUTEN_APP_SECRET=xxx BETTER_AUTH_URL=xxx bun run scripts/backfill-thumbnails.ts --remote --env production
  */
 
 import { $ } from "bun";
@@ -26,13 +26,23 @@ type RakutenBooksResponse = {
   Items?: Array<{ largeImageUrl?: string }>;
 };
 
-async function fetchThumbnailUrl(isbn: string, applicationId: string): Promise<string | null> {
+async function fetchThumbnailUrl(
+  isbn: string,
+  applicationId: string,
+  appSecret: string,
+  originUrl: string,
+): Promise<string | null> {
   const url = new URL(RAKUTEN_API_ENDPOINT);
   url.searchParams.set("applicationId", applicationId);
   url.searchParams.set("isbn", isbn.replace(/-/g, ""));
   url.searchParams.set("formatVersion", "2");
 
-  const res = await fetch(url);
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${appSecret}`,
+      Origin: originUrl,
+    },
+  });
 
   if (!res.ok) {
     throw new Error(`Rakuten API error: ${res.status} ${res.statusText}`);
@@ -89,8 +99,10 @@ async function updateThumbnailUrl(
 
 async function main() {
   const appId = process.env.RAKUTEN_APP_ID;
-  if (!appId) {
-    console.error("Error: RAKUTEN_APP_ID environment variable is required");
+  const appSecret = process.env.RAKUTEN_APP_SECRET;
+  const originUrl = process.env.BETTER_AUTH_URL;
+  if (!appId || !appSecret || !originUrl) {
+    console.error("Error: RAKUTEN_APP_ID, RAKUTEN_APP_SECRET, and BETTER_AUTH_URL environment variables are required");
     process.exit(1);
   }
 
@@ -121,7 +133,7 @@ async function main() {
     console.log(`${progress} Processing ISBN: ${book.isbn}`);
 
     try {
-      const thumbnailUrl = await fetchThumbnailUrl(book.isbn, appId);
+      const thumbnailUrl = await fetchThumbnailUrl(book.isbn, appId, appSecret, originUrl);
 
       if (thumbnailUrl) {
         await updateThumbnailUrl(book.id, thumbnailUrl, isRemote, env);

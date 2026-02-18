@@ -130,3 +130,41 @@ export const WithoutPublisher: Story = {
     },
   },
 };
+
+export const WithThumbnail: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: "書影がある場合の表示。Rakuten Web Servicesのクレジット表記が表示されることを確認できます。",
+      },
+    },
+  },
+  args: {
+    data: {
+      detail: {
+        ...createDummyBookDetail("1234567890"),
+        thumbnailUrl: "https://example.com/thumbnail.jpg",
+      },
+      readingStatus: "reading",
+    },
+  },
+};
+
+export const WithoutThumbnail: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: "書影がない場合の表示。書影のクレジット表記が表示されないことを確認できます。",
+      },
+    },
+  },
+  args: {
+    data: {
+      detail: {
+        ...createDummyBookDetail("1234567890"),
+        thumbnailUrl: undefined,
+      },
+      readingStatus: "reading",
+    },
+  },
+};
