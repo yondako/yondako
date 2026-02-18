@@ -19,6 +19,8 @@ export async function fetchThumbnailUrl(isbn: string, applicationId: string): Pr
   const res = await fetch(url);
 
   if (!res.ok) {
+    const errorText = await res.text();
+    console.error(`Rakuten API error response: ${errorText}`);
     throw new Error(`Rakuten API error: ${res.status}`);
   }
 
