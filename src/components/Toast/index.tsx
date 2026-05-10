@@ -1,6 +1,5 @@
 "use client";
 
-import type { CSSProperties } from "react";
 import { type ExternalToast, Toaster as SonnerToaster, toast as sonnerToast } from "sonner";
 import { twMerge } from "tailwind-merge";
 
@@ -33,16 +32,14 @@ function CustomToast(props: ToastProps) {
   return (
     <div
       className={twMerge(
-        "flex w-full items-center rounded-2xl border-2 bg-primary-background px-6 py-4 shadow-lg lg:min-w-72",
+        "flex w-full items-center rounded-2xl border-2 bg-primary-background px-6 py-4 shadow-lg lg:w-md",
         getBorderColor(),
       )}
     >
       {emoji && <div className="mr-4 border-secondary-border border-r pr-4 text-xl">{emoji}</div>}
-      <div className="flex flex-1 items-center">
-        <div className="w-full">
-          <p className="font-medium text-base/5 text-primary-foreground">{title}</p>
-          {description && <p className="mt-1 text-secondary-foreground text-xs">{description}</p>}
-        </div>
+      <div className="min-w-0 flex-1">
+        <p className="truncate font-medium text-base/5 text-primary-foreground">{title}</p>
+        {description && <p className="mt-1 truncate text-secondary-foreground text-xs">{description}</p>}
       </div>
       {action && (
         <div className="ml-6 shrink-0">
@@ -103,14 +100,5 @@ toast.error = (title: string, options?: Omit<ToastInput, "title" | "type">, exte
 };
 
 export default function Toaster() {
-  return (
-    <SonnerToaster
-      position="top-right"
-      style={
-        {
-          "--width": "400px",
-        } as CSSProperties
-      }
-    />
-  );
+  return <SonnerToaster position="top-right" />;
 }
