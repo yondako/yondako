@@ -28,8 +28,9 @@ export function createTestDB(): ReturnType<typeof drizzle<typeof schema>> {
 /**
  * マイグレーションSQLをファイル名順に適用
  *
- * NOTE: meta/_journal.json のtagと実ファイル名が不一致のため drizzle の migrate() は使えない。
- * wrangler d1 migrations apply と同じく .sql をファイル名順に実行する
+ * NOTE: drizzle の migrate() はチャンクごとに prepare() するため、
+ * 0005 のような手書きの複数文マイグレーションでは先頭の1文しか実行されない。
+ * wrangler d1 migrations apply と同じく、.sql 全体をファイル名順に実行する
  * @param sqlite SQLiteのインスタンス
  */
 function applyMigrations(sqlite: Database): void {

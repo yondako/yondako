@@ -55,7 +55,7 @@
       "idx": 7,
       "version": "6",
       "when": 1769355732432,
-      "tag": "0007_furry_purifiers",
+      "tag": "0007_add_thumbnail_url",
       "breakpoints": true
     }
   ]
