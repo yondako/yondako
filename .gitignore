@@ -28,8 +28,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# local env files
+# local only
 .env*.local
+.claude/*.local.json
 
 # vercel
 .vercel
