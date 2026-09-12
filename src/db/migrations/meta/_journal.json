@@ -57,6 +57,13 @@
       "when": 1769355732432,
       "tag": "0007_add_thumbnail_url",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1787540967598,
+      "tag": "0008_tricky_marten_broadcloak",
+      "breakpoints": true
     }
   ]
 }
