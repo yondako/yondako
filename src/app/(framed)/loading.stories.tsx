@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import { expect, within } from "storybook/test";
-import BarcodeLoading from "../(fullscreen)/search/barcode/loading";
 import LibraryLoading from "./library/[status]/loading";
 import NewsLoading from "./news/loading";
-import MobileExclusiveLoading from "./search/barcode/mobile-exclusive/loading";
 import SearchLoading from "./search/loading";
 import GoodbyeLoading from "./settings/goodbye/loading";
 import SettingsLoading from "./settings/loading";
@@ -51,11 +49,3 @@ export const Search: Story = { render: () => <SearchLoading /> };
 export const News: Story = { render: () => <NewsLoading /> };
 export const Settings: Story = { render: () => <SettingsLoading /> };
 export const Goodbye: Story = { render: () => <GoodbyeLoading /> };
-export const MobileExclusive: Story = {
-  render: () => (
-    <div className="h-[calc(100svh-4rem)]">
-      <MobileExclusiveLoading />
-    </div>
-  ),
-};
-export const Barcode: Story = { render: () => <BarcodeLoading /> };
