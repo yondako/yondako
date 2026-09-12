@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, mock, test } from "bun:test";
+import { beforeEach, describe, expect, mock, spyOn, test } from "bun:test";
 import { eq } from "drizzle-orm";
 import { createDummyBookDetail } from "@/_mocks/book";
 import { createTestDB } from "@/_mocks/db";
@@ -106,6 +106,82 @@ describe("fetchSimpleBooksByIds", () => {
 });
 
 describe("createBook", () => {
+  test.each([50, 51, 101])("著者・出版社が %i 件でも各SQLを100パラメータ以内に収めて全件登録する", async (count) => {
+    const detail = {
+      ...createDummyBookDetail("100"),
+      authors: Array.from({ length: count }, (_, i) => `著者${i}`),
+      publishers: Array.from({ length: count }, (_, i) => `出版社${i}`),
+    };
+    const query = spyOn(db.$client, "prepare");
+    try {
+      await createBook(dummyD1, detail);
+
+      expect(query).toHaveBeenCalledTimes(1 + 4 * Math.ceil(count / 50));
+      // SQLite単体ではD1固有の上限を超えても成功するため、実際のパラメータ数を検証する
+      for (const result of query.mock.results) {
+        if (result.type !== "return") {
+          throw new Error("SQLの準備に失敗しました");
+        }
+        expect(result.value.paramsCount).toBeLessThanOrEqual(100);
+      }
+    } finally {
+      query.mockRestore();
+    }
+
+    const result = await fetchBook(dummyD1, { ndlBibId: "100" });
+    expect(result?.authors).toEqual(detail.authors);
+    expect(result?.publishers).toEqual(detail.publishers);
+  });
+
+  test("既存・新規・重複の著者と出版社をテーブルごとに1クエリで登録する", async () => {
+    await createBook(dummyD1, {
+      ...createDummyBookDetail("200"),
+      authors: ["著者A"],
+      publishers: ["出版社A"],
+    });
+    const detail = {
+      ...createDummyBookDetail("100"),
+      authors: ["著者B", "著者A", "著者B"],
+      publishers: ["出版社B", "出版社A", "出版社B"],
+    };
+    const query = spyOn(db.$client, "prepare");
+    try {
+      await createBook(dummyD1, detail);
+
+      expect(query.mock.calls.map(([sql]) => sql.match(/^insert into "(\w+)"/)?.[1])).toEqual([
+        "books",
+        "authors",
+        "bookAuthors",
+        "publishers",
+        "bookPublishers",
+      ]);
+    } finally {
+      query.mockRestore();
+    }
+
+    const result = await fetchBook(dummyD1, { ndlBibId: "100" });
+    expect(result?.authors).toEqual(detail.authors);
+    expect(result?.publishers).toEqual(detail.publishers);
+    expect(await db.select().from(authors).all()).toHaveLength(2);
+    expect(await db.select().from(publishers).all()).toHaveLength(2);
+  });
+
+  test.each([{ names: undefined }, { names: [] }])("著者・出版社が $names の場合は登録をスキップする", async ({
+    names,
+  }) => {
+    await createBook(dummyD1, {
+      ...createDummyBookDetail("100"),
+      authors: names?.slice(),
+      publishers: names?.slice(),
+    });
+
+    const result = await fetchBook(dummyD1, { ndlBibId: "100" });
+    expect(result?.authors).toBeUndefined();
+    expect(result?.publishers).toBeUndefined();
+    expect(await db.select().from(authors).all()).toHaveLength(0);
+    expect(await db.select().from(publishers).all()).toHaveLength(0);
+  });
+
   test("書籍・著者・出版社が登録される", async () => {
     const detail = {
       ...createDummyBookDetail("100"),

@@ -4,8 +4,6 @@ import { normalizeIsbn } from "@/lib/isbn";
 import type { BookDetail, BookDetailWithoutId, BookIdentifiers } from "@/types/book";
 import { getDB } from "..";
 import * as dbSchema from "../schema/book";
-import { createAuthor } from "./author";
-import { createPublisher } from "./publisher";
 
 /**
  * 識別子から書籍データを取得
@@ -208,24 +206,41 @@ export async function getBooksPossiblyNewReleases(dbInstance: D1Database): Promi
 async function insertAuthorsAndPublishers(
   dbInstance: D1Database,
   bookId: string,
-  authors: string[] | undefined,
-  publishers: string[] | undefined,
+  authors: string[] = [],
+  publishers: string[] = [],
 ): Promise<void> {
   const db = getDB(dbInstance);
+  // D1の上限100パラメータを、紐付け1件につき書籍IDと名前の2個で使うため
+  const batchSize = 50;
 
-  // 著者情報を登録
-  if (authors) {
-    for (const name of authors) {
-      const authorId = await createAuthor(dbInstance, name);
-      await db.insert(dbSchema.bookAuthors).values({ bookId, authorId });
-    }
+  for (let i = 0; i < authors.length; i += batchSize) {
+    const names = authors.slice(i, i + batchSize);
+    await db
+      .insert(dbSchema.authors)
+      .values(names.map((name) => ({ name })))
+      .onConflictDoNothing({ target: dbSchema.authors.name });
+
+    await db.insert(dbSchema.bookAuthors).values(
+      names.map((name) => ({
+        bookId,
+        // 既存の著者も同じINSERT内で解決し、ID取得の往復を省く
+        authorId: sql`(${db.select({ id: dbSchema.authors.id }).from(dbSchema.authors).where(eq(dbSchema.authors.name, name))})`,
+      })),
+    );
   }
 
-  // 出版社情報を登録
-  if (publishers) {
-    for (const name of publishers) {
-      const publisherId = await createPublisher(dbInstance, name);
-      await db.insert(dbSchema.bookPublishers).values({ bookId, publisherId });
-    }
+  for (let i = 0; i < publishers.length; i += batchSize) {
+    const names = publishers.slice(i, i + batchSize);
+    await db
+      .insert(dbSchema.publishers)
+      .values(names.map((name) => ({ name })))
+      .onConflictDoNothing({ target: dbSchema.publishers.name });
+
+    await db.insert(dbSchema.bookPublishers).values(
+      names.map((name) => ({
+        bookId,
+        publisherId: sql`(${db.select({ id: dbSchema.publishers.id }).from(dbSchema.publishers).where(eq(dbSchema.publishers.name, name))})`,
+      })),
+    );
   }
 }
