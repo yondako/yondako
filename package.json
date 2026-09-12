@@ -2,7 +2,8 @@
   "name": "yondako",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack --experimental-https -H local.yondako.com",
+    "dev": "next dev --turbopack --experimental-https --experimental-https-key ./certificates/localhost-key.pem --experimental-https-cert ./certificates/localhost.pem -H local.yondako.com",
+    "dev:cert": "mkdir -p certificates && mkcert -cert-file certificates/localhost.pem -key-file certificates/localhost-key.pem local.yondako.com localhost 127.0.0.1 ::1",
     "dev:wrangler": "wrangler dev --ip 0.0.0.0 --port 3000 --local-protocol https --local-upstream local.yondako.com --https-key-path ./certificates/localhost-key.pem --https-cert-path ./certificates/localhost.pem",
     "build": "next build",
     "build:worker": "opennextjs-cloudflare build",
