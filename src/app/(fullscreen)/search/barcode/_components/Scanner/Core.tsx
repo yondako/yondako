@@ -26,9 +26,17 @@ repo: https://github.com/ericblade/quagga2-react-example
 
 import Quagga, { type QuaggaJSResultObject } from "@ericblade/quagga2";
 import { type RefObject, useCallback, useLayoutEffect, useRef } from "react";
+import { enableContinuousAutofocus, rememberCamera, selectCamera } from "./camera";
+
+export type CameraState = { devices: MediaDeviceInfo[]; deviceId: string; torch: boolean };
+
+// Quagga は単一インスタンスなので、停止直後の再起動も前回の初期化完了を待つ。
+let initialization = Promise.resolve();
 
 type Props = {
   scannerRef: RefObject<HTMLDivElement | null>;
+  deviceId?: string;
+  onReady?: (camera: CameraState) => void;
 
   /**
    * バーコードを検出した
@@ -64,8 +72,9 @@ function getMedian(arr: number[]): number {
  * Custom Hooks にしたらなんかトーチの制御がうまくいかなくなったので、サンプル通りコンポーネントにしてる
  * 具体的には1回目のトーチのON時に Operation Error: The associated Track is in an invalid state. が発生する
  */
-export default function ScannerCore({ scannerRef, onDetected, onInitError }: Props) {
+export default function ScannerCore({ scannerRef, deviceId = "", onDetected, onInitError, onReady }: Props) {
   const prevScanCode = useRef("");
+  const rememberedCamera = useRef(false);
 
   const checkError = useCallback(
     (result: QuaggaJSResultObject) => {
@@ -82,6 +91,13 @@ export default function ScannerCore({ scannerRef, onDetected, onInitError }: Pro
 
       // 2回同じコードを検出したら、検出成功とみなす
       if (code === prevScanCode.current) {
+        if (!rememberedCamera.current && code.startsWith("978")) {
+          const activeId = Quagga.CameraAccess.getActiveTrack()?.getSettings().deviceId;
+          if (activeId) {
+            rememberCamera(activeId);
+            rememberedCamera.current = true;
+          }
+        }
         onDetected(code);
       } else {
         prevScanCode.current = code;
@@ -91,83 +107,96 @@ export default function ScannerCore({ scannerRef, onDetected, onInitError }: Pro
   );
 
   useLayoutEffect(() => {
-    let ignoreStart = false;
+    const controller = new AbortController();
+    let started = false;
+    prevScanCode.current = "";
+    rememberedCamera.current = false;
 
-    const init = async () => {
-      // HACK:
-      // コンポーネントがアンマウントされるかを確認するために、1ms待つ
-      // (アンマウントされた場合、クリーンアップ関数が実行されて ignoreStart が true になる)
-      await new Promise((resolve) => setTimeout(resolve, 1));
-
-      if (ignoreStart) {
-        return;
-      }
-
-      const isLandscape =
-        screen.orientation.type === "landscape-primary" || screen.orientation.type === "landscape-secondary";
-
-      // getUserMedia API で取得できるサイズは常に横向きなので、縦向きの場合は入れ替える
-      const constraintsWidth = isLandscape ? window.innerWidth : window.innerHeight;
-      const constraintsHeight = isLandscape ? window.innerHeight : window.innerWidth;
-
-      try {
-        await Quagga.init(
-          {
-            inputStream: {
-              type: "LiveStream",
-              constraints: {
-                facingMode: {
-                  exact: "environment",
+    const timer = setTimeout(() => {
+      initialization = initialization.then(async () => {
+        if (controller.signal.aborted) return;
+        try {
+          const selected = await selectCamera(deviceId, controller.signal);
+          if (controller.signal.aborted) return;
+          const isLandscape =
+            screen.orientation?.type?.startsWith("landscape") ?? window.innerWidth > window.innerHeight;
+          await new Promise<void>((resolve, reject) => {
+            Promise.resolve(
+              Quagga.init(
+                {
+                  inputStream: {
+                    type: "LiveStream",
+                    constraints: {
+                      ...(selected.deviceId
+                        ? { deviceId: { exact: selected.deviceId } }
+                        : { facingMode: { exact: "environment" } }),
+                      width: isLandscape ? window.innerWidth : window.innerHeight,
+                      height: isLandscape ? window.innerHeight : window.innerWidth,
+                    },
+                    area: { top: "40%", right: "0%", left: "0%", bottom: "40%" },
+                    target: scannerRef.current ?? undefined,
+                    willReadFrequently: true,
+                  },
+                  locator: { patchSize: "large", halfSample: true, willReadFrequently: true },
+                  decoder: { readers: ["ean_reader"], multiple: false },
+                  locate: false,
                 },
-                width: constraintsWidth,
-                height: constraintsHeight,
-              },
-              area: {
-                top: "40%",
-                right: "0%",
-                left: "0%",
-                bottom: "40%",
-              },
-              target: scannerRef.current ?? undefined,
-              willReadFrequently: true,
-            },
-            locator: {
-              patchSize: "large",
-              halfSample: true,
-              willReadFrequently: true,
-            },
-            decoder: {
-              readers: ["ean_reader"],
-              multiple: false,
-            },
-            locate: false,
-          },
-          async (err) => {
-            if (err) {
-              onInitError(err);
-              return;
-            }
+                (error) => (error ? reject(error) : resolve()),
+              ),
+            ).catch(reject);
+          });
 
-            if (scannerRef.current) {
-              Quagga.start();
-            }
-          },
-        );
-
-        Quagga.onDetected(checkError);
-      } catch (err) {
-        onInitError(err);
-      }
-    };
-
-    init();
+          if (controller.signal.aborted) {
+            await Quagga.stop();
+            return;
+          }
+          const track = Quagga.CameraAccess.getActiveTrack();
+          if (!track) throw new Error("カメラの映像を取得できませんでした");
+          await enableContinuousAutofocus(track);
+          let devices: MediaDeviceInfo[] = [];
+          try {
+            devices = (await navigator.mediaDevices.enumerateDevices()).filter(
+              (device) => device.kind === "videoinput" && Boolean(device.deviceId),
+            );
+          } catch {
+            // 一覧取得に失敗しても、既に起動できたカメラで読み取りを続ける。
+          }
+          if (controller.signal.aborted) {
+            await Quagga.stop();
+            return;
+          }
+          const activeId = track.getSettings().deviceId ?? selected.deviceId;
+          Quagga.onDetected(checkError);
+          Quagga.start();
+          started = true;
+          if (deviceId && activeId) rememberCamera(activeId);
+          onReady?.({
+            devices,
+            deviceId: activeId,
+            torch:
+              (track.getCapabilities?.() as (MediaTrackCapabilities & { torch?: boolean }) | undefined)?.torch === true,
+          });
+        } catch (error) {
+          Quagga.offDetected(checkError);
+          await Quagga.stop();
+          if (!controller.signal.aborted) onInitError(error);
+        }
+      });
+    }, 1);
 
     return () => {
-      ignoreStart = true;
-      Quagga.stop();
+      controller.abort();
+      clearTimeout(timer);
       Quagga.offDetected(checkError);
+      if (started) {
+        initialization = initialization
+          .then(() => Quagga.stop())
+          .catch((error) => {
+            console.warn("CameraStopError", error);
+          });
+      }
     };
-  }, [checkError, scannerRef, onInitError]);
+  }, [checkError, scannerRef, deviceId, onInitError, onReady]);
 
   return null;
 }
