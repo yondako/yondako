@@ -25,6 +25,13 @@ export const getAuth = (dbInstance: D1Database) => {
       db,
       type: "sqlite",
     },
+    session: {
+      // @see https://better-auth.com/docs/guides/optimizing-for-performance
+      cookieCache: {
+        enabled: true,
+        maxAge: 5 * 60,
+      },
+    },
     socialProviders: {
       github: {
         clientId: process.env.AUTH_GITHUB_ID || "",
