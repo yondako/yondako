@@ -1,5 +1,5 @@
 import { relations, sql } from "drizzle-orm";
-import { integer, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { index, integer, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { v7 as uuidv7 } from "uuid";
 import { readingStatusValues } from "@/types/readingStatus";
 import { user } from "./user";
@@ -55,14 +55,20 @@ export const publishersRelations = relations(publishers, ({ many }) => ({
 /**
  * 書籍と著者
  */
-export const bookAuthors = sqliteTable("bookAuthors", {
-  bookId: text("bookId").references(() => books.id, {
-    onDelete: "cascade",
-  }),
-  authorId: integer("authorId").references(() => authors.id, {
-    onDelete: "cascade",
-  }),
-});
+export const bookAuthors = sqliteTable(
+  "bookAuthors",
+  {
+    bookId: text("bookId").references(() => books.id, {
+      onDelete: "cascade",
+    }),
+    authorId: integer("authorId").references(() => authors.id, {
+      onDelete: "cascade",
+    }),
+  },
+  // ライブラリ検索の LEFT JOIN が bookId で引くため。
+  // SQLite は外部キーにインデックスを自動作成しないので明示する
+  (t) => [index("bookAuthors_bookId_idx").on(t.bookId)],
+);
 
 export const bookAuthorsRelations = relations(bookAuthors, ({ one }) => ({
   book: one(books, {
@@ -78,14 +84,19 @@ export const bookAuthorsRelations = relations(bookAuthors, ({ one }) => ({
 /**
  * 書籍と出版社
  */
-export const bookPublishers = sqliteTable("bookPublishers", {
-  bookId: text("bookId").references(() => books.id, {
-    onDelete: "cascade",
-  }),
-  publisherId: integer("publisherId").references(() => publishers.id, {
-    onDelete: "cascade",
-  }),
-});
+export const bookPublishers = sqliteTable(
+  "bookPublishers",
+  {
+    bookId: text("bookId").references(() => books.id, {
+      onDelete: "cascade",
+    }),
+    publisherId: integer("publisherId").references(() => publishers.id, {
+      onDelete: "cascade",
+    }),
+  },
+  // bookAuthors と同様、LEFT JOIN の結合キー用
+  (t) => [index("bookPublishers_bookId_idx").on(t.bookId)],
+);
 
 export const bookPublishersRelations = relations(bookPublishers, ({ one }) => ({
   book: one(books, {

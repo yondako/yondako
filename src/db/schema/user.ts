@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { integer, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { index, integer, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export const user = sqliteTable("user", {
   id: text("id")
@@ -35,20 +35,26 @@ export const account = sqliteTable("account", {
   updatedAt: text("updatedAt").notNull().default(sql`(CURRENT_TIMESTAMP)`),
 });
 
-export const session = sqliteTable("session", {
-  id: text("id")
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  expiresAt: integer("expiresAt", { mode: "timestamp_ms" }).notNull(),
-  token: text("token"),
-  createdAt: text("createdAt").notNull().default(sql`(CURRENT_TIMESTAMP)`),
-  updatedAt: text("updatedAt").notNull().default(sql`(CURRENT_TIMESTAMP)`),
-  ipAddress: text("ipAddress"),
-  userAgent: text("userAgent"),
-  userId: text("userId")
-    .notNull()
-    .references(() => user.id, { onDelete: "cascade" }),
-});
+export const session = sqliteTable(
+  "session",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    expiresAt: integer("expiresAt", { mode: "timestamp_ms" }).notNull(),
+    token: text("token"),
+    createdAt: text("createdAt").notNull().default(sql`(CURRENT_TIMESTAMP)`),
+    updatedAt: text("updatedAt").notNull().default(sql`(CURRENT_TIMESTAMP)`),
+    ipAddress: text("ipAddress"),
+    userAgent: text("userAgent"),
+    userId: text("userId")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+  },
+  // better-auth はセッションを `WHERE token = ?` で引くため、
+  // インデックスがないと全リクエストでフルスキャンになる
+  (t) => [index("session_token_idx").on(t.token)],
+);
 
 export const verification = sqliteTable("verification", {
   id: text("id").primaryKey(),
