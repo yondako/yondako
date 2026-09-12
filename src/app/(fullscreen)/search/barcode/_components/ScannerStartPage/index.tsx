@@ -68,7 +68,7 @@ export default function ScannerStartPage() {
           <p className="mt-1 text-secondary-foreground">紙の書籍を簡単に追加できます！</p>
           <Button
             className="mt-6 flex w-full items-center justify-center space-x-2 text-sm"
-            style="accent"
+            variant="accent"
             onClick={() => {
               setScanning(true);
             }}

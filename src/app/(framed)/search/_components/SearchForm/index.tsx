@@ -49,7 +49,7 @@ export default function SearchForm(props: Props) {
             <Button
               type="button"
               className={twMerge("px-4 py-2", isFiltered && "bg-accent text-primary-background")}
-              style="noBorder"
+              variant="noBorder"
             >
               <IconAdjustments className="h-5.5 w-5.5" />
             </Button>

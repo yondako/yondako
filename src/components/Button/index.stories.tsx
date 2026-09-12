@@ -14,7 +14,7 @@ const meta: Meta<typeof Button> = {
     children: {
       description: "ボタンの表示内容",
     },
-    style: {
+    variant: {
       description: "ボタンのスタイル",
       control: { type: "radio" },
       options: ["default", "accent", "noBorder"],
@@ -33,12 +33,12 @@ const meta: Meta<typeof Button> = {
         <Button {...args} id="hover" />
       </div>
       <div className="space-x-4">
-        <Button {...args} style="accent" />
-        <Button {...args} style="accent" id="hover" />
+        <Button {...args} variant="accent" />
+        <Button {...args} variant="accent" id="hover" />
       </div>
       <div className="space-x-4">
-        <Button {...args} style="noBorder" />
-        <Button {...args} style="noBorder" id="hover" />
+        <Button {...args} variant="noBorder" />
+        <Button {...args} variant="noBorder" id="hover" />
       </div>
     </div>
   ),

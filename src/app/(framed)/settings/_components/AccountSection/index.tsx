@@ -25,7 +25,11 @@ export default function AccountSection({ userId }: Props) {
         </SettingProperty>
 
         <SettingProperty title="退会" description="アカウントを削除して退会します">
-          <Button className="block w-full bg-rose-700 text-primary-background text-sm sm:w-48" asChild style="noBorder">
+          <Button
+            className="block w-full bg-rose-700 text-primary-background text-sm sm:w-48"
+            asChild
+            variant="noBorder"
+          >
             <Link href="/settings/goodbye">アカウントを削除</Link>
           </Button>
         </SettingProperty>
