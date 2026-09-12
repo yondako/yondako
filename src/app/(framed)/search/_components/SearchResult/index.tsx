@@ -9,6 +9,7 @@ import { getAuth } from "@/lib/auth";
 import { searchBooksFromNDL } from "@/lib/ndl";
 import type { NDC } from "@/types/ndc";
 import { DEFAULT_SEARCH_TYPE, type SearchType } from "@/types/search";
+import SearchError from "../SearchError";
 
 // NOTE: あまり大きいと getStatusesByBookIds 内で D1_ERROR: too many SQL variables が発生する
 const SEARCH_COUNT = 24;
@@ -39,7 +40,7 @@ export async function SearchResult({
     return <p className="mt-12 text-center">ログインが必要です</p>;
   }
 
-  const ngWords = await getAllNgWords(env.DB);
+  const ngWords = sensitive ? [] : await getAllNgWords(env.DB);
 
   const searchParams: Parameters<typeof searchBooksFromNDL>[0]["params"] = { ndc };
   const trimmedQuery = query.trim();
@@ -62,16 +63,7 @@ export async function SearchResult({
 
   // 検索エラー
   if (!result) {
-    return (
-      <MessageTako
-        className="mt-16"
-        title="検索できませんでした"
-        decoration={<span className="-right-2 absolute top-0 text-5xl">🔧</span>}
-      >
-        <p className="mt-3">一時的に検索が利用できない状態です。</p>
-        <p>時間をおいて、再度お試しください。</p>
-      </MessageTako>
-    );
+    return <SearchError />;
   }
 
   // 見つからない
@@ -89,7 +81,6 @@ export async function SearchResult({
   }
 
   const items = await getStatusesByBookIds(env.DB, session.user.id, result.books);
-
   const totalPage = Math.ceil(result.meta.totalResults / SEARCH_COUNT);
 
   return (

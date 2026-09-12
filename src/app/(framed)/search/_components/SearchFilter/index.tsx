@@ -1,5 +1,6 @@
 "use client";
 
+import Form from "next/form";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
@@ -28,9 +29,16 @@ export default function SearchFilter({ children, ndc = "", sensitive, query, sea
   return (
     <AdaptiveModalDrawer triggerChildren={children}>
       {({ Title, Description, Close }) => (
-        <form className="pt-6 lg:pt-0" action={PATH_SEARCH}>
+        <Form
+          className="pt-6 lg:pt-0"
+          action={PATH_SEARCH}
+          onSubmit={(event) => {
+            // ポータルから親の検索フォームへ伝播すると、親の条件で再検索されちゃうので
+            event.stopPropagation();
+          }}
+        >
           <input type="hidden" name="q" value={query} />
-          <input type="hidden" name="searchType" value={searchType} />
+          <input type="hidden" name="type" value={searchType} />
           <Label
             title="カテゴリー"
             description="お探しのジャンルを選択して、関連する書籍だけを表示します"
@@ -73,7 +81,7 @@ export default function SearchFilter({ children, ndc = "", sensitive, query, sea
               <Link href={`${PATH_SEARCH}?q=${query}`}>リセット</Link>
             </Close>
           </div>
-        </form>
+        </Form>
       )}
     </AdaptiveModalDrawer>
   );
