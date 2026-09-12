@@ -49,7 +49,7 @@ type OpenSearchResponse = {
  */
 export async function searchBooksFromNDL(
   opts: SearchOptions,
-  fetch = global.fetch,
+  fetch: (input: RequestInfo | URL, init?: RequestInit) => Promise<Response> = global.fetch,
 ): Promise<OpenSearchResponse | undefined> {
   const endpoint = new URL(API_BASE_URL);
 
