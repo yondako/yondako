@@ -59,7 +59,7 @@ export function LibraryBookList({ status, page, order, titleKeyword }: Props) {
         <Filter isOrderAsc={order === "asc"} />
       </div>
       {data.books.length === 0 ? (
-        <SayTako message={LIBRARY_MESSAGE.get(status) || LIBRARY_MESSAGE_NONE} />
+        <SayTako message={titleKeyword ? "ﾐﾂｶﾗﾅｲ" : LIBRARY_MESSAGE.get(status) || LIBRARY_MESSAGE_NONE} />
       ) : (
         <>
           <BookList className="mt-2" items={data.books} />
