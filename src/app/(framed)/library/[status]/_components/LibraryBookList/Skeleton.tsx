@@ -19,11 +19,22 @@ export default function LibraryBookListSkeleton({ pageReadingStatus }: Props) {
 
         {/* フィルターUI */}
         <div className="flex w-full space-x-3 sm:justify-end">
-          <Input className="grow text-sm sm:max-w-64 lg:text-xs" placeholder="タイトルの一部" disabled search />
+          <Input
+            className="shrink-0 grow text-sm sm:max-w-64 lg:text-xs"
+            placeholder="タイトルの一部"
+            disabled
+            search
+          />
 
-          <Button className="flex w-40 items-center justify-center space-x-1 p-0 text-xs" variant="noBorder" disabled>
-            <IconSortDesc className="h-5" />
-            <span>最近登録した</span>
+          <Button
+            className="flex w-40 shrink-0 items-center justify-center space-x-1 p-0 text-xs"
+            variant="noBorder"
+            asChild
+          >
+            <span aria-disabled="true">
+              <IconSortDesc className="h-5" />
+              <span>最近登録した</span>
+            </span>
           </Button>
         </div>
       </div>
