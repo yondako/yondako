@@ -3,14 +3,13 @@
 import { animated, useSpring } from "@react-spring/web";
 import { useRouter } from "next/navigation";
 import type { PropsWithChildren } from "react";
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { useSwipeable } from "react-swipeable";
-import { readingStatusOrder } from "@/constants/status";
 import { useModalState } from "@/contexts/ModalStateContext";
-import type { ReadingStatus } from "@/types/readingStatus";
+import { type LibraryStatus, libraryStatusValues } from "@/types/readingStatus";
 
 type Props = PropsWithChildren<{
-  currentStatus: ReadingStatus;
+  currentStatus: LibraryStatus;
 }>;
 
 const SWIPE_ANIMATION_THRESHOLD = 32; // px
@@ -24,7 +23,7 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
   const windowWidthRef = useRef(0);
   const isSwipingRef = useRef(false);
   const isSlideInAnimationCompletedRef = useRef(false);
-  const currentIndexRef = useRef(readingStatusOrder.indexOf(currentStatus));
+  const currentIndexRef = useRef(libraryStatusValues.indexOf(currentStatus));
   const resetTimeoutRef = useRef<number | null>(null);
 
   const [springProps, api] = useSpring(() => ({
@@ -32,8 +31,8 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
     opacity: 1,
   }));
 
-  // スワイプ遷移の検出と初期アニメーション
-  useEffect(() => {
+  // 遷移先のスケルトンが一瞬表示されないよう、描画前に開始位置と透明度を設定する
+  useLayoutEffect(() => {
     if (typeof window === "undefined") {
       return;
     }
@@ -89,7 +88,7 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
 
   // 現在のステータスのインデックスを更新
   useEffect(() => {
-    currentIndexRef.current = readingStatusOrder.indexOf(currentStatus);
+    currentIndexRef.current = libraryStatusValues.indexOf(currentStatus);
   }, [currentStatus]);
 
   useEffect(() => {
@@ -181,15 +180,15 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
 
       if (Math.abs(eventData.deltaX) > SWIPE_ANIMATION_THRESHOLD) {
         const currentIndex = currentIndexRef.current;
-        let targetStatus: ReadingStatus | null = null;
+        let targetStatus: LibraryStatus | null = null;
 
         if (eventData.dir === "Left") {
-          if (currentIndex < readingStatusOrder.length - 1) {
-            targetStatus = readingStatusOrder[currentIndex + 1];
+          if (currentIndex < libraryStatusValues.length - 1) {
+            targetStatus = libraryStatusValues[currentIndex + 1];
           }
         } else if (eventData.dir === "Right") {
           if (currentIndex > 0) {
-            targetStatus = readingStatusOrder[currentIndex - 1];
+            targetStatus = libraryStatusValues[currentIndex - 1];
           }
         }
 

@@ -6,7 +6,6 @@ import { Suspense } from "react";
 import { parse, safeParse } from "valibot";
 import IconHelp from "@/assets/icons/help.svg";
 import ExternalLink from "@/components/ExternalLink";
-import { Loading } from "@/components/Loading";
 import SayTako from "@/components/SayTako";
 import { PATH_SEARCH } from "@/constants/path";
 import { links } from "@/constants/site";
@@ -16,6 +15,7 @@ import { createSignInPath } from "@/lib/path";
 import { ndcSchema } from "@/types/ndc";
 import { pageIndexSchema } from "@/types/page";
 import { searchTypeSchema } from "@/types/search";
+import { SearchFeedbackProvider, SearchLoading, SearchResults } from "./_components/SearchFeedback";
 import SearchForm from "./_components/SearchForm";
 import { SearchResult } from "./_components/SearchResult";
 
@@ -75,7 +75,7 @@ export default async function Search(props: Props) {
   const searchType = parse(searchTypeSchema, searchParams.type);
 
   return (
-    <>
+    <SearchFeedbackProvider>
       <div className="flex flex-col items-end lg:flex-row lg:items-center">
         <SearchForm query={query} searchType={searchType} ndc={ndc} sensitive={sensitive} />
         <ExternalLink
@@ -87,18 +87,15 @@ export default async function Search(props: Props) {
         </ExternalLink>
       </div>
 
-      {query ? (
-        <Suspense
-          fallback={
-            <Loading className="mt-12 justify-start lg:mt-0 lg:justify-center" title="がんばって検索しています" />
-          }
-          key={Object.values(searchParams).join("_")}
-        >
-          <SearchResult query={query} searchType={searchType} ndc={ndc} sensitive={sensitive} currentPage={page} />
-        </Suspense>
-      ) : (
-        <SayTako message="ｹﾝｻｸｼﾃﾈ" />
-      )}
-    </>
+      <SearchResults>
+        {query ? (
+          <Suspense fallback={<SearchLoading />} key={Object.values(searchParams).join("_")}>
+            <SearchResult query={query} searchType={searchType} ndc={ndc} sensitive={sensitive} currentPage={page} />
+          </Suspense>
+        ) : (
+          <SayTako message="ｹﾝｻｸｼﾃﾈ" />
+        )}
+      </SearchResults>
+    </SearchFeedbackProvider>
   );
 }

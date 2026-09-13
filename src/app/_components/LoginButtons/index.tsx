@@ -73,7 +73,7 @@ function LoginButton({ children, ...props }: Omit<ComponentPropsWithoutRef<"butt
       {...props}
       className="flex items-center justify-center space-x-[10px] bg-white tracking-wider"
       type="button"
-      style="accent"
+      variant="accent"
     >
       {children}
     </Button>

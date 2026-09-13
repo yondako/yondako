@@ -6,7 +6,7 @@ import { filterSensitiveBooks } from "../filterSensitiveBooks";
 import { parseOpenSearchXml } from "./parse";
 import { sortBooksByKeyword } from "./sort";
 
-const API_BASE_URL = "https://iss.ndl.go.jp/api/opensearch";
+const API_BASE_URL = "https://ndlsearch.ndl.go.jp/api/opensearch";
 
 export type SearchOptions = {
   /** 取得件数 */
@@ -49,7 +49,7 @@ type OpenSearchResponse = {
  */
 export async function searchBooksFromNDL(
   opts: SearchOptions,
-  fetch = global.fetch,
+  fetch: (input: RequestInfo | URL, init?: RequestInit) => Promise<Response> = global.fetch,
 ): Promise<OpenSearchResponse | undefined> {
   const endpoint = new URL(API_BASE_URL);
 
@@ -85,7 +85,8 @@ export async function searchBooksFromNDL(
     // 30分間キャッシュする
     const sortedBooks = await unstable_cache(
       async () => {
-        const res = await fetch(endpoint);
+        const res = await fetch(endpoint, { signal: AbortSignal.timeout(30_000) });
+        if (!res.ok) throw new Error(`NDL API: HTTP ${res.status}`);
         const xml = await res.text();
 
         let rawBooks = parseOpenSearchXml(xml);

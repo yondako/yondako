@@ -81,6 +81,33 @@ describe("searchBooksFromLibrary", () => {
     pageSize: 10,
   } as const;
 
+  test("すべては本人の登録済み3ステータスを横断検索し、更新順でページ送りできる", async () => {
+    await seedUser("user1");
+    await seedUser("user2");
+    const statuses = ["want_read", "reading", "read", "none"] as const;
+    for (const [index, status] of statuses.entries()) {
+      const book = await seedBook({ title: `ねこの本${index}` });
+      await seedReadingStatus("user1", book.id, status, `2024-01-0${index + 1} 00:00:00`);
+    }
+    const otherUser = await seedBook({ title: "ねこの本 他人" });
+    await seedReadingStatus("user2", otherUser.id, "read");
+    const dog = await seedBook({ title: "いぬの本" });
+    await seedReadingStatus("user1", dog.id, "reading", "2024-01-05 00:00:00");
+
+    const options = { ...baseOptions, status: "all", titleKeyword: "ねこ", pageSize: 2 } as const;
+    const first = await searchBooksFromLibrary(dummyD1, options);
+    expect(first.total).toBe(3);
+    expect(first.books.map(({ readingStatus }) => readingStatus)).toEqual(["read", "reading"]);
+    const second = await searchBooksFromLibrary(dummyD1, { ...options, page: 2 });
+    expect(second.total).toBe(3);
+    expect(second.books.map(({ readingStatus }) => readingStatus)).toEqual(["want_read"]);
+    const asc = await searchBooksFromLibrary(dummyD1, { ...options, order: "asc" });
+    expect(asc.books.map(({ readingStatus }) => readingStatus)).toEqual(["want_read", "reading"]);
+    const all = await searchBooksFromLibrary(dummyD1, { ...options, titleKeyword: undefined, pageSize: 10 });
+    expect(all.total).toBe(4);
+    expect(all.books.map(({ detail }) => detail.title)).toEqual(["いぬの本", "ねこの本2", "ねこの本1", "ねこの本0"]);
+  });
+
   test("ユーザーとステータスで絞り込まれる", async () => {
     await seedUser("user1");
     await seedUser("user2");

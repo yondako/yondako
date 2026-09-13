@@ -17,14 +17,15 @@ export function TabItem({ id, meta, current }: TabItemProps) {
   return (
     <Link
       className={twMerge(
-        "flex w-full items-center justify-center space-x-2 rounded-full px-4 py-2 text-center text-xs lg:min-w-32",
+        "flex w-full items-center justify-center gap-1 whitespace-nowrap rounded-full px-2 py-2 text-center text-xs sm:gap-2 sm:px-4 lg:min-w-32",
         current
           ? "bg-accent font-bold text-primary-background"
           : "transition hover:bg-tertiary-background hover:brightness-95",
       )}
       href={`/library/${id}`}
+      aria-current={current ? "page" : undefined}
     >
-      <Icon className="h-4 w-4" />
+      <Icon className="h-4 w-4 shrink-0" />
       <span>{meta.label}</span>
     </Link>
   );

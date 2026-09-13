@@ -9,7 +9,9 @@ export const latestTimestampSchema = object({
  * 最新のお知らせがあるか確認する
  * @returns 最新のお知らせのタイムスタンプ
  */
-export async function checkLatestNews(fetch = global.fetch): Promise<number> {
+export async function checkLatestNews(
+  fetch: (input: RequestInfo | URL, init?: RequestInit) => Promise<Response> = global.fetch,
+): Promise<number> {
   const ctrl = new AbortController();
   const timeoutId = setTimeout(() => ctrl.abort(), 3000);
 

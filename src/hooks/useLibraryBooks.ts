@@ -5,7 +5,7 @@ import { useLibraryRevalidation } from "@/contexts/LibraryRevalidationContext";
 import { useModalState } from "@/contexts/ModalStateContext";
 import type { BookType } from "@/types/book";
 import type { Order } from "@/types/order";
-import type { ReadingStatus } from "@/types/readingStatus";
+import type { LibraryStatus, ReadingStatus } from "@/types/readingStatus";
 
 export const BOOK_SKELETON = undefined;
 
@@ -20,7 +20,7 @@ export type LibraryRevalidationData = {
 };
 
 export type UseLibraryBooksOptions = {
-  status: ReadingStatus;
+  status: LibraryStatus;
   page: number;
   pageSize: number;
   order: Order;
@@ -64,6 +64,8 @@ export function useLibraryBooks(options: UseLibraryBooksOptions) {
  * @param status 対象の読書ステータス
  */
 export function revalidateLibraryCacheImmediate({ status, action }: LibraryRevalidationData) {
+  // ステータス間の移動では総冊数が変わらないため、全体は再取得のみ
+  mutate((key) => typeof key === "string" && key.startsWith("library-all-"));
   mutate(
     (key) => typeof key === "string" && key.startsWith(`library-${status}-`),
     async (data: LibraryBooksData | undefined) => {

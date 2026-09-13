@@ -42,7 +42,7 @@ export default function Filter({ isOrderAsc }: Props) {
         search
       />
 
-      <Button className="flex w-40 items-center justify-center space-x-1 p-0 text-xs" asChild style="noBorder">
+      <Button className="flex w-40 items-center justify-center space-x-1 p-0 text-xs" asChild variant="noBorder">
         <Link href={createFilterSearchParams(searchParams, undefined, nextOrder)} replace>
           <IconSort className="h-5" />
           <span>{isOrderAsc ? "登録日が古い" : "最近登録した"}</span>

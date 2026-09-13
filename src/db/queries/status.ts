@@ -2,7 +2,7 @@ import { and, asc, count, desc, eq, getTableColumns, inArray, or, sql } from "dr
 import { normalizeIsbn } from "@/lib/isbn";
 import type { BookDetailWithoutId, BookType } from "@/types/book";
 import type { Order } from "@/types/order";
-import type { ReadingStatus } from "@/types/readingStatus";
+import type { LibraryStatus, ReadingStatus } from "@/types/readingStatus";
 import { getDB } from "..";
 import * as dbSchema from "../schema/book";
 
@@ -37,7 +37,7 @@ export async function upsertReadingStatus(
 
 export type SearchBooksFromLibraryOptions = {
   userId: string;
-  status: ReadingStatus;
+  status: LibraryStatus;
   order: Order;
   /** 現在のページ */
   page: number;
@@ -79,7 +79,14 @@ export async function searchBooksFromLibrary(
           },
         })
         .from(dbSchema.readingStatuses)
-        .where(and(eq(dbSchema.readingStatuses.userId, userId), eq(dbSchema.readingStatuses.status, status)))
+        .where(
+          and(
+            eq(dbSchema.readingStatuses.userId, userId),
+            status === "all"
+              ? inArray(dbSchema.readingStatuses.status, ["want_read", "reading", "read"])
+              : eq(dbSchema.readingStatuses.status, status),
+          ),
+        )
         .innerJoin(
           dbSchema.books,
           and(

@@ -10,7 +10,7 @@ const meta: Meta<typeof Tab> = {
     current: {
       description: "現在選択されている読書ステータス",
       control: "select",
-      options: ["want_read", "reading", "read"],
+      options: ["all", "want_read", "reading", "read"],
     },
   },
 };
@@ -30,3 +30,5 @@ export const Default: Story = {
     current: "want_read",
   },
 };
+
+export const All: Story = { args: { current: "all" } };

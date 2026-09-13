@@ -19,6 +19,39 @@ https://github.com/user-attachments/assets/a09637e9-d4da-4cb1-bd4f-055f167f12df
 
 ## 環境構築
 
+### Nix
+
+```sh
+# direnv を使うなら
+direnv allow
+
+# やだなって感じなら
+nix develop
+```
+
+### ローカル HTTPS (必須)
+
+`local.yondako.com` がループバックアドレスに解決されるよう設定する。
+NixOS ではシステム設定に以下を追加すればよさげ。
+
+```nix
+networking.hosts."127.0.0.1" = [ "local.yondako.com" ];
+```
+
+その他の OS では `/etc/hosts` に以下を追加。
+
+```text
+127.0.0.1 local.yondako.com
+```
+
+```sh
+# 初回のみ：ローカル CA を信頼ストアへ登録
+mkcert -install
+
+# 開発用証明書を生成（期限切れ時も同じコマンドで更新）
+bun run dev:cert
+```
+
 ### 依存関係のインストール
 
 ```sh
@@ -98,6 +131,8 @@ max_concurrency = 1
 ```sh
 bun dev
 ```
+
+`https://local.yondako.com:3000` にアクセスする。
 
 ### ビルド・プレビュー
 

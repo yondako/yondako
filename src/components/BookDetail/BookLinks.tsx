@@ -17,7 +17,7 @@ export default function BookLinks({ title, isbn, ndlLink }: Props) {
       <div className="mt-4 grid grid-cols-2 gap-2">
         {isbnNumber ? (
           <>
-            <Button style="noBorder" asChild className="col-span-2">
+            <Button variant="noBorder" asChild className="col-span-2">
               <a
                 className="flex justify-center py-2 text-accent text-xs"
                 href={rakutenUrl}
@@ -28,7 +28,7 @@ export default function BookLinks({ title, isbn, ndlLink }: Props) {
                 <IconExternalLink className="ml-1 h-4 w-4" />
               </a>
             </Button>
-            <Button style="noBorder" asChild>
+            <Button variant="noBorder" asChild>
               <a
                 className="flex items-center justify-center py-2 text-accent text-xs"
                 href={ndlLink}
@@ -39,7 +39,7 @@ export default function BookLinks({ title, isbn, ndlLink }: Props) {
                 <IconExternalLink className="ml-1 h-4 w-4" />
               </a>
             </Button>
-            <Button style="noBorder" asChild>
+            <Button variant="noBorder" asChild>
               <a
                 className="flex items-center justify-center py-2 text-accent text-xs"
                 href={`https://www.books.or.jp/book-details/${isbnNumber}`}
@@ -52,7 +52,7 @@ export default function BookLinks({ title, isbn, ndlLink }: Props) {
             </Button>
           </>
         ) : (
-          <Button style="noBorder" asChild className="col-span-2">
+          <Button variant="noBorder" asChild className="col-span-2">
             <a
               className="flex justify-center py-2 text-accent text-xs"
               href={ndlLink}

@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, jest, test } from "bun:test";
+import { afterEach, describe, expect, mock, spyOn, test } from "bun:test";
 import { extractBookTitle, fetchSiteTitle } from "./sharedContent";
 
 describe("extractBookTitle", () => {
@@ -40,18 +40,13 @@ describe("extractBookTitle", () => {
 });
 
 describe("fetchSiteTitle", () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
+  afterEach(() => {
+    mock.restore();
   });
 
   test("サイトのタイトルを正常に取得できる", async () => {
     const mockHtml = "<html><head><title>テストタイトル</title></head><body></body></html>";
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        ok: true,
-        text: () => Promise.resolve(mockHtml),
-      } as Response),
-    );
+    spyOn(global, "fetch").mockResolvedValue(new Response(mockHtml));
 
     const title = await fetchSiteTitle("https://example.com");
     expect(title).toBe("テストタイトル");
@@ -59,19 +54,14 @@ describe("fetchSiteTitle", () => {
 
   test("タイトルが見つからない場合はnullを返す", async () => {
     const mockHtml = "<html><head></head><body></body></html>";
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        ok: true,
-        text: () => Promise.resolve(mockHtml),
-      } as Response),
-    );
+    spyOn(global, "fetch").mockResolvedValue(new Response(mockHtml));
 
     const title = await fetchSiteTitle("https://example.com");
     expect(title).toBeNull();
   });
 
   test("フェッチ中にエラーが発生した場合はnullを返す", async () => {
-    global.fetch = jest.fn(() => Promise.reject(new Error("fetch error")));
+    spyOn(global, "fetch").mockRejectedValue(new Error("fetch error"));
 
     const title = await fetchSiteTitle("https://example.com");
     expect(title).toBeNull();

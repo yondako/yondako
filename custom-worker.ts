@@ -1,5 +1,6 @@
 import { eq } from "drizzle-orm";
-// @ts-expect-error `.open-next/worker.js` is generated at build time
+// biome-ignore lint/suspicious/noTsIgnore: ts-expect-errorしたいので
+// @ts-ignore ビルド前は生成ファイルが存在しないため
 import { default as handler } from "./.open-next/worker.js";
 import { getDB } from "./src/db";
 import { books } from "./src/db/schema/book";

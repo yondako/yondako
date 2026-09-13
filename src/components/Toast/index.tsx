@@ -32,7 +32,7 @@ function CustomToast(props: ToastProps) {
   return (
     <div
       className={twMerge(
-        "flex w-full items-center rounded-2xl border-2 bg-primary-background px-6 py-4 shadow-lg lg:w-md",
+        "flex w-full items-center rounded-2xl border-2 bg-primary-background px-6 py-4 font-line-seed-jp shadow-lg lg:w-md",
         getBorderColor(),
       )}
     >
