@@ -3,7 +3,7 @@
 import { animated, useSpring } from "@react-spring/web";
 import { useRouter } from "next/navigation";
 import type { PropsWithChildren } from "react";
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { useSwipeable } from "react-swipeable";
 import { useModalState } from "@/contexts/ModalStateContext";
 import { type LibraryStatus, libraryStatusValues } from "@/types/readingStatus";
@@ -31,8 +31,8 @@ export function SwipeableTabView({ children, currentStatus }: Props) {
     opacity: 1,
   }));
 
-  // スワイプ遷移の検出と初期アニメーション
-  useEffect(() => {
+  // 遷移先のスケルトンが一瞬表示されないよう、描画前に開始位置と透明度を設定する
+  useLayoutEffect(() => {
     if (typeof window === "undefined") {
       return;
     }
