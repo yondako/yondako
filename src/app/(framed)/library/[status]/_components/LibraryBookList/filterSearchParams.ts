@@ -18,6 +18,8 @@ export function createFilterSearchParams(
   // 絞り込みキーワード
   if (keyword) {
     newSearchParams.set("q", keyword);
+    // 絞り込み後のページ範囲を超えないよう、先頭ページから表示する
+    newSearchParams.delete("page");
   }
 
   // ソート順
@@ -36,6 +38,7 @@ export function removeKeywordParam(prevSearchParams: ReadonlyURLSearchParams): s
   const newSearchParams = new URLSearchParams(prevSearchParams);
 
   newSearchParams.delete("q");
+  newSearchParams.delete("page");
 
   return `?${newSearchParams.toString()}`;
 }
