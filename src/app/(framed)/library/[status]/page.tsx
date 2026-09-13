@@ -3,14 +3,14 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { is, safeParse } from "valibot";
-import { readingStatusMetadata } from "@/constants/status";
+import { libraryStatusMetadata } from "@/constants/status";
 import { getAuth } from "@/lib/auth";
 import { getIsDesktop } from "@/lib/getIsDesktop";
 import { generateMetadataTitle } from "@/lib/metadata";
 import { createSignInPath } from "@/lib/path";
 import { type Order, orderSchema } from "@/types/order";
 import { pageIndexSchema } from "@/types/page";
-import { type ReadingStatus, readingStatusSchemaWithoutNone } from "@/types/readingStatus";
+import { type LibraryStatus, libraryStatusSchema } from "@/types/readingStatus";
 import { LibraryBookList } from "./_components/LibraryBookList";
 import { SwipeableTabView } from "./_components/SwipeableTabView";
 import Tab from "./_components/Tab";
@@ -19,7 +19,7 @@ export const dynamic = "force-dynamic";
 
 type Props = {
   params: Promise<{
-    status: ReadingStatus;
+    status: LibraryStatus;
   }>;
   searchParams: Promise<{
     page?: string;
@@ -30,9 +30,9 @@ type Props = {
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params;
-  const readingStatus = readingStatusMetadata.get(params.status);
+  const readingStatus = libraryStatusMetadata.get(params.status);
 
-  if (!readingStatus || !is(readingStatusSchemaWithoutNone, params.status)) {
+  if (!readingStatus || !is(libraryStatusSchema, params.status)) {
     notFound();
   }
 
@@ -58,7 +58,7 @@ export default async function Library(props: Props) {
     redirect(createSignInPath(`/library/${params.status}`));
   }
 
-  if (!is(readingStatusSchemaWithoutNone, params.status)) {
+  if (!is(libraryStatusSchema, params.status)) {
     notFound();
   }
 
