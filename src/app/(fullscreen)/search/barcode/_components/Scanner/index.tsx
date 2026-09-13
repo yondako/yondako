@@ -8,6 +8,7 @@ import IconBlubOff from "@/assets/icons/bulb-off.svg";
 import BookDetail from "@/components/BookDetail";
 import Button from "@/components/Button";
 import MobileHeader from "@/components/MobileHeader";
+import Select from "@/components/Select";
 import { toast } from "@/components/Toast";
 import type { BookType } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
@@ -139,15 +140,15 @@ export default function Scanner() {
             <output className="block">
               {cameraReady ? "書籍のバーコードを映してください" : "カメラを準備しています…"}
             </output>
-            <p>(数字が 978 で始まるもの)</p>
+            <p>{cameraReady ? "(数字が 978 で始まるもの)" : "(ちょっとまってね)"}</p>
           </div>
         </div>
         <div className="absolute inset-x-0 bottom-0 h-2/5 bg-black/40">
           {camera && camera.devices.length > 1 && (
-            <label className="absolute inset-x-8 bottom-28 z-20 flex flex-col gap-2 text-sm text-white">
+            // biome-ignore lint/a11y/noLabelWithoutControl: Select は内部で select 要素を描画する。
+            <label className="absolute inset-x-8 bottom-28 z-20 flex flex-col gap-2 text-center text-sm text-white">
               読み取りにくいときはカメラを切り替えてください
-              <select
-                className="w-full rounded-lg border border-white/50 bg-black/70 px-3 py-2 text-white"
+              <Select
                 aria-label="使用するカメラ"
                 value={deviceId}
                 disabled={!cameraReady || torchBusy}
@@ -163,7 +164,7 @@ export default function Scanner() {
                     {device.label || `カメラ ${index + 1}`}
                   </option>
                 ))}
-              </select>
+              </Select>
             </label>
           )}
         </div>
