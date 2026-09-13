@@ -34,6 +34,11 @@ export default function Filter({ isOrderAsc }: Props) {
         className="grow text-sm sm:max-w-64 lg:text-xs"
         placeholder="タイトルの一部"
         defaultValue={searchParams.get("q") ?? ""}
+        onChange={(e) => {
+          if (e.currentTarget.value === "") {
+            handleSearch("");
+          }
+        }}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             handleSearch(e.currentTarget.value);

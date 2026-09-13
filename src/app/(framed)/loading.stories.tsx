@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import NewsLoading from "./news/loading";
-import SearchLoading from "./search/loading";
 import GoodbyeLoading from "./settings/goodbye/loading";
 import SettingsLoading from "./settings/loading";
 
@@ -22,7 +21,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Search: Story = { render: () => <SearchLoading /> };
 export const News: Story = { render: () => <NewsLoading /> };
 export const Settings: Story = { render: () => <SettingsLoading /> };
 export const Goodbye: Story = { render: () => <GoodbyeLoading /> };
