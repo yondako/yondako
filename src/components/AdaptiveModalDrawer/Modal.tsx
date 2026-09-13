@@ -94,7 +94,7 @@ export default function Modal({
                 <Overlay className="fixed inset-0 bg-black/40" style={{ opacity: style.opacity }} />
                 <Content
                   className={twMerge(
-                    "fixed flex items-center rounded-2xl bg-primary-background p-10",
+                    "fixed z-30 flex items-center rounded-2xl bg-primary-background p-10",
                     contentClassName,
                   )}
                   style={{

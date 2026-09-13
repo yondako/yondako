@@ -146,7 +146,7 @@ export default function Scanner() {
         <div className="absolute inset-x-0 bottom-0 h-2/5 bg-black/40">
           {camera && camera.devices.length > 1 && (
             // biome-ignore lint/a11y/noLabelWithoutControl: Select は内部で select 要素を描画する。
-            <label className="absolute inset-x-8 bottom-28 z-20 flex flex-col gap-2 text-center text-sm text-white">
+            <label className="absolute inset-x-8 bottom-28 z-10 flex flex-col gap-2 text-center text-sm text-white">
               読み取りにくいときはカメラを切り替えてください
               <Select
                 aria-label="使用するカメラ"
