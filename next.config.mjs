@@ -1,10 +1,11 @@
 import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
-import webpack from "webpack";
 
 initOpenNextCloudflareForDev();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Node用の画像処理が持つネイティブバイナリをWebpackで解析させない。
+  serverExternalPackages: ["ndarray-pixels"],
   headers: async () => {
     return [
       {
@@ -34,7 +35,7 @@ const nextConfig = {
       },
     },
   },
-  webpack: (config) => {
+  webpack: (config, { webpack }) => {
     const fileLoaderRule = config.module.rules.find((rule) => rule.test?.test?.(".svg"));
 
     config.module.rules.push(
