@@ -17,6 +17,32 @@ test("検索結果がない場合、空のレスポンスが返る", () => {
   expect(parseOpenSearchXml(xml)).toEqual([]);
 });
 
+test("DOCTYPEのエンティティ名に含まれるピリオドで組み込みエンティティが上書きされない", () => {
+  const xml = `
+    <!DOCTYPE rss [<!ENTITY l. "置換されてはいけない">]>
+    <rss>
+      <channel>
+        <item>
+          <title>&lt;書名&gt; &amp; 著者</title>
+          <link>https://example.com/book</link>
+          <dc:identifier xsi:type="dcndl:NDLBibID">000000000</dc:identifier>
+        </item>
+      </channel>
+    </rss>
+  `;
+
+  expect(parseOpenSearchXml(xml)[0].title).toBe("<書名> & 著者");
+});
+
+test("DOCTYPEのエンティティ展開が上限を超える場合は拒否する", () => {
+  const xml = `
+    <!DOCTYPE rss [<!ENTITY book "${"A".repeat(1000)}">]>
+    <rss><channel><item><title>${"&book;".repeat(101)}</title></item></channel></rss>
+  `;
+
+  expect(() => parseOpenSearchXml(xml)).toThrow("Expanded content length limit exceeded");
+});
+
 describe("パースできる", () => {
   test("itemが1つの場合", () => {
     const xml = createDummyXml(1, createDummyItem("000000000"));
