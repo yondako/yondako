@@ -4,7 +4,7 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { headers } from "next/headers";
 import { getStatusesByBookIds } from "@/db/queries/status";
 import { getAuth } from "@/lib/auth";
-import { searchBooksFromNDL } from "@/lib/ndl";
+import { findBookByIsbn } from "@/lib/ndl";
 import type { BookType } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
 
@@ -20,25 +20,20 @@ export async function searchFromIsbn(isbn: string): Promise<BookType | undefined
     return;
   }
 
-  const result = await searchBooksFromNDL({
-    limit: 1,
-    params: {
-      isbn,
-    },
-  });
+  const book = await findBookByIsbn(isbn);
 
-  if (!result?.books || result.books.length <= 0) {
+  if (!book) {
     return;
   }
 
   // ライブラリを検索
-  const libraryBook = await getStatusesByBookIds(env.DB, session.user.id, result.books);
+  const libraryBook = await getStatusesByBookIds(env.DB, session.user.id, [book]);
 
   // 自分の読書ステータス
   const readingStatus: ReadingStatus = libraryBook.at(0)?.readingStatus ?? "none";
 
   return {
-    detail: result.books[0],
+    detail: book,
     readingStatus,
   };
 }

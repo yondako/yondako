@@ -1,8 +1,7 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import pLimit from "p-limit";
 import { fetchSimpleBooksByIds, incrementBooksUpdateCheckCount, updateBooksMissingNdlBibId } from "@/db/queries/book";
-import { normalizeIsbn } from "@/lib/isbn";
-import { searchBooksFromNDL } from "@/lib/ndl";
+import { findBookByIsbn } from "@/lib/ndl";
 import type { BookDetail } from "@/types/book";
 import { notifyUpdateResult } from "./notify";
 
@@ -70,17 +69,10 @@ async function checkAndUpdateBook(
     return bookId;
   }
 
-  const result = await searchBooksFromNDL({
-    limit: 1,
-    params: {
-      isbn,
-    },
-  });
+  const resultBook = await findBookByIsbn(isbn);
 
-  const resultBook = result?.books?.at(0);
-
-  // NDL書誌IDが取得できなかった、またはISBNが一致しない場合はスキップ
-  if (!resultBook || !resultBook.ndlBibId || normalizeIsbn(resultBook.isbn) !== normalizeIsbn(isbn)) {
+  // NDL書誌IDが取得できなかった場合はスキップ
+  if (!resultBook?.ndlBibId) {
     return bookId;
   }
 

@@ -3,6 +3,7 @@ import type { BookDetailWithoutId } from "@/types/book";
 import type { NDC } from "@/types/ndc";
 import type { SearchType } from "@/types/search";
 import { filterSensitiveBooks } from "../filterSensitiveBooks";
+import { isSameIsbn } from "../isbn";
 import { parseOpenSearchXml } from "./parse";
 import { sortBooksByKeyword } from "./sort";
 
@@ -137,6 +138,25 @@ export async function searchBooksFromNDL(
   } catch (e) {
     console.error("[NDL]", e);
   }
+}
+
+// NOTE: ISBN検索は別の書籍の誤ったISBN(dcndl:ErrorISBN)にもヒットするため、1件目が目的の書籍とは限らない
+const ISBN_SEARCH_LIMIT = 10;
+
+/**
+ * ISBNが一致する書籍を国立国会図書館サーチから取得
+ * @param isbn ISBN
+ * @returns 書籍 / 見つからない場合やエラーの場合はundefined
+ */
+export async function findBookByIsbn(
+  isbn: string,
+  fetch: (input: RequestInfo | URL, init?: RequestInit) => Promise<Response> = global.fetch,
+): Promise<BookDetailWithoutId | undefined> {
+  const result = await searchBooksFromNDL({ limit: ISBN_SEARCH_LIMIT, params: { isbn } }, fetch);
+  const matchedBooks = result?.books.filter((book) => isSameIsbn(book.isbn, isbn)) ?? [];
+
+  // 同じISBNの書誌が複数ある場合は、NDL書誌IDを持つ国立国会図書館の書誌を優先する
+  return matchedBooks.find((book) => book.ndlBibId) ?? matchedBooks.at(0);
 }
 
 async function fetchWithRetry(
