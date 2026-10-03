@@ -42,8 +42,38 @@ describe("searchBooksFromNDL", () => {
 
   test("HTTPエラーを検索結果として解析しない", async () => {
     const text = mock();
-    const mockFetch = mock().mockResolvedValue({ ok: false, status: 429, text });
+    const mockFetch = mock().mockResolvedValue({ ok: false, status: 500, text });
     expect(await searchBooksFromNDL({ limit: 1 }, mockFetch)).toBeUndefined();
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+    expect(text).not.toHaveBeenCalled();
+  });
+
+  test("429の場合は再試行して結果を返す", async () => {
+    const mockFetch = mock()
+      .mockResolvedValueOnce({ ok: false, status: 429, headers: new Headers({ "Retry-After": "0" }) })
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        text: mock().mockResolvedValue(createDummyXml(10, createDummyItem("000000000"))),
+      });
+
+    const result = await searchBooksFromNDL({ limit: 10 }, mockFetch);
+
+    expect(mockFetch).toHaveBeenCalledTimes(2);
+    expect(result?.books).toEqual([createDummyBookDetail("000000000")]);
+  });
+
+  test("429が続く場合は再試行を打ち切る", async () => {
+    const text = mock();
+    const mockFetch = mock().mockResolvedValue({
+      ok: false,
+      status: 429,
+      headers: new Headers({ "Retry-After": "0" }),
+      text,
+    });
+
+    expect(await searchBooksFromNDL({ limit: 1 }, mockFetch)).toBeUndefined();
+    expect(mockFetch).toHaveBeenCalledTimes(3);
     expect(text).not.toHaveBeenCalled();
   });
 
