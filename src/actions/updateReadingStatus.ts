@@ -5,8 +5,8 @@ import { headers } from "next/headers";
 import { createBook, fetchBook } from "@/db/queries/book";
 import { upsertReadingStatus } from "@/db/queries/status";
 import { getAuth } from "@/lib/auth";
-import { type SearchOptions, searchBooksFromNDL } from "@/lib/ndl";
-import type { BookIdentifiers, BookType } from "@/types/book";
+import { findBookByIsbn, searchBooksFromNDL } from "@/lib/ndl";
+import type { BookDetailWithoutId, BookIdentifiers, BookType } from "@/types/book";
 import type { ReadingStatus } from "@/types/readingStatus";
 
 type UpdateReadingStatusResult = {
@@ -43,20 +43,20 @@ export async function updateReadingStatus(
 
   // DBに無い場合登録する
   if (!bookDetail) {
-    const opts: SearchOptions = {
-      limit: 1,
-    };
+    let book: BookDetailWithoutId | undefined;
 
     if (bookIdentifiers.isbn) {
       // ISBNで検索
-      opts.params = {
-        isbn: bookIdentifiers.isbn,
-      };
+      book = await findBookByIsbn(bookIdentifiers.isbn);
     } else if (bookIdentifiers.ndlBibId) {
       // NDL書誌ID
-      opts.params = {
-        any: bookIdentifiers.ndlBibId,
-      };
+      const results = await searchBooksFromNDL({
+        limit: 1,
+        params: {
+          any: bookIdentifiers.ndlBibId,
+        },
+      });
+      book = results?.books.at(0);
     } else {
       // どちらも無い場合はエラー
       return {
@@ -64,16 +64,8 @@ export async function updateReadingStatus(
       };
     }
 
-    const results = await searchBooksFromNDL(opts);
-    const book = results?.books.at(0);
-
     // データが無いもしくは書籍識別子が一致しない場合はエラー
-    if (
-      !results ||
-      !book ||
-      (bookIdentifiers.ndlBibId && book.ndlBibId !== bookIdentifiers.ndlBibId) ||
-      (bookIdentifiers.isbn && book.isbn !== bookIdentifiers.isbn)
-    ) {
+    if (!book || (bookIdentifiers.ndlBibId && book.ndlBibId !== bookIdentifiers.ndlBibId)) {
       return {
         error: "対象の書籍データを取得できませんでした",
       };

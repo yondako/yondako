@@ -1,3 +1,6 @@
 [test]
 preload = [ "./happydom.ts", "./testing-library.ts" ]
 
+[install]
+# CIのsafe-chainは公開から48時間未満のパッケージをブロックするため、ローカルでも同じ基準で解決する
+minimumReleaseAge = 172800

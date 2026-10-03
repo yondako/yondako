@@ -2,9 +2,20 @@
 
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { headers } from "next/headers";
+import { minValue, number, object, optional, pipe, safeInteger, safeParse, string } from "valibot";
 import { type SearchBooksFromLibraryOptions, searchBooksFromLibrary } from "@/db/queries/status";
 import { getAuth } from "@/lib/auth";
 import type { BookType } from "@/types/book";
+import { orderSchema } from "@/types/order";
+import { libraryStatusSchema } from "@/types/readingStatus";
+
+const searchOptionsSchema = object({
+  status: libraryStatusSchema,
+  order: orderSchema,
+  page: pipe(number(), safeInteger(), minValue(1)),
+  pageSize: pipe(number(), safeInteger(), minValue(1)),
+  titleKeyword: optional(string()),
+});
 
 export type GetLibraryBooksSuccess = {
   books: BookType[];
@@ -39,9 +50,15 @@ export async function getLibraryBooks(
   }
 
   try {
+    // 未許可のプロパティをDBへ渡さず、所有者はセッションからのみ取得する。
+    const parsedOptions = safeParse(searchOptionsSchema, options);
+    if (!parsedOptions.success) {
+      return { error: "検索条件が不正です" };
+    }
+
     const result = await searchBooksFromLibrary(env.DB, {
+      ...parsedOptions.output,
       userId: session.user.id,
-      ...options,
     });
 
     return result;

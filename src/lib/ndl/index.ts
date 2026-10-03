@@ -3,10 +3,17 @@ import type { BookDetailWithoutId } from "@/types/book";
 import type { NDC } from "@/types/ndc";
 import type { SearchType } from "@/types/search";
 import { filterSensitiveBooks } from "../filterSensitiveBooks";
+import { isSameIsbn } from "../isbn";
 import { parseOpenSearchXml } from "./parse";
 import { sortBooksByKeyword } from "./sort";
 
 const API_BASE_URL = "https://ndlsearch.ndl.go.jp/api/opensearch";
+
+// NDLサーチは混雑時に一時的な429を返すため、少し待って再試行する
+const MAX_RETRIES = 2;
+const DEFAULT_RETRY_DELAY_MS = 1_000;
+// 検索結果の表示をあまり待たせないよう、Retry-Afterが大きくても上限で打ち切る
+const MAX_RETRY_DELAY_MS = 3_000;
 
 export type SearchOptions = {
   /** 取得件数 */
@@ -85,7 +92,7 @@ export async function searchBooksFromNDL(
     // 30分間キャッシュする
     const sortedBooks = await unstable_cache(
       async () => {
-        const res = await fetch(endpoint, { signal: AbortSignal.timeout(30_000) });
+        const res = await fetchWithRetry(fetch, endpoint);
         if (!res.ok) throw new Error(`NDL API: HTTP ${res.status}`);
         const xml = await res.text();
 
@@ -131,4 +138,43 @@ export async function searchBooksFromNDL(
   } catch (e) {
     console.error("[NDL]", e);
   }
+}
+
+// NOTE: ISBN検索は別の書籍の誤ったISBN(dcndl:ErrorISBN)にもヒットするため、1件目が目的の書籍とは限らない
+const ISBN_SEARCH_LIMIT = 10;
+
+/**
+ * ISBNが一致する書籍を国立国会図書館サーチから取得
+ * @param isbn ISBN
+ * @returns 書籍 / 見つからない場合やエラーの場合はundefined
+ */
+export async function findBookByIsbn(
+  isbn: string,
+  fetch: (input: RequestInfo | URL, init?: RequestInit) => Promise<Response> = global.fetch,
+): Promise<BookDetailWithoutId | undefined> {
+  const result = await searchBooksFromNDL({ limit: ISBN_SEARCH_LIMIT, params: { isbn } }, fetch);
+  const matchedBooks = result?.books.filter((book) => isSameIsbn(book.isbn, isbn)) ?? [];
+
+  // 同じISBNの書誌が複数ある場合は、NDL書誌IDを持つ国立国会図書館の書誌を優先する
+  return matchedBooks.find((book) => book.ndlBibId) ?? matchedBooks.at(0);
+}
+
+async function fetchWithRetry(
+  fetch: (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>,
+  endpoint: URL,
+): Promise<Response> {
+  for (let attempt = 0; ; attempt++) {
+    const res = await fetch(endpoint, { signal: AbortSignal.timeout(30_000) });
+    if (res.status !== 429 || attempt >= MAX_RETRIES) return res;
+
+    await new Promise((resolve) => setTimeout(resolve, getRetryDelayMs(res, attempt)));
+  }
+}
+
+function getRetryDelayMs(res: Response, attempt: number): number {
+  const header = res.headers.get("Retry-After");
+  const retryAfter = header === null ? Number.NaN : Number(header);
+  const delay =
+    Number.isFinite(retryAfter) && retryAfter >= 0 ? retryAfter * 1_000 : DEFAULT_RETRY_DELAY_MS * 2 ** attempt;
+  return Math.min(delay, MAX_RETRY_DELAY_MS);
 }
